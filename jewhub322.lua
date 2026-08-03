@@ -457,7 +457,7 @@ if v14 then
     t1[28] = isfile("PORN/AutoExecute")
 
     if t1[28] then
-        v14("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/justdoingrandomstuff/World-Zero/main/autofarm\"))()")
+        v14("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
         t1[27] = t2
         t1[28] = "AlreadyQueued"
         t1[27][t1[28]] = true
