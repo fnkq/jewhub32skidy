@@ -1,0 +1,993 @@
+local t1 = {
+	R = {
+		1,
+		"Bite",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t2 = {
+	R = {
+		1,
+		"Scratch",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t3 = {
+	R = {
+		1,
+		{
+			"PetFireball",
+			"PetFireballBlast"
+		},
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t4 = {
+	R = {
+		1,
+		{
+			"PetFireballGreen",
+			"PetFireballBlastGreen"
+		},
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t5 = {
+	R = {
+		1,
+		{
+			"PetIceball",
+			"PetIceballBlast"
+		},
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t6 = {
+	R = {
+		1,
+		"PetPoisonSplash",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t7 = {
+	R = {
+		1,
+		"PlayerPosition",
+		30.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t8 = {
+	R = {
+		1,
+		"PetIcySpikes",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t9 = {
+	R = {
+		6,
+		"PetBlackFlame",
+		20.1,
+		"Ranged"
+	}
+}
+local t10 = {
+	R = {
+		5,
+		"PetLightningStrike",
+		25.1,
+		"Ranged"
+	}
+}
+local t11 = {
+	R = {
+		1,
+		"PetDireBlast",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t12 = {
+	R = {
+		3,
+		"PetAlphaDragon",
+		20.1,
+		"Ranged"
+	}
+}
+local t13 = {
+	R = {
+		5,
+		"AetherPet",
+		30.1,
+		"Ranged"
+	}
+}
+local t14 = {
+	R = {
+		5,
+		"MiseryPet",
+		30.1,
+		"Ranged"
+	}
+}
+local t15 = {
+	R = {
+		5,
+		"MiseryPet",
+		30.1,
+		"Ranged"
+	}
+}
+local t16 = {
+	R = {
+		5,
+		"CerberusFire",
+		30.1,
+		"Ranged"
+	}
+}
+local t17 = {
+	R = {
+		5,
+		"WildfirePet",
+		30.1,
+		"Ranged"
+	}
+}
+local t18 = {
+	R = {
+		6,
+		"SkeletalSlash",
+		30.1,
+		"Ranged"
+	}
+}
+local t19 = {
+	R = {
+		6,
+		"DeathSlash",
+		30.1,
+		"Ranged"
+	}
+}
+local t20 = {
+	R = {
+		1,
+		"HoodedSlash",
+		30.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t21 = {
+	R = {
+		1,
+		"HoodedSlashPoison",
+		25.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t22 = {
+	R = {
+		3,
+		"PetPoisonBreath",
+		20.1,
+		"Ranged"
+	}
+}
+local t23 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t24 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t25 = {
+	R = {
+		1,
+		"PlayerPosition",
+		30.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t26 = {
+	R = {
+		10,
+		"PetBlackHole",
+		30.1,
+		"Ranged"
+	}
+}
+local t27 = {
+	R = {
+		10,
+		"PetBlackHolePumpkin",
+		30.1,
+		"Ranged"
+	}
+}
+local t28 = {
+	R = {
+		10,
+		"PetBlackHoleBlazing",
+		30.1,
+		"Ranged"
+	}
+}
+local t29 = {
+	R = {
+		10,
+		"PetBlackHoleCabbage",
+		30.1,
+		"Ranged"
+	}
+}
+local t30 = {
+	R = {
+		8,
+		"PetMeteorStrike",
+		25.1,
+		"Ranged"
+	}
+}
+local t31 = {
+	R = {
+		8,
+		"PetAlienStrike",
+		25.1,
+		"Ranged"
+	}
+}
+local t32 = {
+	R = {
+		1,
+		"PlayerPosition",
+		35.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t33 = {
+	R = {
+		6,
+		"PetGalactic",
+		35.1,
+		"Ranged"
+	}
+}
+local t34 = {
+	R = {
+		1,
+		"PlayerPosition",
+		40.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t35 = {
+	R = {
+		4,
+		"Jimothy",
+		20.1,
+		"Ranged"
+	}
+}
+local t36 = {
+	R = {
+		4,
+		"BlackSheep",
+		20.1,
+		"Ranged"
+	}
+}
+local t37 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t38 = {
+	R = {
+		2,
+		"PurpleDragon",
+		15.1,
+		"Ranged"
+	}
+}
+local t39 = {
+	R = {
+		2,
+		"CyberBeam",
+		15.1,
+		"Ranged"
+	}
+}
+local t40 = {
+	R = {
+		7,
+		"RedDragon",
+		25.1,
+		"Ranged"
+	}
+}
+local t41 = {
+	R = {
+		2,
+		"HellhoundAttack",
+		15.1,
+		"Ranged"
+	}
+}
+local t42 = {
+	R = {
+		1,
+		"PumpkinAttack",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t43 = {
+	R = {
+		1,
+		"CupidPetShockwave",
+		25.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t44 = {
+	R = {
+		9,
+		"SkeledileAttack",
+		20.1,
+		"Ranged"
+	}
+}
+local t45 = {
+	R = {
+		8,
+		"WhirlpoolSmall",
+		25.1,
+		"Ranged"
+	}
+}
+local t46 = {
+	R = {
+		8,
+		"WhirlpoolSmallIce",
+		20.1,
+		"Ranged"
+	}
+}
+local t47 = {
+	R = {
+		1,
+		"PlayerPosition",
+		30.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t48 = {
+	R = {
+		1,
+		"PlayerPosition",
+		30.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t49 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t50 = {
+	R = {
+		1,
+		"BeeAttack",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t51 = {
+	R = {
+		4,
+		"BeeAttack",
+		15.1,
+		"Ranged"
+	}
+}
+local t52 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t53 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t54 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t55 = {
+	R = {
+		1,
+		{
+			"Bite",
+			"PetFireball",
+			"PetFireballBlast",
+			"PetIcySpikes"
+		},
+		25.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t56 = {
+	R = {
+		10,
+		"PetBlackHole",
+		20.1,
+		"Ranged"
+	},
+	EA = {
+		1,
+		{
+			"PetFireball",
+			"PetFireballBlast",
+			"PetIcySpikes"
+		},
+		20,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t57 = {
+	R = {
+		6,
+		"FlameProtection",
+		20.1,
+		"Ranged"
+	}
+}
+local t58 = {
+	R = {
+		3,
+		"FlameProtectionPurple",
+		20.1,
+		"Ranged"
+	}
+}
+local t59 = {
+	R = {
+		3,
+		"AvatarProtection",
+		20.1,
+		"Ranged"
+	}
+}
+local t60 = {
+	R = {
+		4,
+		"PurpleSheep",
+		20.1,
+		"Ranged"
+	}
+}
+local t61 = {
+	R = {
+		1,
+		"MegaBite",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t62 = {
+	R = {
+		1,
+		"MegaBitePro",
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t63 = {
+	R = {
+		5,
+		"ChocolateSplash",
+		30.1,
+		"Ranged"
+	}
+}
+local t64 = {
+	R = {
+		5,
+		"SlimeSplash",
+		30.1,
+		"Ranged"
+	}
+}
+local t65 = {
+	R = {
+		5,
+		"SlimeSplashFire",
+		30.1,
+		"Ranged"
+	}
+}
+local t66 = {
+	R = {
+		5,
+		"SlimeSplashPoison",
+		30.1,
+		"Ranged"
+	}
+}
+local t67 = {
+	R = {
+		5,
+		"SlimeSplashIce",
+		30.1,
+		"Ranged"
+	}
+}
+local t68 = {
+	R = {
+		1,
+		"PlayerPosition",
+		15.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t69 = {
+	R = {
+		1,
+		"PlayerPosition",
+		15.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t70 = {
+	R = {
+		16,
+		"PetSnowstorm",
+		30.1,
+		"Ranged"
+	}
+}
+local t71 = {
+	R = {
+		20,
+		"PetCarrotStorm",
+		30.1,
+		"Ranged"
+	}
+}
+local t72 = {
+	R = {
+		20,
+		"ShadowEssence",
+		30.1,
+		"Ranged"
+	}
+}
+local t73 = {
+	R = {
+		1,
+		"ShiningCrystal",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t74 = {
+	R = {
+		1,
+		"ShiningCrystalPro",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t75 = {
+	R = {
+		4,
+		"CharmingHeart",
+		25.1,
+		"Ranged"
+	}
+}
+local t76 = {
+	R = {
+		4,
+		"CharmingBrokenHeart",
+		25.1,
+		"Ranged"
+	}
+}
+local t77 = {
+	R = {
+		4,
+		"CharmingHeartHeal",
+		25.1,
+		"Ranged"
+	}
+}
+local t78 = {
+	R = {
+		4,
+		"CharmingSnowflake",
+		25.1,
+		"Ranged"
+	}
+}
+local t79 = {
+	R = {
+		5,
+		"SpiritBeam",
+		20.1,
+		"Ranged"
+	}
+}
+local t80 = {
+	R = {
+		5,
+		"SpiritBeamFire",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t81 = {
+	R = {
+		5,
+		"SpiritBeamAether",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t82 = {
+	R = {
+		5,
+		"SpiritBeamPoison",
+		20.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t83 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t84 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t85 = {
+	R = {
+		8,
+		"PenguinSlide",
+		30.1,
+		"Ranged"
+	}
+}
+local t86 = {
+	R = {
+		8,
+		"PenguinSlide_Aether",
+		30.1,
+		"Ranged"
+	}
+}
+local t87 = {
+	R = {
+		8,
+		"PenguinSlide_Frozen",
+		30.1,
+		"Ranged"
+	}
+}
+local t88 = {
+	R = {
+		8,
+		"PenguinSlide_Burn",
+		30.1,
+		"Ranged"
+	}
+}
+local t89 = {
+	R = {
+		8,
+		"PenguinSlide_Poison",
+		30.1,
+		"Ranged"
+	}
+}
+local t90 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t91 = {
+	R = {
+		1,
+		"PlayerPosition",
+		25.1,
+		"Self",
+		SkipFirst = true
+	}
+}
+local t92 = {
+	R = {
+		1,
+		"KnoxAttack",
+		25.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t93 = {
+	R = {
+		8,
+		"PetFireballDH",
+		15.1,
+		"Ranged"
+	},
+	EA = {
+		1,
+		{
+			"PetFireball",
+			"PetFireballBlast"
+		},
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t94 = {
+	R = {
+		5,
+		"GargoyleSkill",
+		30.1,
+		"Ranged"
+	}
+}
+local t95 = {
+	R = {
+		4,
+		"MoltenGolemAttack",
+		25.1,
+		"Ranged"
+	}
+}
+local t96 = {
+	R = {
+		1,
+		"PlayerPosition",
+		30.1,
+		"MobPosition",
+		SkipFirst = true
+	}
+}
+local t97 = {
+	R = {
+		3,
+		{
+			"PetFireball",
+			"PetFireballBlast"
+		},
+		15.1,
+		"Ranged",
+		SkipFirst = true
+	}
+}
+local t98 = {
+	R = {
+		5,
+		"PetIceShards",
+		15.1,
+		"Ranged"
+	}
+}
+local t99 = {
+	R = {
+		4,
+		"PetToxicThorns",
+		20,
+		"Ranged"
+	}
+}
+local t100 = {
+	R = {
+		8,
+		"IgnisDragonPetAttack",
+		15.1,
+		"Ranged"
+	}
+}
+local t101 = {
+	R = {
+		10,
+		"PetPinataParty",
+		20.1,
+		"Ranged"
+	}
+}
+PetSkills = {
+	Bite = t1,
+	Scratch = t2,
+	Fireball = t3,
+	FireballGreen = t4,
+	Iceball = t5,
+	PoisonSplash = t6,
+	HealPulse = t7,
+	IcySpikes = t8,
+	BlackFlame = t9,
+	LightningStrike = t10,
+	DireBlast = t11,
+	DragonBlast = t12,
+	FrontalFire = t13,
+	MiseryFire = t14,
+	Unknown = t15,
+	CerberusFire = t16,
+	Wildfire = t17,
+	SkeletalSlash = t18,
+	DeathSlash = t19,
+	HoodedSlash = t20,
+	HoodedSlashPoison = t21,
+	PoisonBreath = t22,
+	TetheredHeal = t23,
+	Barrier = t24,
+	CrystalBarrier = t25,
+	BlackHole = t26,
+	BlackHolePumpkin = t27,
+	BlackHoleBlazing = t28,
+	BlackHoleCabbage = t29,
+	MeteorStrike = t30,
+	AlienStrike = t31,
+	UltRing = t32,
+	UltRingGalactic = t33,
+	EquinoxMist = t34,
+	RollingJimothy = t35,
+	BlackSheepAttack = t36,
+	PinkSheepAttack = t37,
+	PurpleDragonAttack = t38,
+	CyberBeamAttack = t39,
+	RedDragonAttack = t40,
+	HellhoundAttack = t41,
+	PumpkinAttack = t42,
+	CupidPetShockwave = t43,
+	SkeledileAttack = t44,
+	Whirlpool = t45,
+	WhirlpoolIce = t46,
+	HealReach = t47,
+	HealReachPro = t48,
+	RockAttack = t49,
+	BeeAttack = t50,
+	BeeAttackPro = t51,
+	CatAttack = t52,
+	CatAttackPro = t53,
+	GoldenRoad = t54,
+	GlyphAttack = t55,
+	GlyphAttackPro = t56,
+	FlameProtection = t57,
+	FlameProtectionPurple = t58,
+	AvatarFlameProtection = t59,
+	PurpleSheepAttack = t60,
+	MegaBite = t61,
+	MegaBitePro = t62,
+	ChocolateSplash = t63,
+	SlimeSplash = t64,
+	SlimeSplashFire = t65,
+	SlimeSplashPoison = t66,
+	SlimeSplashIce = t67,
+	Cure = t68,
+	CurePro = t69,
+	Snowstorm = t70,
+	CarrotStorm = t71,
+	ShadowEssence = t72,
+	ShiningCrystal = t73,
+	ShiningCrystalPro = t74,
+	CharmingHeart = t75,
+	CharmingBrokenHeart = t76,
+	CharmingHeartHeal = t77,
+	CharmingSnowflake = t78,
+	SpiritBeam = t79,
+	SpiritBeamFire = t80,
+	SpiritBeamAether = t81,
+	SpiritBeamPoison = t82,
+	NaughtyOrNice = t83,
+	TurkeyFoodDrop = t84,
+	PenguinSlide = t85,
+	PenguinSlide_Aether = t86,
+	PenguinSlide_Frozen = t87,
+	PenguinSlide_Burn = t88,
+	PenguinSlide_Poison = t89,
+	GMMoAttack = t90,
+	GMRodAttack = t91,
+	GMKnoxAttack = t92,
+	FireballDH = t93,
+	GargoyleSkill = t94,
+	MoltenGolemAttack = t95,
+	EvilClownSkill = t96,
+	TrippleFireball = t97,
+	IceShards = t98,
+	ToxicThorns = t99,
+	IgnisDragonPetAttack = t100,
+	PinataParty = t101
+}
+return PetSkills
