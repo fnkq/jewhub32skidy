@@ -1,0 +1,1303 @@
+local Remotes = game:GetService("ReplicatedStorage"):WaitForChild("Remotes")
+local t1 = {
+	1,
+	"Leap",
+	8.1,
+	"Melee",
+	20,
+	SkipFirst = true
+}
+local t2 = {
+	DisplayName = "Swordmaster",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			6,
+			"Swordmaster",
+			0.34,
+			"Melee",
+			15
+		},
+		{
+			5,
+			"CrescentStrike",
+			5.1,
+			"Ranged",
+			40
+		},
+		t1,
+		{
+			20,
+			"SwordCyclone",
+			30.1,
+			"Melee",
+			40
+		}
+	}
+}
+local t3 = {
+	1,
+	"Groundbreaker",
+	5.1,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local t4 = {
+	1,
+	"DefenderShield",
+	30.1,
+	"Melee",
+	15,
+	SkipFirst = true
+}
+local Skillset_Defender_Ultimate = Remotes:WaitForChild("Skillset_Defender_Ultimate")
+local t5 = {
+	DisplayName = "Defender",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			5,
+			"Defender",
+			0.66,
+			"Melee",
+			15
+		},
+		t3,
+		{
+			8,
+			"Spin",
+			8.1,
+			"Melee",
+			15
+		},
+		t4,
+		{
+			1,
+			Skillset_Defender_Ultimate,
+			1,
+			"CFrameRemote",
+			20,
+			SkipFirst = true
+		}
+	}
+}
+local t6 = {
+	12,
+	"ArcaneWave",
+	8.1,
+	"Ranged",
+	40,
+	IncrementD = {
+		6,
+		5
+	}
+}
+local t7 = {
+	DisplayName = "Arcane Mage",
+	Distance = "Ranged",
+	SkillInfo = {
+		{
+			3,
+			"Mage",
+			0.33,
+			"Ranged",
+			65
+		},
+		{
+			1,
+			{
+				"ArcaneBlast",
+				"ArcaneBlastAOE"
+			},
+			5.1,
+			"Ranged",
+			45
+		},
+		t6,
+		{
+			1,
+			"ArcaneAscension",
+			30.1,
+			"Ranged",
+			75
+		}
+	}
+}
+local t8 = {
+	10,
+	"DualWield",
+	0.55,
+	"Melee",
+	15,
+	AddCd = {
+		5,
+		0.2
+	}
+}
+local t9 = {
+	1,
+	"DashStrike",
+	6.1,
+	"Melee",
+	15,
+	SkipFirst = true
+}
+local t10 = {
+	1,
+	"DualWieldUltimateSlam",
+	30.1,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local Skillset_DualWielder_AttackBuff = Remotes:WaitForChild("Skillset_DualWielder_AttackBuff")
+local t11 = {
+	DisplayName = "Dual Wielder",
+	Distance = "Melee",
+	SkillInfo = {
+		t8,
+		t9,
+		{
+			10,
+			"CrossSlash",
+			8.1,
+			"Ranged",
+			50
+		},
+		{
+			8,
+			"DualWieldUltimateHit",
+			30.1,
+			"Ranged",
+			20
+		},
+		t10,
+		{
+			3,
+			"DualWieldUltimateSlam",
+			30.1,
+			"Ranged",
+			20
+		},
+		{
+			16,
+			"DualWieldUltimateSword1",
+			30.1,
+			"Ranged",
+			20
+		},
+		{
+			1,
+			Skillset_DualWielder_AttackBuff,
+			1,
+			"Remote",
+			50,
+			SkipFirst = true
+		}
+	}
+}
+local t12 = {
+	1,
+	{
+		"IcefireMageFireball",
+		"IcefireMageFireballBlast"
+	},
+	7.1,
+	"Ranged",
+	100,
+	SkipFirst = true
+}
+local t13 = {
+	1,
+	"IcefireMageUltimateFrost",
+	30.1,
+	"Ranged",
+	100,
+	SkipFirst = true
+}
+local t14 = {
+	DisplayName = "Elementalist",
+	Distance = "Ranged",
+	SkillInfo = {
+		{
+			3,
+			"IcefireMage",
+			0.55,
+			"Ranged",
+			100
+		},
+		{
+			1,
+			"IcySpikes",
+			6.1,
+			"Ranged",
+			40
+		},
+		t12,
+		{
+			5,
+			"LightningStrike",
+			10.1,
+			"Ranged",
+			100
+		},
+		t13,
+		{
+			10,
+			"IcefireMageUltimateMeteor",
+			30.1,
+			"Ranged",
+			100
+		}
+	}
+}
+local t15 = {
+	3,
+	"RockSpikes",
+	6.1,
+	"Ranged",
+	30,
+	IncrementD = {
+		2,
+		2.5
+	}
+}
+local t16 = {
+	12,
+	"SwordPrison",
+	30.1,
+	"Ranged",
+	120,
+	IncrementD = {
+		7,
+		10
+	}
+}
+local t17 = {
+	1,
+	Remotes:WaitForChild("Skillset_Guardian_AggroDraw"),
+	1,
+	"Remote",
+	180,
+	SkipFirst = true
+}
+local Skillset_Guardian_Ultimate = Remotes:WaitForChild("Skillset_Guardian_Ultimate")
+local t18 = {
+	DisplayName = "Guardian",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			4,
+			"Guardian",
+			0.6,
+			"Melee",
+			15
+		},
+		t15,
+		{
+			8,
+			"SlashFury",
+			8.1,
+			"Ranged",
+			30
+		},
+		t16,
+		t17,
+		{
+			1,
+			Skillset_Guardian_Ultimate,
+			1,
+			"GuardianRemote",
+			180,
+			SkipFirst = true
+		}
+	}
+}
+local t19 = {
+	1,
+	{
+		"MageOfLight",
+		"MageOfLightBlast"
+	},
+	0.25,
+	"Ranged",
+	100,
+	AddCd = {
+		2,
+		0.05
+	},
+	SkipFirst = true
+}
+local t20 = {
+	1,
+	{
+		"MageOfLightCharged",
+		"MageOfLightBlastCharged"
+	},
+	0.33,
+	"Ranged",
+	100,
+	SkipFirst = true
+}
+local t21 = {
+	1,
+	{
+		Remotes:WaitForChild("Skillset_MageOfLight_HealCircle"),
+		Remotes:WaitForChild("Skillset_MageOfLight_Ultimate")
+	},
+	1,
+	"Remote",
+	100,
+	SkipFirst = true
+}
+local Skillset_MageOfLight_Barrier = Remotes:WaitForChild("Skillset_MageOfLight_Barrier")
+local t22 = {
+	DisplayName = "Mage of Light",
+	Distance = "Ranged",
+	SkillInfo = {
+		t19,
+		t20,
+		t21,
+		{
+			1,
+			Skillset_MageOfLight_Barrier,
+			1,
+			"PlayerRemote",
+			180,
+			SkipFirst = true
+		}
+	}
+}
+local t23 = {
+	1,
+	"BlockingPaladin",
+	0.37,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local t24 = {
+	1,
+	{
+		Remotes:WaitForChild("Skillset_Paladin_Block"),
+		Remotes:WaitForChild("Skillset_Paladin_GuildedLight"),
+		Remotes:WaitForChild("Skillset_Paladin_LightThrust")
+	},
+	1,
+	"Remote",
+	80,
+	SkipFirst = true
+}
+local Skillset_Paladin_Ultimate = Remotes:WaitForChild("Skillset_Paladin_Ultimate")
+local t25 = {
+	DisplayName = "Paladin",
+	Distance = "Melee",
+	SkillInfo = {
+		t23,
+		{
+			4,
+			"Paladin",
+			0.52,
+			"Melee",
+			15
+		},
+		{
+			4,
+			"LightPaladin",
+			0.52,
+			"Melee",
+			20
+		},
+		t24,
+		{
+			1,
+			Skillset_Paladin_Ultimate,
+			1,
+			"PlayerPositionRemote",
+			80,
+			SkipFirst = true
+		}
+	}
+}
+local t26 = {
+	1,
+	"AggroSlam",
+	5.1,
+	"Ranged",
+	40,
+	SkipFirst = true
+}
+local t27 = {
+	Remotes:WaitForChild("Skillset_Berserker_AggroSlam"),
+	Remotes:WaitForChild("Skillset_Berserker_Ultimate")
+}
+local t28 = {
+	DisplayName = "Berserker",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			6,
+			"Berserker",
+			0.51,
+			"Melee",
+			15
+		},
+		t26,
+		{
+			8,
+			"GigaSpin",
+			7.1,
+			"Ranged",
+			40
+		},
+		{
+			2,
+			"Fissure",
+			10.1,
+			"Ranged",
+			40
+		},
+		{
+			8,
+			"FissureErrupt",
+			10.1,
+			"Ranged",
+			60
+		},
+		{
+			1,
+			t27,
+			1,
+			"Remote",
+			60,
+			SkipFirst = true
+		}
+	}
+}
+local t29 = {
+	1,
+	"Archer",
+	0.47,
+	"Ranged",
+	80,
+	SkipFirst = true
+}
+local t30 = {
+	8,
+	"MortarStrike",
+	12.1,
+	"Ranged",
+	60,
+	IncrementD = {
+		2,
+		17
+	}
+}
+local t31 = {
+	DisplayName = "Spirit Archer",
+	Distance = "Ranged",
+	SkillInfo = {
+		t29,
+		{
+			9,
+			"PiercingArrow",
+			5.1,
+			"Ranged",
+			100
+		},
+		{
+			1,
+			"SpiritBomb",
+			10.1,
+			"Ranged",
+			210
+		},
+		t30,
+		{
+			6,
+			"HeavenlySword",
+			30.1,
+			"Ranged",
+			145
+		},
+		{
+			1,
+			"BackstepAttack",
+			3.1,
+			"Ranged",
+			200,
+			SkipFirst = true
+		}
+	}
+}
+local t32 = {
+	1,
+	"DragoonDash",
+	6.1,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local t33 = {
+	1,
+	"DragoonFall",
+	8.1,
+	"Melee",
+	19,
+	SkipFirst = true
+}
+local t34 = {
+	1,
+	"DragoonUltimate",
+	30.1,
+	"Ranged",
+	50,
+	SkipFirst = true
+}
+local t35 = { Remotes:WaitForChild("Skillset_Dragoon_Ultimate") }
+local t36 = {
+	DisplayName = "Dragoon",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			6,
+			"Dragoon",
+			0.45,
+			"Melee",
+			17
+		},
+		t32,
+		{
+			10,
+			"DragoonCross",
+			6.1,
+			"Ranged",
+			20
+		},
+		{
+			5,
+			"MultiStrike",
+			6.1,
+			"Melee",
+			19
+		},
+		t33,
+		t34,
+		{
+			18,
+			"UltimateDragon",
+			30.1,
+			"Ranged",
+			100
+		},
+		{
+			1,
+			t35,
+			1,
+			"Remote",
+			100,
+			SkipFirst = true
+		}
+	}
+}
+local t37 = {
+	9,
+	"DemonDPS",
+	0.85,
+	"Melee",
+	16,
+	IncrementC = {
+		2,
+		0.35
+	}
+}
+local t38 = {
+	1,
+	"DemonLifeStealDPS",
+	8.1,
+	"Ranged",
+	60,
+	SkipFirst = true
+}
+local Skillset_Demon_Ultimate = Remotes:WaitForChild("Skillset_Demon_Ultimate")
+local t39 = {
+	DisplayName = "Demon",
+	Distance = "Melee",
+	SkillInfo = {
+		t37,
+		{
+			3,
+			"ScytheThrowDPS",
+			5.1,
+			"Ranged",
+			150
+		},
+		{
+			8,
+			"ScytheThrow",
+			5.1,
+			"Ranged",
+			150
+		},
+		t38,
+		{
+			3,
+			"DemonSoulDPS",
+			30.1,
+			"Ranged",
+			30
+		},
+		{
+			1,
+			Skillset_Demon_Ultimate,
+			1,
+			"Remote",
+			150,
+			SkipFirst = true
+		}
+	}
+}
+local t40 = {
+	1,
+	"ChainsOfWar",
+	8.1,
+	"Ranged",
+	75,
+	SkipFirst = true
+}
+local t41 = {
+	1,
+	"BlockingWarlord",
+	2.5,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local t42 = {
+	3,
+	"Piledriver",
+	5.1,
+	"Ranged",
+	13,
+	IncrementC = {
+		2,
+		1
+	}
+}
+local Skillset_Warlord_Block = Remotes:WaitForChild("Skillset_Warlord_Block")
+local t43 = {
+	DisplayName = "Warlord",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			4,
+			"Warlord",
+			0.42,
+			"Melee",
+			15
+		},
+		t40,
+		t41,
+		t42,
+		{
+			5,
+			"WarlordUltimate",
+			30.1,
+			"Ranged",
+			55
+		},
+		{
+			1,
+			Skillset_Warlord_Block,
+			1,
+			"Remote",
+			75,
+			SkipFirst = true
+		}
+	}
+}
+local t44 = {
+	4,
+	"Summoner",
+	0.55,
+	"Ranged",
+	80,
+	IncrementC = {
+		2,
+		0.25
+	}
+}
+local t45 = {
+	Remotes:WaitForChild("Skillset_Summoner_Summon"),
+	Remotes:WaitForChild("Skillset_Summoner_Ultimate")
+}
+local t46 = {
+	DisplayName = "Summoner",
+	Distance = "Ranged",
+	SkillInfo = {
+		t44,
+		{
+			5,
+			"SoulHarvest",
+			1.1,
+			"Ranged",
+			75
+		},
+		{
+			1,
+			t45,
+			1,
+			"Remote",
+			80,
+			SkipFirst = true
+		}
+	}
+}
+local t47 = {
+	1,
+	"ShadowLeap",
+	3.1,
+	"Ranged",
+	50,
+	SkipFirst = true
+}
+local t48 = {
+	1,
+	"RealmOfShadows",
+	30.1,
+	"Ranged",
+	80,
+	SkipFirst = true
+}
+local t49 = {
+	Remotes:WaitForChild("Skillset_Assassin_EventStealthWalk"),
+	Remotes:WaitForChild("Skillset_Assassin_Ultimate")
+}
+local t50 = {
+	DisplayName = "Shadowblade",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			8,
+			"Assassin",
+			0.26,
+			"Melee",
+			15
+		},
+		t47,
+		{
+			2,
+			"ShadowSlash",
+			6.1,
+			"Ranged",
+			60
+		},
+		t48,
+		{
+			5,
+			"ShadowMulti",
+			30.1,
+			"Ranged",
+			60
+		},
+		{
+			1,
+			t49,
+			1,
+			"Remote",
+			60,
+			SkipFirst = true
+		}
+	}
+}
+local t51 = {
+	1,
+	{
+		"StormSurgeInit",
+		"StormSurge"
+	},
+	10.1,
+	"Ranged",
+	0,
+	IncrementD = {
+		1,
+		20
+	},
+	SkipFirst = true
+}
+local t52 = {
+	1,
+	"UltimateDischarge",
+	1.5,
+	"Ranged",
+	35,
+	SkipFirst = true
+}
+local t53 = {
+	1,
+	"StormcallerUltBlast",
+	30.1,
+	"Melee",
+	44,
+	SkipFirst = true
+}
+local t54 = {
+	8,
+	"StormcallerThunderGod",
+	0.3,
+	"Melee",
+	15,
+	IncrementC = {
+		2,
+		0.286
+	}
+}
+local t55 = {
+	1,
+	"ShockDashBall",
+	3.1,
+	"Ranged",
+	40,
+	SkipFirst = true
+}
+local Skillset_Stormcaller_Ultimate = Remotes:WaitForChild("Skillset_Stormcaller_Ultimate")
+local t56 = {
+	DisplayName = "Stormcaller",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			1,
+			"Stormcaller",
+			0.4,
+			"Ranged",
+			100
+		},
+		{
+			8,
+			"ChainLightning",
+			7.1,
+			"Ranged",
+			120
+		},
+		t51,
+		t52,
+		t53,
+		t54,
+		t55,
+		{
+			3,
+			"ShockDash",
+			3.1,
+			"Ranged",
+			40
+		},
+		{
+			1,
+			Skillset_Stormcaller_Ultimate,
+			1,
+			"Remote",
+			120,
+			SkipFirst = true
+		}
+	}
+}
+local t57 = {
+	1,
+	{
+		"MageOfShadows",
+		"MageOfShadowsBlast",
+		"MageOfShadowsCharged",
+		"MageOfShadowsBlastCharged"
+	},
+	0.25,
+	"Ranged",
+	100,
+	AddCd = {
+		2,
+		0.25
+	},
+	SkipFirst = true
+}
+local t58 = {
+	1,
+	{
+		"BighShadowOrb",
+		"MageOfShadowsDamageCircle"
+	},
+	0.5,
+	"Ranged",
+	75,
+	IncrementD = {
+		1,
+		25
+	},
+	SkipFirst = true
+}
+local Skillset_MageOfShadows_ShadowChains = Remotes:WaitForChild("Skillset_MageOfShadows_ShadowChains")
+local t59 = {
+	DisplayName = "Mage of Shadows",
+	Distance = "Ranged",
+	SkillInfo = {
+		t57,
+		t58,
+		{
+			1,
+			Skillset_MageOfShadows_ShadowChains,
+			6,
+			"ShadowChain",
+			125,
+			SkipFirst = true
+		}
+	}
+}
+local t60 = {
+	3,
+	"Hunter",
+	0.47,
+	"Ranged",
+	80,
+	SkipFirst = true
+}
+local t61 = {
+	5,
+	"HunterExplosiveArrow",
+	4.1,
+	"Ranged",
+	150,
+	SkipFirst = true
+}
+local t62 = {
+	1,
+	{
+		"BearTrap",
+		"BearTrapAOE"
+	},
+	1.1,
+	"Ranged",
+	150,
+	SkipFirst = true
+}
+local t63 = {
+	1,
+	"FamiliarBurst",
+	5.1,
+	"Ranged",
+	150,
+	SkipFirst = true
+}
+local t64 = {
+	1,
+	"BackstepAttackHunter",
+	3.1,
+	"Ranged",
+	150,
+	SkipFirst = true
+}
+local t65 = {
+	1,
+	{
+		Remotes:WaitForChild("Skillset_Hunter_Frenzy"),
+		Remotes:WaitForChild("Skillset_Hunter_Summon")
+	},
+	1,
+	"Remote",
+	150,
+	AddCd = {
+		2,
+		15
+	},
+	SkipFirst = true
+}
+local Skillset_Hunter_DivineArrowHeal = Remotes:WaitForChild("Skillset_Hunter_DivineArrowHeal")
+local t66 = {
+	DisplayName = "Hunter",
+	Distance = "Ranged",
+	SkillInfo = {
+		t60,
+		t61,
+		t62,
+		t63,
+		{
+			10,
+			"DivineArrow",
+			30.1,
+			"Ranged",
+			150
+		},
+		t64,
+		t65,
+		{
+			1,
+			Skillset_Hunter_DivineArrowHeal,
+			2.5,
+			"HunterRemote",
+			150,
+			SkipFirst = true
+		}
+	}
+}
+local t67 = {
+	1,
+	{
+		"WaterCyclone",
+		"Mealstrom"
+	},
+	0.25,
+	"Ranged",
+	100,
+	AddCd = {
+		2,
+		0.2
+	},
+	SkipFirst = true
+}
+local t68 = {
+	1,
+	"Hydrosurge",
+	3.1,
+	"Melee",
+	44,
+	SkipFirst = true
+}
+local t69 = {
+	1,
+	"MaelstromBubblePop",
+	8.1,
+	"Ranged",
+	100,
+	SkipFirst = true
+}
+local Skillset_Leviathan_PoppingBubbleDamage = Remotes:WaitForChild("Skillset_Leviathan_PoppingBubbleDamage")
+local t70 = {
+	DisplayName = "Leviathan",
+	Distance = "Melee",
+	SkillInfo = {
+		{
+			6,
+			"Leviathan",
+			0.45,
+			"Melee",
+			17
+		},
+		t67,
+		t68,
+		t69,
+		{
+			8,
+			"LeviathanUltimate",
+			30.1,
+			"Ranged",
+			40
+		},
+		{
+			1,
+			Skillset_Leviathan_PoppingBubbleDamage,
+			1,
+			"TableRemote",
+			95,
+			SkipFirst = true
+		}
+	}
+}
+local t71 = {
+	1,
+	"StarbreakerUltimateHitInit",
+	30.1,
+	"Ranged",
+	20,
+	SkipFirst = true
+}
+local t72 = {
+	1,
+	"StarbreakerUltimateHit",
+	1.51,
+	"Ranged",
+	115,
+	SkipFirst = true
+}
+local t73 = {
+	1,
+	"",
+	1.1,
+	"StarbreakerWaves",
+	20,
+	SkipFirst = true
+}
+local t74 = {
+	1,
+	Remotes:WaitForChild("Skillset_Starbreaker_Starforge"),
+	1,
+	"MobPositionRemote",
+	115,
+	SkipFirst = true
+}
+local Skillset_Starbreaker_Ultimate = Remotes:WaitForChild("Skillset_Starbreaker_Ultimate")
+local t75 = {
+	DisplayName = "Starbreaker",
+	Distance = "Melee",
+	SkillInfo = {
+		t71,
+		{
+			2,
+			"StarforgeExplosion",
+			25.1,
+			"Ranged",
+			20
+		},
+		{
+			10,
+			"StarbreakerFlare",
+			10.1,
+			"Ranged",
+			110
+		},
+		{
+			4,
+			"Nova",
+			7.1,
+			"Ranged",
+			60
+		},
+		t72,
+		t73,
+		{
+			8,
+			{
+				"Starbreaker",
+				"StarbreakerBoosted"
+			},
+			0.61,
+			"Melee",
+			15
+		},
+		t74,
+		{
+			1,
+			Skillset_Starbreaker_Ultimate,
+			1,
+			"Remote",
+			115,
+			SkipFirst = true
+		}
+	}
+}
+local t76 = {
+	9,
+	"NecroDPS",
+	0.85,
+	"Melee",
+	16,
+	IncrementC = {
+		2,
+		0.35
+	}
+}
+local t77 = {
+	1,
+	"SpiritExplosion0",
+	2.25,
+	"Melee",
+	12,
+	SkipFirst = true
+}
+local t78 = {
+	1,
+	"SpiritExplosion1",
+	2.25,
+	"Melee",
+	13,
+	SkipFirst = true
+}
+local t79 = {
+	1,
+	"SpiritExplosion2",
+	3,
+	"Melee",
+	15,
+	SkipFirst = true
+}
+local t80 = {
+	1,
+	"SpiritExplosion3",
+	3.25,
+	"Melee",
+	17,
+	SkipFirst = true
+}
+local t81 = {
+	1,
+	"SpiritExplosion4",
+	4,
+	"Melee",
+	20,
+	SkipFirst = true
+}
+local t82 = {
+	1,
+	"UltScytheDrop",
+	30.1,
+	"Ranged",
+	150,
+	SkipFirst = true
+}
+local t83 = {
+	1,
+	Remotes:WaitForChild("Skillset_Necromancer_Ultimate"),
+	1,
+	"Remote",
+	150,
+	SkipFirst = true
+}
+local t84 = {
+	DisplayName = "Necromancer",
+	Distance = "Melee",
+	SkillInfo = {
+		t76,
+		t77,
+		t78,
+		t79,
+		t80,
+		t81,
+		{
+			5,
+			"TombstoneRise",
+			4.2,
+			"Melee",
+			25
+		},
+		{
+			6,
+			"SpiritCavern",
+			10.2,
+			"Ranged",
+			150
+		},
+		t82,
+		t83
+	}
+}
+ClassTable = {
+	Swordmaster = t2,
+	Defender = t5,
+	Mage = t7,
+	DualWielder = t11,
+	IcefireMage = t14,
+	Guardian = t18,
+	MageOfLight = t22,
+	Paladin = t25,
+	Berserker = t28,
+	Archer = t31,
+	Dragoon = t36,
+	Demon = t39,
+	Warlord = t43,
+	Summoner = t46,
+	Assassin = t50,
+	Stormcaller = t56,
+	MageOfShadows = t59,
+	Hunter = t66,
+	Leviathan = t70,
+	Starbreaker = t75,
+	Necromancer = t84
+}
+return ClassTable
