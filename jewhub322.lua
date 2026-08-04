@@ -11,8 +11,8 @@ pcall(function()
             end
         end
     end
-    preCache("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/pniad", "c3_3")
-    preCache("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/879345", "p2_5")
+    preCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3")
+    preCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
 end)
 
 local t1 = {}
@@ -833,7 +833,7 @@ t1[38] = function()
     _G.ScriptStep = "obsidian library"
     t9[2] = t2
     if t9[2].BadExecutor then
-        Library = u177("https://raw.githubusercontent.com/justdoingrandomstuff/old_obsidian_library/main/old_library", "g1")
+        Library = u177("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/old_obsidian_library", "g1")
     else
         Library = u177("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/Library.lua", "g1")
     end
@@ -4192,8 +4192,8 @@ t1[38] = function()
     PetAttackTable = nil
     if u86 and not u68 then
         local success, result = pcall(function()
-            AttackTable = u177("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/pniad", "c3_3")
-            PetAttackTable = u177("https://raw.githubusercontent.com/Veltrinix/kjwevjksdgvhbhfeqah/main/879345", "p2_5")
+            AttackTable = u177("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3")
+            PetAttackTable = u177("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
 
             if AttackTable and PetAttackTable then
                 Class = v258(true)
