@@ -15,7 +15,7 @@ pcall(function()
     preCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
 end)
 
-local _t = {}
+local instance_cache = {}
 local Unpack = unpack or table.unpack
 
 local function create_instance(className, props)
@@ -67,47 +67,46 @@ local function get_ui_parent()
     return nil
 end
 
-local function ShowErrorScreen(p1, p2, p3)
-    local v92 = p3 or "N/A"
-    local CI = CI
-    local v94 = get_ui_parent()
-    local CI = CI("ScreenGui", {
+local function ShowErrorScreen(errorSource, errorMessage, extraInfo)
+    local errorExtra = extraInfo or "N/A"
+    local createInstance = CI
+    local uiParent = get_ui_parent()
+    local errorGui = createInstance("ScreenGui", {
 		Name = "Script_Error",
 		DisplayOrder = 1e999,
-		Parent = v94
+		Parent = uiParent
 	})
-    local CI = CI
-    local vector2 = Vector2.new(0.5, 0.5)
-    local uDim2 = UDim2.new(0.5, 0, 0.5, 0)
-    local uDim2_2 = UDim2.new(1, 0, 1, 0)
-    local CI = CI("Frame", {
+    local createInstance2 = createInstance
+    local anchorCenter = Vector2.new(0.5, 0.5)
+    local centerPos = UDim2.new(0.5, 0, 0.5, 0)
+    local fullSize = UDim2.new(1, 0, 1, 0)
+    local errorBg = createInstance2("Frame", {
 		Name = "Script_Error",
-		AnchorPoint = vector2,
+		AnchorPoint = anchorCenter,
 		BackgroundTransparency = 1,
-		Position = uDim2,
-		Size = uDim2_2,
-		Parent = CI
+		Position = centerPos,
+		Size = fullSize,
+		Parent = errorGui
 	})
-    local CI = CI
-    local vector2_2 = Vector2.new(0.5, 0.5)
-    local color3 = Color3.fromRGB(255, 215, 0)
-    local uDim2_3 = UDim2.new(0.5, 0, 0.5, 0)
-    local uDim2_4 = UDim2.new(0.4, 0, 0.4, 0)
-    local CI = CI("Frame", {
+    local createInstance3 = createInstance2
+    local anchorCenter2 = Vector2.new(0.5, 0.5)
+    local goldColor = Color3.fromRGB(255, 215, 0)
+    local centerPos2 = UDim2.new(0.5, 0, 0.5, 0)
+    local frameSize = UDim2.new(0.4, 0, 0.4, 0)
+    local errorFrame = createInstance3("Frame", {
 		Name = "Error_Frame",
-		AnchorPoint = vector2_2,
-		BackgroundColor3 = color3,
-		Position = uDim2_3,
-		Size = uDim2_4,
-		Parent = CI
+		AnchorPoint = anchorCenter2,
+		BackgroundColor3 = goldColor,
+		Position = centerPos2,
+		Size = frameSize,
+		Parent = errorBg
 	})
 
     CI("UICorner", {
 		CornerRadius = UDim.new(0.05, 0),
-		Parent = CI
+		Parent = errorFrame
 	})
 
-    local CI = CI
     local uDim2_5 = UDim2.new(0.025, 0, 0.05, 0)
     local uDim2_6 = UDim2.new(0.55, 0, 0.1, 0)
     local font = Font.new("rbxasset://fonts/families/FredokaOne.json")
@@ -122,16 +121,15 @@ local function ShowErrorScreen(p1, p2, p3)
 		Text = "A script error has occured",
 		TextColor3 = color3_2,
 		TextScaled = true,
-		Parent = CI
+		Parent = errorFrame
 	})
 
-    local CI = CI
     local vector2_3 = Vector2.new(0.5, 0.5)
     local uDim2_7 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_8 = UDim2.new(0.9, 0, 0.6, 0)
     local font2 = Font.new("rbxasset://fonts/families/FredokaOne.json")
-    local v117 = "<u>" .. p1 .. "</u>\n" .. p2 .. "\nExtra: " .. v92
-    local color3_3 = Color3.fromRGB(243, 51, 51)
+    local errorText = "<u>" .. errorSource .. "</u>\n" .. errorMessage .. "\nExtra: " .. errorExtra
+    local redColor = Color3.fromRGB(243, 51, 51)
 
     CI("TextLabel", {
 		Name = "Error_Body",
@@ -141,31 +139,29 @@ local function ShowErrorScreen(p1, p2, p3)
 		Size = uDim2_8,
 		FontFace = font2,
 		RichText = true,
-		Text = v117,
-		TextColor3 = color3_3,
+		Text = errorText,
+		TextColor3 = redColor,
 		TextScaled = true,
-		Parent = CI
+		Parent = errorFrame
 	})
 
-    local CI = CI
     local color3_6 = Color3.fromRGB(145, 145, 145)
     local uDim2_13 = UDim2.new(0.436, 0, 0.808, 0)
     local uDim2_14 = UDim2.new(0.25, 0, 0.15, 0)
-    local CI = CI("ImageButton", {
+    local closeButton = CI("ImageButton", {
 		Name = "Close_Button",
 		BackgroundColor3 = color3_6,
 		BackgroundTransparency = 0.75,
 		Position = uDim2_13,
 		Size = uDim2_14,
-		Parent = CI
+		Parent = errorFrame
 	})
 
     CI("UICorner", {
 		CornerRadius = UDim.new(0.25, 0),
-		Parent = CI
+		Parent = closeButton
 	})
 
-    local CI = CI
     local vector2_5 = Vector2.new(0.5, 0.5)
     local uDim2_15 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_16 = UDim2.new(1, 0, 1, 0)
@@ -181,14 +177,13 @@ local function ShowErrorScreen(p1, p2, p3)
 		Text = "Close menu",
 		TextColor3 = color3_7,
 		TextScaled = true,
-		Parent = CI
+		Parent = closeButton
 	})
 
-    local CI = CI
     local vector2_6 = Vector2.new(0.5, 0.5)
     local uDim2_17 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_18 = UDim2.new(0.4, 0, 0.4, 0)
-    local CI = CI("Frame", {
+    local errorGlow = CI("Frame", {
 		Name = "Error_Glow",
 		AnchorPoint = vector2_6,
 		BackgroundTransparency = 1,
@@ -196,9 +191,8 @@ local function ShowErrorScreen(p1, p2, p3)
 		Interactable = false,
 		ZIndex = -1,
 		Size = uDim2_18,
-		Parent = CI
+		Parent = errorFrame
 	})
-    local CI = CI
     local vector2_7 = Vector2.new(0.5, 0.5)
     local uDim2_19 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_20 = UDim2.new(1.1, 0, 1.1, 0)
@@ -213,16 +207,16 @@ local function ShowErrorScreen(p1, p2, p3)
 		Image = "rbxassetid://136878391730807",
 		ImageColor3 = color3_8,
 		ImageTransparency = 0.5,
-		Parent = CI
+		Parent = errorGlow
 	})
 
-    local CI = CI("BlurEffect", {
+    local blurEffect = CI("BlurEffect", {
 		Size = 50,
 		Parent = Lighting
 	})
-    CI.MouseButton1Click:Once(function()
-        CI:Destroy()
-        CI:Destroy()
+    closeButton.MouseButton1Click:Once(function()
+        errorGui:Destroy()
+        blurEffect:Destroy()
     end)
 end
 if not game:IsLoaded() then
@@ -235,8 +229,8 @@ if _G.Is_Script_Running then
 end
 _G.Is_Script_Running = true
 _G.ScriptStep = "check if in world zero"
-_t[1] = tostring(game.GameId)
-if _t[1] ~= "985731078" then
+local GameId = tostring(game.GameId)
+if GameId ~= "985731078" then
     print("u r not in world zero skid")
     wait(.5)
     game:Shutdown()
@@ -244,187 +238,175 @@ end
 _G.ScriptStep = "executor function references"
 local IdentifyExecutor = identifyexecutor or (getexecutorname or false)
 local ExecSuccess, ExecVersion, ExecRequest = IdentifyExecutor()
-_t[13] = ExecSuccess
-_t[14] = ExecVersion
-_t[15] = ExecRequest
-local ExecName = _t[13]
-local ExecVersionStr = _t[14]
-_t[11] = http_request
-_t[2] = _t[11]
-if not _t[11] then
-    _t[3] = request
-    _t[11] = _t[3]
+local ExecName = ExecSuccess
+local ExecVersionStr = ExecVersion
 
-    if not _t[3] then
-        _t[5] = ExecName and ExecName.request
-        _t[3] = _t[5]
+local function findHttpSender()
+    local sender = http_request or request
 
-        if not _t[5] then
-            _t[3] = ExecName and ExecName.http_request or not not http and (http.request or false)
+    if not sender and http then
+        sender = http.request or http.http_request
+    end
+
+    if not sender and getexecutorname then
+        local executorInfo = getexecutorname()
+
+        if type(executorInfo) == "table" then
+            sender = executorInfo.request or executorInfo.http_request
         end
-
-        _t[11] = _t[3]
     end
 
-    _t[2] = _t[11]
+    return sender
 end
-local HttpRequest = _t[2]
-_t[2] = hookfunc or (hookfunction or false)
-local HookFunction = _t[2]
-_t[2] = restorefunc or (restorefunction or false)
-local RestoreFunction = _t[2]
-_t[4] = queue_on_teleport
-_t[2] = _t[4]
-if not _t[4] then
-    _t[2] = queueonteleport or (queue_on_tp or (queueontp or (queueteleport or false)))
-end
-local QueueOnTeleport = _t[2]
-_t[5] = clear_teleport_queue
-_t[2] = _t[5]
-if not _t[5] then
-    _t[7] = clearqueueonteleport
-    _t[5] = _t[7]
 
-    if not _t[7] then
-        _t[5] = clearteleportqueue or (clear_tp_queue or (cleartpqueue or (clear_queue_on_teleport or false)))
+local function postDiscordWebhook(webhookUrl, body, headers)
+    local sender = findHttpSender()
+
+    if not sender then
+        return false, "no http sender available"
     end
 
-    _t[2] = _t[5]
+    local requestPayload = {
+        Url = webhookUrl,
+        Method = "POST",
+        Headers = headers or { ["Content-Type"] = "application/json" },
+        Body = body
+    }
+
+    local ok, err = pcall(function()
+        sender(requestPayload)
+    end)
+
+    return ok, err
 end
-local ClearTeleportQueue = _t[2]
-_t[6] = rnet and rnet.desync
-_t[2] = _t[6]
-if not _t[6] then
-    _t[2] = raknet and raknet.desync or not not RakNet and (RakNet.desync or false)
-end
-local NetDesync = _t[2]
-_t[7] = get_hidden_gui
-_t[2] = _t[7]
-if not _t[7] then
-    _t[2] = gethui or (gethiddengui or (get_hidden_ui or (gethiddenui or false)))
-end
-HideGui = _t[2]
-_t[8] = newcclosure
-local NewCClosure = _t[8] or false
-_t[6] = cloneref or (clonereference or false)
-local CloneRef = _t[6]
-_t[6] = ishooked or (isfunctionhooked or (is_hooked or (is_function_hooked or false)))
-local IsHooked = _t[6]
-_t[9] = gethwid
-_t[6] = _t[9]
-if not _t[9] then
-    _t[6] = get_hwid or (get_device_id or (getsystemid or "unknown"))
-end
-local GetHWID = _t[6]
+
+local HttpRequest = findHttpSender()
+local HookFunction = hookfunc or (hookfunction or false)
+local RestoreFunction = restorefunc or (restorefunction or false)
+local QueueOnTeleport = queue_on_teleport or (queueonteleport or (queue_on_tp or (queueontp or (queueteleport or false))))
+local ClearTeleportQueue = clear_teleport_queue or (clearqueueonteleport or (clearteleportqueue or (clear_tp_queue or (cleartpqueue or (clear_queue_on_teleport or false)))))
+local NetDesync = (rnet and rnet.desync) or (raknet and raknet.desync) or (RakNet and RakNet.desync) or false
+HideGui = get_hidden_gui or (gethui or (gethiddengui or (get_hidden_ui or (gethiddenui or false))))
+local NewCClosure = newcclosure or false
+local CloneRef = cloneref or (clonereference or false)
+local IsHooked = ishooked or (isfunctionhooked or (is_hooked or (is_function_hooked or false)))
+local GetHWID = gethwid or (get_hwid or (get_device_id or (getsystemid or "unknown")))
 _G.ScriptStep = "return things for the script"
-_t[6] = function(p4)
-    local p4_2 = game:GetService(p4)
+local function getServiceCloned(serviceName)
+    local service = game:GetService(serviceName)
 
-    if p4_2 then
-        return CloneRef(p4_2)
+    if service then
+        return CloneRef(service)
     end
 
-    warn("Unable to get service", p4)
+    warn("Unable to get service", serviceName)
 end
-_t[9] = function(p5)
-    return CloneRef(Shared:WaitForChild(p5, 1e999))
+local function getSharedChild(childName)
+    return CloneRef(Shared:WaitForChild(childName, 1e999))
 end
-_t[10] = function(p6, p7)
-    return CloneRef(p6:WaitForChild(p7, 1e999))
+local GetServiceCloned = function(parent, childName)
+    return CloneRef(parent:WaitForChild(childName, 1e999))
 end
-_t[16] = function(p8, p9)
-    p8:GetAttribute(p9)
+local WaitForAttribute = function(instance, attrName)
+    instance:GetAttribute(attrName)
 
     repeat
         task.wait()
-    until p8:GetAttribute(p9)
+    until instance:GetAttribute(attrName)
 
-    return p8:GetAttribute(p9)
+    return instance:GetAttribute(attrName)
 end
-local GetServiceCloned = _t[10]
-local WaitForAttribute = _t[16]
+local function ResolveBackpack()
+    if PlayerBackpack and PlayerBackpack.Parent then
+        return PlayerBackpack
+    end
+
+    local players = game:GetService("Players")
+    local lp = players and players.LocalPlayer
+    local playerGui = lp and lp:FindFirstChild("PlayerGui")
+    local profile = playerGui and playerGui:FindFirstChild("Profile")
+    local backpack = profile and profile:FindFirstChild("Inventory")
+
+    if backpack then
+        PlayerBackpack = backpack
+    end
+
+    return backpack
+end
+local function GetSellRemote()
+    local rs = game:GetService("ReplicatedStorage")
+    local liveRemotes = rs:FindFirstChild("Remotes")
+    local sellRemote = liveRemotes and liveRemotes:FindFirstChild("Drops_SellItems")
+
+    if not sellRemote and Remotes then
+        sellRemote = Remotes:FindFirstChild("Drops_SellItems")
+    end
+
+    if not sellRemote then
+        sellRemote = liveRemotes and liveRemotes:WaitForChild("Drops_SellItems", 5)
+    end
+
+    if not sellRemote and Remotes then
+        sellRemote = Remotes:WaitForChild("Drops_SellItems", 5)
+    end
+
+    if sellRemote then
+        Remotes = liveRemotes or Remotes
+    end
+
+    return sellRemote
+end
 _G.ScriptStep = "setting up roblox services variables"
-_t[16] = _t[6]("Workspace")
-local Workspace = _t[16]
-_t[16] = _t[6]("Players")
-local Players = _t[16]
-CoreGui = _t[6]("CoreGui")
-StarterGui = _t[6]("StarterGui")
-Lighting = _t[6]("Lighting")
-_t[17] = _t[6]("ReplicatedStorage")
-local ReplicatedStorage = _t[17]
-_t[17] = _t[6]("HttpService")
-local HttpService = _t[17]
-_t[17] = _t[6]("VirtualUser")
-local VirtualUser = _t[17]
-_t[17] = _t[6]("UserInputService")
-local UserInputService = _t[17]
-_t[17] = _t[6]("RunService")
-local RunService = _t[17]
-_t[17] = _t[6]("MarketplaceService")
-local MarketplaceService = _t[17]
-_t[17] = _t[6]("TeleportService")
-local TeleportService = _t[17]
+local Workspace = getServiceCloned("Workspace")
+local Players = getServiceCloned("Players")
+CoreGui = getServiceCloned("CoreGui")
+StarterGui = getServiceCloned("StarterGui")
+Lighting = getServiceCloned("Lighting")
+local ReplicatedStorage = getServiceCloned("ReplicatedStorage")
+local HttpService = getServiceCloned("HttpService")
+local VirtualUser = getServiceCloned("VirtualUser")
+local UserInputService = getServiceCloned("UserInputService")
+local RunService = getServiceCloned("RunService")
+local MarketplaceService = getServiceCloned("MarketplaceService")
+local TeleportService = getServiceCloned("TeleportService")
 _G.ScriptStep = "setting up game variables"
 Shared = GetServiceCloned(ReplicatedStorage, "Shared")
 Remotes = GetServiceCloned(ReplicatedStorage, "Remotes")
-_t[17] = _t[9]("Battlepass")
-local Battlepass = _t[17]
-_t[17] = _t[9]("Charms")
-local Charms = _t[17]
-_t[17] = _t[9]("Chests")
-local Chests = _t[17]
-_t[17] = _t[9]("Combat")
-local Combat = _t[17]
-_t[9]("Crystals")
-_t[19] = _t[9]("Drops")
-local Drops = _t[19]
-_t[19] = _t[9]("Effects")
-local Effects = _t[19]
-_t[9]("Guilds")
-_t[9]("Health")
-_t[9]("Inventory")
-_t[9]("ItemUpgrade")
-_t[22] = _t[9]("Items")
-local Items = _t[22]
-_t[22] = _t[9]("Missions")
-local Missions = _t[22]
-_t[22] = _t[9]("Mobs")
-local Mobs = _t[22]
-_t[22] = _t[9]("ModelProvider")
-local ModelProvider = _t[22]
-_t[9]("Party")
-_t[23] = _t[9]("Pets")
-local Pets = _t[23]
-_t[23] = _t[9]("Quests")
-local Quests = _t[23]
-_t[23] = _t[9]("Shop")
-local Shop = _t[23]
-_t[9]("Skills")
-_t[18] = _t[9]("Teleport")
-local TeleportModule = _t[18]
+local Battlepass = getSharedChild("Battlepass")
+local Charms = getSharedChild("Charms")
+local Chests = getSharedChild("Chests")
+local Combat = getSharedChild("Combat")
+getSharedChild("Crystals")
+local Drops = getSharedChild("Drops")
+local Effects = getSharedChild("Effects")
+getSharedChild("Guilds")
+getSharedChild("Health")
+getSharedChild("Inventory")
+getSharedChild("ItemUpgrade")
+local Items = getSharedChild("Items")
+local Missions = getSharedChild("Missions")
+local Mobs = getSharedChild("Mobs")
+local ModelProvider = getSharedChild("ModelProvider")
+getSharedChild("Party")
+local Pets = getSharedChild("Pets")
+local Quests = getSharedChild("Quests")
+local Shop = getSharedChild("Shop")
+getSharedChild("Skills")
+local TeleportModule = getSharedChild("Teleport")
 _G.ScriptStep = "setting up more game variables"
 GetServiceCloned(Workspace, "Camera")
-_t[25] = GetServiceCloned(Workspace, "Mobs")
-local MobsFolder = _t[25]
+local MobsFolder = GetServiceCloned(Workspace, "Mobs")
 local MissionObjects
 _G.ScriptStep = "setting up script variables"
 local Settings = {}
 local Tracking = {}
-_t[25] = Tracking
-_t[20] = {}
-_t[25].MobTable = _t[20]
+Tracking.MobTable = {}
 local Flags = {}
 local Connections = {}
-_t[25] = Players.LocalPlayer
-local LocalPlayer = _t[25]
-_t[25] = LocalPlayer.AccountAge
-_t[21] = LocalPlayer.Name
-local PlayerName = _t[21]
-_t[21] = LocalPlayer.UserId
-local UserId = _t[21]
-_t[26] = GetServiceCloned(LocalPlayer, "PlayerGui")
-local PlayerGui = _t[26]
+local LocalPlayer = Players.LocalPlayer
+local PlayerName = LocalPlayer.Name
+local UserId = LocalPlayer.UserId
+local PlayerGui = GetServiceCloned(LocalPlayer, "PlayerGui")
 local PingAdjusted = 0
 local CharacterData
 local PlayerBackpack
@@ -453,32 +435,24 @@ local CanAttack
 local SkillActive = true
 local MaxDungeonLevel = 1
 if QueueOnTeleport then
-    _t[28] = isfile("PORN/AutoExecute")
-
-    if _t[28] then
+    if isfile("PORN/AutoExecute") then
         QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
-        _t[27] = Settings
-        _t[28] = "AlreadyQueued"
-        _t[27][_t[28]] = true
+        Settings.AlreadyQueued = true
     end
 end
-_t[26] = ExecName == "Xeno" or (ExecName == "Solara" or ExecName == "Velocity")
-if _t[26] then
-    _t[26] = Settings
-    _t[27] = "BadExecutor"
-    _t[26][_t[27]] = true
+if ExecName == "Xeno" or ExecName == "Solara" or ExecName == "Velocity" then
+    Settings.BadExecutor = true
 end
 _G.ScriptStep = "setting up location identifier"
-_t[27] = tostring(game.PlaceId)
-local PlaceIdStr = _t[27]
+local PlaceIdStr = tostring(game.PlaceId)
 local InLobby = false
 local InMainMenu = false
 local InDungeon = false
 local InTower = false
-_t[29] = {
+local MainMenuPlaceIds = {
 	["2727067538"] = true
 }
-_t[30] = {
+local WorldHubPlaceIds = {
 	["4310463616"] = true,
 	["4310463940"] = true,
 	["4465987684"] = true,
@@ -505,7 +479,7 @@ _t[30] = {
 	["136326194224398"] = true,
 	["73334696605120"] = true
 }
-_t[31] = {
+local DungeonPlaceIds = {
 	["107701891477606"] = 49,
 	["2978696440"] = 1,
 	["4310476380"] = 3,
@@ -535,7 +509,7 @@ _t[31] = {
 	["14914700740"] = 41,
 	["14914855930"] = 42
 }
-_t[32] = {
+local EventDungeonPlaceIds = {
 	["93889085342251"] = 51,
 	["102111805987017"] = 47,
 	["81373988789544"] = 46,
@@ -547,7 +521,7 @@ _t[32] = {
 	["5862277651"] = 22,
 	["4526768588"] = 17
 }
-_t[34] = {
+local TowerPlaceIds = {
 	["5703353651"] = 21,
 	["6075085184"] = 23,
 	["7071564842"] = 27,
@@ -557,27 +531,27 @@ _t[34] = {
 	["14400549310"] = 39,
 	["13988110964"] = 38
 }
-_t[27] = {
-	MainMenu = _t[29],
-	WorldHubs = _t[30],
-	Dungeons = _t[31],
-	EventDungeons = _t[32],
-	Towers = _t[34]
+local PlaceIds = {
+	MainMenu = MainMenuPlaceIds,
+	WorldHubs = WorldHubPlaceIds,
+	Dungeons = DungeonPlaceIds,
+	EventDungeons = EventDungeonPlaceIds,
+	Towers = TowerPlaceIds
 }
-if _t[27].MainMenu[PlaceIdStr] then
+if PlaceIds.MainMenu[PlaceIdStr] then
     InMainMenu = true
     print("PORN: player in main menu")
-elseif _t[27].WorldHubs[PlaceIdStr] then
+elseif PlaceIds.WorldHubs[PlaceIdStr] then
     InLobby = true
     print("PORN: player in lobby")
-elseif _t[27].Dungeons[PlaceIdStr] then
+elseif PlaceIds.Dungeons[PlaceIdStr] then
     InDungeon = true
     print("PORN: player in dungeon")
-elseif _t[27].Towers[PlaceIdStr] then
+elseif PlaceIds.Towers[PlaceIdStr] then
     InDungeon = true
     InTower = true
     print("PORN: player in tower")
-elseif _t[27].EventDungeons[PlaceIdStr] then
+elseif PlaceIds.EventDungeons[PlaceIdStr] then
     IsEventDungeon = true
     InDungeon = true
     print("PORN: player is in event dungeon")
@@ -585,64 +559,60 @@ else
     InLobby = true
     print("PORN: cannot determine where player is located... placeid: " .. PlaceIdStr)
 end
-_t[34] = InLobby or InMainMenu
-if not _t[34] then
-    _t[33] = Tracking
-    _t[34] = "CurrentDungeonID"
-    _t[35] = _t[27].EventDungeons[PlaceIdStr] or (_t[27].Dungeons[PlaceIdStr] or (_t[27].Towers[PlaceIdStr] or nil))
-    _t[33][_t[34]] = _t[35]
+if not (InLobby or InMainMenu) then
+    Tracking.CurrentDungeonID = PlaceIds.EventDungeons[PlaceIdStr] or (PlaceIds.Dungeons[PlaceIdStr] or (PlaceIds.Towers[PlaceIdStr] or nil))
 end
 task.wait()
 _G.ScriptStep = "message handler"
 task.wait()
 _G.ScriptStep = "save error"
-_t[36] = function(p10, p11, p12)
+local HandleError = function(errorLocation, errorMessage, errorExtra)
     if isfile("PORN_script_error.txt") then
-        appendfile("PORN_script_error.txt", "\n\nError:\n" .. p11 .. "\nLocation: " .. p10)
+        appendfile("PORN_script_error.txt", "\n\nError:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     else
-        writefile("PORN_script_error.txt", "Error:\n" .. p11 .. "\nLocation: " .. p10)
+        writefile("PORN_script_error.txt", "Error:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     end
 
-    ShowErrorScreen(p10, p11, p12, nil)
+    ShowErrorScreen(errorLocation, errorMessage, errorExtra, nil)
 
-    local v169 = "**Error:** `" .. p11 .. "`\n**Extra Info:** `" .. tostring(p12) .. "`\n**Executor:** `" .. ExecName .. "`"
-    local t6 = {
+    local description = "**Error:** `" .. errorMessage .. "`\n**Extra Info:** `" .. tostring(errorExtra) .. "`\n**Executor:** `" .. ExecName .. "`"
+    local webhookPayload = {
 		username = "Error Logger",
 		embeds = {{
-			title = p10,
-			description = v169,
+			title = errorLocation,
+			description = description,
 			type = "rich",
 			color = 16711680
 		}}
 	}
-    local v171 = true
-    local s2 = "https://discord.com/api/webhooks/1487911137021395116/GVFUp0UWv9fDutpbCZlUhogVxmTm7qXmFIHH2Hz7ZtzGquL6GB_GitT_kmrmSXKm_j9Q"
+    local shouldPost = true
+    local webhookURL = "https://discord.com/api/webhooks/1487911137021395116/GVFUp0UWv9fDutpbCZlUhogVxmTm7qXmFIHH2Hz7ZtzGquL6GB_GitT_kmrmSXKm_j9Q"
     local _, _ = pcall(function()
-        if v171 and HookFunction or hookmetamethod then
-            local DamageReduction = 0
+        if shouldPost and HookFunction or hookmetamethod then
+            local hookedScriptCount = 0
             local ok, _ = pcall(function()
                 for _, v in pairs(getreg()) do
                     if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                        DamageReduction += 1
+                        hookedScriptCount += 1
                     end
                 end
             end)
-            if DamageReduction > 2 or DamageReduction == 0 then
+            if hookedScriptCount > 2 or hookedScriptCount == 0 then
                 return
             end
             if not ok then
                 return
             end
-            local TeleportState = false
+            local antiDesyncEnabled = false
             local success = pcall(function()
-                local v1194 = ishooked and ishooked(request)
+                local requestHooked = ishooked and ishooked(request)
 
-                if not v1194 then
-                    v1194 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                if not requestHooked then
+                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                 end
 
-                if v1194 then
-                    TeleportState = true
+                if requestHooked then
+                    antiDesyncEnabled = true
 
                     return
                 end
@@ -650,27 +620,27 @@ _t[36] = function(p10, p11, p12)
             if not success then
                 return
             end
-            local ok2, _ = pcall(function()
-                local v1195 = ishooked and ishooked(game.HttpGet)
+            local pcallOk, _ = pcall(function()
+                local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                if not v1195 then
-                    v1195 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                if not httpGetHooked then
+                    httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                    if not v1195 then
-                        v1195 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                    if not httpGetHooked then
+                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                     end
                 end
 
-                if v1195 then
-                    TeleportState = true
+                if httpGetHooked then
+                    antiDesyncEnabled = true
 
                     return
                 end
             end)
-            if TeleportState then
+            if antiDesyncEnabled then
                 return
             end
-            if not ok2 then
+            if not pcallOk then
                 return
             end
         end
@@ -679,54 +649,40 @@ _t[36] = function(p10, p11, p12)
             return
         end
 
-        local v373 = HttpRequest
-        local v374 = s2
-        local t8 = {
+        local discard1 = HttpRequest
+        local discard2 = webhookURL
+        local requestHeaders = {
 			["Content-Type"] = "application/json"
 		}
-        local json = HttpService:JSONEncode(t6)
+        local json = HttpService:JSONEncode(webhookPayload)
 
-        v373({
-			Url = v374,
+        discard1({
+			Url = discard2,
 			Method = "POST",
-			Headers = t8,
+			Headers = requestHeaders,
 			Body = json
 		})
     end)
 end
-local HandleError = _t[36]
-_t[38] = function()
-    local Helpers = {}
+local function MainScript()
     local elapsed = os.clock()
     task.wait()
     _G.ScriptStep = "not in main menu"
     if not InMainMenu then
-        Helpers[3] = Tracking
-        Helpers[1] = "PlayerClass"
-        Helpers[2] = WaitForAttribute(LocalPlayer, "Class")
-        Helpers[3][Helpers[1]] = Helpers[2]
-        Helpers[3] = Tracking
-        Helpers[1] = "PlayerLevel"
-        Helpers[2] = WaitForAttribute(LocalPlayer, "Level")
-        Helpers[3][Helpers[1]] = Helpers[2]
-        Helpers[3] = Tracking
-        Helpers[1] = "PlayerPrestige"
-        Helpers[2] = WaitForAttribute(LocalPlayer, "Prestige")
-        Helpers[3][Helpers[1]] = Helpers[2]
+        Tracking.PlayerClass = WaitForAttribute(LocalPlayer, "Class")
+        Tracking.PlayerLevel = WaitForAttribute(LocalPlayer, "Level")
+        Tracking.PlayerPrestige = WaitForAttribute(LocalPlayer, "Prestige")
         CharacterData = GetServiceCloned(PlayerGui, "Profile")
         PlayerBackpack = GetServiceCloned(CharacterData, "Inventory")
-        Helpers[3] = Settings
-        Helpers[2] = "Parties"
-        Helpers[1] = GetServiceCloned(ReplicatedStorage, "Parties")
-        Helpers[3][Helpers[2]] = Helpers[1]
+        Settings.Parties = GetServiceCloned(ReplicatedStorage, "Parties")
     end
     task.spawn(function()
         local ok, result = pcall(function()
             print("PORN: player is using", ExecName, ExecVersionStr)
 
-            local v1196 = string.lower((tostring(ExecName)))
+            local lowerExecName = string.lower((tostring(ExecName)))
 
-            if string.find(v1196, "xeno") then
+            if string.find(lowerExecName, "xeno") then
                 print("PORN: xeno fixes")
                 Settings.IsUsingXeno = true
             end
@@ -744,13 +700,13 @@ _t[38] = function()
     end)
     task.wait()
     _G.ScriptStep = "load and save files"
-    local function FileCache(p13, p14, p15)
+    local function LoadCachedFile(fileUrl, fileName, forceRefresh)
         local MissionTimer
         local ok, result = pcall(function()
             if isfile and (writefile and readfile) then
-                local EventDungeonCheck = "PORN/ignore/" .. p14
+                local EventDungeonCheck = "PORN/ignore/" .. fileName
 
-                if p15 and isfile(EventDungeonCheck) then
+                if forceRefresh and isfile(EventDungeonCheck) then
                     delfile(EventDungeonCheck)
                     task.wait(1)
                 end
@@ -758,7 +714,7 @@ _t[38] = function()
                 if not isfile(EventDungeonCheck) then
                     while true do
                         local success, result = pcall(function()
-                            writefile(EventDungeonCheck, game:HttpGet(p13))
+                            writefile(EventDungeonCheck, game:HttpGet(fileUrl))
                         end)
                         if success then
                             break
@@ -768,18 +724,17 @@ _t[38] = function()
                     end
                 end
 
-                local v1200 = EventDungeonCheck .. "_tfwd"
-                local EventDungeonState = os.date("*t")
+                local dateFilePath = EventDungeonCheck .. "_tfwd"
+                local dateInfo = os.date("*t")
 
-                if isfile(v1200) then
-                    local v1202 = HttpService
-                    local t11 = { readfile(v1200) }
-                    local data = v1202:JSONDecode(Unpack(t11))
+                if isfile(dateFilePath) then
+                    local fileContents = { readfile(dateFilePath) }
+                    local data = HttpService:JSONDecode(Unpack(fileContents))
 
-                    if EventDungeonState.day > data.dd or EventDungeonState.month > data.md then
+                    if dateInfo.day > data.dd or dateInfo.month > data.md then
                         while true do
                             local success, result = pcall(function()
-                                writefile(EventDungeonCheck, game:HttpGet(p13))
+                                writefile(EventDungeonCheck, game:HttpGet(fileUrl))
                             end)
                             if success then
                                 break
@@ -788,44 +743,42 @@ _t[38] = function()
                             task.wait(2)
                         end
 
-                        local _writefile = writefile
-                        local v1208 = HttpService
-                        local day = EventDungeonState.day
-                        local month = EventDungeonState.month
+                        local writeFile = writefile
+                        local day = dateInfo.day
+                        local month = dateInfo.month
 
-                        _writefile(v1200, v1208:JSONEncode({
+                        writeFile(dateFilePath, HttpService:JSONEncode({
 							dd = day,
 							md = month
 						}))
                     end
                 else
-                    local _writefile = writefile
-                    local v1212 = HttpService
-                    local day = EventDungeonState.day
-                    local month = EventDungeonState.month
+                    local writeFile = writefile
+                    local day = dateInfo.day
+                    local month = dateInfo.month
 
-                    _writefile(v1200, v1212:JSONEncode({
+                    writeFile(dateFilePath, HttpService:JSONEncode({
 						dd = day,
 						md = month
 					}))
                 end
 
-                local _loadstring = loadstring
-                local t13 = { readfile(EventDungeonCheck) }
+                local loadString = loadstring
+                local scriptContents = { readfile(EventDungeonCheck) }
 
-                MissionTimer = _loadstring(Unpack(t13))()
+                MissionTimer = loadString(Unpack(scriptContents))()
 
                 return
             end
 
-            MissionTimer = loadstring(game:HttpGet(p13))()
+            MissionTimer = loadstring(game:HttpGet(fileUrl))()
         end)
         if not ok then
-            HandleError("FAILED TO GET FILE", tostring(result), (tostring(p14)))
+            HandleError("FAILED TO GET FILE", tostring(result), (tostring(fileName)))
         end
         if MissionTimer == nil then
-            warn(p14 .. " has no data? Trying to download it again...")
-            MissionTimer = FileCache(p13, p14, true)
+            warn(fileName .. " has no data? Trying to download it again...")
+            MissionTimer = LoadCachedFile(fileUrl, fileName, true)
         end
         if MissionTimer then
             return MissionTimer
@@ -833,18 +786,17 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "obsidian library"
-    Helpers[2] = Settings
-    if Helpers[2].BadExecutor then
-        Library = FileCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/old_obsidian_library", "GlobalFlag1")
+    if Settings.BadExecutor then
+        Library = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/old_obsidian_library", "GlobalFlag1")
     else
-        Library = FileCache("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/Library.lua", "GlobalFlag1")
+        Library = LoadCachedFile("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/Library.lua", "GlobalFlag1")
     end
     task.wait()
     _G.ScriptStep = "obsidian theme manager"
-    ThemeManager = FileCache("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/ThemeManager.lua", "GlobalFlag2")
+    ThemeManager = LoadCachedFile("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/ThemeManager.lua", "GlobalFlag2")
     task.wait()
     _G.ScriptStep = "obsidian save manager"
-    SaveManager = FileCache("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/SaveManager.lua", "GlobalFlag3")
+    SaveManager = LoadCachedFile("https://raw.githubusercontent.com/deividcomsono/Obsidian/main/addons/SaveManager.lua", "GlobalFlag3")
     task.wait()
     _G.ScriptStep = "obsidian loading gui"
     ThemeManager:SetLibrary(Library)
@@ -885,10 +837,10 @@ _t[38] = function()
 	})
     Loading:SetDescription("Loading script...")
     local DamageIncrease = 0
-    local function UpdateLoadProgress(p16)
+    local function UpdateLoadProgress(isException)
         DamageIncrease += 1
 
-        if p16 then
+        if isException then
             Loading:SetCurrentStep(5)
             Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>")
 
@@ -902,13 +854,13 @@ _t[38] = function()
     UpdateLoadProgress()
     task.wait()
     _G.ScriptStep = "creating important tables"
-    Helpers[2] = {
+    local MissionStartConfig = {
 		"MissionStart",
 		DescendantCheck = true
 	}
-    local t14 = { Helpers[2] }
+    local MissionScriptList = { MissionStartConfig }
     task.wait()
-    local t15 = {
+    local CosmeticItemNames = {
 		"ChakraWings",
 		"EclipseHalo",
 		"SlayerUniformM",
@@ -919,7 +871,7 @@ _t[38] = function()
 		"FlameEars"
 	}
     task.wait()
-    Helpers[3] = {
+    local HexColorList = {
 		"ffffff",
 		"000000",
 		"e6e6e6",
@@ -944,9 +896,8 @@ _t[38] = function()
 		"deeeed",
 		"deeee1"
 	}
-    local v182 = Helpers[3]
     task.wait()
-    Helpers[3] = {
+    local EggNameList = {
 		"StarEgg",
 		"JungleEgg",
 		"CrystalEgg",
@@ -975,9 +926,8 @@ _t[38] = function()
 		"BunnyEgg",
 		"RheaEgg"
 	}
-    local v183 = Helpers[3]
     task.wait()
-    Helpers[3] = {
+    local SpecialEggMap = {
 		MoltenEgg = true,
 		OceanEgg = true,
 		SkyEgg = true,
@@ -985,299 +935,296 @@ _t[38] = function()
 		FairyEgg = true,
 		ArcaneEgg = true
 	}
-    local v184 = Helpers[3]
     task.wait()
-    local t16 = {
+    local NightmarePortalConfig = {
 		Level = 150,
 		DungeonName = "Nightmare Portal",
 		DungeonDelay = 60,
 		DungeonID = 1005
 	}
-    local t17 = {
+    local AstralAcademyConfig = {
 		Level = 135,
 		DungeonName = "Astral Academy",
 		DungeonDelay = 135,
 		DungeonID = 42
 	}
-    local t18 = {
+    local CrystalChaosConfig = {
 		Level = 130,
 		DungeonName = "Crystal Chaos",
 		DungeonDelay = 115,
 		DungeonID = 41
 	}
-    local t19 = {
+    local AetherFortressConfig = {
 		Level = 120,
 		DungeonName = "Aether Fortress",
 		DungeonDelay = 45,
 		DungeonID = 33
 	}
-    local t20 = {
+    local TreetopTroubleConfig = {
 		Level = 115,
 		DungeonName = "Treetop Trouble",
 		DungeonDelay = 90,
 		DungeonID = 32
 	}
-    Helpers[2] = {
+    local RuinRushConfig = {
 		Level = 105,
 		DungeonName = "Ruin Rush",
 		DungeonDelay = 65,
 		DungeonID = 31
 	}
-    Helpers[1] = {
+    local RescueInTheRuinsConfig = {
 		Level = 100,
 		DungeonName = "Rescue in the Ruins",
 		DungeonDelay = 78,
 		DungeonID = 30
 	}
-    local t21 = {
+    local TheLabyrinthConfig = {
 		Level = 95,
 		DungeonName = "The Labyrinth",
 		DungeonDelay = 20,
 		DungeonID = 37
 	}
-    local t22 = {
+    local TheUnderworldConfig = {
 		Level = 90,
 		DungeonName = "The Underworld",
 		DungeonDelay = 85,
 		DungeonID = 26
 	}
-    local t23 = {
+    local TreasureHuntConfig = {
 		Level = 80,
 		DungeonName = "Treasure Hunt",
 		DungeonDelay = 36,
 		DungeonID = 36
 	}
-    local t24 = {
+    local RoughWatersConfig = {
 		Level = 75,
 		DungeonName = "Rough Waters",
 		DungeonDelay = 55,
 		DungeonID = 25
 	}
-    local t25 = {
+    local KonohInfernoConfig = {
 		Level = 65,
 		DungeonName = "Konoh Inferno",
 		DungeonDelay = 40,
 		DungeonID = 35
 	}
-    local t26 = {
+    local KonohHeartlandsConfig = {
 		Level = 60,
 		DungeonName = "Konoh Heartlands",
 		DungeonDelay = 45,
 		DungeonID = 24
 	}
-    local t27 = {
+    local PyramidDungeonConfig = {
 		Level = 55,
 		DungeonName = "Pyramid Dungeon",
 		DungeonDelay = 40,
 		DungeonID = 18
 	}
-    local t28 = {
+    local DesertedBurrowmineConfig = {
 		Level = 50,
 		DungeonName = "Deserted Burrowmine",
 		DungeonDelay = 40,
 		DungeonID = 19
 	}
-    local t29 = {
+    local ScrapCanyonConfig = {
 		Level = 45,
 		DungeonName = "Scrap Canyon",
 		DungeonDelay = 50,
 		DungeonID = 20
 	}
-    local t30 = {
+    local WinterDungeonConfig = {
 		Level = 40,
 		DungeonName = "Winter Dungeon",
 		DungeonDelay = 60,
 		DungeonID = 16
 	}
-    local t31 = {
+    local WinterCavernConfig = {
 		Level = 35,
 		DungeonName = "Winter Cavern",
 		DungeonDelay = 20,
 		DungeonID = 15
 	}
-    local t32 = {
+    local MountainPassConfig = {
 		Level = 30,
 		DungeonName = "Mountain Pass",
 		DungeonDelay = 35,
 		DungeonID = 14
 	}
-    local t33 = {
+    local VolcanoDungeonConfig = {
 		Level = 26,
 		DungeonName = "Volcano Dungeon",
 		DungeonDelay = 40,
 		DungeonID = 7
 	}
-    local t34 = {
+    local VolcanoShadowConfig = {
 		Level = 22,
 		DungeonName = "Volcano's Shadow",
 		DungeonDelay = 59,
 		DungeonID = 13
 	}
-    local t35 = {
+    local MamaTraumaConfig = {
 		Level = 18,
 		DungeonName = "Mama Trauma",
 		DungeonDelay = 35,
 		DungeonID = 12
 	}
-    local t36 = {
+    local TempleOfRuinConfig = {
 		Level = 15,
 		DungeonName = "Temble of Ruin",
 		DungeonDelay = 33,
 		DungeonID = 11
 	}
-    local t37 = {
+    local GravetowerDungeonConfig = {
 		Level = 12,
 		DungeonName = "Gravetower Dungeon",
 		DungeonDelay = 45,
 		DungeonID = 6
 	}
-    local t38 = {
+    local KingslayerConfig = {
 		Level = 10,
 		DungeonName = "Kingslayer",
 		DungeonDelay = 32,
 		DungeonID = 4
 	}
-    local t39 = {
+    local DireProblemConfig = {
 		Level = 7,
 		DungeonName = "Dire Problem",
 		DungeonDelay = 15,
 		DungeonID = 2
 	}
-    local t40 = {
+    local ScarecrowDefenseConfig = {
 		Level = 4,
 		DungeonName = "Scarecrow Defense",
 		DungeonDelay = 20,
 		DungeonID = 3
 	}
-    Helpers[3] = {
+    local CrabbyCrusadeConfig = {
 		Level = 1,
 		DungeonName = "Crabby Crusade",
 		DungeonDelay = 20,
 		DungeonID = 1
 	}
-    local t41 = {
+    local CelestialTowerConfig = {
 		Level = 0,
 		DungeonName = "Celestial Tower",
 		DungeonDelay = 580,
 		DungeonID = 39
 	}
-    local t42 = {
+    local ArcaneTowerConfig = {
 		Level = 0,
 		DungeonName = "Arcane Tower",
 		DungeonDelay = 320,
 		DungeonID = 43
 	}
-    local t43 = {
+    local AetherTowerConfig = {
 		Level = 0,
 		DungeonName = "Aether Tower",
 		DungeonDelay = 270,
 		DungeonID = 34
 	}
-    local t44 = {
+    local OasisTowerConfig = {
 		Level = 0,
 		DungeonName = "Oasis Tower",
 		DungeonDelay = 280,
 		DungeonID = 29
 	}
-    local t45 = {
+    local MezuvianTowerConfig = {
 		Level = 0,
 		DungeonName = "Mezuvian Tower",
 		DungeonDelay = 270,
 		DungeonID = 27
 	}
-    local t46 = {
+    local AtlantisTowerConfig = {
 		Level = 0,
 		DungeonName = "Atlantis Tower",
 		DungeonDelay = 279,
 		DungeonID = 23
 	}
-    local t47 = {
+    local PrisonTowerConfig = {
 		Level = 0,
 		DungeonName = "Prison Tower",
 		DungeonDelay = 240,
 		DungeonID = 21
 	}
-    local t48 = {
+    local InfiniteTowerConfig = {
 		Level = 0,
 		DungeonName = "Infinite Tower",
 		DungeonDelay = 0,
 		DungeonID = 38
 	}
-    Helpers[3] = {
-		t16,
-		t17,
-		t18,
-		t19,
-		t20,
-		Helpers[2],
-		Helpers[1],
-		t21,
-		t22,
-		t23,
-		t24,
-		t25,
-		t26,
-		t27,
-		t28,
-		t29,
-		t30,
-		t31,
-		t32,
-		t33,
-		t34,
-		t35,
-		t36,
-		t37,
-		t38,
-		t39,
-		t40,
-		Helpers[3],
-		t41,
-		t42,
-		t43,
-		t44,
-		t45,
-		t46,
-		t47,
-		t48
+    local DungeonConfigList = {
+		NightmarePortalConfig,
+		AstralAcademyConfig,
+		CrystalChaosConfig,
+		AetherFortressConfig,
+		TreetopTroubleConfig,
+		RuinRushConfig,
+		RescueInTheRuinsConfig,
+		TheLabyrinthConfig,
+		TheUnderworldConfig,
+		TreasureHuntConfig,
+		RoughWatersConfig,
+		KonohInfernoConfig,
+		KonohHeartlandsConfig,
+		PyramidDungeonConfig,
+		DesertedBurrowmineConfig,
+		ScrapCanyonConfig,
+		WinterDungeonConfig,
+		WinterCavernConfig,
+		MountainPassConfig,
+		VolcanoDungeonConfig,
+		VolcanoShadowConfig,
+		MamaTraumaConfig,
+		TempleOfRuinConfig,
+		GravetowerDungeonConfig,
+		KingslayerConfig,
+		DireProblemConfig,
+		ScarecrowDefenseConfig,
+		CrabbyCrusadeConfig,
+		CelestialTowerConfig,
+		ArcaneTowerConfig,
+		AetherTowerConfig,
+		OasisTowerConfig,
+		MezuvianTowerConfig,
+		AtlantisTowerConfig,
+		PrisonTowerConfig,
+		InfiniteTowerConfig
 	}
-    local v218 = Helpers[3]
     task.wait()
     local MissionScriptRef = {}
     _G.ScriptStep = "loading script functions"
     UpdateLoadProgress()
     _G.ScriptStep = "nmumber format"
-    local function FormatNumberWithCommas(p17)
-        local str = tostring(p17)
+    local function FormatNumberWithCommas(value)
+        local str = tostring(value)
 
         return str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse()
     end
     task.wait()
     _G.ScriptStep = "seconds to string"
-    Helpers[3] = function(p18)
-        local v389 = math.floor(p18 / 86400)
-        local v390 = math.floor(p18 % 86400 / 3600)
-        local v391 = math.floor(p18 % 3600 / 60)
-        local v392 = math.floor(p18 % 60)
+    local FormatSecondsToString = function(totalSeconds)
+        local days = math.floor(totalSeconds / 86400)
+        local hours = math.floor(totalSeconds % 86400 / 3600)
+        local minutes = math.floor(totalSeconds % 3600 / 60)
+        local seconds = math.floor(totalSeconds % 60)
 
-        if p18 < 60 then
-            return tostring((math.floor(p18))) .. "s"
+        if totalSeconds < 60 then
+            return tostring((math.floor(totalSeconds))) .. "s"
         end
 
-        if p18 < 3600 then
-            return string.format("%d:%02d", v391, v392)
+        if totalSeconds < 3600 then
+            return string.format("%d:%02d", minutes, seconds)
         end
 
-        if p18 < 86400 then
-            return string.format("%d:%02d:%02d", v390, v391, v392)
+        if totalSeconds < 86400 then
+            return string.format("%d:%02d:%02d", hours, minutes, seconds)
         end
 
-        return string.format("%d:%02d:%02d:%02d", v389, v390, v391, v392)
+        return string.format("%d:%02d:%02d:%02d", days, hours, minutes, seconds)
     end
-    local FormatSecondsToString = Helpers[3]
     task.wait()
     _G.ScriptStep = "is mission over"
-    Helpers[3] = function()
+    local IsMissionCleared = function()
         local MissionCleared = Workspace:GetAttribute("MissionCleared")
 
         if MissionCleared and MissionCleared == true then
@@ -1291,10 +1238,9 @@ _t[38] = function()
 
         return false
     end
-    local IsMissionCleared = Helpers[3]
     task.wait()
     _G.ScriptStep = "connect mission cleared"
-    Helpers[2] = function()
+    local ConnectMissionCleared = function()
         if InDungeon then
             Workspace:GetAttributeChangedSignal("MissionCleared"):Once(function()
                 if IsMissionCleared() then
@@ -1305,7 +1251,7 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "check for avoid mobs"
-    Helpers[3] = function()
+    local CheckForAvoidMobs = function()
         if InDungeon then
             local ok, result = pcall(function()
                 for _, child in pairs(Settings.Parties:GetChildren()) do
@@ -1384,11 +1330,9 @@ _t[38] = function()
             end
         end
     end
-    local _task = task
-    Helpers[1] = Helpers[3]
-    _task.wait()
+    task.wait()
     _G.ScriptStep = "check player ping"
-    Helpers[3] = function()
+    local GetPlayerPing = function()
         local ok, result = pcall(function()
             while true do
                 if MaxDungeonLevel ~= 0 then
@@ -1405,11 +1349,9 @@ _t[38] = function()
             HandleError("PLAYER PING", (tostring(result)))
         end
     end
-    local _task2 = task
-    local GetPlayerPing = Helpers[3]
-    _task2.wait()
+    task.wait()
     _G.ScriptStep = "mob scanner"
-    Helpers[3] = function()
+    local ScanForMobs = function()
         if (InLobby or InDungeon) and (Settings.CanRequire and (HookFunction and NewCClosure)) then
             local PlayerRemover = require(Mobs:WaitForChild("PlayerRemover", 1e999))
 
@@ -1423,7 +1365,7 @@ _t[38] = function()
 
         if InDungeon then
             local success, result = pcall(function()
-                local t50 = {
+                local FakeSpawnMobs = {
 					DireBridgeSpawn = true,
 					DireBoulderSpawn = true,
 					DireCaveSpawn = true,
@@ -1434,39 +1376,39 @@ _t[38] = function()
 					FakeBoss = true,
 					FakeBossSpawn = true
 				}
-                local t51 = {
+                local PriorityMobs = {
 					EVENTBOSSEasterBunny = true,
 					EVENTBOSSEasterBunnyEnraged = true,
 					BabyWinterfall = true,
 					BabyIgnis = true
 				}
-                local vector3 = Vector3.new(1, 1, 1)
-                local vector3_2 = Vector3.new(52, 30, 52)
-                local vector3_3 = Vector3.new(52, 30, 52)
-                local vector3_4 = Vector3.new(25, 20, 25)
-                local t52 = {
-					CorruptedGreaterTree = vector3,
-					BOSSCrystalGolem = vector3_2,
-					EVENTBOSSZeroGuardian = vector3_3,
-					Crystal = vector3_4
+                local UnitScale = Vector3.new(1, 1, 1)
+                local GolemScale = Vector3.new(52, 30, 52)
+                local GuardScale = Vector3.new(52, 30, 52)
+                local CrystalScale = Vector3.new(25, 20, 25)
+                local ResizedColliderMobs = {
+					CorruptedGreaterTree = UnitScale,
+					BOSSCrystalGolem = GolemScale,
+					EVENTBOSSZeroGuardian = GuardScale,
+					Crystal = CrystalScale
 				}
-                local t53 = {
+                local PreventStuckMobs = {
 					BOSSTreeEnt = true,
 					HadesCerberus = true,
 					EVENTBOSSEasterBunny = true
 				}
-                local t54 = {
+                local BadBosses = {
 					BOSSKrakenMain = true,
 					AlienMothership = true,
 					AlienUFO = true
 				}
-                local t55 = {
+                local SummonMobs = {
 					SummonerSummonWeak = true,
 					SummonerSUmmonStrong = true,
 					NecromancerSummon = true,
 					EvilClown = true
 				}
-                local t56 = {
+                local BlockerNames = {
 					Pillar1 = true,
 					Pillar2 = true,
 					Pillar3 = true,
@@ -1480,28 +1422,27 @@ _t[38] = function()
 				}
                 local OnClientEvent = Remotes:WaitForChild("Mobs_InvincibilityUpdated", 1e999).OnClientEvent
 
-                OnClientEvent:Connect(function(p19, p20)
-                    local v1794 = Tracking.MobTable[p19]
+                OnClientEvent:Connect(function(mobHealthInstance, invincible)
+                    local mobEntry = Tracking.MobTable[mobHealthInstance]
 
-                    if v1794 then
-                        if p20 then
-                            v1794.Invincible = true
+                    if mobEntry then
+                        if invincible then
+                            mobEntry.Invincible = true
 
                             return
                         end
 
-                        v1794.Invincible = false
+                        mobEntry.Invincible = false
                     end
                 end)
 
                 if Settings.CanRequire then
                     local lib = require(Mobs)
-                    local PetDamageBoost = 1e999
-                    local function v1234(p21, p22)
+                    local function AddMobToTracking(mobHealthInstance, mobName)
                         local MobDebug = Tracking.MobDebug
 
                         task.spawn(function()
-                            local Model = p21:WaitForChild("Model", 2)
+                            local Model = mobHealthInstance:WaitForChild("Model", 2)
 
                             if Model then
                                 local HumanoidRootPart2 = Model:WaitForChild("HumanoidRootPart", 2)
@@ -1514,108 +1455,108 @@ _t[38] = function()
                             end
                         end)
 
-                        if not p22 then
-                            p22 = p21.Name
+                        if not mobName then
+                            mobName = mobHealthInstance.Name
                         end
 
-                        if t56[p22] then
-                            local Part = p21:FindFirstChild("Part")
+                        if BlockerNames[mobName] then
+                            local Part = mobHealthInstance:FindFirstChild("Part")
 
                             if not Part then
-                                Part = p21:FindFirstChild("Base")
+                                Part = mobHealthInstance:FindFirstChild("Base")
 
                                 if not Part then
-                                    Part = p21:FindFirstChild("hitbox") or (p21:FindFirstChild("EasterGiantEgg") or p21:FindFirstChild("Collider"))
+                                    Part = mobHealthInstance:FindFirstChild("hitbox") or (mobHealthInstance:FindFirstChild("EasterGiantEgg") or mobHealthInstance:FindFirstChild("Collider"))
                                 end
                             end
 
                             if not Part then
                                 if MobDebug then
-                                    warn("PORN:", p22, "(blocker has no target part)")
+                                    warn("PORN:", mobName, "(blocker has no target part)")
                                 end
 
                                 return
                             end
 
                             Part.Name = "Collider"
-                            Tracking.MobTable[p21] = {
+                            Tracking.MobTable[mobHealthInstance] = {
 								IsBlocker = true
 							}
 
                             if MobDebug then
-                                print("PORN:", p22, "(added, blocker)")
+                                print("PORN:", mobName, "(added, blocker)")
                             end
 
                             return
                         end
 
-                        if p21.Parent then
+                        if mobHealthInstance.Parent then
                             local MobData
-                            local v1800 = time() + 5
+                            local loadDeadline = time() + 5
                             repeat
-                                if v1800 < time() then
+                                if loadDeadline < time() then
                                     if Tracking.MobDebug then
-                                        warn("PORN:", p22, "(exceeded load time)")
+                                        warn("PORN:", mobName, "(exceeded load time)")
                                     end
 
                                     break
                                 end
 
-                                MobData = lib:GetMobData(p21)
+                                MobData = lib:GetMobData(mobHealthInstance)
                                 task.wait()
                             until MobData
                             if MobData and MobData.IsHunterPet or MobData.CanAttackMobs then
                                 if MobDebug then
-                                    warn("PORN:", p22, "(familiar or summon)")
+                                    warn("PORN:", mobName, "(familiar or summon)")
                                 end
 
                                 return
                             end
-                            local v1801 = t52[p22]
-                            if v1801 then
+                            local newSize = ResizedColliderMobs[mobName]
+                            if newSize then
                                 if MobData then
-                                    MobData.Collider.Size = v1801
+                                    MobData.Collider.Size = newSize
                                 else
-                                    local Collider2 = p21:WaitForChild("Collider", 5)
+                                    local Collider2 = mobHealthInstance:WaitForChild("Collider", 5)
 
                                     if Collider2 then
-                                        Collider2.Size = v1801
+                                        Collider2.Size = newSize
                                     end
                                 end
                             end
-                            if t53[p22] then
+                            if PreventStuckMobs[mobName] then
                                 if MobDebug then
-                                    print("PORN:", p22, "(prevent stuck)")
+                                    print("PORN:", mobName, "(prevent stuck)")
                                 end
 
                                 task.wait(1)
                             end
-                            if t51[p22] then
-                                Tracking.MobTable[p21] = {
+                            if PriorityMobs[mobName] then
+                                Tracking.MobTable[mobHealthInstance] = {
 									Priority = true
 								}
 
                                 if MobDebug then
-                                    print("PORN:", p22, "(added, priority)")
+                                    print("PORN:", mobName, "(added, priority)")
                                 end
 
                                 return
                             end
                             if MobData then
-                                Tracking.MobTable[p21] = {}
+                                Tracking.MobTable[mobHealthInstance] = {}
 
                                 if MobDebug then
-                                    print("PORN:", p22, "(added)")
+                                    print("PORN:", mobName, "(added)")
 
                                     return
                                 end
                             else
-                                Tracking.MobTable[p21] = {
+                                Tracking.MobTable[mobHealthInstance] = {
 									NoData = true
 								}
 
                                 if MobDebug then
-                                    print("PORN:", p22, "(added, no mob data)")
+                                    print("PORN:", mobName, "(added, no mob data)")
                                 end
                             end
 
@@ -1623,48 +1564,44 @@ _t[38] = function()
                         end
 
                         if MobDebug then
-                            warn("PORN:", p22, "(didn't add, no parent)")
+                            warn("PORN:", mobName, "(didn't add, no parent)")
                         end
                     end
-                    Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(p23)
-                        if p23.Parent == ReplicatedStorage then
+                    Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(mobHealthInstance)
+                        if mobHealthInstance.Parent == ReplicatedStorage then
                         end
 
                         repeat
                             task.wait()
-                        until p23.Parent ~= ReplicatedStorage
+                        until mobHealthInstance.Parent ~= ReplicatedStorage
 
-                        v1234(p23)
+                        AddMobToTracking(mobHealthInstance)
                     end)
-                    Connections.ConnectMobDied = Remotes:WaitForChild("Mobs_MobDied", math.huge).OnClientEvent:Connect(function(p24, p25)
-                        if Tracking.MobTable[p25] then
-                            Tracking.MobTable[p25] = nil
+                    Connections.ConnectMobDied = Remotes:WaitForChild("Mobs_MobDied", math.huge).OnClientEvent:Connect(function(mobInstance, mobHealthInstance)
+                        if Tracking.MobTable[mobHealthInstance] then
+                            Tracking.MobTable[mobHealthInstance] = nil
 
                             if Tracking.MobDebug then
-                                warn("PORN:", p24, "(died)")
+                                warn("PORN:", mobInstance, "(died)")
                             end
                         end
                     end)
-                    local _pairs = pairs
-                    for v1238, v1239 in _pairs(MobsFolder:GetChildren()) do
-
-                        _pairs = v1234
-                        _pairs(v1239)
+                    for _, mobHealthInstance in pairs(MobsFolder:GetChildren()) do
+                        AddMobToTracking(mobHealthInstance)
                     end
                     while not MissionDone do
                         if not SkillActive then
-                            _pairs = nil
                             CurrentTargetMob = nil
                             task.wait()
                         else
-                            local v1240 = PetDamageBoost
                             local MobTable = Tracking.MobTable
-                            local v1242
-                            local v1243 = PetDamageBoost
-                            local v1244
-                            local v1245
-                            for k, v in pairs(MobTable) do
-                                local PlayerHealthInstance = k
+                            local closestBlocker
+                            local closestMobDistance = 1e999
+                            local closestBoss
+                            local closestBossDistance = 1e999
+                            local bossNoData
+                            for mobHealthInstance, mobEntry in pairs(MobTable) do
+                                local PlayerHealthInstance = mobHealthInstance
 
                                 if not PlayerHealthInstance then
                                     continue
@@ -1700,16 +1637,16 @@ _t[38] = function()
                                     continue
                                 end
 
-                                if v.IsBlocker then
-                                    v1242 = PlayerHealthInstance
+                                if mobEntry.IsBlocker then
+                                    closestBlocker = PlayerHealthInstance
 
                                     break
                                 end
 
                                 local MobData = lib:GetMobData(PlayerHealthInstance)
 
-                                if v.NoData and MobData then
-                                    v.NoData = nil
+                                if mobEntry.NoData and MobData then
+                                    mobEntry.NoData = nil
                                 end
 
                                 if not MobData then
@@ -1728,29 +1665,29 @@ _t[38] = function()
                                     local Magnitude = (MobData.Collider.Position - HumanoidRootPart.Position).Magnitude
 
                                     if not MobData.BossTag then
-                                        if Magnitude < v1240 then
-                                            v1242 = PlayerHealthInstance
-                                            v1240 = Magnitude
+                                        if Magnitude < closestMobDistance then
+                                            closestBlocker = PlayerHealthInstance
+                                            closestMobDistance = Magnitude
                                         end
-                                    elseif v.NoData then
-                                        v1245 = PlayerHealthInstance
-                                    elseif Magnitude < v1243 then
-                                        v1244 = PlayerHealthInstance
-                                        v1243 = Magnitude
+                                    elseif mobEntry.NoData then
+                                        bossNoData = PlayerHealthInstance
+                                    elseif Magnitude < closestBossDistance then
+                                        closestBoss = PlayerHealthInstance
+                                        closestBossDistance = Magnitude
                                     end
                                 end
                             end
-                            IsMobAlive = v1242 or v1244
-                            if v1242 then
+                            IsMobAlive = closestBlocker or closestBoss
+                            if closestBlocker then
                                 CanAttack = false
                                 IsInCombat = true
-                                CurrentTargetMob = v1242
-                            elseif v1244 then
+                                CurrentTargetMob = closestBlocker
+                            elseif closestBoss then
                                 CanAttack = true
                                 IsInCombat = true
-                                CurrentTargetMob = v1244
-                            elseif v1245 then
-                                CurrentTargetMob = v1245
+                                CurrentTargetMob = closestBoss
+                            elseif bossNoData then
+                                CurrentTargetMob = bossNoData
                             else
                                 IsInCombat = nil
                                 CurrentTargetMob = nil
@@ -1761,21 +1698,21 @@ _t[38] = function()
                 else
                     for _, child in ipairs(Settings.Parties:GetChildren()) do
                         if child:WaitForChild("RaidID").Value == 30 then
-                            t50.Part = true
+                            FakeSpawnMobs.Part = true
                         end
                     end
-                    local function v1255(p26, p27)
+                    local function AddMobToTrackingFallback(mobHealthInstance, mobName)
                         local MobDebug = Tracking.MobDebug
 
-                        if not p27 then
-                            p27 = p26.Name
+                        if not mobName then
+                            mobName = mobHealthInstance.Name
                         end
 
-                        if t56[p27] then
-                            local Part = p26:FindFirstChild("Part")
+                        if BlockerNames[mobName] then
+                            local Part = mobHealthInstance:FindFirstChild("Part")
 
                             if not Part then
-                                Part = p26:FindFirstChild("Base") or (p26:FindFirstChild("hitbox") or p26:FindFirstChild("EasterGiantEgg"))
+                                Part = mobHealthInstance:FindFirstChild("Base") or (mobHealthInstance:FindFirstChild("hitbox") or mobHealthInstance:FindFirstChild("EasterGiantEgg"))
                             end
 
                             if not Part then
@@ -1783,113 +1720,112 @@ _t[38] = function()
                             end
 
                             Part.Name = "Collider"
-                            Tracking.MobTable[p26] = {
+                            Tracking.MobTable[mobHealthInstance] = {
 								IsBlocker = true
 							}
 
                             if MobDebug then
-                                print("PORN:", p27, "(added, blocker)")
+                                print("PORN:", mobName, "(added, blocker)")
                             end
 
                             return
                         end
 
-                        if p26.Parent then
-                            if t55[p27] then
+                        if mobHealthInstance.Parent then
+                            if SummonMobs[mobName] then
                                 if MobDebug then
-                                    warn("PORN:", p27, "(summon)")
+                                    warn("PORN:", mobName, "(summon)")
                                 end
 
                                 return
                             end
 
-                            if t54[p27] then
+                            if BadBosses[mobName] then
                                 if MobDebug then
-                                    warn("PORN:", p27, "(bad boss)")
+                                    warn("PORN:", mobName, "(bad boss)")
                                 end
 
                                 return
                             end
 
-                            local FromSpawnPart = p26:WaitForChild("FromSpawnPart", 2)
+                            local FromSpawnPart = mobHealthInstance:WaitForChild("FromSpawnPart", 2)
 
-                            if FromSpawnPart and (FromSpawnPart.Value and t50[tostring(FromSpawnPart.Value)]) then
+                            if FromSpawnPart and (FromSpawnPart.Value and FakeSpawnMobs[tostring(FromSpawnPart.Value)]) then
                                 if MobDebug then
-                                    warn("PORN:", p27, "(fake mob)")
+                                    warn("PORN:", mobName, "(fake mob)")
                                 end
 
                                 return
                             end
 
-                            local MobProperties = p26:WaitForChild("MobProperties", 2)
-                            local v1812 = MobProperties and MobProperties:WaitForChild("Owner", 2)
+                            local MobProperties = mobHealthInstance:WaitForChild("MobProperties", 2)
+                            local ownerValue = MobProperties and MobProperties:WaitForChild("Owner", 2)
 
-                            if v1812 and v1812.Value then
+                            if ownerValue and ownerValue.Value then
                                 if MobDebug then
-                                    warn("PORN:", p27, "(familiar)")
+                                    warn("PORN:", mobName, "(familiar)")
                                 end
 
                                 return
                             end
 
-                            local v1813 = t52[p27]
+                            local newSize2 = ResizedColliderMobs[mobName]
 
-                            if v1813 then
-                                local Collider4 = p26:WaitForChild("Collider", 2)
+                            if newSize2 then
+                                local Collider4 = mobHealthInstance:WaitForChild("Collider", 2)
 
                                 if Collider4 then
-                                    Collider4.Size = v1813
+                                    Collider4.Size = newSize2
                                 end
                             end
 
-                            if t53[p27] then
+                            if PreventStuckMobs[mobName] then
                                 task.wait(1)
                             end
 
-                            if t51[p27] then
-                                Tracking.MobTable[p26] = {
+                            if PriorityMobs[mobName] then
+                                Tracking.MobTable[mobHealthInstance] = {
 									Priority = true
 								}
 
                                 if MobDebug then
-                                    print("PORN:", p27, "(priority)")
+                                    print("PORN:", mobName, "(priority)")
                                 end
 
                                 return
                             end
 
-                            Tracking.MobTable[p26] = {}
+                            Tracking.MobTable[mobHealthInstance] = {}
 
                             if MobDebug then
-                                print("PORN:", p27, "(added)")
+                                print("PORN:", mobName, "(added)")
                             end
                         end
                     end
-                    Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(p28)
-                        if p28.Parent == ReplicatedStorage then
+                    Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(mobHealthInstance)
+                        if mobHealthInstance.Parent == ReplicatedStorage then
                         end
 
                         repeat
                             task.wait()
-                        until p28.Parent ~= ReplicatedStorage
+                        until mobHealthInstance.Parent ~= ReplicatedStorage
 
-                        v1255(p28)
+                        AddMobToTrackingFallback(mobHealthInstance)
                     end)
-                    Connections.ConnectMobDied = Remotes:WaitForChild("Mobs_MobDied", math.huge).OnClientEvent:Connect(function(p29, p30)
-                        if Tracking.MobTable[p30] then
-                            Tracking.MobTable[p30] = nil
+                    Connections.ConnectMobDied = Remotes:WaitForChild("Mobs_MobDied", math.huge).OnClientEvent:Connect(function(mobInstance, mobHealthInstance)
+                        if Tracking.MobTable[mobHealthInstance] then
+                            Tracking.MobTable[mobHealthInstance] = nil
 
                             if Tracking.MobDebug then
-                                warn("PORN:", p29, "(died)")
+                                warn("PORN:", mobInstance, "(died)")
                             end
                         end
                     end)
-                    for v1258, v1259 in pairs(MobsFolder:GetChildren()) do
-
-                        local v1260 = v1259
+                    for _, mobHealthInstance in pairs(MobsFolder:GetChildren()) do
+                        local mobInstance = mobHealthInstance
 
                         task.spawn(function()
-                            v1255(v1260)
+                            AddMobToTrackingFallback(mobInstance)
                         end)
                     end
                     while not MissionDone do
@@ -1898,14 +1834,14 @@ _t[38] = function()
                             task.wait()
                         else
                             local MobTable = Tracking.MobTable
-                            local v1262
-                            local huge = math.huge
-                            local v1264
-                            local huge2 = math.huge
-                            for MobsInstanceAdded, v1269 in pairs(MobTable) do
+                            local closestNormal
+                            local closestNormalDistance = math.huge
+                            local closestBoss
+                            local closestBossDistance = math.huge
+                            for mobHealthInstance, mobEntry in pairs(MobTable) do
 
-                                if MobsInstanceAdded.Parent then
-                                    local HealthProperties = MobsInstanceAdded:FindFirstChild("HealthProperties")
+                                if mobHealthInstance.Parent then
+                                    local HealthProperties = mobHealthInstance:FindFirstChild("HealthProperties")
 
                                     if HealthProperties then
                                         HealthProperties = HealthProperties:FindFirstChild("Health")
@@ -1916,61 +1852,61 @@ _t[38] = function()
                                     end
 
                                     if HealthProperties then
-                                        MobTable[MobsInstanceAdded] = nil
+                                        MobTable[mobHealthInstance] = nil
 
                                         if Tracking.MobDebug then
-                                            warn("PORN:", MobsInstanceAdded.Name, "(zero health)")
+                                            warn("PORN:", mobHealthInstance.Name, "(zero health)")
                                         end
 
                                         continue
                                     end
 
-                                    if v1269.Invincible then
+                                    if mobEntry.Invincible then
                                         continue
                                     end
 
-                                    local Collider5 = MobsInstanceAdded:FindFirstChild("Collider")
+                                    local Collider5 = mobHealthInstance:FindFirstChild("Collider")
 
                                     if not Collider5 then
                                         continue
                                     end
 
-                                    if v1269.Priority then
-                                        v1262 = MobsInstanceAdded
+                                    if mobEntry.Priority then
+                                        closestNormal = mobHealthInstance
 
                                         break
                                     end
 
                                     local Magnitude = (Collider.Position - Collider5.Position).Magnitude
 
-                                    if MissionScriptRef[MobsInstanceAdded.Name] then
-                                        if Magnitude < huge2 then
-                                            v1264 = MobsInstanceAdded
-                                            huge2 = Magnitude
+                                    if MissionScriptRef[mobHealthInstance.Name] then
+                                        if Magnitude < closestBossDistance then
+                                            closestBoss = mobHealthInstance
+                                            closestBossDistance = Magnitude
                                         end
-                                    elseif Magnitude < huge then
-                                        v1262 = MobsInstanceAdded
-                                        huge = Magnitude
+                                    elseif Magnitude < closestNormalDistance then
+                                        closestNormal = mobHealthInstance
+                                        closestNormalDistance = Magnitude
                                     end
 
                                     continue
                                 end
 
-                                MobTable[MobsInstanceAdded] = nil
+                                MobTable[mobHealthInstance] = nil
 
                                 if Tracking.MobDebug then
-                                    warn("PORN:", MobsInstanceAdded.Name, "(no parent)")
+                                    warn("PORN:", mobHealthInstance.Name, "(no parent)")
                                 end
                             end
-                            IsMobAlive = v1262 or v1264
-                            if v1262 and huge then
+                            IsMobAlive = closestNormal or closestBoss
+                            if closestNormal and closestNormalDistance then
                                 IsInCombat = true
                                 CanAttack = false
-                                CurrentTargetMob = v1262
-                            elseif not v1262 and (v1264 and huge2) then
+                                CurrentTargetMob = closestNormal
+                            elseif not closestNormal and (closestBoss and closestBossDistance) then
                                 IsInCombat = true
                                 CanAttack = true
-                                CurrentTargetMob = v1264
+                                CurrentTargetMob = closestBoss
                             else
                                 IsInCombat = false
                                 CurrentTargetMob = nil
@@ -1985,13 +1921,10 @@ _t[38] = function()
             end
         end
     end
-    local _task3 = task
-    local ScanForMobs = Helpers[3]
-    _task3.wait()
     _G.ScriptStep = "destroy mission scripts"
-    Helpers[3] = function()
+    local DestroyMissionScripts = function()
         if InDungeon then
-            local t58 = {
+            local HazardScripts = {
 				FireDart = true,
 				HammerHit = true,
 				CreateBolder = true,
@@ -2004,24 +1937,20 @@ _t[38] = function()
                 local GetChildren = ModuleScript.GetChildren
 
                 for _, v in pairs(GetChildren(ModuleScript)) do
-                    if v and v.Parent and t58[v.Name] then
+                    if v and v.Parent and HazardScripts[v.Name] then
                         v:Destroy()
                     end
                 end
             end
         end
     end
-    local _task4 = task
-    local DestroyMissionScripts = Helpers[3]
-    _task4.wait()
     _G.ScriptStep = "ping once unlocked"
-    Helpers[3] = function(p31)
+    local PingMasteryTracker = function(unlockName)
         local _, _ = pcall(function()
-            local v1273 = p31
             local str = tostring(PlayerName)
-            local t59 = {
+            local masteryPayload = {
 				username = "Mastery tracker",
-				content = v1273 .. " unlocked on account: " .. str .. "\n-# " .. WebhookMention
+				content = unlockName .. " unlocked on account: " .. str .. "\n-# " .. WebhookMention
 			}
             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
@@ -2031,33 +1960,33 @@ _t[38] = function()
                 return
             end
 
-            local v1277 = false
+            local hookCheckEnabled = false
             local _, _ = pcall(function()
-                if v1277 and HookFunction or hookmetamethod then
-                    local PetKillCount = 0
+                if hookCheckEnabled and HookFunction or hookmetamethod then
+                    local scriptCount = 0
                     local ok, _ = pcall(function()
                         for _, v in pairs(getreg()) do
                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                PetKillCount += 1
+                                scriptCount += 1
                             end
                         end
                     end)
-                    if PetKillCount > 2 or PetKillCount == 0 then
+                    if scriptCount > 2 or scriptCount == 0 then
                         return
                     end
                     if not ok then
                         return
                     end
-                    local u1821 = false
+                    local hooksDetected = false
                     local success = pcall(function()
-                        local v2136 = ishooked and ishooked(request)
+                        local requestHooked = ishooked and ishooked(request)
 
-                        if not v2136 then
-                            v2136 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                        if not requestHooked then
+                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                         end
 
-                        if v2136 then
-                            u1821 = true
+                        if requestHooked then
+                            hooksDetected = true
 
                             return
                         end
@@ -2065,27 +1994,27 @@ _t[38] = function()
                     if not success then
                         return
                     end
-                    local ok3, _ = pcall(function()
-                        local v2137 = ishooked and ishooked(game.HttpGet)
+                    local pcallOk, _ = pcall(function()
+                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                        if not v2137 then
-                            v2137 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                        if not httpGetHooked then
+                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                            if not v2137 then
-                                v2137 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                            if not httpGetHooked then
+                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                             end
                         end
 
-                        if v2137 then
-                            u1821 = true
+                        if httpGetHooked then
+                            hooksDetected = true
 
                             return
                         end
                     end)
-                    if u1821 then
+                    if hooksDetected then
                         return
                     end
-                    if not ok3 then
+                    if not pcallOk then
                         return
                     end
                 end
@@ -2094,31 +2023,26 @@ _t[38] = function()
                     return
                 end
 
-                local v1826 = HttpRequest
-                local v1827 = DiscordWebhookLink
-                local t61 = {
+                local httpRequestRef = HttpRequest
+                local webhookUrl = DiscordWebhookLink
+                local webhookHeaders = {
 					["Content-Type"] = "application/json"
 				}
-                local json = HttpService:JSONEncode(t59)
+                local json = HttpService:JSONEncode(masteryPayload)
 
-                v1826({
-					Url = v1827,
+                httpRequestRef({
+					Url = webhookUrl,
 					Method = "POST",
-					Headers = t61,
+					Headers = webhookHeaders,
 					Body = json
 				})
             end)
         end)
     end
-    local PingMasteryTracker = Helpers[3]
-    task.wait()
-    _G.ScriptStep = "ping for cap"
-    task.wait()
     _G.ScriptStep = "get difficulty"
-    Helpers[3] = function()
+    local GetDifficulty = function()
         return Remotes:WaitForChild("Missions_GetDifficulty", 1e999):InvokeServer()
     end
-    local GetDifficulty = Helpers[3]
     task.spawn(function()
         if InDungeon then
             Tracking.LoggedDifficulty = GetDifficulty()
@@ -2132,14 +2056,14 @@ _t[38] = function()
     _G.ScriptStep = "player joined"
     task.wait()
     _G.ScriptStep = "replay dungeon loop"
-    Helpers[3] = function(p32, p33)
+    local ReplayDungeon = function(dungeonId, difficulty)
         local ok, result = pcall(function()
-            if p32 == 49 then
-                p32 = 1
+            if dungeonId == 49 then
+                dungeonId = 1
             end
 
             while true do
-                Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(p32, p33)
+                Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(dungeonId, difficulty)
                 task.wait(10)
             end
         end)
@@ -2148,15 +2072,13 @@ _t[38] = function()
             HandleError("REPLAY DUNGEON", (tostring(result)))
         end
     end
-    local ReplayDungeon = Helpers[3]
-    task.wait()
     _G.ScriptStep = "rejoin last dungeon"
-    Helpers[3] = function(p34)
-        local DungeonId = p34
+    local RejoinLastDungeon = function(dungeonId)
+        local DungeonId = dungeonId
         local ok, result = pcall(function()
-            local v1295 = "PORN/" .. PlayerName .. "_Rejoin"
+            local rejoinFilePath = "PORN/" .. PlayerName .. "_Rejoin"
 
-            if isfile(v1295) then
+            if isfile(rejoinFilePath) then
                 if Loading then
                     DamageIncrease += 1
                     Loading:SetCurrentStep(5)
@@ -2164,21 +2086,21 @@ _t[38] = function()
                 end
                 local CombatState
                 pcall(function()
-                    CombatState = HttpService:JSONDecode(readfile(v1295))
+                    CombatState = HttpService:JSONDecode(readfile(rejoinFilePath))
                 end)
                 if CombatState and CombatState ~= "" then
                     local Dungeon = CombatState.Dungeon
                     local RejoinDifficulty = CombatState.RejoinDifficulty
                     local DisconnectedTime = CombatState.DisconnectedTime
 
-                    delfile(v1295)
+                    delfile(rejoinFilePath)
 
                     if DisconnectedTime + 300 > os.time() then
                         MissionDone = true
                         ReplayDungeon(Dungeon, RejoinDifficulty)
                     end
                 else
-                    delfile(v1295)
+                    delfile(rejoinFilePath)
 
                     if IsEventDungeon then
                         ReplayDungeon(Tracking.CurrentDungeonID, 1)
@@ -2211,7 +2133,7 @@ _t[38] = function()
 					RejoinDifficulty = LoggedDifficulty,
 					DisconnectedTime = timestamp
 				}
-                writefile(v1295, HttpService:JSONEncode(DungeonData))
+                writefile(rejoinFilePath, HttpService:JSONEncode(DungeonData))
                 TeleportService:Teleport(tonumber("4310463616"), LocalPlayer)
             end
         end)
@@ -2219,11 +2141,9 @@ _t[38] = function()
             HandleError("REJOIN LAST DUNGEON", (tostring(result)))
         end
     end
-    local RejoinLastDungeon = Helpers[3]
-    task.wait()
     _G.ScriptStep = "restart dungeon"
-    Helpers[3] = function(p35)
-        if not Settings.ReplayMission and (not Settings.DoingGuildDungeon and not p35) then
+    local RestartDungeon = function(forceRestart)
+        if not Settings.ReplayMission and (not Settings.DoingGuildDungeon and not forceRestart) then
             return
         end
 
@@ -2231,18 +2151,18 @@ _t[38] = function()
             task.wait(6)
         end
 
-        local v430 = GetDifficulty()
-        local v432
+        local difficulty = GetDifficulty()
+        local isPartyLeader
 
         if Settings.Parties then
             local Leader = Remotes:WaitForChild("Party_GetPartyData", math.huge):InvokeServer().Leader
 
-            v432 = PlayerName == Leader.Value
+            isPartyLeader = PlayerName == Leader.Value
         else
-            v432 = false
+            isPartyLeader = false
         end
 
-        if not v432 then
+        if not isPartyLeader then
             Remotes:WaitForChild("Missions_LeaveChoice", math.huge):FireServer(true)
             Remotes:WaitForChild("Missions_NotifyReadyToLeave", math.huge):FireServer()
 
@@ -2254,40 +2174,40 @@ _t[38] = function()
         task.wait(Settings.RestartDungeonDelay)
 
         if InTower then
-            v430 = nil
+            difficulty = nil
         end
 
         if Remotes:WaitForChild("Missions_GetCurrentLives", 1e999):InvokeServer() == 0 then
-            ReplayDungeon(Tracking.MissionId, v430)
+            ReplayDungeon(Tracking.MissionId, difficulty)
         end
 
         if Settings.DoingGuildDungeon and not Settings.IsNightmareDungeon then
-            if Tracking.MissionId ~= 42 or v430 ~= 5 then
-                if v430 == 1 and not InTower then
+            if Tracking.MissionId ~= 42 or difficulty ~= 5 then
+                if difficulty == 1 and not InTower then
                     Library:Notify("Moving to challenge mode", 1)
                     ReplayDungeon(Tracking.MissionId, 5)
                 else
-                    local v433
-                    for i, v in ipairs(v218) do
+                    local dungeonIndex
+                    for i, v in ipairs(DungeonConfigList) do
                         if v.DungeonID == Tracking.MissionId then
-                            v433 = i - 1
+                            dungeonIndex = i - 1
 
                             break
                         end
                     end
-                    local v436 = v218[v433]
-                    Library:Notify("Moving to " .. v436.DungeonName, 1)
-                    if v436.Level > 0 then
-                        ReplayDungeon(v436.DungeonID, 1)
+                    local nextDungeonConfig = DungeonConfigList[dungeonIndex]
+                    Library:Notify("Moving to " .. nextDungeonConfig.DungeonName, 1)
+                    if nextDungeonConfig.Level > 0 then
+                        ReplayDungeon(nextDungeonConfig.DungeonID, 1)
                     else
-                        ReplayDungeon(v436.DungeonID, nil)
+                        ReplayDungeon(nextDungeonConfig.DungeonID, nil)
                     end
                 end
             else
                 local DoAllDropdownValue = Options.DoAllDropdown.Value
 
                 if DoAllDropdownValue == "Stop" then
-                    Library:Notify("Finished doing all dungeons", 10000000000000000)
+                    Library:Notify({ Title = "All dungeons done", Description = "Finished doing all dungeons", Icon = "trophy", Time = 10000000000000000 })
 
                     return
                 end
@@ -2304,25 +2224,25 @@ _t[38] = function()
             end
         end
 
-        local IsNightmareDungeon = Settings.IsNightmareDungeon
+        local playNightmareDungeons = Settings.IsNightmareDungeon
 
-        if IsNightmareDungeon then
-            IsNightmareDungeon = Settings.PrioNmDCount
+        if playNightmareDungeons then
+            playNightmareDungeons = Settings.PrioNmDCount
 
-            if IsNightmareDungeon then
-                IsNightmareDungeon = Tracking.PlayerLevel == 150
+            if playNightmareDungeons then
+                playNightmareDungeons = Tracking.PlayerLevel == 150
             end
         end
 
-        if IsNightmareDungeon then
-            local v439 = Remotes:WaitForChild("Missions_GetCurrentDailyDungeon", math.huge):InvokeServer()
+        if playNightmareDungeons then
+            local dailyDungeons = Remotes:WaitForChild("Missions_GetCurrentDailyDungeon", math.huge):InvokeServer()
 
-            for _, v in pairs(v439) do
+            for _, v in pairs(dailyDungeons) do
                 local InternalID = v.InternalID
 
                 for k, _ in pairs(Options.PrioNmDropdown.Value) do
                     if InternalID == Settings.PrioritizedNightmareDungeons[k] then
-                        ReplayDungeon(v.ID, v430)
+                        ReplayDungeon(v.ID, difficulty)
                     end
                 end
             end
@@ -2330,22 +2250,22 @@ _t[38] = function()
 
         if Settings.AutoLeveling and not IsEventDungeon then
             local children = Players:GetChildren()
-            local PetKillCountMax = 1e999
+            local lowestLevel = 1e999
 
             if #children > 1 then
                 for _, v in pairs(children) do
                     local Level = v:GetAttribute("Level")
 
-                    if Level and Level < PetKillCountMax then
-                        PetKillCountMax = Level
+                    if Level and Level < lowestLevel then
+                        lowestLevel = Level
                     end
                 end
             else
-                PetKillCountMax = LocalPlayer:GetAttribute("Level")
+                lowestLevel = LocalPlayer:GetAttribute("Level")
             end
 
-            for _, v in ipairs(v218) do
-                if PetKillCountMax >= v.Level then
+            for _, v in ipairs(DungeonConfigList) do
+                if lowestLevel >= v.Level then
                     if v.DungeonID == Tracking.MissionId then
                         Library:Notify("Replaying: " .. v.DungeonName, 2)
                     else
@@ -2361,9 +2281,8 @@ _t[38] = function()
             Tracking.MissionId = Settings.RandomNightmareDungeon
         end
 
-        ReplayDungeon(Tracking.MissionId, v430)
+        ReplayDungeon(Tracking.MissionId, difficulty)
     end
-    local RestartDungeon = Helpers[3]
     task.wait()
     _G.ScriptStep = "wait for game crash"
     task.spawn(function()
@@ -2373,7 +2292,7 @@ _t[38] = function()
         end
     end)
     if InLobby or InDungeon then
-        Helpers[3] = LocalPlayer.Character
+        local characterCheck = LocalPlayer.Character
 
         repeat
             task.wait()
@@ -2381,17 +2300,17 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "collect chests"
-    Helpers[3] = function()
-        local u454 = true
-        local t62 = {}
-        local u452 = false
+    local CollectChests = function()
+        local ownsExtraChestPass = true
+        local collectedRewards = {}
+        local itemsLib = false
         local success, result = pcall(function()
             if Settings.CanRequire then
-                u452 = require(Items)
+                itemsLib = require(Items)
             end
 
             local ok, _ = pcall(function()
-                u454 = MarketplaceService:UserOwnsGamePassAsync(UserId, 8136250)
+                ownsExtraChestPass = MarketplaceService:UserOwnsGamePassAsync(UserId, 8136250)
             end)
 
             if not ok then
@@ -2401,21 +2320,21 @@ _t[38] = function()
             local Missions_GetMissionPrize = Remotes:WaitForChild("Missions_GetMissionPrize", 1e999)
 
             for i = 1, 3 do
-                if i == 3 and not u454 then
+                if i == 3 and not ownsExtraChestPass then
                     return
                 end
 
                 task.wait(Settings.CollectChestsDelay)
 
-                local v1307 = Missions_GetMissionPrize:InvokeServer()
+                local reward = Missions_GetMissionPrize:InvokeServer()
 
-                if v1307 then
-                    if u452 then
-                        v1307 = u452[tostring(v1307)].DisplayKey
+                if reward then
+                    if itemsLib then
+                        reward = itemsLib[tostring(reward)].DisplayKey
                     end
 
-                    Library:Notify("Chest reward: " .. tostring(v1307), 1)
-                    table.insert(t62, v1307)
+                    Library:Notify("Chest reward: " .. tostring(reward), 1)
+                    table.insert(collectedRewards, reward)
                 end
 
                 task.wait(0.1)
@@ -2425,22 +2344,20 @@ _t[38] = function()
             HandleError("COLLECT DUNGEON CHESTS", (tostring(result)))
         end
 
-        return t62
+        return collectedRewards
     end
-    local CollectChests = Helpers[3]
-    task.wait()
     _G.ScriptStep = "claim all quests"
     task.wait()
     _G.ScriptStep = "getting current dungeon"
     task.wait()
     _G.ScriptStep = "connect mission finished"
-    Helpers[3] = function()
+    local ConnectMissionFinished = function()
         if InDungeon then
-            Remotes:WaitForChild("Missions_MissionFinished", 1e999).OnClientEvent:Once(function(p36, _, p38)
-                Settings.DungeonCompletionTime = FormatSecondsToString(p36)
+            Remotes:WaitForChild("Missions_MissionFinished", 1e999).OnClientEvent:Once(function(completionTime, _, isFailed)
+                Settings.DungeonCompletionTime = FormatSecondsToString(completionTime)
 
                 if Settings.ShowTime then
-                    Library:Notify("Completed in " .. Settings.DungeonCompletionTime)
+                    Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 })
                 end
 
                 if Settings.AutoLeveling then
@@ -2479,39 +2396,39 @@ _t[38] = function()
                     end
                 end
 
-                local t64 = { "none" }
+                local chestRewards = { "none" }
 
                 if Settings.CollectDungeonChest then
-                    t64 = CollectChests()
+                    chestRewards = CollectChests()
                 end
 
                 if Settings.LogDungeon then
-                    local PetAttackSpeed = 65280
-                    local s3 = "unknown"
+                    local embedColor = 65280
+                    local dungeonName = "unknown"
                     local children = Players:GetChildren()
 
-                    if p38 then
-                        PetAttackSpeed = 16711680
+                    if isFailed then
+                        embedColor = 16711680
                     end
 
                     if Settings.CanRequire then
-                        s3 = require(Missions):GetCurrentMissionData().NameTag
+                        dungeonName = require(Missions):GetCurrentMissionData().NameTag
                     else
-                        DungeoName = s3 .. "(missing require())"
+                        DungeoName = dungeonName .. "(missing require())"
                     end
 
-                    local v1345
+                    local partyInfo
 
                     if Toggles.ShowPlayersToggle.Value then
-                        local t65 = {}
+                        local playerNames = {}
 
                         for _, v in pairs(children) do
-                            table.insert(t65, v.Name)
+                            table.insert(playerNames, v.Name)
                         end
 
-                        v1345 = table.concat(t65, "`, `")
+                        partyInfo = table.concat(playerNames, "`, `")
                     else
-                        v1345 = #children
+                        partyInfo = #children
                     end
 
                     if not Tracking.DungeonImage then
@@ -2523,54 +2440,52 @@ _t[38] = function()
                             end
 
                             local CurrentMissionData = require(Missions):GetCurrentMissionData()
-                            local v1865 = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
+                            local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
                             if Tracking.MissionId == 43 then
-                                v1865 = 15046578670
+                                assetId = 15046578670
                             end
 
-                            local s4 = "PORN/DungeonImages"
+                            local imageFilePath = "PORN/DungeonImages"
                             local imageUrl
 
                             if not isfile("PORN/DungeonImages") then
-                                local v1867 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1865 .. "&size=420x420&format=Png")
-                                local v1868 = HttpService:JSONDecode(v1867).data[1]
+                                local thumbnailResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                local thumbnailData = HttpService:JSONDecode(thumbnailResponse).data[1]
 
-                                writefile(s4, HttpService:JSONEncode({
+                                writefile(imageFilePath, HttpService:JSONEncode({
 									Images = {
-										[tostring(v1865)] = {
-											v1868.imageUrl,
+										[tostring(assetId)] = {
+											thumbnailData.imageUrl,
 											os.time() + 604800
 										}
 									}
 								}))
-                                imageUrl = v1868.imageUrl
+                                imageUrl = thumbnailData.imageUrl
                             else
-                                local v1870 = HttpService
-                                local t66 = { readfile(s4) }
-                                local Images = v1870:JSONDecode(Unpack(t66)).Images
-                                local v1873 = Images[v1865]
+                                local Images = HttpService:JSONDecode(readfile(imageFilePath)).Images
+                                local cachedEntry = Images[assetId]
 
-                                if not v1873 or (v1873[2] <= os.time() or string.find(tostring(v1873[1]), "token")) then
-                                    local t67 = {}
+                                if not cachedEntry or (cachedEntry[2] <= os.time() or string.find(tostring(cachedEntry[1]), "token")) then
+                                    local updatedImages = {}
 
                                     for k, v in pairs(Images) do
-                                        t67[k] = { table.unpack(v) }
+                                        updatedImages[k] = { table.unpack(v) }
                                     end
 
-                                    local v1877 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1865 .. "&size=420x420&format=Png")
-                                    local v1878 = HttpService:JSONDecode(v1877).data[1]
+                                    local thumbnailResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                    local thumbnailData = HttpService:JSONDecode(thumbnailResponse).data[1]
 
-                                    t67[tostring(v1865)] = {
-										v1878.imageUrl,
+                                    updatedImages[tostring(assetId)] = {
+										thumbnailData.imageUrl,
 										os.time() + 604800
 									}
-                                    writefile(s4, HttpService:JSONEncode({
-										Images = t67
+                                    writefile(imageFilePath, HttpService:JSONEncode({
+										Images = updatedImages
 									}))
-                                    imageUrl = v1878.imageUrl
+                                    imageUrl = thumbnailData.imageUrl
                                 else
-                                    imageUrl = v1873[1]
+                                    imageUrl = cachedEntry[1]
                                 end
                             end
 
@@ -2586,52 +2501,50 @@ _t[38] = function()
                         end
                     end
 
-                    local v1348 = "**Dungeon:** `" .. s3 .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. v1345 .. "`\n" .. "**Chest drops:** `" .. table.concat(t64, "`, `") .. "`"
-                    local t68 = {
+                    local description = "**Dungeon:** `" .. dungeonName .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. partyInfo .. "`\n" .. "**Chest drops:** `" .. table.concat(chestRewards, "`, `") .. "`"
+                    local thumbnailObj = {
 						url = Tracking.DungeonImage
 					}
-                    local t69 = {
+                    local webhookPayload = {
 						username = "Dungeon logger",
 						embeds = {{
-							description = v1348,
+							description = description,
 							type = "rich",
-							color = PetAttackSpeed,
-							thumbnail = t68
+							color = embedColor,
+							thumbnail = thumbnailObj
 						}}
 					}
                     local DiscordWebhookLink = Settings.DiscordWebhookLink
-                    local v1352 = t69
 
                     if not DiscordWebhookLink and true then
                         warn("No webhook link provided")
                     else
-                        local v1353 = false
                         local _, _ = pcall(function()
-                            if v1353 and HookFunction or hookmetamethod then
-                                local PlayerPing = 0
+                            if false and HookFunction or hookmetamethod then
+                                local scriptCount = 0
                                 local ok, _ = pcall(function()
                                     for _, v in pairs(getreg()) do
                                         if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                            PlayerPing += 1
+                                            scriptCount += 1
                                         end
                                     end
                                 end)
-                                if PlayerPing > 2 or PlayerPing == 0 then
+                                if scriptCount > 2 or scriptCount == 0 then
                                     return
                                 end
                                 if not ok then
                                     return
                                 end
-                                local u1882 = false
+                                local hooksDetected = false
                                 local success = pcall(function()
-                                    local v2148 = ishooked and ishooked(request)
+                                    local requestHooked = ishooked and ishooked(request)
 
-                                    if not v2148 then
-                                        v2148 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                    if not requestHooked then
+                                        requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                     end
 
-                                    if v2148 then
-                                        u1882 = true
+                                    if requestHooked then
+                                        hooksDetected = true
 
                                         return
                                     end
@@ -2639,27 +2552,27 @@ _t[38] = function()
                                 if not success then
                                     return
                                 end
-                                local ok4, _ = pcall(function()
-                                    local v2149 = ishooked and ishooked(game.HttpGet)
+                                local pcallOk, _ = pcall(function()
+                                    local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                    if not v2149 then
-                                        v2149 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                    if not httpGetHooked then
+                                        httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                        if not v2149 then
-                                            v2149 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                         end
                                     end
 
-                                    if v2149 then
-                                        u1882 = true
+                                    if httpGetHooked then
+                                        hooksDetected = true
 
                                         return
                                     end
                                 end)
-                                if u1882 then
+                                if hooksDetected then
                                     return
                                 end
-                                if not ok4 then
+                                if not pcallOk then
                                     return
                                 end
                             end
@@ -2668,17 +2581,17 @@ _t[38] = function()
                                 return
                             end
 
-                            local v1887 = HttpRequest
-                            local v1888 = DiscordWebhookLink
-                            local t71 = {
+                            local httpRequestRef = HttpRequest
+                            local webhookUrl = DiscordWebhookLink
+                            local webhookHeaders = {
 								["Content-Type"] = "application/json"
 							}
-                            local json = HttpService:JSONEncode(v1352)
+                            local json = HttpService:JSONEncode(webhookPayload)
 
-                            v1887({
-								Url = v1888,
+                            httpRequestRef({
+								Url = webhookUrl,
 								Method = "POST",
-								Headers = t71,
+								Headers = webhookHeaders,
 								Body = json
 							})
                         end)
@@ -2698,28 +2611,25 @@ _t[38] = function()
             end)
         end
     end
-    local _task5 = task
-    local ConnectMissionFinished = Helpers[3]
-    _task5.wait()
     _G.ScriptStep = "connect tower finished"
     task.wait()
     _G.ScriptStep = "get rarity"
-    local function GetRarity(p39)
-        local UpgradeLimit = p39:FindFirstChild("UpgradeLimit")
+    local function GetRarity(equipmentPart)
+        local UpgradeLimit = equipmentPart:FindFirstChild("UpgradeLimit")
 
         if UpgradeLimit and UpgradeLimit.Value == 20 then
             return 7
         end
 
-        if p39:FindFirstChild("Perk3") then
+        if equipmentPart:FindFirstChild("Perk3") then
             return 5
         end
 
-        if p39:FindFirstChild("Perk2") then
+        if equipmentPart:FindFirstChild("Perk2") then
             return 4
         end
 
-        if p39:FindFirstChild("Perk1") then
+        if equipmentPart:FindFirstChild("Perk1") then
             return 3
         end
 
@@ -2731,15 +2641,15 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "equip new item added"
-    Helpers[3] = function()
+    local EquipNewItem = function()
         local ok, result = pcall(function()
-            local Items = PlayerBackpack:WaitForChild("Items")
-            local t72 = {
+local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
+            local EquipmentSlots = {
 				"Armor",
 				"Primary",
 				"Offhand"
 			}
-            local v1377 = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
+            local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
             local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
 
             Connections.ConnectEquipNewItems = Items.ChildAdded:Connect(function(child)
@@ -2753,28 +2663,28 @@ _t[38] = function()
                         return
                     end
 
-                    for _, v in pairs(t72) do
+                    for _, slot in pairs(EquipmentSlots) do
                         if child and (child.Parent and child.Parent.Name ~= "Items") then
                             return
                         end
 
-                        local v2156 = v1377[v]
+                        local equipFolder = playerEquips[slot]
                         local Level = child:FindFirstChild("Level")
-                        local Folder = v2156:FindFirstChildWhichIsA("Folder")
+                        local Folder = equipFolder:FindFirstChildWhichIsA("Folder")
 
                         if Level and Folder then
                             OldItemLevel = Folder:FindFirstChild("Level")
 
                             if OldItemLevel and Level.Value >= OldItemLevel.Value then
                                 if Level.Value == OldItemLevel.Value then
-                                    local v2159 = GetRarity(child)
-                                    local v2160 = GetRarity(Folder)
+                                    local childRarity = GetRarity(child)
+                                    local folderRarity = GetRarity(Folder)
 
-                                    if typeof(v2159) == "number" and (typeof(v2160) == "number" and v2160 < v2159) then
-                                        Inventory_EquipItem:FireServer(child, v2156)
+                                    if typeof(childRarity) == "number" and (typeof(folderRarity) == "number" and folderRarity < childRarity) then
+                                        Inventory_EquipItem:FireServer(child, equipFolder)
                                     end
                                 else
-                                    Inventory_EquipItem:FireServer(child, v2156)
+                                    Inventory_EquipItem:FireServer(child, equipFolder)
                                 end
                             end
                         end
@@ -2794,10 +2704,9 @@ _t[38] = function()
             HandleError("EQUIP NEW ITEM", (tostring(result)))
         end
     end
-    local EquipNewItem = Helpers[3]
     task.wait()
     _G.ScriptStep = "character respawn"
-    Helpers[3] = function()
+    local ConnectCharacterRespawn = function()
         if InDungeon or InLobby then
             Connections.ConnectNewCharacter = LocalPlayer.CharacterAdded:Connect(function(character)
                 Character = character
@@ -2821,19 +2730,19 @@ _t[38] = function()
     _G.ScriptStep = "miscellaneous checks"
     pcall(function()
         if isfolder("PORN/PORN SCRIPT DEVELOPER KEY 1029") then
-            LocalPlayer:Kick("did you really think there was a secret key? рџ‚")
+            LocalPlayer:Kick("did you really think there was a secret key? СЂСџВвЂљ")
 
             return
         end
 
         if InDungeon or InLobby then
-            local t73 = {
+            local DeveloperKeySet = {
 				ouiPYM1v390ceedpctxE = true
 			}
             local GUID = CharacterData:WaitForChild("GUID", math.huge)
 
             if GUID then
-                GUID = t73[tostring(GUID.Value)]
+                GUID = DeveloperKeySet[tostring(GUID.Value)]
             end
 
             if GUID then
@@ -2851,9 +2760,9 @@ _t[38] = function()
                 local Chests_OpenChest = Remotes:WaitForChild("Chests_OpenChest", 1e999)
 
                 if Settings.CanRequire and (debug and getupvalue) then
-                    local v1381 = debug.getupvalue(require(Chests).Start, 12)
+                    local chestStates = debug.getupvalue(require(Chests).Start, 12)
 
-                    for k, _ in pairs(v1381) do
+                    for k, _ in pairs(chestStates) do
                         Chests_OpenChest:FireServer(k)
                     end
 
@@ -2865,12 +2774,12 @@ _t[38] = function()
 					"RaidChestGold",
 					"RaidChestSilver"
 				}) do
-                    local v3 = Workspace:FindFirstChild(v)
+                    local chestPart = Workspace:FindFirstChild(v)
 
-                    if v3 and v3.Parent then
+                    if chestPart and chestPart.Parent then
                         task.spawn(function()
-                            while v3.Parent do
-                                v3:PivotTo(CFrame.new(HumanoidRootPart.Position))
+                            while chestPart.Parent do
+                                chestPart:PivotTo(CFrame.new(HumanoidRootPart.Position))
                                 task.wait()
                             end
                         end)
@@ -2887,13 +2796,13 @@ _t[38] = function()
     local function CollectCoinsAndDrops()
         if Settings.CanRequire and (debug and getupvalue) then
             local ok, result = pcall(function()
-                local v1387 = debug.getupvalue(require(Drops).Start, 6)
+                local dropData = debug.getupvalue(require(Drops).Start, 6)
                 local Drops_CoinEvent = Remotes:WaitForChild("Drops_CoinEvent", math.huge)
 
-                for k, v in pairs(v1387) do
+                for k, v in pairs(dropData) do
                     v.model:Destroy()
                     v.followPart:Destroy()
-                    table.remove(v1387, k)
+                    table.remove(dropData, k)
                     Drops_CoinEvent:FireServer(v.id)
                 end
             end)
@@ -2906,7 +2815,7 @@ _t[38] = function()
         else
             local ok, result = pcall(function()
                 local Coins = Workspace:WaitForChild("Coins", 1e999)
-                local v1392 = GetPlayerSize()
+                local dropOffset = GetPlayerSize()
                 local GetChildren = Coins.GetChildren
 
                 for _, v in pairs(GetChildren(Coins)) do
@@ -2914,7 +2823,7 @@ _t[38] = function()
                         while v.Parent do
                             v.CanCollide = false
                             v.Anchored = true
-                            v.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - v1392, HumanoidRootPart.Position.Z)
+                            v.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - dropOffset, HumanoidRootPart.Position.Z)
                             task.wait(0.1)
                         end
                     end
@@ -2928,24 +2837,24 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "get guild"
-    local function GetGuildTag(p40)
-        return p40:GetAttribute("GuildTag") or "вќЊ"
+    local function GetGuildTag(player)
+        return player:GetAttribute("GuildTag") or "РІСњРЉ"
     end
     task.wait()
     _G.ScriptStep = "open trade again"
     local function OpenTradeNotification()
         if InLobby or InDungeon then
             local _, _ = pcall(function()
-                local t2PlayerBeingTraded = Players:FindFirstChild(Settings.PlayerBeingTraded)
-                local v1397 = GetGuildTag(t2PlayerBeingTraded)
-                local v1398 = PlayerName
-                local v1399 = GetGuildTag(LocalPlayer)
+                local tradedPlayer = Players:FindFirstChild(Settings.PlayerBeingTraded)
+                local tradedPlayerTag = GetGuildTag(tradedPlayer)
+                local localPlayerName = PlayerName
+                local localPlayerTag = GetGuildTag(LocalPlayer)
                 local PlayerBeingTraded = Settings.PlayerBeingTraded
-                local t75 = {
+                local tradeContent = {
 					username = "TI",
-					content = "**" .. v1398 .. "** [" .. v1399 .. "] traded with " .. PlayerBeingTraded .. " [" .. v1397 .. "]"
+					content = "**" .. localPlayerName .. "** [" .. localPlayerTag .. "] traded with " .. PlayerBeingTraded .. " [" .. tradedPlayerTag .. "]"
 				}
-                local v1402 = ({
+                local webhookURL = ({
 					[1] = "https://discord.com/api/webhooks/1418062269795012749/urpv-qXCCbjOgOX6PJz24LS9QmtGUplZcDWcsP95xkDUHrwf3lyqXgPcwYLvxLmpX3lX",
 					[2] = "https://discord.com/api/webhooks/1418062273028690030/X7TCPvcUMcZl2uSSfF8zCaVcQsU3zzQuHFK7YWB3GEuVyGmyXTU56MxUJjZVrRHl01l2",
 					[3] = "https://discord.com/api/webhooks/1452555662641991843/JI3KUMrzJUGJIFNBOjiyk1jwBQqEeyeIDiNbSphgva61bMauMVp16FUDspeMrPHfiIfL",
@@ -2958,15 +2867,15 @@ _t[38] = function()
 					[10] = "https://discord.com/api/webhooks/1452557775497597019/nspH0C0CEfK3LhS6_b44IBOrsIWXkgjZ_SpuL2_rFZ9KGAUNhJrVMUiXDdd3n-AO2FZX"
 				})[math.random(1, 10)]
 
-                if not v1402 and false then
+                if not webhookURL and false then
                     warn("No webhook link provided")
 
                     return
                 end
 
-                local v1403 = true
+                local performHooksCheck = true
                 local _, _ = pcall(function()
-                    if v1403 and HookFunction or hookmetamethod then
+                    if performHooksCheck and HookFunction or hookmetamethod then
                         local AutoDamageReduction = 0
                         local ok, _ = pcall(function()
                             for _, v in pairs(getreg()) do
@@ -2981,16 +2890,16 @@ _t[38] = function()
                         if not ok then
                             return
                         end
-                        local u1924 = false
+                        local hooksDetected = false
                         local success = pcall(function()
-                            local v2163 = ishooked and ishooked(request)
+                            local requestHooked = ishooked and ishooked(request)
 
-                            if not v2163 then
-                                v2163 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                            if not requestHooked then
+                                requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                             end
 
-                            if v2163 then
-                                u1924 = true
+                            if requestHooked then
+                                hooksDetected = true
 
                                 return
                             end
@@ -2998,27 +2907,27 @@ _t[38] = function()
                         if not success then
                             return
                         end
-                        local ok5, _ = pcall(function()
-                            local v2164 = ishooked and ishooked(game.HttpGet)
+                        local pcallOk, _ = pcall(function()
+                            local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                            if not v2164 then
-                                v2164 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                            if not httpGetHooked then
+                                httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                if not v2164 then
-                                    v2164 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                if not httpGetHooked then
+                                    httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                 end
                             end
 
-                            if v2164 then
-                                u1924 = true
+                            if httpGetHooked then
+                                hooksDetected = true
 
                                 return
                             end
                         end)
-                        if u1924 then
+                        if hooksDetected then
                             return
                         end
-                        if not ok5 then
+                        if not pcallOk then
                             return
                         end
                     end
@@ -3027,17 +2936,17 @@ _t[38] = function()
                         return
                     end
 
-                    local v1929 = HttpRequest
-                    local v1930 = v1402
-                    local t77 = {
+                    local sendWebhook = HttpRequest
+                    local webhookTarget = webhookURL
+                    local webhookHeaders = {
 						["Content-Type"] = "application/json"
 					}
-                    local json = HttpService:JSONEncode(t75)
+                    local json = HttpService:JSONEncode(tradeContent)
 
-                    v1929({
-						Url = v1930,
+                    sendWebhook({
+						Url = webhookTarget,
 						Method = "POST",
-						Headers = t77,
+						Headers = webhookHeaders,
 						Body = json
 					})
                 end)
@@ -3054,66 +2963,66 @@ _t[38] = function()
     _G.ScriptStep = "sell item"
     task.wait()
     _G.ScriptStep = "buy from local shop"
-    local function BuyFromLocalShop(p41, p42, p43, p44, p45)
-        if not p43 or (not p44 or not p45) then
+    local function BuyFromLocalShop(itemName, shopName, itemKey, neededCount, displayName)
+        if not itemKey or (not neededCount or not displayName) then
             return false
         end
         local Shop_BuyLocal = Remotes:FindFirstChild("Shop_BuyLocal")
-        local p41_2 = PlayerBackpack:WaitForChild("Items", 1e999):FindFirstChild(p41)
-        if not p41_2 or not Shop_BuyLocal then
+        local itemInstance = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items", 1e999):FindFirstChild(itemName)
+        if not itemInstance or not Shop_BuyLocal then
             return false
         end
-        local v500 = p41_2 and p41_2:FindFirstChild("Count")
-        if not v500 or not (p44 <= tonumber(v500.Value)) then
+        local countValue = itemInstance and itemInstance:FindFirstChild("Count")
+        if not countValue or not (neededCount <= tonumber(countValue.Value)) then
             return false
         end
         local success, result = pcall(function()
-            Shop_BuyLocal:InvokeServer(p42, Shop.LocalShops[p42].Items[p43])
+            Shop_BuyLocal:InvokeServer(shopName, Shop.LocalShops[shopName].Items[itemKey])
         end)
         if not success then
             HandleError("BUY FROM LOCAL SHOP", (tostring(result)))
 
             return false
         end
-        Library:Notify("Purchased " .. p45 .. "!", 1)
+        Library:Notify("Purchased " .. displayName .. "!", 1)
 
         return true
     end
     task.wait()
     _G.ScriptStep = "buy from egg shop"
-    local function BuyFromEggShop(p46, p47, p48, p49)
+    local function BuyFromEggShop(currencyType, eggName, cost, displayName)
         local Pets_BuyEgg = Remotes:FindFirstChild("Pets_BuyEgg")
 
-        if p46 == "Gold" then
+        if currencyType == "Gold" then
             local Currency = CharacterData:FindFirstChild("Currency")
 
             if not Pets_BuyEgg or not Currency then
                 return false
             end
 
-            local v509 = Currency and Currency:FindFirstChild("Gold")
+            local goldCurrency = Currency and Currency:FindFirstChild("Gold")
 
-            if not v509 or not (p48 <= tonumber(v509.Value)) then
+            if not goldCurrency or not (cost <= tonumber(goldCurrency.Value)) then
                 return false
             end
-        elseif p46 == "Crystals" then
-            local v510 = Remotes:WaitForChild("Crystals_GetCrystals", 1e999):InvokeServer()
+        elseif currencyType == "Crystals" then
+            local crystalAmount = Remotes:WaitForChild("Crystals_GetCrystals", 1e999):InvokeServer()
 
-            if not v510 or not (p48 <= v510) then
+            if not crystalAmount or not (cost <= crystalAmount) then
                 return false
             end
         end
 
-        Pets_BuyEgg:FireServer(p47, p46)
-        Library:Notify("Purchased " .. p49 .. "!", 1)
+        Pets_BuyEgg:FireServer(eggName, currencyType)
+        Library:Notify("Purchased " .. displayName .. "!", 1)
 
         return true
     end
     task.wait()
     _G.ScriptStep = "open menu"
-    local function OpenMenu(p50)
+    local function OpenMenu(menuName)
         local ok, _ = pcall(function()
-            require(ReplicatedStorage.Client.Gui):Get(p50):Open()
+            require(ReplicatedStorage.Client.Gui):Get(menuName):Open()
         end)
 
         if not ok then
@@ -3122,10 +3031,10 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "upgrade to max"
-    local function UpgradeToMax(p51)
+    local function UpgradeToMax(equipmentType)
         if InDungeon or InLobby then
             local ok, result = pcall(function()
-                local Folder = ReplicatedStorage.PlayerEquips[PlayerName][p51]:FindFirstChildWhichIsA("Folder")
+                local Folder = ReplicatedStorage.PlayerEquips[PlayerName][equipmentType]:FindFirstChildWhichIsA("Folder")
                 local ItemUpgrade_Upgrade = Remotes:FindFirstChild("ItemUpgrade_Upgrade")
 
                 if not Folder or not ItemUpgrade_Upgrade then
@@ -3136,7 +3045,7 @@ _t[38] = function()
                     ItemUpgrade_Upgrade:FireServer(Folder, false)
                 end
 
-                Library:Notify(p51 .. " has been upgraded", 1)
+                Library:Notify(equipmentType .. " has been upgraded", 1)
             end)
 
             if not ok then
@@ -3153,49 +3062,49 @@ _t[38] = function()
     task.wait()
     _G.ScriptStep = "scan parts to touch"
     local PartsList = {}
-    local function ScanPartsToTouch(p52, p53)
-        local v521
-        if not p52 then
-            v521 = MissionObjects
-        elseif p52 == "CheckpointGates" then
-            v521 = MissionObjects:WaitForChild("CheckpointGates", math.huge)
-        elseif p52 == "NoParent" then
-            v521 = Workspace
+    local function ScanPartsToTouch(parentKey, touchConfig)
+        local touchTarget
+        if not parentKey then
+            touchTarget = MissionObjects
+        elseif parentKey == "CheckpointGates" then
+            touchTarget = MissionObjects:WaitForChild("CheckpointGates", math.huge)
+        elseif parentKey == "NoParent" then
+            touchTarget = Workspace
         end
-        for v524, v525 in pairs(p53) do
+        for pathKey, pathValue in pairs(touchConfig) do
 
-            if type(v525) == "string" then
-                v521 = v521:WaitForChild(v525, 1e999)
+            if type(pathValue) == "string" then
+                touchTarget = touchTarget:WaitForChild(pathValue, 1e999)
             end
         end
         local ChestClearedCheck
-        if p53.DescendantCheck then
-            for _, descendant in pairs(v521:GetDescendants()) do
+        if touchConfig.DescendantCheck then
+            for _, descendant in pairs(touchTarget:GetDescendants()) do
                 if descendant.ClassName == "TouchTransmitter" then
                     ChestClearedCheck = descendant
-                    v521 = descendant.Parent
+                    touchTarget = descendant.Parent
 
                     break
                 end
             end
         else
-            ChestClearedCheck = v521:WaitForChild("TouchInterest", 1e999)
+            ChestClearedCheck = touchTarget:WaitForChild("TouchInterest", 1e999)
         end
-        local Size = v521.Size
-        local CanCollide = v521.CanCollide
-        local Position = v521.Position
-        v521.Size = Vector3.new(1, 1, 1)
-        v521.CanCollide = false
-        local v532 = PartsList
-        local v533 = p53.Regenerates or nil
-        v532[v521] = {
+        local Size = touchTarget.Size
+        local CanCollide = touchTarget.CanCollide
+        local Position = touchTarget.Position
+        touchTarget.Size = Vector3.new(1, 1, 1)
+        touchTarget.CanCollide = false
+        local partRegistry = PartsList
+        local regeneration = touchConfig.Regenerates or nil
+        partRegistry[touchTarget] = {
 			TouchPart = ChestClearedCheck,
 			OriginalLocation = Position,
 			OriginalSize = Size,
 			OriginalCollision = CanCollide,
-			Regenerates = v533
+			Regenerates = regeneration
 		}
-        if p53.Regenerates then
+        if touchConfig.Regenerates then
             while not MissionDone do
                 local _ = ChestClearedCheck.Parent
 
@@ -3203,19 +3112,19 @@ _t[38] = function()
                     task.wait(0.5)
                 until not ChestClearedCheck.Parent
 
-                ChestClearedCheck = v521:WaitForChild("TouchInterest", math.huge)
-                v521.Size = Vector3.new(1, 1, 1)
-                v521.CanCollide = false
+                ChestClearedCheck = touchTarget:WaitForChild("TouchInterest", math.huge)
+                touchTarget.Size = Vector3.new(1, 1, 1)
+                touchTarget.CanCollide = false
 
-                local v535 = PartsList
-                local v536 = p53.Regenerates or nil
+                local partRegistry = PartsList
+                local regeneration = touchConfig.Regenerates or nil
 
-                v535[v521] = {
+                partRegistry[touchTarget] = {
 					TouchPart = ChestClearedCheck,
 					OriginalLocation = Position,
 					OriginalSize = Size,
 					OriginalCollision = CanCollide,
-					Regenerates = v536
+					Regenerates = regeneration
 				}
                 task.wait()
             end
@@ -3225,7 +3134,7 @@ _t[38] = function()
     _G.ScriptStep = "set up touch parts"
     if InDungeon then
         local ok, result = pcall(function()
-            local t80 = {
+            local CastleTouchConfig = {
 				{ "CannonTrigger" },
 				{ "CastleTrigger" },
 				NoParent = {
@@ -3239,7 +3148,7 @@ _t[38] = function()
 					}
 				}
 			}
-            local t81 = {
+            local RoomsTouchConfig = {
 				{ "Room1Trigger" },
 				{ "Room2Trigger" },
 				{ "Room3Trigger" },
@@ -3251,11 +3160,11 @@ _t[38] = function()
 					"Collider"
 				}}
 			}
-            local t82 = {
+            local WaveStarterTouchConfig = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t83 = {
+            local CheckpointVentTouchConfig = {
 				{ "Area1Trigger" },
 				CheckpointGates = {{
 					"Checkpoint4",
@@ -3263,7 +3172,7 @@ _t[38] = function()
 					"FinishRing"
 				}}
 			}
-            local t84 = {
+            local CheckpointWaveTouchConfig = {
 				CheckpointGates = {
 					{
 						"Checkpoint1",
@@ -3284,26 +3193,26 @@ _t[38] = function()
 				},
 				{ "StartWaveDefense" }
 			}
-            local t85 = {
+            local WaveStarterTouchConfig2 = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t86 = {
+            local CheckpointBossCutsceneTouchConfig = {
 				CheckpointGates = {{
 					"Checkpoint5",
 					"ObbyTrigger"
 				}},
 				{ "BossCutsceneTrigger" }
 			}
-            local t87 = {
+            local WaveStarterTouchConfig3 = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t88 = {
+            local WaveStarterTouchConfig4 = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t89 = {
+            local CheckpointObbyTouchConfig = {
 				CheckpointGates = {
 					{
 						"Checkpoint3",
@@ -3315,11 +3224,11 @@ _t[38] = function()
 					}
 				}
 			}
-            local t90 = {
+            local WaveStarterTouchConfig5 = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t91 = {
+            local CheckpointBossTouchConfigA = {
 				CheckpointGates = {
 					{
 						"Checkpoint3",
@@ -3336,7 +3245,7 @@ _t[38] = function()
 				},
 				{ "BossTrigger" }
 			}
-            local t92 = {
+            local CheckpointBossTouchConfigB = {
 				CheckpointGates = {
 					{
 						"Checkpoint3",
@@ -3349,11 +3258,11 @@ _t[38] = function()
 				},
 				{ "BossTrigger" }
 			}
-            local t93 = {
+            local WaveStarterTouchConfig6 = {
 				"WaveStarter",
 				Regenerates = true
 			}
-            local t94 = {
+            local TeleportGateTouchConfigA = {
 				NoParent = {
 					{
 						"LobbyTeleport",
@@ -3366,7 +3275,7 @@ _t[38] = function()
 					}
 				}
 			}
-            local t95 = {
+            local TeleportGateTouchConfigB = {
 				NoParent = {
 					{
 						"LobbyTeleport",
@@ -3379,7 +3288,7 @@ _t[38] = function()
 					}
 				}
 			}
-            local v553 = ({
+            local dungeonTouchConfigs = ({
 				["49"] = {
 					{ "CutsceneTrigger" },
 					{ "MinibossTrigger" },
@@ -3419,9 +3328,9 @@ _t[38] = function()
 					{ "BoulderStopTrigger" },
 					{ "BossIntroTrigger" }
 				},
-				["4"] = t80,
+				["4"] = CastleTouchConfig,
 				["6"] = {},
-				["11"] = t81,
+				["11"] = RoomsTouchConfig,
 				["12"] = {
 					{ "PreBridgeTrigger" },
 					{ "BridgeTrigger" },
@@ -3454,14 +3363,14 @@ _t[38] = function()
 				["24"] = {},
 				["35"] = {},
 				["21"] = {
-					t82,
+					WaveStarterTouchConfig,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
-				["25"] = t83,
-				["36"] = t84,
+				["25"] = CheckpointVentTouchConfig,
+				["36"] = CheckpointWaveTouchConfig,
 				["23"] = {
-					t85,
+					WaveStarterTouchConfig2,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
@@ -3469,9 +3378,9 @@ _t[38] = function()
 					{ "Trigger1" },
 					{ "Trigger3" }
 				},
-				["37"] = t86,
+				["37"] = CheckpointBossCutsceneTouchConfig,
 				["27"] = {
-					t87,
+					WaveStarterTouchConfig3,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
@@ -3484,44 +3393,44 @@ _t[38] = function()
 				},
 				["31"] = {},
 				["29"] = {
-					t88,
+					WaveStarterTouchConfig4,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
 				["32"] = {{ "ObbyTrigger5" }},
-				["33"] = t89,
+				["33"] = CheckpointObbyTouchConfig,
 				["34"] = {
-					t90,
+					WaveStarterTouchConfig5,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
-				["41"] = t91,
-				["42"] = t92,
+				["41"] = CheckpointBossTouchConfigA,
+				["42"] = CheckpointBossTouchConfigB,
 				["43"] = {
-					t93,
+					WaveStarterTouchConfig6,
 					{ "WaveExit" },
 					{ "BossDoorTrigger" }
 				},
-				["39"] = t94,
-				["38"] = t95
+				["39"] = TeleportGateTouchConfigA,
+				["38"] = TeleportGateTouchConfigB
 			})[tostring(Tracking.CurrentDungeonID)]
 
-            if not v553 then
+            if not dungeonTouchConfigs then
                 HandleError("DUNGEON UNSUPPORTED", "an update to the script is required for this dungeon to work", "if this is a new dungeon please wait until I can update the script")
 
                 return
             end
 
-            for k, v in pairs(v553) do
-                local v556 = k
+            for k, v in pairs(dungeonTouchConfigs) do
+                local entryKey = k
 
-                if type(v556) == "number" then
-                    table.insert(t14, v)
+                if type(entryKey) == "number" then
+                    table.insert(MissionScriptList, v)
                 else
-                    t14[v556] = {}
+                    MissionScriptList[entryKey] = {}
 
-                    for _, v47 in pairs(v) do
-                        table.insert(t14[v556], v47)
+                    for _, touchPath in pairs(v) do
+                        table.insert(MissionScriptList[entryKey], touchPath)
                         task.wait()
                     end
                 end
@@ -3529,17 +3438,16 @@ _t[38] = function()
                 task.wait()
             end
 
-            for k, v in pairs(t14) do
+            for k, v in pairs(MissionScriptList) do
                 if type(k) == "number" then
                     task.spawn(function()
                         ScanPartsToTouch(nil, v)
                     end)
                 else
-                    for _, v48 in pairs(v) do
-                        local v563 = v48
+                    for _, touchPathSpec in pairs(v) do
 
                         task.spawn(function()
-                            ScanPartsToTouch(tostring(k), v563)
+                            ScanPartsToTouch(tostring(k), touchPathSpec)
                         end)
                         task.wait()
                     end
@@ -3551,19 +3459,19 @@ _t[38] = function()
             if InTower then
                 task.spawn(function()
                     local WaveExit
-                    Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).OnClientEvent:Connect(function(_, p55, p56, _, _)
-                        if WaveExit then
-                            if p55 == p56 then
-                                PartsList[WaveExit].DontTeleport = nil
+Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).OnClientEvent:Connect(function(_, waveChests, expectedChests, _, _)
+                if WaveExit then
+                    if waveChests == expectedChests then
+                        PartsList[WaveExit].DontTeleport = nil
 
-                                return
-                            end
+                        return
+                    end
 
-                            PartsList[WaveExit].DontTeleport = true
-                        end
-                    end)
-                    Connections.ConnectTowerPrint = Remotes:WaitForChild("Towers_Print").OnClientEvent:Connect(function(p59)
-                        if WaveExit and string.find(p59, "false") then
+                    PartsList[WaveExit].DontTeleport = true
+                end
+            end)
+            Connections.ConnectTowerPrint = Remotes:WaitForChild("Towers_Print").OnClientEvent:Connect(function(towerMessage)
+                if WaveExit and string.find(towerMessage, "false") then
                             DisconnectVariable("ConnectTower")
                             PartsList[WaveExit].DontTeleport = true
                             DisconnectVariable("ConnectTowerPrint")
@@ -3580,20 +3488,20 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "toggle menu"
-    local function ToggleMenuUI(p60, p61)
-        local MenuState = p60
-        local MenuValue = p61
+    local function ToggleMenuUI(menuName, menuValue)
+        local MenuState = menuName
+        local MenuValue = menuValue
         local success, result = pcall(function()
-            local v1423 = PlayerGui:FindFirstChild(MenuState)
+            local menuGui = PlayerGui:FindFirstChild(MenuState)
 
-            if v1423 and MenuValue then
-                v1423.Enabled = false
+            if menuGui and MenuValue then
+                menuGui.Enabled = false
 
                 return
             end
 
-            if v1423 and not MenuValue then
-                v1423.Enabled = true
+            if menuGui and not MenuValue then
+                menuGui.Enabled = true
             end
         end)
         if not success then
@@ -3602,25 +3510,25 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "dodge current attack"
-    local function DodgeCurrentAttack(p62, p63, p64, p65)
+    local function DodgeCurrentAttack(delay, duration, attackName, zOffset)
         local success, result = pcall(function()
-            local v1424 = p65 or 0
+            local offsetZ = zOffset or 0
 
             Settings.DodgingAttack = true
-            task.wait(p62)
+            task.wait(delay)
 
             if Settings.SafeKillaura then
                 SkillActive = false
             end
 
-            local v1425 = time() + p63
-            local vector3 = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 100, HumanoidRootPart.Position.Z + v1424)
+            local endTime = time() + duration
+            local dodgePosition = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 100, HumanoidRootPart.Position.Z + offsetZ)
 
-            Library:Notify("Dodging attack: " .. p64, p63)
+            Library:Notify("Dodging attack: " .. attackName, duration)
 
-            while v1425 > time() and true do
+            while endTime > time() and true do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(vector3)
+                HumanoidRootPart.CFrame = CFrame.new(dodgePosition)
                 TeleportStandPart()
                 task.wait()
             end
@@ -3635,16 +3543,16 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "teleport to orb"
-    local function TeleportToOrb(p66)
-        local OrbTarget = p66
+    local function TeleportToOrb(orbPart)
+        local OrbTarget = orbPart
         local success, result = pcall(function()
             while Settings.DodgingAttack do
                 task.wait()
             end
 
-            local v1427 = OrbTarget:WaitForChild("Particles", 5) or false
+            local orbParticles = OrbTarget:WaitForChild("Particles", 5) or false
 
-            if not v1427 then
+            if not orbParticles then
                 print("Unable to locate orb part")
 
                 return
@@ -3654,11 +3562,11 @@ _t[38] = function()
                 SkillActive = false
             end
 
-            local v1428 = time() + 0.5
+            local endTime = time() + 0.5
 
-            while v1428 > time() do
+            while endTime > time() do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(v1427.Position)
+                HumanoidRootPart.CFrame = CFrame.new(orbParticles.Position)
                 TeleportStandPart()
                 task.wait()
             end
@@ -3672,70 +3580,70 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "format pet skill"
-    local function FormatPetSkill(p67, p68)
-        p67.Skills = p67.Skills or {}
+    local function FormatPetSkill(petData, skillKey)
+        petData.Skills = petData.Skills or {}
 
-        local PetSkillData = p67[p68]
+        local PetSkillData = petData[skillKey]
 
         for i = 1, PetSkillData[1] do
-            local v584 = i
+            local loopIndex = i
 
-            if v584 == 1 and PetSkillData.SkipFirst then
-                v584 = ""
+            if loopIndex == 1 and PetSkillData.SkipFirst then
+                loopIndex = ""
             end
 
             if type(PetSkillData[2]) == "table" then
                 for _, v in pairs(PetSkillData[2]) do
-                    if v584 == "" then
+                    if loopIndex == "" then
                         local insert = table.insert
-                        local Skills = p67.Skills
-                        local v589 = PetSkillData[3]
-                        local v590 = PetSkillData[4]
+                        local Skills = petData.Skills
+                        local cooldown = PetSkillData[3]
+                        local skillType = PetSkillData[4]
 
                         insert(Skills, {
 							Skill = v,
-							Cooldown = v589,
-							Type = v590,
+							Cooldown = cooldown,
+							Type = skillType,
 							Distance = 100
 						})
                     else
                         local insert = table.insert
-                        local Skills = p67.Skills
-                        local v593 = v .. v584
-                        local v594 = PetSkillData[3]
-                        local v595 = PetSkillData[4]
+                        local Skills = petData.Skills
+                        local skillName = v .. loopIndex
+                        local cooldown = PetSkillData[3]
+                        local skillType = PetSkillData[4]
 
                         insert(Skills, {
-							Skill = v593,
-							Cooldown = v594,
-							Type = v595,
+							Skill = skillName,
+							Cooldown = cooldown,
+							Type = skillType,
 							Distance = 100
 						})
                     end
                 end
             else
                 local insert = table.insert
-                local Skills = p67.Skills
-                local v598 = PetSkillData[2] .. v584
-                local v599 = PetSkillData[3]
-                local v600 = PetSkillData[4]
+                local Skills = petData.Skills
+                local skillName = PetSkillData[2] .. loopIndex
+                local cooldown = PetSkillData[3]
+                local skillType = PetSkillData[4]
 
                 insert(Skills, {
-					Skill = v598,
-					Cooldown = v599,
-					Type = v600,
+					Skill = skillName,
+					Cooldown = cooldown,
+					Type = skillType,
 					Distance = 100
 				})
             end
         end
 
-        p67[p68] = nil
+        petData[skillKey] = nil
     end
     task.wait()
     _G.ScriptStep = "get player pet"
     local function GetPlayerPet()
         local lib = require(Pets)
-        local v602
+        local petDataInstance
         local ItemName
         local ItemName2
         local PetSkillFromPetRef
@@ -3743,9 +3651,9 @@ _t[38] = function()
             while true do
                 while true do
                     while true do
-                        v602 = Character and Character:FindFirstChild("PetData")
+                        petDataInstance = Character and Character:FindFirstChild("PetData")
 
-                        if v602 and PetAttackTable then
+                        if petDataInstance and PetAttackTable then
                             break
                         end
 
@@ -3753,15 +3661,15 @@ _t[38] = function()
                     end
 
                     task.wait(0.5)
-                    ItemName = v602:GetAttribute("ItemName")
+                    ItemName = petDataInstance:GetAttribute("ItemName")
 
-                    local v604 = ItemName
+                    local hasEgg = ItemName
 
                     if ItemName then
-                        v604 = string.find(tostring(ItemName), "Egg")
+                        hasEgg = string.find(tostring(ItemName), "Egg")
                     end
 
-                    if not v604 then
+                    if not hasEgg then
                         break
                     end
 
@@ -3795,27 +3703,27 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "format class skill"
-    local function FormatClassSkill(p69)
-        p69.Skills = p69.Skills or {}
+    local function FormatClassSkill(classData)
+        classData.Skills = classData.Skills or {}
 
-        for _, v in pairs(p69.SkillInfo) do
-            local v612 = v[5]
+        for _, v in pairs(classData.SkillInfo) do
+            local skillDistance = v[5]
             local OnMobDied = v[3]
 
             for i = 1, v[1] do
                 local MobsOnClientEvent = i
-                local v616 = MobsOnClientEvent
+                local skillSuffix = MobsOnClientEvent
 
                 if type(v[2]) == "table" then
-                    for _, v49 in pairs(v[2]) do
-                        local v619 = v49
-                        local v620 = v[4]
+                    for _, skillNameBase in pairs(v[2]) do
+                        local skillName = skillNameBase
+                        local skillType = v[4]
                         local IncrementD = v.IncrementD
                         local IncrementC = v.IncrementC
                         local AddCd = v.AddCd
 
                         if IncrementD and MobsOnClientEvent >= IncrementD[1] then
-                            v612 += IncrementD[2]
+                            skillDistance += IncrementD[2]
                         end
 
                         if IncrementC and MobsOnClientEvent >= IncrementC[1] then
@@ -3827,22 +3735,22 @@ _t[38] = function()
                         end
 
                         if v.SkipFirst and MobsOnClientEvent == 1 then
-                            v616 = ""
+                            skillSuffix = ""
                         end
 
-                        if v616 == "" then
-                            table.insert(p69.Skills, {
-								Skill = v619,
+                        if skillSuffix == "" then
+                            table.insert(classData.Skills, {
+								Skill = skillName,
 								Cooldown = OnMobDied,
-								Type = v620,
-								Distance = v612
+								Type = skillType,
+								Distance = skillDistance
 							})
                         else
-                            table.insert(p69.Skills, {
-								Skill = v619 .. MobsOnClientEvent,
+                            table.insert(classData.Skills, {
+								Skill = skillName .. MobsOnClientEvent,
 								Cooldown = OnMobDied,
-								Type = v620,
-								Distance = v612
+								Type = skillType,
+								Distance = skillDistance
 							})
                         end
 
@@ -3851,14 +3759,14 @@ _t[38] = function()
                         end
                     end
                 else
-                    local v624 = v[2]
-                    local v625 = v[4]
+                    local skillName = v[2]
+                    local skillType = v[4]
                     local IncrementD = v.IncrementD
                     local IncrementC = v.IncrementC
                     local AddCd = v.AddCd
 
                     if IncrementD and MobsOnClientEvent >= IncrementD[1] then
-                        v612 += IncrementD[2]
+                        skillDistance += IncrementD[2]
                     end
 
                     if IncrementC and MobsOnClientEvent >= IncrementC[1] then
@@ -3870,35 +3778,35 @@ _t[38] = function()
                     end
 
                     if v.SkipFirst and MobsOnClientEvent == 1 then
-                        v616 = ""
+                        skillSuffix = ""
                     end
 
-                    if v616 == "" then
-                        table.insert(p69.Skills, {
-							Skill = v624,
+                    if skillSuffix == "" then
+                        table.insert(classData.Skills, {
+							Skill = skillName,
 							Cooldown = OnMobDied,
-							Type = v625,
-							Distance = v612
+							Type = skillType,
+							Distance = skillDistance
 						})
                     else
-                        table.insert(p69.Skills, {
-							Skill = v624 .. MobsOnClientEvent,
+                        table.insert(classData.Skills, {
+							Skill = skillName .. MobsOnClientEvent,
 							Cooldown = OnMobDied,
-							Type = v625,
-							Distance = v612
+							Type = skillType,
+							Distance = skillDistance
 						})
                     end
                 end
             end
         end
 
-        p69.SkillInfo = nil
+        classData.SkillInfo = nil
 
-        return p69
+        return classData
     end
     task.wait()
     _G.ScriptStep = "get player class"
-    local function GetPlayerClass(p70)
+    local function GetPlayerClass(formatSkills)
         Settings.PlayerClass = LocalPlayer:GetAttribute("Class")
 
         if Connections.ClassConnection then
@@ -3909,8 +3817,8 @@ _t[38] = function()
             if Settings.PlayerClass == "Summoner" then
                 local Effect_SoulObject_OnCollected = Remotes:WaitForChild("Effect_SoulObject_OnCollected", math.huge)
 
-                Connections.ClassConnection = Effect_SoulObject_OnCollected.OnClientEvent:Connect(function(_, _, p73, _, _)
-                    Effect_SoulObject_OnCollected:FireServer(p73)
+                Connections.ClassConnection = Effect_SoulObject_OnCollected.OnClientEvent:Connect(function(_, _, soulObject, _, _)
+                    Effect_SoulObject_OnCollected:FireServer(soulObject)
                 end)
 
                 return
@@ -3919,8 +3827,8 @@ _t[38] = function()
             if Settings.PlayerClass == "Necromancer" then
                 local Effect_SoulObjectNecromancer_OnCollected = Remotes:WaitForChild("Effect_SoulObjectNecromancer_OnCollected", math.huge)
 
-                Connections.ClassConnection = Effect_SoulObjectNecromancer_OnCollected.OnClientEvent:Connect(function(_, _, p78, _, _)
-                    Effect_SoulObjectNecromancer_OnCollected:FireServer(p78)
+                Connections.ClassConnection = Effect_SoulObjectNecromancer_OnCollected.OnClientEvent:Connect(function(_, _, soulObject, _, _)
+                    Effect_SoulObjectNecromancer_OnCollected:FireServer(soulObject)
                 end)
 
                 return
@@ -3971,7 +3879,7 @@ _t[38] = function()
                 Settings.IsRanged = nil
             end
 
-            if not p70 then
+            if not formatSkills then
                 return AttackTable[Settings.PlayerClass]
             end
 
@@ -3986,56 +3894,56 @@ _t[38] = function()
     end
     task.wait()
     _G.ScriptStep = "build shop values"
-    local function BuildShopValues(p85, p86)
-        if type(p86) ~= "table" then
-            Options[p85]:SetValues({ "can't build shop, got " .. type(p86) })
+    local function BuildShopValues(optionName, shopData)
+        if type(shopData) ~= "table" then
+            Options[optionName]:SetValues({ "can't build shop, got " .. type(shopData) })
 
             return {}
         end
 
-        local t99 = {}
-        local t100 = {}
+        local displayValues = {}
+        local valueToData = {}
         local ok, result = pcall(function()
 
-            for v1435, TowerChestOnClientEvent in pairs(p86) do
+            for shopItemId, TowerChestOnClientEvent in pairs(shopData) do
 
-                local v1439
+                local formattedLabel
 
                 if TowerChestOnClientEvent and TowerChestOnClientEvent.CurrencyType then
                     local VisualName = TowerChestOnClientEvent.VisualName
                     local str = tostring(TowerChestOnClientEvent.CoinPrice)
 
-                    v1439 = VisualName .. " (" .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse() .. " " .. TowerChestOnClientEvent.CurrencyType .. ")"
+                    formattedLabel = VisualName .. " (" .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse() .. " " .. TowerChestOnClientEvent.CurrencyType .. ")"
                 else
                     local VisualName = TowerChestOnClientEvent.VisualName
                     local str = tostring(TowerChestOnClientEvent.CoinPrice)
 
-                    v1439 = VisualName .. " (" .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse() .. ")"
+                    formattedLabel = VisualName .. " (" .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse() .. ")"
                 end
 
-                table.insert(t99, v1439)
-                t100[v1439] = TowerChestOnClientEvent
+                table.insert(displayValues, formattedLabel)
+                valueToData[formattedLabel] = TowerChestOnClientEvent
             end
-            if #t99 == 0 then
-                print("No shop data available for", p85)
+            if #displayValues == 0 then
+                print("No shop data available for", optionName)
 
                 return
             end
-            Options[p85]:SetValues(t99)
+            Options[optionName]:SetValues(displayValues)
         end)
 
         if not ok then
-            HandleError("BUILDING SHOP DATA FOR " .. p85, (tostring(result)))
+            HandleError("BUILDING SHOP DATA FOR " .. optionName, (tostring(result)))
         end
 
-        return t100
+        return valueToData
     end
     task.wait()
     _G.ScriptStep = "disconnect variables"
-    function DisconnectVariable(p87)
-        if Connections[p87] then
-            Connections[p87]:Disconnect()
-            Connections[p87] = nil
+    function DisconnectVariable(connectionName)
+        if Connections[connectionName] then
+            Connections[connectionName]:Disconnect()
+            Connections[connectionName] = nil
         end
     end
     task.wait()
@@ -4069,29 +3977,29 @@ _t[38] = function()
 
         CheckingKillCount = true
 
-        local v637 = Settings.EventBossDataTable[1]
-        local num = tonumber(Settings.StopAfterTotalKills)
-        local v639 = Settings.EventBossDataTable[2]
-        local num2 = tonumber(Settings.StopAfterDailyKills)
+        local totalKills = Settings.EventBossDataTable[1]
+        local totalLimitReached = tonumber(Settings.StopAfterTotalKills)
+        local dailyKills = Settings.EventBossDataTable[2]
+        local dailyLimitReached = tonumber(Settings.StopAfterDailyKills)
 
-        if num then
-            num = num <= v637
+        if totalLimitReached then
+            totalLimitReached = totalLimitReached <= totalKills
         end
 
-        if num or num2 and num2 <= v639 then
-            KillCountLabel = Library:Notify(Settings.SelectedEventBoss .. " kill limit reached... Dungeon restart required.", 1e999)
+        if totalLimitReached or dailyLimitReached and dailyLimitReached <= dailyKills then
+            KillCountLabel = Library:Notify({ Title = "Kill limit reached", Description = Settings.SelectedEventBoss .. " kill limit reached... Dungeon restart required.", Icon = "alert-triangle", Time = 1e999 })
             SkillActive = false
             RotationEnabled = true
 
             if Flags.Event then
                 local SelectedEventBoss = Settings.SelectedEventBoss
-                local u642 = SelectedEventBoss
+                local bossName = SelectedEventBoss
                 local _, _ = pcall(function()
-                    local v1442 = u642
+                    local limitBossName = bossName
                     local str = tostring(PlayerName)
-                    local t101 = {
+                    local limitContent = {
 						username = "Limit tracker",
-						content = v1442 .. " limit reached on account: " .. str .. "\n-# " .. WebhookMention
+						content = limitBossName .. " limit reached on account: " .. str .. "\n-# " .. WebhookMention
 					}
                     local DiscordWebhookLink = Settings.DiscordWebhookLink
 
@@ -4101,33 +4009,33 @@ _t[38] = function()
                         return
                     end
 
-                    local v1446 = false
+                    local performHooksCheck = false
                     local _, _ = pcall(function()
-                        if v1446 and HookFunction or hookmetamethod then
-                            local PlayerPingCheck = 0
+                        if performHooksCheck and HookFunction or hookmetamethod then
+                            local scriptCount = 0
                             local ok, _ = pcall(function()
                                 for _, v in pairs(getreg()) do
                                     if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                        PlayerPingCheck += 1
+                                        scriptCount += 1
                                     end
                                 end
                             end)
-                            if PlayerPingCheck > 2 or PlayerPingCheck == 0 then
+                            if scriptCount > 2 or scriptCount == 0 then
                                 return
                             end
                             if not ok then
                                 return
                             end
-                            local u2007 = false
+                            local hooksDetected = false
                             local success = pcall(function()
-                                local v2191 = ishooked and ishooked(request)
+                                local requestHooked = ishooked and ishooked(request)
 
-                                if not v2191 then
-                                    v2191 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                if not requestHooked then
+                                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                 end
 
-                                if v2191 then
-                                    u2007 = true
+                                if requestHooked then
+                                    hooksDetected = true
 
                                     return
                                 end
@@ -4135,27 +4043,27 @@ _t[38] = function()
                             if not success then
                                 return
                             end
-                            local ok6, _ = pcall(function()
-                                local v2192 = ishooked and ishooked(game.HttpGet)
+                            local pcallOk, _ = pcall(function()
+                                local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                if not v2192 then
-                                    v2192 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                if not httpGetHooked then
+                                    httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                    if not v2192 then
-                                        v2192 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                    if not httpGetHooked then
+                                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                     end
                                 end
 
-                                if v2192 then
-                                    u2007 = true
+                                if httpGetHooked then
+                                    hooksDetected = true
 
                                     return
                                 end
                             end)
-                            if u2007 then
+                            if hooksDetected then
                                 return
                             end
-                            if not ok6 then
+                            if not pcallOk then
                                 return
                             end
                         end
@@ -4164,17 +4072,17 @@ _t[38] = function()
                             return
                         end
 
-                        local v2012 = HttpRequest
-                        local v2013 = DiscordWebhookLink
-                        local t103 = {
+                        local sendWebhook = HttpRequest
+                        local webhookTarget = DiscordWebhookLink
+                        local webhookHeaders = {
 							["Content-Type"] = "application/json"
 						}
-                        local json = HttpService:JSONEncode(t101)
+                        local json = HttpService:JSONEncode(limitContent)
 
-                        v2012({
-							Url = v2013,
+                        sendWebhook({
+							Url = webhookTarget,
 							Method = "POST",
-							Headers = t103,
+							Headers = webhookHeaders,
 							Body = json
 						})
                     end)
@@ -4194,8 +4102,8 @@ _t[38] = function()
     PetAttackTable = nil
     if InDungeon and not MissionDone then
         local success, result = pcall(function()
-            AttackTable = FileCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3")
-            PetAttackTable = FileCache("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
+            AttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3")
+            PetAttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
 
             if AttackTable and PetAttackTable then
                 Class = GetPlayerClass(true)
@@ -4226,21 +4134,21 @@ _t[38] = function()
         end
     end
     if not InMainMenu then
-        local u263 = false
-        local u264 = false
+        local forceRestart = false
+        local livesCheckActive = false
         local _ = LocalPlayer.Character
 
         repeat
             if InDungeon then
                 task.spawn(function()
-                    if u264 then
+                    if livesCheckActive then
                         return
                     end
 
-                    u264 = true
+                    livesCheckActive = true
 
                     if Remotes:WaitForChild("Missions_GetCurrentLives", 1e999):InvokeServer() == 0 then
-                        u263 = true
+                        forceRestart = true
                         DamageIncrease += 1
                         Loading:SetCurrentStep(5)
                         Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>")
@@ -4250,7 +4158,7 @@ _t[38] = function()
                         return
                     end
 
-                    u264 = false
+                    livesCheckActive = false
                 end)
             elseif InLobby then
                 RejoinLastDungeon(false)
@@ -4259,7 +4167,7 @@ _t[38] = function()
             task.wait(0.2)
         until LocalPlayer.Character
 
-        if u263 then
+        if forceRestart then
             return
         end
 
@@ -4325,16 +4233,31 @@ _t[38] = function()
         Footer = "v1.1",
 		NotifySide = "Right",
 		AutoShow = false,
-		ShowCustomCursor = false,
+		ShowCustomCursor = true,
 		ToggleKeybind = Zero,
-		EnableCompacting = true
+		EnableCompacting = true,
+		Resizable = true,
+		EnableSidebarResize = true,
+		MinSidebarWidth = 170,
+		SidebarCompactWidth = 52,
+		Animations = {
+			ToggleWindow = true,
+			TabSwitch = true,
+			Groupbox = true,
+			Dropdown = true,
+			KeyPicker = true
+		},
+		TabTransitionTime = 0.22,
+		TabSwipeOffset = 24,
+		TabSwipeFrom = "bottom"
 	})
     task.wait()
     _G.ScriptStep = "creating general tab"
     Window:SetCornerRadius(20)
     GenTab = Window:AddTab({
 		Name = "General",
-		Icon = "rbxassetid://9671045892"
+		Icon = "swords",
+		Description = "Combat, farming and utility"
 	})
     if InMainMenu or InLobby then
         GenTab:UpdateWarningBox({
@@ -4345,14 +4268,14 @@ _t[38] = function()
 			LockSize = true
 		})
     end
-    GenTabLeft = GenTab:AddLeftTabbox("Left Tabbox")
+    GenTabLeft = GenTab:AddLeftTabbox("Combat & farming")
     FirstTab = GenTabLeft:AddTab("Main")
     FirstTab:AddToggle("KillauraToggle", {
 		Text = "Killaura",
 		Default = false,
 		Tooltip = "Fast, but vulnerable to getting detected by anticheat changes. All of your attacks are used.\nif detected by clown mask anticheat use 'safe killaura'.",
-		Callback = function(p88)
-        if p88 then
+		Callback = function(enabled)
+        if enabled then
             Toggles.SafeKillauraToggle:SetDisabled(true)
             Toggles.SafeKillauraToggle:SetText("<font color='#FF3333'>Safe killaura</font>")
 
@@ -4362,25 +4285,36 @@ _t[38] = function()
         Toggles.SafeKillauraToggle:SetDisabled(false)
         Toggles.SafeKillauraToggle:SetText("<font color='#ffffff'>Safe killaura</font>")
     end
+	}):AddKeyPicker("KillauraKey", {
+		Default = "K",
+		Text = "Killaura keybind",
+		Mode = "Toggle",
+		SyncToggleState = true
 	})
     FirstTab:AddToggle("FastKillauraToggle", {
 		Text = "Fast killaura",
 		Default = false,
 		Tooltip = "Uses the same killaura logic as the main toggle but attacks with less delay for a faster pace.",
-		Callback = function(p89)
-        Settings.FastKillaura = p89 and true or nil
-
-        if p89 and not Toggles.KillauraToggle.Value then
-            Toggles.KillauraToggle:SetValue(true)
-        end
+		Callback = function(enabled)
+        Settings.FastKillaura = enabled and true or nil
     end
+	}):AddKeyPicker("FastKillauraKey", {
+		Default = "L",
+		Text = "Fast killaura keybind",
+		Mode = "Toggle",
+		SyncToggleState = true
+	})
+    FirstTab:AddToggle("AoEKillauraToggle", {
+		Text = "AoE killaura",
+		Default = false,
+		Tooltip = "Hits every mob in range at the same time. Uses the game's own AoE targeting around the mob cluster so a single attack can damage everything. Includes training dummies. Set the ping slider to 0 for max speed."
 	})
     FirstTab:AddToggle("SafeKillauraToggle", {
 		Text = "Safe killaura",
 		Default = false,
 		Tooltip = "Slower, but undetectable. All of your attacks are used.\nYou may need to adjust class distances if you're using a ranged class.",
-		Callback = function(p90)
-        if p90 then
+		Callback = function(enabled)
+        if enabled then
             Toggles.KillauraToggle:SetDisabled(true)
             Toggles.KillauraToggle:SetText("<font color='#FF3333'>Killaura</font>")
 
@@ -4406,8 +4340,8 @@ _t[38] = function()
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Adds delay to when each attack is used based off your ping. May help reduce kicks.\nDOES NOT APPLY TO SAFE KILLAURA",
-		Callback = function(p90)
-        MaxDungeonLevel = p90 / 100
+		Callback = function(pingPercent)
+        MaxDungeonLevel = pingPercent / 100
     end
 	})
     SecondTab:AddLabel("Killaura attack delay", true)
@@ -4419,8 +4353,8 @@ _t[38] = function()
 		Rounding = 2,
 		Compact = true,
 		Tooltip = "Adds delay to when each attack is used.\nDOES NOT APPLY TO SAFE KILLAURA",
-		Callback = function(p91)
-        AttackDelay = p91
+		Callback = function(delayValue)
+        AttackDelay = delayValue
     end
 	})
     SecondTab:AddLabel("Delay between attacks", true)
@@ -4432,14 +4366,14 @@ _t[38] = function()
 		Rounding = 2,
 		Compact = true,
 		Tooltip = "When time is added the script will wait that long between performing attacks. When fighting bosses this setting is ignored completely.",
-		Callback = function(p92)
-        if p92 == 0 then
+		Callback = function(delayBetweenAttacks)
+        if delayBetweenAttacks == 0 then
             AttackReady = false
 
             return
         end
 
-        AttackReady = p92
+        AttackReady = delayBetweenAttacks
     end
 	})
     SecondTab:AddLabel("Mob teleport rotation speed", true)
@@ -4451,11 +4385,11 @@ _t[38] = function()
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Controls how fast your character rotates around mobs when teleporting to them. If you set it too fast and you're using a melee class then the script may not be able to do damage to mobs effectively.",
-		Callback = function(p93)
-        MaxDamageReduction = p93
+		Callback = function(rotationSpeed)
+        MaxDamageReduction = rotationSpeed
     end
 	})
-    GenTabRight = GenTab:AddRightTabbox("Right Tabbox")
+    GenTabRight = GenTab:AddRightTabbox("Utilities")
     FirstTab = GenTabRight:AddTab("Extra")
     FirstTab:AddToggle("CollectDropToggle", {
 		Text = "Auto collect drops",
@@ -4491,29 +4425,29 @@ _t[38] = function()
 		Rounding = 2,
 		Compact = true,
 		Tooltip = "Controls the delay between pet attacks when using the `Pet killaura` toggle",
-		Callback = function(p94)
-        if p94 == 0 then
+		Callback = function(petAttackDelay)
+        if petAttackDelay == 0 then
             CombatActive = false
 
             return
         end
 
-        CombatActive = p94
+        CombatActive = petAttackDelay
     end
 	})
     SecondTab:AddLabel("Rejoin on error delay", true)
     local _SecondTab = SecondTab
-    local v273 = MaxPingTolerance
+    local defaultRestartSeconds = MaxPingTolerance
     _SecondTab:AddSlider("RestartStuckSlider", {
 		Text = "Seconds",
-		Default = v273,
+		Default = defaultRestartSeconds,
 		Min = 30,
 		Max = 120,
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Controls how long it takes for the script to rejoin the dungeon when something in the dungeon or script has broken causing you to be unable to complete it.",
-		Callback = function(p95)
-        MaxPingTolerance = p95
+		Callback = function(restartDelay)
+        MaxPingTolerance = restartDelay
     end
 	})
     task.wait()
@@ -4537,12 +4471,13 @@ _t[38] = function()
     local _EventTabIconTable = EventTabIconTable
     local month = os.date("*t").month
     local AddTab = _Window.AddTab
-    local v278 = _EventTabIconTable[month]
+    local monthIcon = _EventTabIconTable[month]
     EventTab = AddTab(_Window, {
 		Name = "Events",
-		Icon = v278
+		Icon = monthIcon,
+		Description = "Event bosses, wheels and battlepass rewards"
 	})
-    EventTabLeft = EventTab:AddLeftTabbox("Left Tabbox")
+    EventTabLeft = EventTab:AddLeftTabbox("Events")
     FirstTab = EventTabLeft:AddTab("Boss fight")
     FirstTab:AddLabel("<font color='#ff3333'>If you use instakill on insane mode you need to kill regular vane first before the instakill can work!</font>", true)
     FirstTab:AddToggle("InstakillToggle", {
@@ -4573,11 +4508,11 @@ _t[38] = function()
 		Default = "",
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p96)
+		Callback = function(selectedBuffs)
         if InDungeon and Options.OrbBuffDropdown:GetActiveValues(true) > 0 then
             Settings.SelectedOrbs = {}
 
-            for k, _ in pairs(p96) do
+            for k, _ in pairs(selectedBuffs) do
                 table.insert(Settings.SelectedOrbs, Settings.BuffOrbList[k])
             end
 
@@ -4599,28 +4534,28 @@ _t[38] = function()
 		Text = "Select instakill method",
 		Searchable = true
 	})
-    local v279 = Settings
-    local t106 = {
+    local settingsRef = Settings
+    local cupidConfig = {
 		EventTag = "CUPID_KILLS_"
 	}
-    local t107 = {
+    local easterBunnyConfig = {
 		EventTag = "EASTERBUNNY_KILLS_"
 	}
-    local t108 = {
+    local krakenConfig = {
 		EventTag = "KRAKEN_KILLS_"
 	}
-    local t109 = {
+    local vaneConfig = {
 		EventTag = "VANE_KILLS_"
 	}
-    local t110 = {
+    local fallenKingConfig = {
 		EventTag = "FALLENKING_KILLS_"
 	}
-    v279.EventBossList = {
-		Cupid = t106,
-		["Easter Bunny"] = t107,
-		Kraken = t108,
-		Vane = t109,
-		["Fallen King"] = t110,
+    settingsRef.EventBossList = {
+		Cupid = cupidConfig,
+		["Easter Bunny"] = easterBunnyConfig,
+		Kraken = krakenConfig,
+		Vane = vaneConfig,
+		["Fallen King"] = fallenKingConfig,
 		["Korrupted Klaus"] = {
 			EventTag = "SANTA_KILLS_"
 		}
@@ -4645,9 +4580,9 @@ _t[38] = function()
 		Text = "Stop after X total kills",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p97)
+		Callback = function(totalKillsValue)
         if InDungeon then
-            Settings.StopAfterTotalKills = p97
+            Settings.StopAfterTotalKills = totalKillsValue
         end
     end
 	})
@@ -4659,38 +4594,38 @@ _t[38] = function()
 		Text = "Stop after X daily kills",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p98)
+		Callback = function(dailyKillsValue)
         if InDungeon then
-            Settings.StopAfterDailyKills = p98
+            Settings.StopAfterDailyKills = dailyKillsValue
         end
     end
 	})
-    EventTabRight = EventTab:AddRightTabbox("Right Tabbox")
+    EventTabRight = EventTab:AddRightTabbox("Extras")
     FirstTab = EventTabRight:AddTab("Wheel")
     Settings.CoinSpinLabel = FirstTab:AddLabel("Coin cost: 5", true)
     FirstTab:AddInput("WheelSpinInput", {
 		Text = "Wheel spin amount",
 		Default = 1,
 		Placeholder = "1",
-		Callback = function(p99)
-        local u660 = p99
+		Callback = function(userInput)
+        local wheelSpinInput = userInput
         local success, result = pcall(function()
-            if u660 == "" then
+            if wheelSpinInput == "" then
                 Settings.CoinSpinLabel:SetText("Coin cost: 0")
 
                 return
             end
 
-            if not tonumber(u660) then
+            if not tonumber(wheelSpinInput) then
                 Settings.CoinSpinLabel:SetText("Coin cost: <font color=\"rgb(255, 0, 0)\">invalid number</font>")
 
                 return
             end
 
-            local str = tostring(u660 * 5)
-            local v1450 = str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse()
+            local str = tostring(wheelSpinInput * 5)
+            local formattedCost = str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse()
 
-            Settings.CoinSpinLabel:SetText("Coin cost: " .. v1450)
+            Settings.CoinSpinLabel:SetText("Coin cost: " .. formattedCost)
         end)
         if not success then
             Library:Notify("WHEEL SPIN INPUT ERROR OCCURRED:\n" .. result .. "\nSEND THIS TO SUPPORT", 10000000000000000)
@@ -4703,10 +4638,10 @@ _t[38] = function()
 		DoubleClick = true,
 		Func = function()
         local success, result = pcall(function()
-            local num = tonumber(Options.WheelSpinInput.Value)
+            local spinAmount = tonumber(Options.WheelSpinInput.Value)
             local EventSpinner_JoinQueue = Remotes:FindFirstChild("EventSpinner_JoinQueue")
 
-            if not num then
+            if not spinAmount then
                 Library:Notify("Invalid spin amount", 1)
             elseif not EventSpinner_JoinQueue then
                 Library:Notify("Wheel unavailable", 1)
@@ -4719,7 +4654,7 @@ _t[38] = function()
             while true do
                 ServerTick += 1
 
-                if not (ServerTick <= num) then
+                if not (ServerTick <= spinAmount) then
                     break
                 end
 
@@ -4741,61 +4676,61 @@ _t[38] = function()
 		Tooltip = "recycles all wheel items that are not locked or have a special hex\n\n<font color=\"rgb(255, 0, 0)\">you WILL crash if you have a lot of items, but they should be recycled when you rejoin</font>",
 		DoubleClick = true,
 		Func = function()
-        local t113 = {}
-        for v668, v669 in pairs(t15) do
+        local cosmeticLookup = {}
+        for _, cosmeticName in pairs(CosmeticItemNames) do
 
-            t113[v669] = true
+            cosmeticLookup[cosmeticName] = true
         end
-        local t114 = {}
+        local protectedHexes = {}
         local SaveUserHexesInputValue = Options.SaveUserHexesInput.Value
         if SaveUserHexesInputValue then
             if SaveUserHexesInputValue ~= "" and SaveUserHexesInputValue ~= " " then
-                local v672 = string.gsub(SaveUserHexesInputValue, ", ", ",")
-                local v673 = string.gsub(v672, "#", "")
-                local parts = string.split(v673, ",")
+                local hexNoSpaces = string.gsub(SaveUserHexesInputValue, ", ", ",")
+                local hexNoHash = string.gsub(hexNoSpaces, "#", "")
+                local parts = string.split(hexNoHash, ",")
 
                 for _, v in pairs(parts) do
                     if v ~= "" and v ~= " " then
-                        table.insert(t114, string.lower(v))
+                        table.insert(protectedHexes, string.lower(v))
                     end
                 end
             end
 
-            for _, v in pairs(v182) do
-                table.insert(t114, v)
+            for _, v in pairs(HexColorList) do
+                table.insert(protectedHexes, v)
             end
         end
-        local t115 = {}
+        local itemsToRecycle = {}
         local Cosmetics = PlayerBackpack:FindFirstChild("Cosmetics")
         local GetChildren = Cosmetics.GetChildren
         for _, v in pairs(GetChildren(Cosmetics)) do
-            if t113[v.Name] and (not v:FindFirstChild("Locked") or v:FindFirstChild("Favorited")) then
+            if cosmeticLookup[v.Name] and (not v:FindFirstChild("Locked") or v:FindFirstChild("Favorited")) then
                 local Dye = v:FindFirstChild("Dye")
 
                 if not Dye then
-                    table.insert(t115, v)
+                    table.insert(itemsToRecycle, v)
                 else
-                    local v685 = Dye.Value:ToHex()
-                    local v686 = false
+                    local dyeHex = Dye.Value:ToHex()
+                    local hexProtected = false
 
-                    for _, v50 in pairs(t114) do
-                        if string.match(v685, "^" .. v50) then
-                            v686 = true
+                    for _, protectedHex in pairs(protectedHexes) do
+                        if string.match(dyeHex, "^" .. protectedHex) then
+                            hexProtected = true
 
                             break
                         end
                     end
 
-                    if not v686 then
-                        table.insert(t115, v)
+                    if not hexProtected then
+                        table.insert(itemsToRecycle, v)
                     end
                 end
             end
         end
         local _Library2 = Library
-        local str = tostring(#t115)
+        local str = tostring(#itemsToRecycle)
         _Library2:Notify("Attempting to recycle " .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse() .. " items", 5)
-        Remotes:WaitForChild("Recycler_Recycle", 1e999):FireServer(t115)
+        Remotes:WaitForChild("Recycler_Recycle", 1e999):FireServer(itemsToRecycle)
     end
 	})
     SecondTab = EventTabRight:AddTab("Battlepass")
@@ -4844,24 +4779,24 @@ _t[38] = function()
 
             IsFindingHidden = true
 
-            local t116 = {}
+            local rewardTargets = {}
 
             if EventFinderReward then
                 for _, child in pairs(EventFinderReward.Models:GetChildren()) do
-                    table.insert(t116, child:FindFirstChild("Part"))
+                    table.insert(rewardTargets, child:FindFirstChild("Part"))
                 end
             end
 
             local EventObbyReward = Workspace:FindFirstChild("EventObbyReward", true)
 
             if EventObbyReward then
-                table.insert(t116, EventObbyReward.Base)
+                table.insert(rewardTargets, EventObbyReward.Base)
             end
 
             local EventDailyReward = Workspace:FindFirstChild("EventDailyReward", true)
 
             if EventDailyReward then
-                table.insert(t116, EventDailyReward.Base)
+                table.insert(rewardTargets, EventDailyReward.Base)
             end
 
             if NetDesync then
@@ -4876,16 +4811,16 @@ _t[38] = function()
             Remotes:WaitForChild("SetMounted", math.huge):FireServer(true)
             task.wait(1)
 
-            for _, v in pairs(t116) do
+            for _, v in pairs(rewardTargets) do
                 HumanoidRootPart.CFrame = CFrame.new(Vector3.new(v.Position.X, v.Position.Y + v.Size.Y / 2, v.Position.Z))
                 task.wait(0.5)
             end
 
             local Spawn = Workspace:FindFirstChild("Spawn")
-            local v1463 = Spawn.Size.Y / 2
-            local vector3 = Vector3.new(Spawn.Position.X, Spawn.Position.Y + v1463, Spawn.Position.Z)
+            local spawnHalfSize = Spawn.Size.Y / 2
+            local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
 
-            HumanoidRootPart.CFrame = CFrame.new(vector3)
+            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
             task.wait(1)
             Remotes:WaitForChild("SetMounted", 1e999):FireServer(false)
 
@@ -4926,33 +4861,33 @@ _t[38] = function()
 
         ChangingHiddenESP = true
 
-        local t117 = {}
+        local rewardModels = {}
 
         if EventFinderReward then
             for _, child in pairs(EventFinderReward.Models:GetChildren()) do
-                table.insert(t117, child)
+                table.insert(rewardModels, child)
             end
         end
 
         local EventObbyReward = Workspace:FindFirstChild("EventObbyReward", true)
 
         if EventObbyReward then
-            table.insert(t117, EventObbyReward.Base)
+            table.insert(rewardModels, EventObbyReward.Base)
         end
 
         local EventDailyReward = Workspace:FindFirstChild("EventDailyReward", true)
 
         if EventDailyReward then
-            table.insert(t117, EventDailyReward.Base)
+            table.insert(rewardModels, EventDailyReward.Base)
         end
 
-        for _, v in pairs(t117) do
+        for _, v in pairs(rewardModels) do
             if v.ClassName == "Model" then
                 local GetDescendants = v.GetDescendants
 
-                for _, v51 in pairs(GetDescendants(v)) do
-                    if v51.ClassName == "Highlight" and v51.Name ~= "ESP" then
-                        v51:Destroy()
+                for _, espDescendant in pairs(GetDescendants(v)) do
+                    if espDescendant.ClassName == "Highlight" and espDescendant.Name ~= "ESP" then
+                        espDescendant:Destroy()
                     end
                 end
             end
@@ -4987,15 +4922,15 @@ _t[38] = function()
 
         if Hoops then
             for _, child in pairs(Hoops:GetChildren()) do
-                local v708 = child
+                local hoopChild = child
 
                 TeleportingHoops += 1
                 task.spawn(function()
-                    local Pivot = v708:GetPivot()
+                    local Pivot = hoopChild:GetPivot()
 
-                    v708:PivotTo(CFrame.new(HumanoidRootPart.Position))
+                    hoopChild:PivotTo(CFrame.new(HumanoidRootPart.Position))
                     task.wait(0.1)
-                    v708:PivotTo(Pivot)
+                    hoopChild:PivotTo(Pivot)
                     TeleportingHoops -= 1
                 end)
             end
@@ -5043,20 +4978,20 @@ If available to your executor the script will reset your character and then invi
             local _task6 = task
             local GetChildren = Spawns.GetChildren
             _task6.wait(1)
-            for v1475, v1476 in pairs(GetChildren(Spawns)) do
+            for _, eggSpawn in pairs(GetChildren(Spawns)) do
 
-                local vector3 = Vector3.new(v1476.Position.X, v1476.Position.Y + GetPlayerSize(), v1476.Position.Z)
+                local eggPosition = Vector3.new(eggSpawn.Position.X, eggSpawn.Position.Y + GetPlayerSize(), eggSpawn.Position.Z)
 
-                HumanoidRootPart.CFrame = CFrame.new(vector3)
+                HumanoidRootPart.CFrame = CFrame.new(eggPosition)
                 task.wait(0.5)
             end
             local Spawn = Workspace:FindFirstChild("Spawn")
             if not Spawn then
                 return
             end
-            local v1479 = Spawn.Size.Y / 2
-            local vector3 = Vector3.new(Spawn.Position.X, Spawn.Position.Y + v1479, Spawn.Position.Z)
-            HumanoidRootPart.CFrame = CFrame.new(vector3)
+            local spawnHalfSize = Spawn.Size.Y / 2
+            local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
+            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
             task.wait(1)
             Remotes:WaitForChild("SetMounted", math.huge):FireServer(false)
             if NetDesync then
@@ -5105,19 +5040,19 @@ If available to your executor the script will reset your character and then invi
             ChangingESP = true
 
             for _, child in pairs(_ScavengerHuntContainer:GetChildren()) do
-                local v1488 = child:FindFirstChild("ESP Highlight")
+                local espHighlight = child:FindFirstChild("ESP Highlight")
 
-                if not v1488 then
+                if not espHighlight then
                     local Highlight = Instance.new("Highlight")
 
                     Highlight.Name = "ESP Highlight"
                     Highlight.FillTransparency = 0
                     Highlight.Parent = child
-                elseif v1488 then
-                    if v1488.Enabled then
-                        v1488.Enabled = false
+                elseif espHighlight then
+                    if espHighlight.Enabled then
+                        espHighlight.Enabled = false
                     else
-                        v1488.Enabled = true
+                        espHighlight.Enabled = true
                     end
                 end
             end
@@ -5133,7 +5068,8 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "trading tab"
     TradeTab = Window:AddTab({
 		Name = "Trading",
-		Icon = "rbxassetid://9671046601"
+		Icon = "handshake",
+		Description = "Player shop and trading tools"
 	})
     LeftGroupBox = TradeTab:AddLeftGroupbox("Player shop")
     LeftGroupBox:AddToggle("PlacePlayerShopToggle", {
@@ -5150,7 +5086,7 @@ If available to your executor the script will reset your character and then invi
     LeftGroupBox:AddButton({
 		Text = "Scan for active player shops",
 		Func = function()
-        local t120 = {}
+        local shopOwners = {}
         local ShopLocations = game.Workspace:FindFirstChild("ShopLocations")
 
         if not ShopLocations then
@@ -5161,17 +5097,17 @@ If available to your executor the script will reset your character and then invi
 
         for _, v in pairs(GetDescendants(ShopLocations)) do
             if v:IsA("ObjectValue") and v.Name == "PlayerOwner" and v.Value ~= PlayerName then
-                table.insert(t120, v.Value)
+                table.insert(shopOwners, v.Value)
             end
         end
 
-        if #t120 == 0 then
+        if #shopOwners == 0 then
             print("no shops active")
 
             return
         end
 
-        Options.PlayerShopDropdown:SetValues(t120)
+        Options.PlayerShopDropdown:SetValues(shopOwners)
     end
 	})
     RightGroupBox = TradeTab:AddRightGroupbox("Trading")
@@ -5186,82 +5122,82 @@ If available to your executor the script will reset your character and then invi
 
         local ok, result = pcall(function()
             local Items = PlayerBackpack.Items
-            local v1491 = ReplicatedStorage.PlayerEquips:FindFirstChild(PlayerName)
-            local v1492
-            local PingCheckValue = 0
-            local PingCheckCount = 0
-            local t121 = {}
-            local function v1496(p100)
-                local _ = p100.ID.Value
+            local playerEquipsFolder = ReplicatedStorage.PlayerEquips:FindFirstChild(PlayerName)
+            local currentTrade
+            local dupesFound = 0
+            local itemsChecked = 0
+            local tradeItems = {}
+            local function detectDupe(tradedItem)
+                local _ = tradedItem.ID.Value
 
-                for _, v in pairs(t121) do
-                    if v.ID.Value == p100.ID.Value then
+                for _, v in pairs(tradeItems) do
+                    if v.ID.Value == tradedItem.ID.Value then
                         local Folder = Instance.new("Folder")
 
                         Folder.Name = "Exploited"
                         Folder.Parent = v
                         Library:Notify("Found duped item: " .. v.Name, 3)
-                        PingCheckValue += 1
+                        dupesFound += 1
 
                         return
                     end
                 end
             end
-            local v1497, v1498, v1499 = pairs(ReplicatedStorage:FindFirstChild("Trades"):GetChildren())
-            local GlobalCache
-            local v1500
+            local iterFn, iterState, iterValue = pairs(ReplicatedStorage:FindFirstChild("Trades"):GetChildren())
+            local searchExhausted
+            local tradeInstance
             repeat
-                v1499, v1500 = v1497(v1498, v1499)
+                iterValue, tradeInstance = iterFn(iterState, iterValue)
 
-                if not v1499 then
-                    GlobalCache = true
+                if not iterValue then
+                    searchExhausted = true
                 end
 
-                if GlobalCache then
+                if searchExhausted then
                     break
                 end
-            until v1500:FindFirstChild(PlayerName)
-            if not GlobalCache then
-                v1492 = v1500
+            until tradeInstance:FindFirstChild(PlayerName)
+            if not searchExhausted then
+                currentTrade = tradeInstance
             end
-            GlobalCache = false
-            if not v1492 then
+            searchExhausted = false
+            if not currentTrade then
                 Library:Notify("You are not trading anyone", 3)
                 Settings.CheckingTrade = nil
 
                 return
             end
-            for v1504, v1505 in pairs(v1492:GetChildren()) do
+            for _, tradeParticipant in pairs(currentTrade:GetChildren()) do
 
-                if v1505.Name ~= LocalPlayer.Name then
-                    for _, descendant in pairs(v1505:GetDescendants()) do
+                if tradeParticipant.Name ~= LocalPlayer.Name then
+                    for _, descendant in pairs(tradeParticipant:GetDescendants()) do
                         if descendant.Name == "ID" then
-                            PingCheckCount += 1
-                            table.insert(t121, descendant.Parent)
+                            itemsChecked += 1
+                            table.insert(tradeItems, descendant.Parent)
                         end
                     end
                 end
             end
-            if PingCheckCount == 0 then
+            if itemsChecked == 0 then
                 Library:Notify("No items to check", 3)
                 Settings.CheckingTrade = nil
 
                 return
             end
             local GetDescendants = Items.GetDescendants
-            for v1511, v1512 in pairs(GetDescendants(Items)) do
+            for _, itemDescendant in pairs(GetDescendants(Items)) do
 
-                if v1512.Name == "ID" then
-                    v1496(v1512.Parent)
+                if itemDescendant.Name == "ID" then
+                    detectDupe(itemDescendant.Parent)
                 end
             end
-            for v1515, v1516 in pairs(v1491:GetDescendants()) do
+            for _, equipsDescendant in pairs(playerEquipsFolder:GetDescendants()) do
 
-                if v1516.Name == "ID" then
-                    v1496(v1516.Parent)
+                if equipsDescendant.Name == "ID" then
+                    detectDupe(equipsDescendant.Parent)
                 end
             end
-            if PingCheckValue == 0 then
+            if dupesFound == 0 then
                 Library:Notify("No duped items found", 3)
                 Settings.CheckingTrade = nil
 
@@ -5310,124 +5246,124 @@ If available to your executor the script will reset your character and then invi
     RightGroupBox:AddButton({
 		Text = "Scan items",
 		Func = function()
-        local children = PlayerBackpack:FindFirstChild("Cosmetics"):GetChildren()
-        local children2 = PlayerBackpack:FindFirstChild("Items"):GetChildren()
-        local DebugTable = {}
-        local t123 = {}
-        local t124 = {}
-        local s5 = "\226\128\139"
+        local cosmeticChildren = PlayerBackpack:FindFirstChild("Cosmetics"):GetChildren()
+        local itemChildren = PlayerBackpack:FindFirstChild("Items"):GetChildren()
+        local seenNames = {}
+        local displayValues = {}
+        local displayToReal = {}
+        local invisibleCode = "\226\128\139"
 
-        local function v726(p101)
-            if t124[p101] then
-                p101 ..= tostring(s5)
-                s5 ..= "\226\128\139"
+        local function makeUniqueLabel(label)
+            if displayToReal[label] then
+                label ..= tostring(invisibleCode)
+                invisibleCode ..= "\226\128\139"
             end
 
-            return p101
+            return label
         end
 
         if not Settings.CanRequire then
 
-            for v729, v730 in pairs(children2) do
+            for _, itemChild in pairs(itemChildren) do
 
-                local Name = v730.Name
+                local Name = itemChild.Name
 
-                if not DebugTable[Name] and (not v730:FindFirstChild("Locked") and not v730:FindFirstChild("Favorited")) then
-                    DebugTable[Name] = true
-                    table.insert(t123, Name)
-                    t124[Name] = Name
+                if not seenNames[Name] and (not itemChild:FindFirstChild("Locked") and not itemChild:FindFirstChild("Favorited")) then
+                    seenNames[Name] = true
+                    table.insert(displayValues, Name)
+                    displayToReal[Name] = Name
                 end
             end
-            for _, v in pairs(children) do
+            for _, v in pairs(cosmeticChildren) do
                 local vName = v.Name
 
-                if not DebugTable[vName] and (not v:FindFirstChild("Locked") and not v:FindFirstChild("Favorited")) then
-                    DebugTable[vName] = true
-                    table.insert(t123, vName)
-                    t124[vName] = vName
+                if not seenNames[vName] and (not v:FindFirstChild("Locked") and not v:FindFirstChild("Favorited")) then
+                    seenNames[vName] = true
+                    table.insert(displayValues, vName)
+                    displayToReal[vName] = vName
                 end
             end
         else
             local lib = require(Items)
-            for v738, DungeonEventConnect in pairs(children2) do
+            for _, itemChild in pairs(itemChildren) do
 
-                local DisplayKey = lib[DungeonEventConnect.Name].DisplayKey
+                local DisplayKey = lib[itemChild.Name].DisplayKey
 
-                if not DebugTable[DungeonEventConnect.Name] then
-                    local v741 = v726(DisplayKey)
+                if not seenNames[itemChild.Name] then
+                    local uniqueLabel = makeUniqueLabel(DisplayKey)
 
-                    if not DungeonEventConnect:FindFirstChild("Locked") and (not DungeonEventConnect:FindFirstChild("Favorited") and not lib[DungeonEventConnect.Name].Untradeable) then
-                        DebugTable[DungeonEventConnect.Name] = true
-                        table.insert(t123, v741)
-                        t124[v741] = DungeonEventConnect.Name
+                    if not itemChild:FindFirstChild("Locked") and (not itemChild:FindFirstChild("Favorited") and not lib[itemChild.Name].Untradeable) then
+                        seenNames[itemChild.Name] = true
+                        table.insert(displayValues, uniqueLabel)
+                        displayToReal[uniqueLabel] = itemChild.Name
                     end
                 end
             end
-            for _, v in pairs(children) do
+            for _, v in pairs(cosmeticChildren) do
                 local DisplayKey = lib[v.Name].DisplayKey
 
-                if not DebugTable[v.Name] then
-                    local v745 = v726(DisplayKey)
+                if not seenNames[v.Name] then
+                    local uniqueLabel = makeUniqueLabel(DisplayKey)
 
                     if not v:FindFirstChild("Locked") and (not v:FindFirstChild("Favorited") and not lib[v.Name].Untradeable) then
-                        DebugTable[v.Name] = true
-                        table.insert(t123, v745)
-                        t124[v745] = v.Name
+                        seenNames[v.Name] = true
+                        table.insert(displayValues, uniqueLabel)
+                        displayToReal[uniqueLabel] = v.Name
                     end
                 end
             end
         end
 
-        Options.TradeDropdown:SetValues(t123)
-        TradeTable = t124
+        Options.TradeDropdown:SetValues(displayValues)
+        TradeTable = displayToReal
     end
 	})
     RightGroupBox:AddButton({
 		Text = "Add selected items",
 		Tooltip = "might cause lag for both players in trade",
 		Func = function()
-        local t125 = {}
+        local selectedNames = {}
 
         for k, _ in pairs(Options.TradeDropdown.Value) do
-            local v749 = k
+            local selectedKey = k
 
-            if v749 then
-                t125[TradeTable[v749]] = true
+            if selectedKey then
+                selectedNames[TradeTable[selectedKey]] = true
             end
         end
 
-        local PingTolerance = 0
-        local children = PlayerBackpack:WaitForChild("Items", 1e999):GetChildren()
-        local children3 = PlayerBackpack:WaitForChild("Cosmetics", 1e999):GetChildren()
+        local addedCount = 0
+        local itemChildren = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items", 1e999):GetChildren()
+        local cosmeticChildren = PlayerBackpack:WaitForChild("Cosmetics", 1e999):GetChildren()
         local Trade_AddItem = Remotes:WaitForChild("Trade_AddItem", 1e999)
-        local v754, v755, v756 = pairs(children)
+        local iterFn, iterState, iterValue = pairs(itemChildren)
 
         repeat
-            local v757
+            local itemInstance
 
-            v756, v757 = v754(v755, v756)
+            iterValue, itemInstance = iterFn(iterState, iterValue)
 
-            if not v756 then
+            if not iterValue then
                 break
             end
 
-            if t125[v757.Name] then
-                Trade_AddItem:FireServer(v757, math.huge)
-                PingTolerance += 1
+            if selectedNames[itemInstance.Name] then
+                Trade_AddItem:FireServer(itemInstance, math.huge)
+                addedCount += 1
             end
-        until PingTolerance == 20
+        until addedCount == 20
 
-        if PingTolerance == 20 then
+        if addedCount == 20 then
             return
         end
 
-        for _, v in pairs(children3) do
-            if t125[v.Name] then
+        for _, v in pairs(cosmeticChildren) do
+            if selectedNames[v.Name] then
                 Trade_AddItem:FireServer(v, 1e999)
-                PingTolerance += 1
+                addedCount += 1
             end
 
-            if PingTolerance == 20 then
+            if addedCount == 20 then
                 return
             end
         end
@@ -5437,9 +5373,10 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating class tab"
     ClassTab = Window:AddTab({
 		Name = "Classes",
-		Icon = "rbxassetid://9671047048"
+		Icon = "shield",
+		Description = "Class distances and buffs"
 	})
-    ClassTabLeft = ClassTab:AddLeftTabbox("Left Tabbox")
+    ClassTabLeft = ClassTab:AddLeftTabbox("Offsets")
     FirstTab = ClassTabLeft:AddTab("Main")
     FirstTab:AddToggle("GeneralClassBuffToggle", {
 		Text = "General class buffs",
@@ -5458,9 +5395,9 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Forward and Backwards\nDefault is 20",
-		Callback = function(p102)
+		Callback = function(xDistance)
         if Class and Class.Distance == "Ranged" then
-            MeleeMinDist = p102
+            MeleeMinDist = xDistance
         end
     end
 	})
@@ -5472,7 +5409,7 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Up and Down\nDefault is 50",
-		Callback = function(p103)
+		Callback = function(yDistance)
         local _Class = Class
 
         if _Class then
@@ -5480,7 +5417,7 @@ If available to your executor the script will reset your character and then invi
         end
 
         if _Class then
-            MeleeMaxDist = p103
+            MeleeMaxDist = yDistance
         end
     end
 	})
@@ -5496,9 +5433,9 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Forward and Backwards\nDefault is 15",
-		Callback = function(p104)
+		Callback = function(xDistance)
         if Class and Class.Distance == "Melee" then
-            MeleeMinDist = p104
+            MeleeMinDist = xDistance
         end
     end
 	})
@@ -5510,9 +5447,9 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Up and Down\nDefault is 8",
-		Callback = function(p105)
+		Callback = function(yDistance)
         if Class and Class.Distance == "Melee" then
-            MeleeMaxDist = p105
+            MeleeMaxDist = yDistance
         end
     end
 	})
@@ -5536,265 +5473,266 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating equipment tab"
     InventoryTab = Window:AddTab({
 		Name = "Inventory",
-		Icon = "rbxassetid://9671046778"
+		Icon = "package",
+		Description = "Auto-sell, perks, equips and cosmetics"
 	})
-    local v285 = Settings
-    local t126 = {
+    local settingsRef = Settings
+    local goldHoarderPerk = {
 		PerkValue = 0.2,
 		PetPerkValue = 0.2,
 		PerkInternalName = "GoldDrop",
 		PerkVisualName = "Gold Hoarder"
 	}
-    local t127 = {
+    local luckyLooterPerk = {
 		PerkValue = 0.1,
 		PetPerkValue = 0.1,
 		PerkInternalName = "PetFoodDrop",
 		PerkVisualName = "Lucky Looter"
 	}
-    local t128 = {
+    local energizedPerk = {
 		PerkValue = 0.15,
 		PetPerkValue = 0.15,
 		PerkInternalName = "UltCharge",
 		PerkVisualName = "Energized"
 	}
-    local t129 = {
+    local hpUpPerk = {
 		PerkValue = 0.12,
 		PetPerkValue = 0.07,
 		PerkInternalName = "BonusHP",
 		PerkVisualName = "HP UP"
 	}
-    local t130 = {
+    local attackUpPerk = {
 		PerkValue = 0.08,
 		PetPerkValue = 0.05,
 		PerkInternalName = "BonusAttack",
 		PerkVisualName = "Attack Up"
 	}
-    local t131 = {
+    local agilityPerk = {
 		PerkValue = 0.1,
 		PetPerkValue = 0.1,
 		PerkInternalName = "BonusWalkspeed",
 		PerkVisualName = "Agility"
 	}
-    local t132 = {
+    local burnResistancePerk = {
 		PerkValue = 0.9,
 		PetPerkValue = 0.9,
 		PerkInternalName = "ResistBurn",
 		PerkVisualName = "Burn Resistance"
 	}
-    local t133 = {
+    local poisonResistancePerk = {
 		PerkValue = 0.9,
 		PetPerkValue = 0.9,
 		PerkInternalName = "ResistPoison",
 		PerkVisualName = "Poison Resistance"
 	}
-    local t134 = {
+    local frostResistancePerk = {
 		PerkValue = 0.9,
 		PetPerkValue = 0.9,
 		PerkInternalName = "ResistFrost",
 		PerkVisualName = "Frost Resistance"
 	}
-    local t135 = {
+    local knockdownResistancePerk = {
 		PerkValue = 0.9,
 		PetPerkValue = 0.9,
 		PerkInternalName = "ResistKockdown",
 		PerkVisualName = "Knockdown Resistance"
 	}
-    local t136 = {
+    local untouchablePerk = {
 		PerkValue = 0.2,
 		PerkInternalName = "DodgeChance",
 		PerkVisualName = "Untouchable"
 	}
-    local t137 = {
+    local roughSkinPerk = {
 		PerkValue = 0.1,
 		PerkInternalName = "RoughSkin",
 		PerkVisualName = "Rough Skin"
 	}
-    local t138 = {
+    local damageReductionPerk = {
 		PerkValue = 0.08,
 		PerkInternalName = "DamageReduction",
 		PerkVisualName = "Damage Reduction"
 	}
-    local t139 = {
+    local lifeDrainPerk = {
 		PerkValue = 0.06,
 		PerkInternalName = "LifeDrain",
 		PerkVisualName = "Life Drain"
 	}
-    local t140 = {
+    local burnChancePerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "BurnChance",
 		PerkVisualName = "Burn Chance"
 	}
-    local t141 = {
+    local frostChancePerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "FrostChance",
 		PerkVisualName = "Frost Chance"
 	}
-    local t142 = {
+    local poisonChancePerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "PoisonChance",
 		PerkVisualName = "Poison Chance"
 	}
-    local t143 = {
+    local critStackPerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "CritStack",
 		PerkVisualName = "Crit Stack"
 	}
-    local t144 = {
+    local poisonThornsPerk = {
 		PerkValue = 0.6,
 		PerkInternalName = "PoisonThorns",
 		PerkVisualName = "Poisonous Thorns"
 	}
-    local t145 = {
+    local elementalResistancePerk = {
 		PerkValue = 0.4,
 		PetPerkValue = 0.15,
 		PerkInternalName = "Elemental",
 		PerkVisualName = "Elemental Resistance"
 	}
-    local t146 = {
+    local ferociousPerk = {
 		PerkValue = 0.4,
 		PetPerkValue = 0.15,
 		PerkInternalName = "Ferocious",
 		PerkVisualName = "Ferocious"
 	}
-    local t147 = {
+    local vampiricPerk = {
 		PerkValue = 0.15,
 		PetPerkValue = 0.05,
 		PerkInternalName = "Vampiric",
 		PerkVisualName = "Vampiric"
 	}
-    local t148 = {
+    local bossBanePerk = {
 		PerkValue = 0.3,
 		PetPerkValue = 0.1,
 		PerkInternalName = "TestTier5",
 		PerkVisualName = "Boss Bane"
 	}
-    local t149 = {
+    local mobSlayerPerk = {
 		PerkValue = 0.3,
 		PetPerkValue = 0.1,
 		PerkInternalName = "MobBoss",
 		PerkVisualName = "Mob Slayer"
 	}
-    local t150 = {
+    local eliteAssassinPerk = {
 		PerkValue = 0.3,
 		PetPerkValue = 0.1,
 		PerkInternalName = "EliteBoss",
 		PerkVisualName = "Elite Assassin"
 	}
-    local t151 = {
+    local openingStrikePerk = {
 		PerkValue = 0.25,
 		PerkInternalName = "OpeningStrike",
 		PerkVisualName = "Opening Strike"
 	}
-    local t152 = {
+    local selfDestructPerk = {
 		PerkValue = 0.5,
 		PerkInternalName = "Destruction",
 		PerkVisualName = "Self Destruct"
 	}
-    local t153 = {
+    local fortressPerk = {
 		PerkValue = 0.4,
 		PerkInternalName = "Fortress",
 		PerkVisualName = "Fortress"
 	}
-    local t154 = {
+    local glassPerk = {
 		PerkValue = 1,
 		PerkInternalName = "Glass",
 		PerkVisualName = "Glass"
 	}
-    local t155 = {
+    local masterThiefPerk = {
 		PerkValue = 0.35,
 		PerkInternalName = "MasterThief",
 		PerkVisualName = "Master Thief"
 	}
-    local t156 = {
+    local oblivionPerk = {
 		PerkValue = 0.05,
 		PetPerkValue = 0.05,
 		PerkInternalName = "Oblivion",
 		PerkVisualName = "Oblivion"
 	}
-    local t157 = {
+    local recklessPerk = {
 		PerkValue = 0.25,
 		PetPerkValue = 0.25,
 		PerkInternalName = "Reckless",
 		PerkVisualName = "Reckless"
 	}
-    local t158 = {
+    local comebackPerk = {
 		PerkValue = 0.3,
 		PerkInternalName = "Comeback",
 		PerkVisualName = "Comeback"
 	}
-    local t159 = {
+    local relentlessPerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "Relentless",
 		PerkVisualName = "Relentless"
 	}
-    local t160 = {
+    local duelistPerk = {
 		PerkValue = 0.3,
 		PerkInternalName = "Duelist",
 		PerkVisualName = "Duelist"
 	}
-    local t161 = {
+    local unstoppablePerk = {
 		PerkValue = 0.15,
 		PerkInternalName = "Unstoppable",
 		PerkVisualName = "Unstoppable"
 	}
-    local t162 = {
+    local survivorPerk = {
 		PerkValue = 0.2,
 		PerkInternalName = "Survivor",
 		PerkVisualName = "Survivor"
 	}
-    local t163 = {
+    local executionerPerk = {
 		PerkValue = 0.5,
 		PetPerkValue = 0.5,
 		PerkInternalName = "Executioner",
 		PerkVisualName = "Executioner"
 	}
-    local t164 = {
+    local adrenalinePerk = {
 		PerkValue = 0.3,
 		PerkInternalName = "Adrenaline",
 		PerkVisualName = "Adrenaline"
 	}
-    v285.SavePerkTable = {
-		["Gold Hoarder"] = t126,
-		["Lucky Looter"] = t127,
-		Energized = t128,
-		["HP UP"] = t129,
-		["Attack Up"] = t130,
-		Agility = t131,
-		["Burn Resistance"] = t132,
-		["Poison Resistance"] = t133,
-		["Frost Resistance"] = t134,
-		["Knockdown Resistance"] = t135,
-		Untouchable = t136,
-		["Rough Skin"] = t137,
-		["Damage Reduction"] = t138,
-		["Life Drain"] = t139,
-		["Burn Chance"] = t140,
-		["Frost Chance"] = t141,
-		["Poison Chance"] = t142,
-		["Crit Stack"] = t143,
-		["Poisonous Thorns"] = t144,
-		["Elemental Resistance"] = t145,
-		Ferocious = t146,
-		Vampiric = t147,
-		["Boss Bane"] = t148,
-		["Mob Slayer"] = t149,
-		["Elite Assassin"] = t150,
-		["Opening Strike"] = t151,
-		["Self Destruct"] = t152,
-		Fortress = t153,
-		Glass = t154,
-		["Master Thief"] = t155,
-		Oblivion = t156,
-		Reckless = t157,
-		Comeback = t158,
-		Relentless = t159,
-		Duelist = t160,
-		Unstoppable = t161,
-		Survivor = t162,
-		Executioner = t163,
-		Adrenaline = t164
+    settingsRef.SavePerkTable = {
+		["Gold Hoarder"] = goldHoarderPerk,
+		["Lucky Looter"] = luckyLooterPerk,
+		Energized = energizedPerk,
+		["HP UP"] = hpUpPerk,
+		["Attack Up"] = attackUpPerk,
+		Agility = agilityPerk,
+		["Burn Resistance"] = burnResistancePerk,
+		["Poison Resistance"] = poisonResistancePerk,
+		["Frost Resistance"] = frostResistancePerk,
+		["Knockdown Resistance"] = knockdownResistancePerk,
+		Untouchable = untouchablePerk,
+		["Rough Skin"] = roughSkinPerk,
+		["Damage Reduction"] = damageReductionPerk,
+		["Life Drain"] = lifeDrainPerk,
+		["Burn Chance"] = burnChancePerk,
+		["Frost Chance"] = frostChancePerk,
+		["Poison Chance"] = poisonChancePerk,
+		["Crit Stack"] = critStackPerk,
+		["Poisonous Thorns"] = poisonThornsPerk,
+		["Elemental Resistance"] = elementalResistancePerk,
+		Ferocious = ferociousPerk,
+		Vampiric = vampiricPerk,
+		["Boss Bane"] = bossBanePerk,
+		["Mob Slayer"] = mobSlayerPerk,
+		["Elite Assassin"] = eliteAssassinPerk,
+		["Opening Strike"] = openingStrikePerk,
+		["Self Destruct"] = selfDestructPerk,
+		Fortress = fortressPerk,
+		Glass = glassPerk,
+		["Master Thief"] = masterThiefPerk,
+		Oblivion = oblivionPerk,
+		Reckless = recklessPerk,
+		Comeback = comebackPerk,
+		Relentless = relentlessPerk,
+		Duelist = duelistPerk,
+		Unstoppable = unstoppablePerk,
+		Survivor = survivorPerk,
+		Executioner = executionerPerk,
+		Adrenaline = adrenalinePerk
 	}
-    InventoryTabLeft = InventoryTab:AddLeftTabbox("Left Tabbox")
+    InventoryTabLeft = InventoryTab:AddLeftTabbox("Main")
     FirstTab = InventoryTabLeft:AddTab("Inventory")
     FirstTab:AddToggle("AutoSellToggle", {
 		Text = "Auto sell items",
@@ -5819,9 +5757,9 @@ If available to your executor the script will reset your character and then invi
 		Text = "Keep tiers",
 		AllowNull = false,
 		Default = "5",
-		Callback = function(p106)
-        if p106 and InDungeon or InLobby then
-            SellRarityThreshold = Settings.AutoSellOptions[p106]
+		Callback = function(tierKey)
+        if tierKey and InDungeon or InLobby then
+            SellRarityThreshold = Settings.AutoSellOptions[tierKey]
         end
     end
 	})
@@ -5830,12 +5768,12 @@ If available to your executor the script will reset your character and then invi
 		Text = "Keep selected perks",
 		Default = false,
 		Tooltip = "By default only S+ perks are kept",
-		Callback = function(p107)
-        if p107 then
-            p107 = InDungeon or InLobby
+		Callback = function(enabled)
+        if enabled then
+            enabled = InDungeon or InLobby
         end
 
-        if p107 then
+        if enabled then
             Settings.KeepPerks = true
 
             return
@@ -5892,15 +5830,15 @@ If available to your executor the script will reset your character and then invi
 		Default = "",
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p108)
+		Callback = function(selectedPerks)
         Settings.SelectedPerks = {}
-        local PingCheckTimeout = 0
-        for v771, v772 in pairs(p108) do
+        local perkCount = 0
+        for perkName, _ in pairs(selectedPerks) do
 
-            Settings.SelectedPerks[tostring(v771)] = Settings.SavePerkTable[v771]
-            PingCheckTimeout += 1
+            Settings.SelectedPerks[tostring(perkName)] = Settings.SavePerkTable[perkName]
+            perkCount += 1
         end
-        if PingCheckTimeout == 0 then
+        if perkCount == 0 then
             Settings.SelectedPerks = nil
         end
     end
@@ -5911,29 +5849,29 @@ If available to your executor the script will reset your character and then invi
 		Tooltip = "all options including perk filtering are taken into account when selling your inventory",
 		Func = function()
         local Charms
-        if Settings.CanRequire then
+        if Settings.CanRequire and Charms then
             Charms = require(Charms:WaitForChild("Charms"))
         end
-        local Items = PlayerBackpack:WaitForChild("Items")
+        local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
         local GetChildren = Items.GetChildren
         for _, v in pairs(GetChildren(Items)) do
             ActiveSellCount += 1
 
             if not (v:FindFirstChild("Count") or (v:FindFirstChild("Locked") or (v:FindFirstChild("Favorited") or v:FindFirstChild("GiftWrap")))) then
                 local str = tostring(v.Name)
-                local v779 = v:FindFirstChild("XP") or string.find(str, "Pet")
-                local v780 = v779
-                if v780 then
-                    v779 = not Settings.IncludePets
+                local petsFlag = v:FindFirstChild("XP") or string.find(str, "Pet")
+                local isPet = petsFlag
+                if isPet then
+                    petsFlag = not Settings.IncludePets
                 end
-                if v779 then
+                if petsFlag then
                     ActiveSellCount -= 1
 
                     continue
                 end
-                local v781
+                local isCharm
                 if Charms and Charms[v.Name] then
-                    v781 = true
+                    isCharm = true
 
                     if not Settings.IncludeCharms then
                         ActiveSellCount -= 1
@@ -5941,10 +5879,10 @@ If available to your executor the script will reset your character and then invi
                         return
                     end
                 end
-                local v782 = false
-                local v783 = GetRarity(v)
-                if not v781 and tostring(v783) ~= "NotEquipment" then
-                    if v783 == 7 then
+                local shouldKeep = false
+                local itemRarity = GetRarity(v)
+                if not isCharm and tostring(itemRarity) ~= "NotEquipment" then
+                    if itemRarity == 7 then
                         ActiveSellCount -= 1
 
                         continue
@@ -5952,7 +5890,7 @@ If available to your executor the script will reset your character and then invi
 
                     if not SellRarityThreshold then
                         local ok, result = pcall(function()
-                            Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v })
+                            (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ v })
                             Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v), 1)
                             ActiveSellCount -= 1
                         end)
@@ -5964,9 +5902,9 @@ If available to your executor the script will reset your character and then invi
                         continue
                     end
 
-                    if v783 < SellRarityThreshold then
+                    if itemRarity < SellRarityThreshold then
                         local ok, result = pcall(function()
-                            Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v })
+                            (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ v })
                             Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v), 1)
                             ActiveSellCount -= 1
                         end)
@@ -5978,11 +5916,11 @@ If available to your executor the script will reset your character and then invi
                         continue
                     end
 
-                    v782 = true
+                    shouldKeep = true
                 end
-                if Settings.SellTowerEggs and not not (v and (v.Name and v184[v.Name])) then
+                if Settings.SellTowerEggs and not not (v and (v.Name and SpecialEggMap[v.Name])) then
                     local ok, result = pcall(function()
-                        Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v })
+                        (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ v })
                         Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v), 1)
                         ActiveSellCount -= 1
                     end)
@@ -5993,42 +5931,42 @@ If available to your executor the script will reset your character and then invi
 
                     return
                 end
-                local v790 = table.find(v183, str) or false
-                local v791 = false
-                if not v790 and (Settings.KeepPerks and Settings.SelectedPerks) then
+                local isEgg = table.find(EggNameList, str) or false
+                local perkMatched = false
+                if not isEgg and (Settings.KeepPerks and Settings.SelectedPerks) then
                     for i = 1, 3 do
-                        if v791 then
+                        if perkMatched then
                             break
                         end
 
-                        local v793 = v:FindFirstChild("Perk" .. tostring(i))
+                        local perkFolder = v:FindFirstChild("Perk" .. tostring(i))
 
-                        if v793 then
-                            local PerkValue = v793:FindFirstChild("PerkValue")
+                        if perkFolder then
+                            local PerkValue = perkFolder:FindFirstChild("PerkValue")
 
-                            for k, _ in pairs(Settings.SelectedPerks) do
-                                local v797 = Settings.SavePerkTable[k]
-                                local v798 = v793.Value == v797.PerkInternalName
+                            for perkName, _ in pairs(Settings.SelectedPerks) do
+                                local perkConfig = Settings.SavePerkTable[perkName]
+                                local perkMatches = perkFolder.Value == perkConfig.PerkInternalName
 
-                                if v798 then
-                                    v798 = PerkValue.Value >= (v797.PerkValue * 100 - PerkTolerance) / 100 or (v780 or v781) and PerkValue.Value >= (v797.PetPerkValue * 100 - PerkTolerance) / 100
+                                if perkMatches then
+                                    perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100
                                 end
 
-                                if v798 then
-                                    v791 = true
-                                    v782 = true
+                                if perkMatches then
+                                    perkMatched = true
+                                    shouldKeep = true
 
                                     break
                                 end
 
-                                v782 = false
+                                shouldKeep = false
                             end
                         end
                     end
                 end
-                if not v790 and (not v782 and not v791) then
+                if not isEgg and (not shouldKeep and not perkMatched) then
                     local ok, result = pcall(function()
-                        Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v })
+                        (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ v })
                         Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v), 1)
                         ActiveSellCount -= 1
                     end)
@@ -6052,12 +5990,12 @@ If available to your executor the script will reset your character and then invi
 		Text = "Sell pets",
 		Default = false,
 		Tooltip = "Allow the auto sell functionalities to apply to pets as well",
-		Callback = function(p109)
-        if p109 then
-            p109 = InDungeon or InLobby
+		Callback = function(enabled)
+        if enabled then
+            enabled = InDungeon or InLobby
         end
 
-        if p109 then
+        if enabled then
             Settings.IncludePets = true
 
             return
@@ -6070,12 +6008,12 @@ If available to your executor the script will reset your character and then invi
 		Text = "Sell tower eggs",
 		Default = false,
 		Tooltip = "Automatically sell eggs from towers if you are able to collect them",
-		Callback = function(p110)
-        if p110 then
-            p110 = InDungeon
+		Callback = function(enabled)
+        if enabled then
+            enabled = InDungeon
         end
 
-        if p110 then
+        if enabled then
             Settings.SellTowerEggs = true
 
             return
@@ -6088,14 +6026,14 @@ If available to your executor the script will reset your character and then invi
 		Text = "Sell charms",
 		Default = false,
 		Tooltip = "Allow the auto sell functionalities to apply to charms as well",
-		Callback = function(p111)
-        if p111 and not Settings.CanRequire then
+		Callback = function(enabled)
+        if enabled and not Settings.CanRequire then
             Library:Notify("Your executor doesn't allow charms to be identified")
 
             return
         end
 
-        if p111 and InDungeon or InLobby then
+        if enabled and InDungeon or InLobby then
             Settings.IncludeCharms = true
 
             return
@@ -6113,8 +6051,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Change the amount of time the script waits before scanning an item before deciding to sell it or not. By default the script waits 1 second to allow properties of the item to load.",
-		Callback = function(p112)
-        Settings.AddedAutoSellDelay = p112
+		Callback = function(sellDelaySeconds)
+        Settings.AddedAutoSellDelay = sellDelaySeconds
     end
 	})
     SecondTab:AddLabel("Perfect perk offset", true)
@@ -6126,8 +6064,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Allows you to increase the range at which perks are kept. For example if you want Attack Up 7% and 8% then you would add 1 to the offset",
-		Callback = function(p113)
-        PerkTolerance = p113
+		Callback = function(perkOffset)
+        PerkTolerance = perkOffset
     end
 	})
     FirstTab = InventoryTabLeft:AddTab("Equips")
@@ -6149,7 +6087,7 @@ If available to your executor the script will reset your character and then invi
         UpgradeToMax("Offhand")
     end
 	})
-    InventoryTabRight = InventoryTab:AddRightTabbox("Right Tabbox")
+    InventoryTabRight = InventoryTab:AddRightTabbox("Equips & cosmetics")
     FirstTab = InventoryTabRight:AddTab("Cosmetics")
     FirstTab:AddDropdown("CosmeticDropdown", {
 		Values = {},
@@ -6175,94 +6113,94 @@ If available to your executor the script will reset your character and then invi
             lib = require(Items)
         end
         local Cosmetics = PlayerBackpack:FindFirstChild("Cosmetics")
-        local t165 = {}
-        local t166 = {}
-        local t167 = {}
+        local seenCosmetics = {}
+        local displayKeys = {}
+        local displayToReal = {}
         if not Settings.CanRequire then
             for _, child in pairs(Cosmetics:GetChildren()) do
-                if not t165[child.Name] then
-                    t165[child.Name] = true
-                    table.insert(t166, child.Name)
-                    t167[child.Name] = child.Name
+                if not seenCosmetics[child.Name] then
+                    seenCosmetics[child.Name] = true
+                    table.insert(displayKeys, child.Name)
+                    displayToReal[child.Name] = child.Name
                 end
             end
         else
             local GetChildren = Cosmetics.GetChildren
 
             for _, v in pairs(GetChildren(Cosmetics)) do
-                if not t165[v.Name] then
-                    t165[v.Name] = true
-                    table.insert(t166, lib[v.Name].DisplayKey)
-                    t167[lib[v.Name].DisplayKey] = v.Name
+                if not seenCosmetics[v.Name] then
+                    seenCosmetics[v.Name] = true
+                    table.insert(displayKeys, lib[v.Name].DisplayKey)
+                    displayToReal[lib[v.Name].DisplayKey] = v.Name
                 end
             end
         end
-        Options.CosmeticDropdown:SetValues(t166)
-        Settings.RealCosmeticTable = t167
+        Options.CosmeticDropdown:SetValues(displayKeys)
+        Settings.RealCosmeticTable = displayToReal
     end
 	})
-    function RecycleFromInventory(p114)
-        local t168 = {}
-        for v820, v821 in pairs(Options.CosmeticDropdown.Value) do
+    function RecycleFromInventory(action)
+        local selectedCosmetics = {}
+        for displayKey, _ in pairs(Options.CosmeticDropdown.Value) do
 
-            if v820 then
-                t168[Settings.RealCosmeticTable[v820]] = true
+            if displayKey then
+                selectedCosmetics[Settings.RealCosmeticTable[displayKey]] = true
             end
         end
-        local t169 = {}
+        local protectedHexes = {}
         local SaveUserHexesInputValue = Options.SaveUserHexesInput.Value
         if SaveUserHexesInputValue then
             if SaveUserHexesInputValue ~= "" and SaveUserHexesInputValue ~= " " then
-                local v824 = string.gsub(SaveUserHexesInputValue, ", ", ",")
-                local v825 = string.gsub(v824, "#", "")
-                local parts = string.split(v825, ",")
+                local hexNoSpaces = string.gsub(SaveUserHexesInputValue, ", ", ",")
+                local hexNoHash = string.gsub(hexNoSpaces, "#", "")
+                local parts = string.split(hexNoHash, ",")
 
                 for _, v in pairs(parts) do
                     if v ~= "" and v ~= " " then
-                        table.insert(t169, string.lower(v))
+                        table.insert(protectedHexes, string.lower(v))
                     end
                 end
             end
 
-            for _, v in pairs(v182) do
-                table.insert(t169, v)
+            for _, v in pairs(HexColorList) do
+                table.insert(protectedHexes, v)
             end
         end
-        local t170 = {}
-        for v834, v835 in pairs(PlayerBackpack:FindFirstChild("Cosmetics"):GetChildren()) do
+        local targetItems = {}
+        for _, cosmetic in pairs(PlayerBackpack:FindFirstChild("Cosmetics"):GetChildren()) do
 
-            if t168[v835.Name] and (not v835:FindFirstChild("Locked") or v835:FindFirstChild("Favorited")) then
-                local Dye = v835:FindFirstChild("Dye")
+            if selectedCosmetics[cosmetic.Name] and (not cosmetic:FindFirstChild("Locked") or cosmetic:FindFirstChild("Favorited")) then
+                local Dye = cosmetic:FindFirstChild("Dye")
 
                 if not Dye then
-                    table.insert(t170, v835)
+                    table.insert(targetItems, cosmetic)
                 else
-                    local v837 = Dye.Value:ToHex()
-                    local v838 = false
+                    local dyeHex = Dye.Value:ToHex()
+                    local hexProtected = false
 
-                    for _, v in pairs(t169) do
-                        if string.match(v837, "^" .. v) then
-                            v838 = true
+                    for _, v in pairs(protectedHexes) do
+                        if string.match(dyeHex, "^" .. v) then
+                            hexProtected = true
 
                             break
                         end
                     end
 
-                    if not v838 then
-                        table.insert(t170, v835)
+                    if not hexProtected then
+                        table.insert(targetItems, cosmetic)
                     end
                 end
             end
         end
-        if p114 == "Recycle" then
-            Library:Notify("Attempting to recycle " .. tostring(#t170) .. " items", 5)
-            Remotes:WaitForChild("Recycler_Recycle", 1e999):FireServer(t170)
+        if action == "Recycle" then
+            Library:Notify("Attempting to recycle " .. tostring(#targetItems) .. " items", 5)
+            Remotes:WaitForChild("Recycler_Recycle", 1e999):FireServer(targetItems)
 
             return
         end
-        if p114 == "Gold" then
-            Library:Notify("Attempting to sell " .. tostring(#t170) .. " items", 5)
-            Remotes:WaitForChild("Drops_SellItems", math.huge):InvokeServer(t170)
+        if action == "Gold" then
+            Library:Notify("Attempting to sell " .. tostring(#targetItems) .. " items", 5)
+            ;(GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer(targetItems)
         end
     end
     FirstTab:AddDivider()
@@ -6283,10 +6221,10 @@ If available to your executor the script will reset your character and then invi
     SecondTab = InventoryTabRight:AddTab("Hexes")
     SecondTab:AddLabel("<font color='#FF3333'>ALL USER ENTERED HEXES MUST BE SEPARATED WITH COMMAS</font>\nAdding hexes example:\n<font color='#33FF33'>00ff00, a.a.b., [a-b].[1-2].e</font>", true)
     SecondTab:AddDivider()
-    local v325 = Settings
+    local settingsRef = Settings
     local _SecondTab2 = SecondTab
-    local str = tostring(#v182)
-    v325.NumberOfEnteredHexes = _SecondTab2:AddLabel("Number of saved hexes: " .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse())
+    local str = tostring(#HexColorList)
+    settingsRef.NumberOfEnteredHexes = _SecondTab2:AddLabel("Number of saved hexes: " .. str:reverse():gsub("...", "%0,", (math.floor((#str - 1) / 3))):reverse())
     Settings.UserEnteredHexes = SecondTab:AddLabel("Saved hexes:\nn/a\n+ (all special hexes)", true)
     SecondTab:AddDivider()
     SecondTab:AddInput("SaveUserHexesInput", {
@@ -6294,35 +6232,35 @@ If available to your executor the script will reset your character and then invi
 		Default = "",
 		ClearTextOnFocus = false,
 		Placeholder = "hexes here",
-		Callback = function(p115)
-        local v842 = InLobby
+		Callback = function(hexInput)
+        local inGame = InLobby
 
-        if not v842 then
-            v842 = InDungeon
+        if not inGame then
+            inGame = InDungeon
         end
 
-        if v842 then
-            local str2 = tostring(p115)
-            local v844 = string.lower(str2)
+        if inGame then
+            local hexInputString = tostring(hexInput)
+            local lowerHexes = string.lower(hexInputString)
 
-            if v844 == "" or v844 == " " then
+            if lowerHexes == "" or lowerHexes == " " then
                 local NumberOfEnteredHexes = Settings.NumberOfEnteredHexes
-                local str3 = tostring(#v182)
+                local savedHexesString = tostring(#HexColorList)
 
-                NumberOfEnteredHexes:SetText("Number of saved hexes: " .. str3:reverse():gsub("...", "%0,", (math.floor((#str3 - 1) / 3))):reverse())
+                NumberOfEnteredHexes:SetText("Number of saved hexes: " .. savedHexesString:reverse():gsub("...", "%0,", (math.floor((#savedHexesString - 1) / 3))):reverse())
                 Settings.UserEnteredHexes:SetText("Saved hexes:\nn/a\n+ (all special hexes)")
 
                 return
             end
 
-            local v847 = string.gsub(Options.SaveUserHexesInput.Value, ", ", ",")
-            local v848 = string.gsub(v847, "#", "")
-            local parts = string.split(v848, ",")
+            local hexNoSpaces = string.gsub(Options.SaveUserHexesInput.Value, ", ", ",")
+            local hexNoHash = string.gsub(hexNoSpaces, "#", "")
+            local parts = string.split(hexNoHash, ",")
             local NumberOfEnteredHexes = Settings.NumberOfEnteredHexes
-            local str4 = tostring(#v182 + #parts)
+            local totalHexesString = tostring(#HexColorList + #parts)
 
-            NumberOfEnteredHexes:SetText("Number of saved hexes: " .. str4:reverse():gsub("...", "%0,", (math.floor((#str4 - 1) / 3))):reverse())
-            Settings.UserEnteredHexes:SetText("Saved hexes:\n<font color='#33FF33'>" .. v844 .. "</font>\n+ (all special hexes)")
+            NumberOfEnteredHexes:SetText("Number of saved hexes: " .. totalHexesString:reverse():gsub("...", "%0,", (math.floor((#totalHexesString - 1) / 3))):reverse())
+            Settings.UserEnteredHexes:SetText("Saved hexes:\n<font color='#33FF33'>" .. lowerHexes .. "</font>\n+ (all special hexes)")
 
             return
         end
@@ -6332,14 +6270,20 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating dungeon tab"
     DungeonTab = Window:AddTab({
 		Name = "Dungeons",
-		Icon = "rbxassetid://18739736091"
+		Icon = "castle",
+		Description = "Dungeon automation and nightmare challenge"
 	})
-    DungeonTabLeft = DungeonTab:AddLeftTabbox("Left Tabbox")
+    DungeonTabLeft = DungeonTab:AddLeftTabbox("Main")
     FirstTab = DungeonTabLeft:AddTab("Main")
     FirstTab:AddToggle("ReplayMissionToggle", {
 		Text = "Auto restart mission",
 		Default = false,
 		Tooltip = "Only works if turned on before the dungeon ends!"
+	}):AddKeyPicker("ReplayMissionKey", {
+		Default = "R",
+		Text = "Auto restart mission keybind",
+		Mode = "Toggle",
+		SyncToggleState = true
 	})
     FirstTab:AddToggle("CollectChestToggle", {
 		Text = "Collect chests",
@@ -6355,8 +6299,8 @@ If available to your executor the script will reset your character and then invi
 		Text = "Random nightmare dungeon",
 		Default = false,
 		Tooltip = "When the dungeon ends the script will select a random dungeon from the Nightmare Portal to play.",
-		Callback = function(p116)
-        if InDungeon and p116 then
+		Callback = function(enabled)
+        if InDungeon and enabled then
             Settings.RandomNightmareDungeon = math.random(1005, 1007)
 
             return
@@ -6385,8 +6329,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Changes the scripts delay when restarting the dungeon when `Auto restart mission` is selected.",
-		Callback = function(p117)
-        Settings.RestartDungeonDelay = p117
+		Callback = function(restartDelay)
+        Settings.RestartDungeonDelay = restartDelay
     end
 	})
     SecondTab:AddLabel("Collect chest delay", true)
@@ -6398,8 +6342,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 2,
 		Compact = true,
 		Tooltip = "Changes the scripts delay between chests being collected.",
-		Callback = function(p118)
-        Settings.CollectChestsDelay = p118
+		Callback = function(chestDelay)
+        Settings.CollectChestsDelay = chestDelay
     end
 	})
     SecondTab:AddLabel("Infinite tower reset floor", true)
@@ -6411,8 +6355,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Allows you to change the floor that infinite tower restarts at when the `Periodically reset inf tower` option is selected.",
-		Callback = function(p119)
-        RangedDistance = p119
+		Callback = function(resetFloor)
+        RangedDistance = resetFloor
     end
 	})
     SecondTab:AddLabel("Prioritize nightmare dungeons", true)
@@ -6424,12 +6368,12 @@ If available to your executor the script will reset your character and then invi
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
 		Callback = function()
-        local PingCheckDelay = 0
-        for v859, v860 in pairs(Options.PrioNmDropdown.Value) do
+        local selectedCount = 0
+        for _, _ in pairs(Options.PrioNmDropdown.Value) do
 
-            PingCheckDelay += 1
+            selectedCount += 1
         end
-        if PingCheckDelay == 0 then
+        if selectedCount == 0 then
             Settings.PrioNmDCount = nil
 
             return
@@ -6439,7 +6383,7 @@ If available to your executor the script will reset your character and then invi
 	})
     Settings.PrioritizedNightmareDungeons = {}
     Settings.NMDisplayValues = {}
-    for _, v in pairs(v218) do
+    for _, v in pairs(DungeonConfigList) do
         if v.Level > 0 and v.Level < 130 then
             Settings.PrioritizedNightmareDungeons[v.DungeonName] = v.DungeonID
             table.insert(Settings.NMDisplayValues, v.DungeonName)
@@ -6453,9 +6397,9 @@ If available to your executor the script will reset your character and then invi
 		Text = "Stop after X total clears",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p120)
+		Callback = function(totalClears)
         if InDungeon then
-            Settings.StopAfterTotalNightmare = p120
+            Settings.StopAfterTotalNightmare = totalClears
         end
     end
 	})
@@ -6467,9 +6411,9 @@ If available to your executor the script will reset your character and then invi
 		Text = "Stop after X daily clears",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p121)
+		Callback = function(dailyClears)
         if InDungeon then
-            Settings.StopAfterDailyNightmare = p121
+            Settings.StopAfterDailyNightmare = dailyClears
         end
     end
 	})
@@ -6477,9 +6421,10 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating guild tab"
     GuildTab = Window:AddTab({
 		Name = "Guild",
-		Icon = "rbxassetid://9671046895"
+		Icon = "users",
+		Description = "Guild points, quests and spy tools"
 	})
-    GuildTabLeft = GuildTab:AddLeftTabbox("Left Tabbox")
+    GuildTabLeft = GuildTab:AddLeftTabbox("Main")
     FirstTab = GuildTabLeft:AddTab("Main")
     FirstTab:AddToggle("WaitTimeToggle", {
 		Text = "Wait for legit time",
@@ -6531,8 +6476,8 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "Adds more time to the `Wait for a legit time` option if you don't think the scirpt is waiing long enough, or you want to wait longer for safety.",
-		Callback = function(p122)
-        Settings.AddedGuildTime = p122
+		Callback = function(extraTime)
+        Settings.AddedGuildTime = extraTime
     end
 	})
     SecondTab:AddLabel("Increment inf tower delay ", true)
@@ -6544,20 +6489,20 @@ If available to your executor the script will reset your character and then invi
 		Rounding = 0,
 		Compact = true,
 		Tooltip = "When using `Delay inf tower floors` this toggle will add increasingly more tine to wait after each boss floor has been completed.",
-		Callback = function(p123)
-        Settings.IncrementInfiniteDelay = p123
+		Callback = function(incrementDelay)
+        Settings.IncrementInfiniteDelay = incrementDelay
     end
 	})
-    GuildTabRight = GuildTab:AddRightTabbox("Right Tabbox")
+    GuildTabRight = GuildTab:AddRightTabbox("Extras")
     FirstTab = GuildTabRight:AddTab("Advanced")
     Settings.TotalGuildPointLabel = FirstTab:AddLabel("Total Guild Points: ?", false)
     FirstTab:AddInput("TotalKillInput", {
 		Text = "Stop after X total points",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p124)
+		Callback = function(totalPoints)
         if InDungeon then
-            Settings.StopAfterTotalPoints = p124
+            Settings.StopAfterTotalPoints = totalPoints
         end
     end
 	})
@@ -6569,9 +6514,9 @@ If available to your executor the script will reset your character and then invi
 		Text = "Stop after X daily points",
 		Default = "",
 		Placeholder = "number here",
-		Callback = function(p125)
+		Callback = function(dailyPoints)
         if InDungeon then
-            Settings.StopAfterDailyPoints = p125
+            Settings.StopAfterDailyPoints = dailyPoints
         end
     end
 	})
@@ -6598,19 +6543,19 @@ If available to your executor the script will reset your character and then invi
     SecondTab:AddButton({
 		Text = "Scan for guilds",
 		Func = function()
-        local t171 = {}
-        local t172 = {}
+        local guildTags = {}
+        local seenTags = {}
 
         for _, child in pairs(Players:GetChildren()) do
-            local v871 = GetGuildTag(child)
+            local playerGuild = GetGuildTag(child)
 
-            if v871 ~= "вќЊ" and not t172[v871] then
-                table.insert(t171, v871)
-                t172[v871] = true
+            if playerGuild ~= "РІСњРЉ" and not seenTags[playerGuild] then
+                table.insert(guildTags, playerGuild)
+                seenTags[playerGuild] = true
             end
         end
 
-        Options.GuildNamesDropdown:SetValues(t171)
+        Options.GuildNamesDropdown:SetValues(guildTags)
     end
 	})
     SecondTab:AddButton({
@@ -6620,51 +6565,51 @@ If available to your executor the script will reset your character and then invi
             Settings.SpyOnGuild:SetText("No guild selected")
         end
 
-        local v872 = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+        local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not v872 or not v872.Members then
+        if not guildCache or not guildCache.Members then
             Settings.SpyOnGuild:SetText("This guilds data is no longer available")
         end
 
         table.clear(CopyGuildTable)
         CopyGuildPoints = 0
 
-        local t173 = {
+        local roleColors = {
 				Member = "#ffffff",
 				Builder = "#58B400",
 				Captain = "#009DFF",
 				Elite = "#E44AFF",
 				Leader = "#FFDB0E"
 			}
-        local t174 = {}
-        local MaxDamageAmount = 0
+        local memberList = {}
+        local totalPoints = 0
 
-        for _, v in pairs(v872.Members) do
-            local v878 = t173[v.Role]
-            local v879 = v.DisplayName .. " <font size='10'>(" .. tostring(v.UserName) .. ")</font>"
+        for _, v in pairs(guildCache.Members) do
+            local roleColor = roleColors[v.Role]
+            local memberName = v.DisplayName .. " <font size='10'>(" .. tostring(v.UserName) .. ")</font>"
             local Points = v.Points
 
-            MaxDamageAmount += tonumber(Points)
-            CopyGuildPoints = MaxDamageAmount
+            totalPoints += tonumber(Points)
+            CopyGuildPoints = totalPoints
 
-            local str5 = tostring(v878)
-            local str6 = tostring(v879)
-            local str7 = tostring(Points)
+            local roleColorString = tostring(roleColor)
+            local memberNameString = tostring(memberName)
+            local pointsString = tostring(Points)
 
-            table.insert(t174, "<font color='" .. str5 .. "'>" .. str6 .. "</font> - " .. str7:reverse():gsub("...", "%0,", (math.floor((#str7 - 1) / 3))):reverse())
+            table.insert(memberList, "<font color='" .. roleColorString .. "'>" .. memberNameString .. "</font> - " .. pointsString:reverse():gsub("...", "%0,", (math.floor((#pointsString - 1) / 3))):reverse())
 
             local _CopyGuildTable = CopyGuildTable
-            local str8 = tostring(v.DisplayName)
-            local str9 = tostring(v.UserName)
-            local str10 = tostring(Points)
+            local displayNameString = tostring(v.DisplayName)
+            local userNameString = tostring(v.UserName)
+            local copiedPointsString = tostring(Points)
 
-            table.insert(_CopyGuildTable, str8 .. " (" .. str9 .. ") - " .. str10:reverse():gsub("...", "%0,", (math.floor((#str10 - 1) / 3))):reverse())
+            table.insert(_CopyGuildTable, displayNameString .. " (" .. userNameString .. ") - " .. copiedPointsString:reverse():gsub("...", "%0,", (math.floor((#copiedPointsString - 1) / 3))):reverse())
         end
 
         local SpyOnGuild = Settings.SpyOnGuild
-        local str11 = tostring(MaxDamageAmount)
+        local totalPointsString = tostring(totalPoints)
 
-        SpyOnGuild:SetText("<u>Total guild points: " .. str11:reverse():gsub("...", "%0,", (math.floor((#str11 - 1) / 3))):reverse() .. "</u>\n" .. tostring(table.concat(t174, "\n")))
+        SpyOnGuild:SetText("<u>Total guild points: " .. totalPointsString:reverse():gsub("...", "%0,", (math.floor((#totalPointsString - 1) / 3))):reverse() .. "</u>\n" .. tostring(table.concat(memberList, "\n")))
     end
 	}):AddButton({
 		Text = "Clipboard",
@@ -6674,39 +6619,39 @@ If available to your executor the script will reset your character and then invi
                 Settings.SpyOnGuild:SetText("No Guild selected")
             end
 
-            local v890 = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+            local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not v890 or not v890.Members then
+            if not guildCache or not guildCache.Members then
                 Settings.SpyOnGuild:SetText("Guild data is no longer available")
             end
 
-            local t175 = {}
-            local MinDamageAmount = 0
+            local memberList = {}
+            local totalPoints = 0
 
-            for _, v in pairs(v890.Members) do
-                local v895 = v.DisplayName .. " (" .. v.UserName .. ")"
+            for _, v in pairs(guildCache.Members) do
+                local memberName = v.DisplayName .. " (" .. v.UserName .. ")"
                 local Points = v.Points
 
-                MinDamageAmount += tonumber(Points)
-                CopyGuildPoints = MinDamageAmount
+                totalPoints += tonumber(Points)
+                CopyGuildPoints = totalPoints
 
-                local str12 = tostring(Points)
+                local listPointsString = tostring(Points)
 
-                table.insert(t175, v895 .. " - " .. str12:reverse():gsub("...", "%0,", (math.floor((#str12 - 1) / 3))):reverse())
+                table.insert(memberList, memberName .. " - " .. listPointsString:reverse():gsub("...", "%0,", (math.floor((#listPointsString - 1) / 3))):reverse())
             end
 
-            local _setclipboard = setclipboard
-            local str13 = tostring(MinDamageAmount)
+            local setClipboard = setclipboard
+            local guildTotalString = tostring(totalPoints)
 
-            _setclipboard("Total guild points: " .. str13:reverse():gsub("...", "%0,", (math.floor((#str13 - 1) / 3))):reverse() .. "\n\n" .. table.concat(t175, "\n"))
+            setClipboard("Total guild points: " .. guildTotalString:reverse():gsub("...", "%0,", (math.floor((#guildTotalString - 1) / 3))):reverse() .. "\n\n" .. table.concat(memberList, "\n"))
 
             return
         end
 
         local _setclipboard = setclipboard
-        local str14 = tostring(CopyGuildPoints)
+        local copyPointsString = tostring(CopyGuildPoints)
 
-        _setclipboard("Total guild points: " .. str14:reverse():gsub("...", "%0,", (math.floor((#str14 - 1) / 3))):reverse() .. "\n\n" .. table.concat(CopyGuildTable, "\n"))
+        _setclipboard("Total guild points: " .. copyPointsString:reverse():gsub("...", "%0,", (math.floor((#copyPointsString - 1) / 3))):reverse() .. "\n\n" .. table.concat(CopyGuildTable, "\n"))
     end
 	})
     SecondTab:AddButton({
@@ -6716,25 +6661,25 @@ If available to your executor the script will reset your character and then invi
             Settings.SpyOnGuild:SetText("No guild selected")
         end
 
-        local v902 = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+        local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not v902 or not v902.ChatLog then
+        if not guildCache or not guildCache.ChatLog then
             Settings.SpyOnGuild:SetText("This guilds data is no longer available")
         end
 
         table.clear(CopyGuildChat)
 
-        local t176 = {}
+        local chatLines = {}
 
-        for _, v in pairs(v902.ChatLog) do
-            table.insert(t176, v[1])
+        for _, v in pairs(guildCache.ChatLog) do
+            table.insert(chatLines, v[1])
             table.insert(CopyGuildChat, v[1])
         end
 
         local SpyOnGuild = Settings.SpyOnGuild
-        local t177 = { table.concat(t176, "\n") }
+        local chatText = { table.concat(chatLines, "\n") }
 
-        SpyOnGuild:SetText(Unpack(t177))
+        SpyOnGuild:SetText(Unpack(chatText))
     end
 	}):AddButton({
 		Text = "Clipboard",
@@ -6744,22 +6689,22 @@ If available to your executor the script will reset your character and then invi
                 Settings.SpyOnGuild:SetText("No guild selected")
             end
 
-            local v908 = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+            local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not v908 or not v908.ChatLog then
+            if not guildCache or not guildCache.ChatLog then
                 Settings.SpyOnGuild:SetText("This guilds data is no longer available")
             end
 
             table.clear(CopyGuildChat)
 
-            local t178 = {}
+            local chatLines = {}
 
-            for _, v in pairs(v908.ChatLog) do
-                table.insert(t178, v[1])
+            for _, v in pairs(guildCache.ChatLog) do
+                table.insert(chatLines, v[1])
                 table.insert(CopyGuildChat, v[1])
             end
 
-            setclipboard(table.concat(t178, "\n"))
+            setclipboard(table.concat(chatLines, "\n"))
 
             return
         end
@@ -6775,15 +6720,15 @@ If available to your executor the script will reset your character and then invi
             Settings.SpyOnGuild:SetText("No guild selected")
         end
 
-        local v912 = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+        local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not v912 or not v912.Description then
+        if not guildCache or not guildCache.Description then
             Settings.SpyOnGuild:SetText("This guilds data is no longer available")
         end
 
         CopyGuildDescription = nil
-        Settings.SpyOnGuild:SetText(v912.Description)
-        CopyGuildDescription = v912.Description
+        Settings.SpyOnGuild:SetText(guildCache.Description)
+        CopyGuildDescription = guildCache.Description
     end
 	}):AddButton({
 		Text = "Clipboard",
@@ -6793,14 +6738,14 @@ If available to your executor the script will reset your character and then invi
                 Settings.SpyOnGuild:SetText("No guild selected")
             end
 
-            local v913 = Remotes:WaitForChild("Guilds_GetCache", math.huge):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
+            local guildCache = Remotes:WaitForChild("Guilds_GetCache", math.huge):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not v913 or not v913.Description then
+            if not guildCache or not guildCache.Description then
                 Settings.SpyOnGuild:SetText("This guilds data is no longer available")
             end
 
             CopyGuildDescription = nil
-            CopyGuildDescription = v913.Description
+            CopyGuildDescription = guildCache.Description
             setclipboard(CopyGuildDescription)
 
             return
@@ -6813,9 +6758,10 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating shop tab"
     ShopTab = Window:AddTab({
 		Name = "Shops",
-		Icon = "rbxassetid://12281229733"
+		Icon = "shopping-bag",
+		Description = "Automated egg and shop purchasers"
 	})
-    ShopTabLeft = ShopTab:AddLeftTabbox("Left Tabbox")
+    ShopTabLeft = ShopTab:AddLeftTabbox("Shop")
     FirstTab = ShopTabLeft:AddTab("Egg")
     Settings.BuyEggList = {
 		{
@@ -6857,9 +6803,9 @@ If available to your executor the script will reset your character and then invi
 		AllowNull = true,
 		Default = nil,
 		Searchable = true,
-		Callback = function(p126)
-        if p126 and InLobby or InDungeon then
-            Settings.SelectedEggItem = Settings.BuyEggList[p126]
+		Callback = function(eggKey)
+        if eggKey and InLobby or InDungeon then
+            Settings.SelectedEggItem = Settings.BuyEggList[eggKey]
 
             return
         end
@@ -6899,9 +6845,9 @@ If available to your executor the script will reset your character and then invi
 		Min = 0,
 		Max = 10,
 		Rounding = 0,
-		Callback = function(p127)
+		Callback = function(hatchDelay)
         if InLobby or InDungeon then
-            Settings.HatchDelay = p127
+            Settings.HatchDelay = hatchDelay
         end
     end
 	})
@@ -7002,7 +6948,7 @@ If available to your executor the script will reset your character and then invi
 		Default = nil,
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p128)
+		Callback = function(nightmareItemKey)
         local _Value = Value
 
         if _Value then
@@ -7010,7 +6956,7 @@ If available to your executor the script will reset your character and then invi
         end
 
         if _Value then
-            Settings.SelectedNightmareItem = Settings.BuyNightmareItemList[p128]
+            Settings.SelectedNightmareItem = Settings.BuyNightmareItemList[nightmareItemKey]
 
             return
         end
@@ -7122,9 +7068,9 @@ If available to your executor the script will reset your character and then invi
 		Default = nil,
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p129)
+		Callback = function(pvpItemKey)
         if Value and InLobby then
-            Settings.SelectedPvpItem = Settings.BuyPVPItemList[p129]
+            Settings.SelectedPvpItem = Settings.BuyPVPItemList[pvpItemKey]
 
             return
         end
@@ -7159,7 +7105,7 @@ If available to your executor the script will reset your character and then invi
 		Text = "Buy max selected item",
 		Default = false
 	})
-    ShopTabRight = ShopTab:AddRightTabbox("Left Tabbox")
+    ShopTabRight = ShopTab:AddRightTabbox("Extras")
     FirstTab = ShopTabRight:AddTab("Guild")
     Settings.BuyGuildItemList = {
 		{
@@ -7247,12 +7193,12 @@ If available to your executor the script will reset your character and then invi
 		Default = nil,
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p130)
-        if p130 then
-            p130 = InLobby
+		Callback = function(guildItemKey)
+        if guildItemKey then
+            guildItemKey = InLobby
         end
 
-        if p130 then
+        if guildItemKey then
             Settings.SelectedGuildItem = Settings.BuyGuildItemList[ValChangedValueue]
 
             return
@@ -7390,9 +7336,9 @@ If available to your executor the script will reset your character and then invi
 		Default = nil,
 		MaxVisibleDropdownItems = 5,
 		Searchable = true,
-		Callback = function(p131)
-        if p131 then
-            Settings.SelectedEventItem = Settings.BuyEventList[p131]
+		Callback = function(eventItemKey)
+        if eventItemKey then
+            Settings.SelectedEventItem = Settings.BuyEventList[eventItemKey]
 
             return
         end
@@ -7507,9 +7453,10 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating misc tab"
     MiscTab = Window:AddTab({
 		Name = "Miscellaneous",
-		Icon = "rbxassetid://4801326994"
+		Icon = "wrench",
+		Description = "Quality of life extras"
 	})
-    MiscTabLeft = MiscTab:AddLeftTabbox("Left Tabbox")
+    MiscTabLeft = MiscTab:AddLeftTabbox("Main")
     FirstTab = MiscTabLeft:AddTab("Main")
     FirstTab:AddToggle("MobCameraToggle", {
 		Text = "Camera on mob",
@@ -7598,7 +7545,7 @@ If available to your executor the script will reset your character and then invi
 		Default = false,
 		Tooltip = "Hides the roblox icons from your screen in the top left"
 	})
-    MiscTabRight = MiscTab:AddRightTabbox("Right Tabbox")
+    MiscTabRight = MiscTab:AddRightTabbox("Extras")
     FirstTab = MiscTabRight:AddTab("Extra")
     FirstTab:AddInput("JoinPlayerInput", {
 		Text = "Enter name",
@@ -7632,22 +7579,22 @@ If available to your executor the script will reset your character and then invi
 		Tooltip = "Claims all active promocodes (list of codes is manually updated)",
 		Func = function()
         if InLobby or InDungeon then
-            local t179 = {
+            local codeList = {
 					"900KLIKES",
 					"EASTER26"
 				}
-            local v927 = #t179 * 11 - 11
+            local redeemSeconds = #codeList * 11 - 11
 
-            if #t179 > 1 then
-                Library:Notify("It will take " .. v927 .. " seconds for all codes to be redeemed", v927)
+            if #codeList > 1 then
+                Library:Notify("It will take " .. redeemSeconds .. " seconds for all codes to be redeemed", redeemSeconds)
             end
 
             local PromoCodes_RedeemCode = Remotes:WaitForChild("PromoCodes_RedeemCode", math.huge)
 
-            for k, v in pairs(t179) do
+            for k, v in pairs(codeList) do
                 PromoCodes_RedeemCode:InvokeServer(v)
 
-                if k ~= #t179 then
+                if k ~= #codeList then
                     task.wait(11)
                 else
                     print("PORN: claimed all codes")
@@ -7702,9 +7649,9 @@ If available to your executor the script will reset your character and then invi
 		Default = "",
 		Placeholder = "FFFFFF",
 		Tooltip = "Changes the colors of your classes attacks on your client only",
-		Callback = function(p132)
+		Callback = function(colorValue)
         if InDungeon or InLobby then
-            LocalPlayer:SetAttribute("ClassColor", p132)
+            LocalPlayer:SetAttribute("ClassColor", colorValue)
         end
     end
 	})
@@ -7750,7 +7697,7 @@ If available to your executor the script will reset your character and then invi
         end
 
         pcall(function()
-            local t180 = {
+            local webhookPayload = {
 					username = "test",
 					content = "test" .. WebhookMention
 				}
@@ -7762,33 +7709,33 @@ If available to your executor the script will reset your character and then invi
                 return
             end
 
-            local v1520 = false
+            local hookCheckEnabled = false
             local _, _ = pcall(function()
-                if v1520 and HookFunction or hookmetamethod then
-                    local MaxDamageCheck = 0
+                if hookCheckEnabled and HookFunction or hookmetamethod then
+                    local scriptCount = 0
                     local ok, _ = pcall(function()
                         for _, v in pairs(getreg()) do
                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                MaxDamageCheck += 1
+                                scriptCount += 1
                             end
                         end
                     end)
-                    if MaxDamageCheck > 2 or MaxDamageCheck == 0 then
+                    if scriptCount > 2 or scriptCount == 0 then
                         return
                     end
                     if not ok then
                         return
                     end
-                    local u2026 = false
+                    local hooksDetected = false
                     local success = pcall(function()
-                        local v2195 = ishooked and ishooked(request)
+                        local requestHooked = ishooked and ishooked(request)
 
-                        if not v2195 then
-                            v2195 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                        if not requestHooked then
+                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                         end
 
-                        if v2195 then
-                            u2026 = true
+                        if requestHooked then
+                            hooksDetected = true
 
                             return
                         end
@@ -7796,27 +7743,27 @@ If available to your executor the script will reset your character and then invi
                     if not success then
                         return
                     end
-                    local ok7, _ = pcall(function()
-                        local v2196 = ishooked and ishooked(game.HttpGet)
+                    local httpOk, _ = pcall(function()
+                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                        if not v2196 then
-                            v2196 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                        if not httpGetHooked then
+                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                            if not v2196 then
-                                v2196 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                            if not httpGetHooked then
+                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                             end
                         end
 
-                        if v2196 then
-                            u2026 = true
+                        if httpGetHooked then
+                            hooksDetected = true
 
                             return
                         end
                     end)
-                    if u2026 then
+                    if hooksDetected then
                         return
                     end
-                    if not ok7 then
+                    if not httpOk then
                         return
                     end
                 end
@@ -7825,17 +7772,17 @@ If available to your executor the script will reset your character and then invi
                     return
                 end
 
-                local v2031 = HttpRequest
-                local v2032 = DiscordWebhookLink
-                local t182 = {
+                local httpRequestRef = HttpRequest
+                local webhookUrl = DiscordWebhookLink
+                local webhookHeaders = {
 						["Content-Type"] = "application/json"
 					}
-                local json = HttpService:JSONEncode(t180)
+                local json = HttpService:JSONEncode(webhookPayload)
 
-                v2031({
-						Url = v2032,
+                httpRequestRef({
+						Url = webhookUrl,
 						Method = "POST",
-						Headers = t182,
+						Headers = webhookHeaders,
 						Body = json
 					})
             end)
@@ -7851,9 +7798,10 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "creating config tab"
     ConfigTab = Window:AddTab({
 		Name = "Configurations",
-		Icon = "rbxassetid://9671045892"
+		Icon = "settings",
+		Description = "UI settings, keybinds and configs"
 	})
-    ConfigTabLeft = ConfigTab:AddLeftTabbox("Left Tabbox")
+    ConfigTabLeft = ConfigTab:AddLeftTabbox("Main")
     FirstTab = ConfigTabLeft:AddTab("Main")
     FirstTab:AddToggle("HideGuiToggle", {
 		Text = "Hide menu when executed",
@@ -8055,8 +8003,8 @@ If available to your executor the script will reset your character and then invi
 		Text = "print mob debugs",
 		Tooltip = "prints what the script does when a mob is created",
 		Default = false,
-		Callback = function(p136)
-        if p136 then
+		Callback = function(debugEnabled)
+        if debugEnabled then
             Tracking.MobDebug = true
 
             return
@@ -8069,70 +8017,70 @@ If available to your executor the script will reset your character and then invi
 		Text = "print current mob",
 		Tooltip = "prints the mob that the script is currently trying to target",
 		Func = function()
-        local v938 = CurrentTargetMob
+        local targetMob = CurrentTargetMob
 
-        if not v938 then
+        if not targetMob then
             print("PORN: no mob is a target")
 
             return
         end
 
-        local v939 = Tracking.MobTable[v938]
-        local v940 = "PORN: current target is " .. v938.Name
+        local mobData = Tracking.MobTable[targetMob]
+        local debugText = "PORN: current target is " .. targetMob.Name
 
-        if v939 then
-            if v939.Invincible then
-                v940 ..= " (invincible)"
+        if mobData then
+            if mobData.Invincible then
+                debugText ..= " (invincible)"
             end
 
-            if v939.IsBlocker then
-                v940 ..= " (blocker)"
+            if mobData.IsBlocker then
+                debugText ..= " (blocker)"
             end
 
-            if v939.Priority then
-                v940 ..= " (priority)"
+            if mobData.Priority then
+                debugText ..= " (priority)"
             end
 
-            if v939.NoData then
-                v940 ..= " (no data)"
+            if mobData.NoData then
+                debugText ..= " (no data)"
             end
 
-            v940 ..= " Path: " .. tostring(v938:GetFullName())
+            debugText ..= " Path: " .. tostring(targetMob:GetFullName())
         end
 
-        print(v940)
+        print(debugText)
     end
 	})
     ThirdTab:AddButton({
 		Text = "print targets",
 		Tooltip = "prints the mobs the script is targeting",
 		Func = function()
-        local s6 = "PORN current mobs:\n"
+        local outputText = "PORN current mobs:\n"
 
         for k, v in pairs(Tracking.MobTable) do
-            local v944 = k
-            local v945 = s6 .. tostring(v944)
+            local targetMob = k
+            local lineText = outputText .. tostring(targetMob)
 
             if v.Invincible then
-                v945 ..= " (invincible)"
+                lineText ..= " (invincible)"
             end
 
             if v.IsBlocker then
-                v945 ..= " (blocker)"
+                lineText ..= " (blocker)"
             end
 
             if v.Priority then
-                v945 ..= " (priority)"
+                lineText ..= " (priority)"
             end
 
             if v.NoData then
-                v945 ..= " (no data)"
+                lineText ..= " (no data)"
             end
 
-            s6 = v945 .. " Path: " .. tostring(v944:GetFullName()) .. "\n"
+            outputText = lineText .. " Path: " .. tostring(targetMob:GetFullName()) .. "\n"
         end
 
-        print(s6)
+        print(outputText)
     end
 	})
     ThirdTab:AddButton({
@@ -8216,39 +8164,39 @@ If available to your executor the script will reset your character and then invi
     if InDungeon then
         task.spawn(function()
             local success, result = pcall(function()
-                local function v1523(p137)
-                    local HealthProperties = p137:FindFirstChild("HealthProperties")
-                    local v2037 = HealthProperties and HealthProperties:FindFirstChild("Health")
+                local function findBlocker(blockerPart)
+                    local HealthProperties = blockerPart:FindFirstChild("HealthProperties")
+                    local healthValue = HealthProperties and HealthProperties:FindFirstChild("Health")
 
-                    if not v2037 or v2037 and v2037.Value == 0 then
+                    if not healthValue or healthValue and healthValue.Value == 0 then
                         return
                     end
 
-                    local v2038 = p137:FindFirstChild("Part") or (p137:FindFirstChild("Base") or (p137:FindFirstChild("hitbox") or p137:FindFirstChild("EasterGiantEgg")))
+                    local colliderPart = blockerPart:FindFirstChild("Part") or (blockerPart:FindFirstChild("Base") or (blockerPart:FindFirstChild("hitbox") or blockerPart:FindFirstChild("EasterGiantEgg")))
 
-                    if not v2038 then
+                    if not colliderPart then
                         return
                     end
 
-                    v2038.Name = "Collider"
-                    Tracking.MobTable[p137] = {
+                    colliderPart.Name = "Collider"
+                    Tracking.MobTable[blockerPart] = {
 						IsBlocker = true
 					}
                 end
 
-                local v1524 = MissionObjects and MissionObjects:FindFirstChild("TowerLegs")
+                local towerLegs = MissionObjects and MissionObjects:FindFirstChild("TowerLegs")
 
-                if v1524 then
-                    for _, child in pairs(v1524:GetChildren()) do
-                        v1523(child)
+                if towerLegs then
+                    for _, child in pairs(towerLegs:GetChildren()) do
+                        findBlocker(child)
                     end
                 end
 
-                local v1527 = MissionObjects and MissionObjects:FindFirstChild("SpikeCheckpoints")
+                local spikeCheckpoints = MissionObjects and MissionObjects:FindFirstChild("SpikeCheckpoints")
 
-                if v1527 then
-                    for _, child in pairs(v1527:GetChildren()) do
-                        v1523(child)
+                if spikeCheckpoints then
+                    for _, child in pairs(spikeCheckpoints:GetChildren()) do
+                        findBlocker(child)
                     end
                 end
 
@@ -8276,18 +8224,18 @@ If available to your executor the script will reset your character and then invi
 					"Blocker3",
 					"EasterGiantEgg"
 				}) do
-                    local v56 = Workspace:FindFirstChild(v)
+                    local blockerCandidate = Workspace:FindFirstChild(v)
 
-                    if not v56 then
-                        v56 = MissionObjects
+                    if not blockerCandidate then
+                        blockerCandidate = MissionObjects
 
-                        if v56 then
-                            v56 = MissionObjects:FindFirstChild(v) or (MissionObjects:FindFirstChild("TowerLegs") or MissionObjects:FindFirstChild("SpikeCheckpoints"))
+                        if blockerCandidate then
+                            blockerCandidate = MissionObjects:FindFirstChild(v) or (MissionObjects:FindFirstChild("TowerLegs") or MissionObjects:FindFirstChild("SpikeCheckpoints"))
                         end
                     end
 
-                    if v56 then
-                        v1523(v56)
+                    if blockerCandidate then
+                        findBlocker(blockerCandidate)
                     end
 
                     task.wait()
@@ -8301,7 +8249,7 @@ If available to your executor the script will reset your character and then invi
         end)
         task.spawn(function()
             local success, result = pcall(function()
-                local t184 = {
+                local allowedBossRemotes = {
 					Mob_EVENTBOSSCupidZeus_ButtonSmash = true,
 					Mob_EVENTBOSSEasterBunny_ChallengeFloorPattern = true,
 					Mob_EVENTBOSSEasterBunny_RequestGiantEggChallengeFloorIntro = true,
@@ -8310,7 +8258,7 @@ If available to your executor the script will reset your character and then invi
 				}
 
                 for _, child in pairs(game.ReplicatedStorage.Remotes:GetChildren()) do
-                    if child:IsA("RemoteEvent") and string.find(child.Name, "Mob_") and not t184[child.Name] then
+                    if child:IsA("RemoteEvent") and string.find(child.Name, "Mob_") and not allowedBossRemotes[child.Name] then
                         child:Clone().Parent = child.Parent
                         child:Destroy()
                     end
@@ -8324,11 +8272,11 @@ If available to your executor the script will reset your character and then invi
             if Tracking.MissionId == 49 then
                 local success, result = pcall(function()
                     if Settings.CanRequire and (debug and getupvalue) then
-                        local v1541 = debug.getupvalue(require(Chests).Start, 12)
+                        local chestsTable = debug.getupvalue(require(Chests).Start, 12)
                         local Chests_OpenChest = Remotes:WaitForChild("Chests_OpenChest", math.huge)
 
                         while true do
-                            for k, _ in pairs(v1541) do
+                            for k, _ in pairs(chestsTable) do
                                 Chests_OpenChest:FireServer(k)
                             end
 
@@ -8342,10 +8290,10 @@ If available to your executor the script will reset your character and then invi
 							"RaidChestGold",
 							"RaidChestSilver"
 						}) do
-                            local v57 = Workspace:FindFirstChild(v)
+                            local raidChest = Workspace:FindFirstChild(v)
 
-                            if v57 and v57.Parent then
-                                v57:PivotTo(CFrame.new(HumanoidRootPart.Position))
+                            if raidChest and raidChest.Parent then
+                                raidChest:PivotTo(CFrame.new(HumanoidRootPart.Position))
                             end
 
                             task.wait()
@@ -8383,11 +8331,11 @@ If available to your executor the script will reset your character and then invi
                 task.spawn(function()
                     local Spawn = MissionObjects:FindFirstChild("Spawn")
                     assert(Spawn, "Spawn doesn't exist?")
-                    local v1551 = GetPlayerSize() + Spawn.Size.Y / 2
+                    local standOffset = GetPlayerSize() + Spawn.Size.Y / 2
                     local SpawnPosition = Spawn.Position
                     repeat
                         if not CurrentTargetMob and Settings.Autofarm then
-                            Collider.CFrame = CFrame.new(SpawnPosition.X, SpawnPosition.Y + v1551, SpawnPosition.Z)
+                            Collider.CFrame = CFrame.new(SpawnPosition.X, SpawnPosition.Y + standOffset, SpawnPosition.Z)
                             TeleportStandPart()
                         end
 
@@ -8402,18 +8350,18 @@ If available to your executor the script will reset your character and then invi
                     if string.find(property, "Chad") then
                         local Ring = MissionObjects:WaitForChild("CannonRing", math.huge):WaitForChild("Ring", math.huge)
                         local RingPosition = Ring.Position
-                        local v1557 = GetPlayerSize() + Ring.Size.Y / 2
-                        local v1558 = time() + 2
+                        local ringStandOffset = GetPlayerSize() + Ring.Size.Y / 2
+                        local endTime = time() + 2
 
-                        if not (v1558 < time()) then
+                        if not (endTime < time()) then
                         end
 
                         repeat
-                            Collider.CFrame = CFrame.new(RingPosition.X, RingPosition.Y + v1557, RingPosition.Z)
+                            Collider.CFrame = CFrame.new(RingPosition.X, RingPosition.Y + ringStandOffset, RingPosition.Z)
                             TeleportStandPart()
                             CannonMissionRemotes.CannonChargeComplete:FireServer()
                             task.wait()
-                        until v1558 < time()
+                        until endTime < time()
 
                         RotationEnabled = false
                     end
@@ -8451,183 +8399,482 @@ If available to your executor the script will reset your character and then invi
                 end
             end
         end)
-        local function run_fast_killaura_loop()
+        local function PickKillauraTarget()
+            local hrpLocal = HumanoidRootPart
+
+            if not hrpLocal then
+                return nil
+            end
+
+            local hrpPos = hrpLocal.Position
+            local best
+            local bestDistance = math.huge
+            local targetSets = { MobsFolder }
+            local dummiesFolder = Workspace:FindFirstChild("TargetDummies")
+
+            if dummiesFolder then
+                targetSets[2] = dummiesFolder
+            end
+
+            for _, folder in ipairs(targetSets) do
+                local children = folder:GetChildren()
+
+                for i = 1, #children do
+                    local mob = children[i]
+                    local healthProperties = mob:FindFirstChild("HealthProperties")
+                    local health
+
+                    if healthProperties then
+                        health = healthProperties:FindFirstChild("Health")
+                    end
+
+                    if health and health.Value <= 0 then
+                        continue
+                    end
+
+                    local collider = mob:FindFirstChild("Collider")
+
+                    if not collider then
+                        collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart")
+                    end
+
+                    if collider then
+                        local magnitude = (collider.Position - hrpPos).Magnitude
+
+                        if magnitude < bestDistance then
+                            best = mob
+                            bestDistance = magnitude
+                        end
+                    end
+                end
+            end
+
+            return best
+        end
+        local function run_aoe_killaura_loop()
             if not Class then
                 Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
-
                 return
             end
 
             local ok, result = pcall(function()
                 if Settings.CanRequire then
-                    task.spawn(function()
-                        pcall(function()
-                            local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
-
-                            Actions:SetSkillDisabled("Primary", true)
-                            Actions:SetSkillDisabled("Skill1", true)
-                            Actions:SetSkillDisabled("Skill2", true)
-                            Actions:SetSkillDisabled("Skill3", true)
-                            Actions:SetSkillDisabled("Ultimate", true)
-                        end)
+                    pcall(function()
+                        local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
+                        Actions:SetSkillDisabled("Primary", true)
+                        Actions:SetSkillDisabled("Skill1", true)
+                        Actions:SetSkillDisabled("Skill2", true)
+                        Actions:SetSkillDisabled("Skill3", true)
+                        Actions:SetSkillDisabled("Ultimate", true)
                     end)
                 end
 
-                local vector3 = Vector3.new(0, 3, 0)
-                local Combat_Attack = Remotes:WaitForChild("Combat_Attack", 1e999)
+                local CombatRemote = Remotes:WaitForChild("Combat_Attack", 1e999)
+                local combatFire = CombatRemote.FireServer
+                local Skills = Class.Skills
+                local numSkills = #Skills
+                local hrp = HumanoidRootPart
+                local _findFirstChild = Instance.FindFirstChild
+                local _time = time
+                local OffsetVec = Vector3.new(0, 3, 0)
+                local Heartbeat = (RunService and RunService.Heartbeat) or game:GetService("RunService").Heartbeat
+                local targetDummies = Workspace:FindFirstChild("TargetDummies")
 
-                if Settings.IsUsingXeno then
-                    repeat
-                        for _, v in pairs(Class.Skills) do
-                            if not CurrentTargetMob or not Settings.FastKillauraActive then
-                                break
-                            end
+                Settings.AoEKillauraActive = true
 
-                            local Cooldown = v.Cooldown
-                            if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted) then
-                                continue
-                            end
+                local TYPE_RANGED = 1
+                local TYPE_MELEE = 2
+                local TYPE_SHADOWCHAIN = 3
+                local TYPE_TABLEREMOTE = 4
+                local TYPE_REMOTE = 5
+                local TYPE_GUARDIANREMOTE = 6
+                local TYPE_HUNTERREMOTE = 7
+                local TYPE_PLAYERPOSREMOTE = 8
+                local TYPE_MOBPOSREMOTE = 9
+                local TYPE_CFRAMEREMOTE = 10
+                local TYPE_PLAYERREMOTE = 11
+                local TYPE_STARBREAKER = 12
 
-                            local vType = v.Type
-                            local Collider6 = CurrentTargetMob:FindFirstChild("Collider")
-                            if not Collider6 then
-                                continue
-                            end
-
-                            local Distance = v.Distance
-                            local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider6.Position)
-                            local ClosestPointOnSurface2 = Collider6:GetClosestPointOnSurface(HumanoidRootPart.Position)
-
-                            if Distance >= (ClosestPointOnSurface - ClosestPointOnSurface2).Magnitude then
-                                if vType == "Ranged" then
-                                    if Settings.IsRanged then
-                                        ClosestPointOnSurface2 -= vector3
-                                    end
-                                    Combat_Attack:FireServer(v.Skill, ClosestPointOnSurface2, nil, 67)
-                                elseif vType == "Melee" then
-                                    Combat_Attack:FireServer(v.Skill, HumanoidRootPart.Position, (ClosestPointOnSurface2 - HumanoidRootPart.Position).Unit, 67)
-                                elseif vType == "ShadowChain" then
-                                    v.Skill:FireServer({CurrentTargetMob, CurrentTargetMob, CurrentTargetMob, CurrentTargetMob, CurrentTargetMob})
-                                elseif vType == "TableRemote" then
-                                    v.Skill:FireServer(CurrentTargetMob)
-                                elseif vType == "Remote" then
-                                    v.Skill:FireServer()
-                                elseif vType == "GuardianRemote" then
-                                    v.Skill:FireServer(1, HumanoidRootPart.Position)
-                                elseif vType == "HunterRemote" then
-                                    v.Skill:FireServer(HumanoidRootPart.Position, 50)
-                                elseif vType == "PlayerPositionRemote" then
-                                    v.Skill:FireServer(HumanoidRootPart.Position)
-                                elseif vType == "MobPositionRemote" then
-                                    v.Skill:FireServer(ClosestPointOnSurface2)
-                                elseif vType == "CFrameRemote" then
-                                    v.Skill:FireServer(HumanoidRootPart.CFrame)
-                                elseif vType == "PlayerRemote" then
-                                    v.Skill:FireServer(LocalPlayer)
-                                else
-                                    if vType ~= "StarbreakerWaves" then
-                                        HandleError("KILLAURA ATTACK TYPE", tostring(vType) .. " isn't a valid type of attack")
-                                        break
-                                    end
-                                end
-
-                                v.LastUsed = time()
-                                task.wait(0.001)
-                            end
-                        end
-
-                        task.wait(0.001)
-                    until not Settings.FastKillauraActive
-
-                    return
-                end
-
-                local Combat_Attack2 = Remotes:WaitForChild("Combat_Attack", math.huge)
-                local t187 = {
-                    Ranged = function(p139, p140)
-                        if Settings.IsRanged then
-                            p140 -= vector3
-                        end
-                        Combat_Attack2:FireServer(p139, p140, nil, 67)
-                    end,
-                    Melee = function(p141, p142)
-                        Combat_Attack2:FireServer(p141, HumanoidRootPart.Position, (p142 - HumanoidRootPart.Position).Unit, 67)
-                    end,
-                    ShadowChain = function(p143)
-                        p143:FireServer({CurrentTargetMob, CurrentTargetMob, CurrentTargetMob, CurrentTargetMob, CurrentTargetMob})
-                    end,
-                    TableRemote = function(p144)
-                        p144:FireServer(CurrentTargetMob)
-                    end,
-                    Remote = function(p145)
-                        p145:FireServer()
-                    end,
-                    GuardianRemote = function(p146)
-                        p146:FireServer(1, HumanoidRootPart.Position)
-                    end,
-                    HunterRemote = function(p147)
-                        p147:FireServer(HumanoidRootPart.Position, 50)
-                    end,
-                    PlayerPositionRemote = function(p148)
-                        p148:FireServer(HumanoidRootPart.Position)
-                    end,
-                    MobPositionRemote = function(p149, p150)
-                        p149:FireServer(p150)
-                    end,
-                    CFrameRemote = function(p151)
-                        p151:FireServer(HumanoidRootPart.CFrame)
-                    end,
-                    PlayerRemote = function(p152)
-                        p152:FireServer(LocalPlayer)
-                    end
+                local typeMap = {
+                    Ranged = TYPE_RANGED,
+                    Melee = TYPE_MELEE,
+                    ShadowChain = TYPE_SHADOWCHAIN,
+                    TableRemote = TYPE_TABLEREMOTE,
+                    Remote = TYPE_REMOTE,
+                    GuardianRemote = TYPE_GUARDIANREMOTE,
+                    HunterRemote = TYPE_HUNTERREMOTE,
+                    PlayerPositionRemote = TYPE_PLAYERPOSREMOTE,
+                    MobPositionRemote = TYPE_MOBPOSREMOTE,
+                    CFrameRemote = TYPE_CFRAMEREMOTE,
+                    PlayerRemote = TYPE_PLAYERREMOTE,
+                    StarbreakerWaves = TYPE_STARBREAKER,
                 }
 
-                repeat
-                    for _, v in pairs(Class.Skills) do
-                        if not CurrentTargetMob or not Settings.FastKillauraActive then
-                            break
+                for i = 1, numSkills do
+                    local s = Skills[i]
+                    s._typeID = typeMap[s.Type] or 0
+                    s._cachedCD = s.Cooldown or 0
+                end
+
+                local handlers = {
+                    [TYPE_RANGED] = function(skill, aimPos, _, _, isRanged)
+                        if isRanged then
+                            aimPos = aimPos - OffsetVec
                         end
 
-                        local Cooldown = v.Cooldown
-                        if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted) then
-                            continue
+                        combatFire(CombatRemote, skill, aimPos, nil, 67)
+                    end,
+                    [TYPE_MELEE] = function(skill, aimPos, hrpPos)
+                        combatFire(CombatRemote, skill, hrpPos, (aimPos - hrpPos).Unit, 67)
+                    end,
+                    [TYPE_SHADOWCHAIN] = function(skill, _, _, _, _, mobs)
+                        local first = mobs[1]
+                        skill:FireServer(first, mobs[2] or first, mobs[3] or first, mobs[4] or first, mobs[5] or first)
+                    end,
+                    [TYPE_TABLEREMOTE] = function(skill, _, _, _, _, mobs)
+                        for i = 1, #mobs do
+                            skill:FireServer(mobs[i])
                         end
+                    end,
+                    [TYPE_REMOTE] = function(skill)
+                        skill:FireServer()
+                    end,
+                    [TYPE_GUARDIANREMOTE] = function(skill, _, hrpPos)
+                        skill:FireServer(1, hrpPos)
+                    end,
+                    [TYPE_HUNTERREMOTE] = function(skill, _, hrpPos)
+                        skill:FireServer(hrpPos, 50)
+                    end,
+                    [TYPE_PLAYERPOSREMOTE] = function(skill, _, hrpPos)
+                        skill:FireServer(hrpPos)
+                    end,
+                    [TYPE_MOBPOSREMOTE] = function(skill, aimPos)
+                        skill:FireServer(aimPos)
+                    end,
+                    [TYPE_CFRAMEREMOTE] = function(skill, _, _, hrpCFrame)
+                        skill:FireServer(hrpCFrame)
+                    end,
+                    [TYPE_PLAYERREMOTE] = function(skill)
+                        skill:FireServer(LocalPlayer)
+                    end,
+                    [TYPE_STARBREAKER] = function()
+                    end,
+                }
 
-                        local vType = v.Type
-                        local Collider7 = CurrentTargetMob:FindFirstChild("Collider")
-                        if not Collider7 then
-                            continue
-                        end
+                local starbreak_hits = {}
+                for i = 1, 5 do
+                    for j = 1, 10 do
+                        starbreak_hits[#starbreak_hits + 1] = "StarbreakerWaveSwing" .. i .. "Hit" .. j
+                    end
+                end
+                local NUM_STARBREAK_HITS = #starbreak_hits
+                local isRanged = Settings.IsRanged
 
-                        local Distance = v.Distance
-                        local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider7.Position)
-                        local ClosestPointOnSurface3 = Collider7:GetClosestPointOnSurface(HumanoidRootPart.Position)
+                local candidates = {}
+                local mobs = {}
+                local mobPositions = {}
+                local passCounter = 0
 
-                        if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface3).Magnitude) then
-                            continue
-                        end
+                while Settings.AoEKillauraActive do
+                    table.clear(candidates)
+                    table.clear(mobs)
+                    table.clear(mobPositions)
 
-                        local v1583 = t187[vType]
-                        if not v1583 then
-                            HandleError("KILLAURA ATTACK TYPE", tostring(vType) .. " isn't a valid type of attack")
-                            break
-                        end
-
-                        v1583(v.Skill, ClosestPointOnSurface3)
-                        v.LastUsed = time()
-                        task.wait(0.001)
+                    for _, mob in ipairs(MobsFolder:GetChildren()) do
+                        table.insert(candidates, mob)
                     end
 
-                    task.wait(0.001)
-                until not Settings.FastKillauraActive
+                    if targetDummies then
+                        for _, mob in ipairs(targetDummies:GetChildren()) do
+                            table.insert(candidates, mob)
+                        end
+                    end
+
+                    local hrpPos = hrp.Position
+                    local count = 0
+
+                    for i = 1, #candidates do
+                        local mob = candidates[i]
+                        local healthProperties = _findFirstChild(mob, "HealthProperties")
+                        local health = healthProperties and _findFirstChild(healthProperties, "Health")
+
+                        if health and health.Value <= 0 then
+                            continue
+                        end
+
+                        local collider = _findFirstChild(mob, "Collider")
+
+                        if not collider then
+                            collider = mob.PrimaryPart or _findFirstChild(mob, "Part") or _findFirstChild(mob, "MeshPart")
+                        end
+
+                        if collider then
+                            local magnitude = (collider.Position - hrpPos).Magnitude
+
+                            if magnitude < 50 then
+                                count = count + 1
+                                mobs[count] = mob
+                                mobPositions[count] = collider.Position
+                            end
+                        end
+                    end
+
+                    if count == 0 then
+                        Heartbeat:Wait()
+                        continue
+                    end
+
+                    passCounter = passCounter + 1
+
+                    local now = _time()
+                    local hrpCFrame = hrp.CFrame
+
+                    for i = 1, numSkills do
+                        local s = Skills[i]
+
+                        if now - (s.LastUsed or 0) >= (s._cachedCD or 0) then
+                            local aimPos = mobPositions[((i - 1 + passCounter) % count) + 1]
+
+                            if not aimPos then
+                                aimPos = hrpPos
+                            end
+
+                            local handler = handlers[s._typeID]
+
+                            if handler then
+                                if s._typeID == TYPE_STARBREAKER then
+                                    local Status = Character and Character:FindFirstChild("Status")
+
+                                    if Status and Status:FindFirstChild("Starforge") then
+                                        local distUnit = (aimPos - hrpPos).Unit
+
+                                        for k = 1, NUM_STARBREAK_HITS do
+                                            combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                        end
+                                    end
+                                else
+                                    handler(s.Skill, aimPos, hrpPos, hrpCFrame, isRanged, mobs)
+                                end
+
+                                s.LastUsed = now
+                            else
+                                HandleError("AOE KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
+                                break
+                            end
+                        end
+                    end
+
+                    Heartbeat:Wait()
+                end
+            end)
+
+            if not ok then
+                HandleError("AOE KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass)
+            end
+        end
+        local function run_fast_killaura_loop()
+            if not Class then
+                Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
+                return
+            end
+
+            local ok, result = pcall(function()
+                if Settings.CanRequire then
+                    pcall(function()
+                        local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
+                        Actions:SetSkillDisabled("Primary", true)
+                        Actions:SetSkillDisabled("Skill1", true)
+                        Actions:SetSkillDisabled("Skill2", true)
+                        Actions:SetSkillDisabled("Skill3", true)
+                        Actions:SetSkillDisabled("Ultimate", true)
+                    end)
+                end
+
+                -- ===== AGGRESSIVE PRE-CACHING =====
+                local CombatRemote = Remotes:WaitForChild("Combat_Attack", 1e999)
+                local combatFire = CombatRemote.FireServer
+                local Skills = Class.Skills
+                local numSkills = #Skills
+                local hrp = HumanoidRootPart
+                local hrpPosition = hrp.Position
+                local _findFirstChild = Instance.FindFirstChild
+                local _getClosest = function(colliderPart, position)
+                    local ok, res = pcall(colliderPart.GetClosestPointOnSurface, colliderPart, position)
+                    if ok then
+                        return res
+                    end
+
+                    return position
+                end
+                local _time = time
+                local OffsetVec = Vector3.new(0, 3, 0)
+                local RunService_Heartbeat = (RunService and RunService.Heartbeat) or game:GetService("RunService").Heartbeat
+
+                Settings.FastKillauraActive = true
+
+                -- ===== Numeric type IDs for integer-keyed dispatch =====
+                local TYPE_RANGED          = 1
+                local TYPE_MELEE           = 2
+                local TYPE_SHADOWCHAIN     = 3
+                local TYPE_TABLEREMOTE     = 4
+                local TYPE_REMOTE          = 5
+                local TYPE_GUARDIANREMOTE   = 6
+                local TYPE_HUNTERREMOTE    = 7
+                local TYPE_PLAYERPOSREMOTE = 8
+                local TYPE_MOBPOSREMOTE    = 9
+                local TYPE_CFRAMEREMOTE    = 10
+                local TYPE_PLAYERREMOTE    = 11
+                local TYPE_STARBREAKER     = 12
+
+                -- ===== Pre-compute type map =====
+                local typeMap = {
+                    Ranged = TYPE_RANGED,
+                    Melee = TYPE_MELEE,
+                    ShadowChain = TYPE_SHADOWCHAIN,
+                    TableRemote = TYPE_TABLEREMOTE,
+                    Remote = TYPE_REMOTE,
+                    GuardianRemote = TYPE_GUARDIANREMOTE,
+                    HunterRemote = TYPE_HUNTERREMOTE,
+                    PlayerPositionRemote = TYPE_PLAYERPOSREMOTE,
+                    MobPositionRemote = TYPE_MOBPOSREMOTE,
+                    CFrameRemote = TYPE_CFRAMEREMOTE,
+                    PlayerRemote = TYPE_PLAYERREMOTE,
+                    StarbreakerWaves = TYPE_STARBREAKER,
+                }
+
+                -- ===== Pre-assign type IDs + cooldowns to skills once =====
+                for i = 1, numSkills do
+                    local s = Skills[i]
+                    s._typeID = typeMap[s.Type] or 0
+                    s._cachedCD = s.Cooldown or 0
+                end
+
+                -- ===== Pre-allocate handler array =====
+                local handlers = {
+                    [TYPE_RANGED] = function(skill, _, closest, isRanged)
+                        combatFire(CombatRemote, skill, isRanged and (closest - OffsetVec) or closest, nil, 67)
+                    end,
+                    [TYPE_MELEE] = function(skill, _, closest, hrpPos)
+                        combatFire(CombatRemote, skill, hrpPos, (closest - hrpPos).Unit, 67)
+                    end,
+                    [TYPE_SHADOWCHAIN] = function(skill, mob)
+                        skill:FireServer(mob, mob, mob, mob, mob)
+                    end,
+                    [TYPE_TABLEREMOTE] = function(skill, mob)
+                        skill:FireServer(mob)
+                    end,
+                    [TYPE_REMOTE] = function(skill)
+                        skill:FireServer()
+                    end,
+                    [TYPE_GUARDIANREMOTE] = function(skill, _, _, hrpPos)
+                        skill:FireServer(1, hrpPos)
+                    end,
+                    [TYPE_HUNTERREMOTE] = function(skill, _, _, hrpPos)
+                        skill:FireServer(hrpPos, 50)
+                    end,
+                    [TYPE_PLAYERPOSREMOTE] = function(skill, _, _, hrpPos)
+                        skill:FireServer(hrpPos)
+                    end,
+                    [TYPE_MOBPOSREMOTE] = function(skill, _, closest)
+                        skill:FireServer(closest)
+                    end,
+                    [TYPE_CFRAMEREMOTE] = function(skill, _, _, _, hrpCFrame)
+                        skill:FireServer(hrpCFrame)
+                    end,
+                    [TYPE_PLAYERREMOTE] = function(skill)
+                        skill:FireServer(LocalPlayer)
+                    end,
+                    [TYPE_STARBREAKER] = function(_, _, _, _, _, _, CharacterRef)
+                        -- Starbreaker handled inline in loop for performance
+                    end,
+                }
+
+                -- Pre-compute Starbreaker strings once
+                local starbreak_hits = {}
+                for i = 1, 5 do
+                    for j = 1, 10 do
+                        starbreak_hits[#starbreak_hits + 1] = "StarbreakerWaveSwing" .. i .. "Hit" .. j
+                    end
+                end
+                local NUM_STARBREAK_HITS = #starbreak_hits
+
+                -- Cache IsRanged outside the hot loop (only check on toggle)
+                local isRanged = Settings.IsRanged
+
+                -- Zero threshold = no cooldown reduction (max speed)
+                local zeroThreshold = 0
+
+                -- ===== MAIN HOT LOOP =====
+                local target
+                local collider
+                local hrpPos
+                local closest
+                local sep
+                local now
+                local hrpCFrame
+                local cd
+
+                while Settings.FastKillauraActive do
+                    target = CurrentTargetMob
+
+                    if not (target and target.Parent) then
+                        target = PickKillauraTarget()
+                        CurrentTargetMob = target
+                    end
+
+                    if target then
+                        collider = _findFirstChild(target, "Collider")
+
+                        if not collider then
+                            collider = target.PrimaryPart or _findFirstChild(target, "Part") or _findFirstChild(target, "MeshPart")
+                        end
+
+                        if collider and hrp and hrp.Parent then
+                            hrpPos = hrp.Position
+                            closest = _getClosest(collider, hrpPos)
+                            sep = (hrpPos - closest).Magnitude
+                            now = _time()
+                            hrpCFrame = hrp.CFrame
+                            for i = 1, numSkills do
+                                local s = Skills[i]
+                                cd = s._cachedCD
+                                if now - (s.LastUsed or 0) >= cd + zeroThreshold and s.Distance >= sep then
+                                    local handler = handlers[s._typeID]
+                                    if handler then
+                                        if s._typeID == TYPE_STARBREAKER then
+                                            local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+                                            if Status and Status:FindFirstChild("Starforge") then
+                                                local distUnit = (closest - hrpPos).Unit
+                                                for k = 1, NUM_STARBREAK_HITS do
+                                                    combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                end
+                                            end
+                                        else
+                                            handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
+                                        end
+                                        s.LastUsed = now
+                                    else
+                                        HandleError("KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
+                                        return
+                                    end
+                                end
+                            end
+                        else
+                            RunService_Heartbeat:Wait()
+                        end
+                    else
+                        RunService_Heartbeat:Wait()
+                    end
+                end
             end)
 
             if not ok then
                 HandleError("FAST KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass)
             end
         end
-        Toggles.KillauraToggle:OnChanged(function(p138)
-            if p138 then
+
+        Toggles.KillauraToggle:OnChanged(function(killauraEnabled)
+            if killauraEnabled then
                 if not Class then
                     Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
 
@@ -8637,9 +8884,11 @@ If available to your executor the script will reset your character and then invi
                 Settings.Killaura = true
 
                 local ok, result = pcall(function()
-                    Connections.ConnectClass = LocalPlayer:GetAttributeChangedSignal("Class"):Connect(function()
-                        Class = GetPlayerClass(true)
-                    end)
+                    if LocalPlayer then
+                        Connections.ConnectClass = LocalPlayer:GetAttributeChangedSignal("Class"):Connect(function()
+                            Class = GetPlayerClass(true)
+                        end)
+                    end
 
                     if Settings.CanRequire then
                         task.spawn(function()
@@ -8763,19 +9012,19 @@ If available to your executor the script will reset your character and then invi
                     end
 
                     local Combat_Attack2 = Remotes:WaitForChild("Combat_Attack", math.huge)
-                    local t187 = {
-						Ranged = function(p139, p140)
+local skillAttackHandlers = {
+					Ranged = function(skill, attackPos)
                         if Settings.IsRanged then
-                            p140 -= vector3
+                            attackPos -= vector3
                         end
 
-                        Combat_Attack2:FireServer(p139, p140, nil, 67)
+                        Combat_Attack2:FireServer(skill, attackPos, nil, 67)
                     end,
-						Melee = function(p141, p142)
-                        Combat_Attack2:FireServer(p141, HumanoidRootPart.Position, (p142 - HumanoidRootPart.Position).Unit, 67)
+					Melee = function(skill, targetClosest)
+                        Combat_Attack2:FireServer(skill, HumanoidRootPart.Position, (targetClosest - HumanoidRootPart.Position).Unit, 67)
                     end,
-						ShadowChain = function(p143)
-                        p143:FireServer({
+					ShadowChain = function(skillRemote)
+                        skillRemote:FireServer({
 								CurrentTargetMob,
 								CurrentTargetMob,
 								CurrentTargetMob,
@@ -8783,31 +9032,31 @@ If available to your executor the script will reset your character and then invi
 								CurrentTargetMob
 							})
                     end,
-						TableRemote = function(p144)
-                        p144:FireServer(CurrentTargetMob)
+					TableRemote = function(skillRemote)
+                        skillRemote:FireServer(CurrentTargetMob)
                     end,
-						Remote = function(p145)
-                        p145:FireServer()
+					Remote = function(skillRemote)
+                        skillRemote:FireServer()
                     end,
-						GuardianRemote = function(p146)
-                        p146:FireServer(1, HumanoidRootPart.Position)
+					GuardianRemote = function(skillRemote)
+                        skillRemote:FireServer(1, HumanoidRootPart.Position)
                     end,
-						HunterRemote = function(p147)
-                        p147:FireServer(HumanoidRootPart.Position, 50)
+					HunterRemote = function(skillRemote)
+                        skillRemote:FireServer(HumanoidRootPart.Position, 50)
                     end,
-						PlayerPositionRemote = function(p148)
-                        p148:FireServer(HumanoidRootPart.Position)
+					PlayerPositionRemote = function(skillRemote)
+                        skillRemote:FireServer(HumanoidRootPart.Position)
                     end,
-						MobPositionRemote = function(p149, p150)
-                        p149:FireServer(p150)
+					MobPositionRemote = function(skillRemote, attackPos)
+                        skillRemote:FireServer(attackPos)
                     end,
-						CFrameRemote = function(p151)
-                        p151:FireServer(HumanoidRootPart.CFrame)
+					CFrameRemote = function(skillRemote)
+                        skillRemote:FireServer(HumanoidRootPart.CFrame)
                     end,
-						PlayerRemote = function(p152)
-                        p152:FireServer(LocalPlayer)
+					PlayerRemote = function(skillRemote)
+                        skillRemote:FireServer(LocalPlayer)
                     end,
-						StarbreakerWaves = function(_, p154)
+					StarbreakerWaves = function(_, starbreakerPos)
                         task.spawn(function()
                             if CanAttack then
                                 local Status = Character:FindFirstChild("Status")
@@ -8815,14 +9064,14 @@ If available to your executor the script will reset your character and then invi
                                 if Status and Status:FindFirstChild("Starforge") then
                                     for i = 1, 5 do
                                         for j = 1, 10 do
-                                            Combat_Attack2:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (p154 - HumanoidRootPart.Position).Unit, 67)
+                                            Combat_Attack2:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (starbreakerPos - HumanoidRootPart.Position).Unit, 67)
                                         end
                                     end
                                 end
                             end
                         end)
                     end
-					}
+				}
                     local _ = Settings.Killaura
 
                     repeat
@@ -8860,16 +9109,16 @@ If available to your executor the script will reset your character and then invi
                                 break
                             end
 
-                            local v1583 = t187[vType]
+                            local attackHandler = skillAttackHandlers[vType]
 
-                            if not v1583 then
+                            if not attackHandler then
                                 Settings.Killaura = nil
                                 HandleError("KILLAURA ATTACK TYPE", tostring(vType) .. " isn't a valid type of attack")
 
                                 break
                             end
 
-                            v1583(v.Skill, ClosestPointOnSurface3)
+                            attackHandler(v.Skill, ClosestPointOnSurface3)
                             v.LastUsed = time()
 
                             if AttackReady and not CanAttack then
@@ -8909,8 +9158,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.Killaura = nil
             end
         end)
-        Toggles.FastKillauraToggle:OnChanged(function(p154)
-            if p154 then
+        Toggles.FastKillauraToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.FastKillaura = true
                 Settings.FastKillauraActive = true
 
@@ -8925,7 +9174,27 @@ If available to your executor the script will reset your character and then invi
             Settings.FastKillauraActive = nil
             Settings.FastKillauraThread = nil
         end)
-        Toggles.SafeKillauraToggle:OnChanged(function(p155)
+        Toggles.AoEKillauraToggle:OnChanged(function(enabled)
+            if enabled then
+                Settings.AoEKillauraActive = true
+                Toggles.KillauraToggle:SetDisabled(true)
+                Toggles.KillauraToggle:SetValue(false)
+                Toggles.FastKillauraToggle:SetDisabled(true)
+                Toggles.FastKillauraToggle:SetValue(false)
+
+                if not Settings.AoEKillauraThread then
+                    Settings.AoEKillauraThread = task.spawn(run_aoe_killaura_loop)
+                end
+
+                return
+            end
+
+            Toggles.KillauraToggle:SetDisabled(false)
+            Toggles.FastKillauraToggle:SetDisabled(false)
+            Settings.AoEKillauraActive = nil
+            Settings.AoEKillauraThread = nil
+        end)
+        Toggles.SafeKillauraToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -8936,13 +9205,13 @@ If available to your executor the script will reset your character and then invi
                 local ok, result = pcall(function()
                     local Actions = require(ReplicatedStorage.Client.Actions)
 
-                    if p155 then
+                    if enabled then
                         Settings.SafeKillaura = true
                         HookFunction(Actions.IsBusy, NewCClosure(function(...)
                             return false
                         end))
-                        local PingResetValue = 1
-                        for v1588, v1589 in pairs({
+                        local skillIndex = 1
+                        for _, skillName in pairs({
 							"Primary",
 							"Skill1",
 							"Skill2",
@@ -8950,16 +9219,16 @@ If available to your executor the script will reset your character and then invi
 							"Ultimate"
 						}) do
 
-                            local v1590 = v1589
+                            local capturedSkillName = skillName
 
-                            if PingResetValue == 1 then
+                            if skillIndex == 1 then
                                 task.spawn(function()
                                     if not Settings.SafeKillaura then
                                     end
 
                                     repeat
                                         if CurrentTargetMob then
-                                            Actions:UseSkill(v1590)
+                                            Actions:UseSkill(capturedSkillName)
                                         end
 
                                         task.wait()
@@ -8972,7 +9241,7 @@ If available to your executor the script will reset your character and then invi
 
                                     repeat
                                         if CurrentTargetMob then
-                                            Actions:UseSkill(v1590)
+                                            Actions:UseSkill(capturedSkillName)
                                         end
 
                                         task.wait(0.2)
@@ -8980,7 +9249,7 @@ If available to your executor the script will reset your character and then invi
                                 end)
                             end
 
-                            PingResetValue += 1
+                            skillIndex += 1
                         end
                         while Settings.SafeKillaura do
                             if Actions:IsSheathed() then
@@ -9005,7 +9274,7 @@ If available to your executor the script will reset your character and then invi
                 end
             elseif mouse1click and keyclick then
                 local ok, result = pcall(function()
-                    if p155 then
+                    if enabled then
                         while Settings.SafeKillaura do
                             mouse1click(1, 1)
                             keyclick(Enum.KeyCode.E)
@@ -9031,8 +9300,8 @@ If available to your executor the script will reset your character and then invi
 
         local CurrentCamera = Workspace.CurrentCamera
 
-        Toggles.AutoProgressToggle:OnChanged(function(p156)
-            if p156 then
+        Toggles.AutoProgressToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.Autofarm = true
                 task.spawn(function()
                     local ok, result = pcall(function()
@@ -9047,21 +9316,21 @@ If available to your executor the script will reset your character and then invi
                                 if IsMobAlive then
                                     HumanoidRootPart.Velocity = Vector3.new()
 
-                                    local v2062 = IsMobAlive and IsMobAlive:FindFirstChild("Collider")
+                                    local targetCollider = IsMobAlive and IsMobAlive:FindFirstChild("Collider")
 
-                                    if v2062 then
-                                        local v2063 = MeleeMinDist + v2062.Size.X / 2
+                                    if targetCollider then
+                                        local orbitRadius = MeleeMinDist + targetCollider.Size.X / 2
 
-                                        DamageCheckValue += MaxDamageReduction / v2063
-                                        HumanoidRootPart.CFrame = CFrame.new(v2062.Position) * CFrame.Angles(0, math.rad(DamageCheckValue), 0) * CFrame.new(v2063, MeleeMaxDist, 0)
-                                        HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position, Vector3.new(v2062.Position.X, HumanoidRootPart.Position.Y, v2062.Position.Z))
+                                        DamageCheckValue += MaxDamageReduction / orbitRadius
+                                        HumanoidRootPart.CFrame = CFrame.new(targetCollider.Position) * CFrame.Angles(0, math.rad(DamageCheckValue), 0) * CFrame.new(orbitRadius, MeleeMaxDist, 0)
+                                        HumanoidRootPart.CFrame = CFrame.new(HumanoidRootPart.Position, Vector3.new(targetCollider.Position.X, HumanoidRootPart.Position.Y, targetCollider.Position.Z))
                                         TeleportStandPart()
 
                                         if not IsMobAlive:GetAttribute("T") then
-                                            local v2064 = IsMobAlive
-                                            local t188 = { time() }
+                                            local targetMob = IsMobAlive
+                                            local timeTable = { time() }
 
-                                            v2064:SetAttribute("T", Unpack(t188))
+                                            targetMob:SetAttribute("T", Unpack(timeTable))
                                         end
 
                                         if nil then
@@ -9082,24 +9351,24 @@ If available to your executor the script will reset your character and then invi
                 task.spawn(function()
                     local ok, result = pcall(function()
 
-                        for v2068, v2069 in pairs(PartsList) do
+                        for partKey, partInfo in pairs(PartsList) do
 
-                            if v2068 and v2068.Parent then
-                                v2068.Size = Vector3.new(1, 1, 1)
+                            if partKey and partKey.Parent then
+                                partKey.Size = Vector3.new(1, 1, 1)
                             end
                         end
                         while Settings.Autofarm do
                             for k, v in pairs(PartsList) do
-                                local v2072 = v
+                                local partInfo = v
 
-                                if v2072.DontTeleport then
-                                elseif v2072.TouchPart.Parent then
+                                if partInfo.DontTeleport then
+                                elseif partInfo.TouchPart.Parent then
                                     task.spawn(function()
                                         k.Position = HumanoidRootPart.Position
                                         task.wait(0.1)
-                                        k.Position = v2072.OriginalLocation
+                                        k.Position = partInfo.OriginalLocation
                                     end)
-                                elseif not v2072.Regenerates then
+                                elseif not partInfo.Regenerates then
                                     PartsList[k] = nil
                                 end
                             end
@@ -9129,25 +9398,25 @@ If available to your executor the script will reset your character and then invi
 									"ShieldEgg",
 									"EggShield"
 								}) do
-                                    local InEventDungeon = Workspace:FindFirstChild(v)
+                                    local shieldModel = Workspace:FindFirstChild(v)
 
-                                    if InEventDungeon then
-                                        if InEventDungeon.Name == "ShieldEgg" or InEventDungeon.Name == "EggShield" then
-                                            local v2076 = InEventDungeon:WaitForChild("ShieldEgg", 1) or InEventDungeon:WaitForChild("Blade", 1)
+                                    if shieldModel then
+                                        if shieldModel.Name == "ShieldEgg" or shieldModel.Name == "EggShield" then
+                                            local ringPart = shieldModel:WaitForChild("ShieldEgg", 1) or shieldModel:WaitForChild("Blade", 1)
 
-                                            if v2076 then
-                                                v2076.Name = "Ring"
+                                            if ringPart then
+                                                ringPart.Name = "Ring"
                                             end
                                         end
 
-                                        local Ring = InEventDungeon:WaitForChild("Ring", 5)
+                                        local Ring = shieldModel:WaitForChild("Ring", 5)
 
                                         if Ring and Ring.Parent then
-                                            local v2078 = GetPlayerSize() + Ring.Size.Y / 2
-                                            local vector3 = Vector3.new(Ring.Position.X, Ring.Position.Y + v2078, Ring.Position.Z)
+                                            local standOffset = GetPlayerSize() + Ring.Size.Y / 2
+                                            local shieldStandPosition = Vector3.new(Ring.Position.X, Ring.Position.Y + standOffset, Ring.Position.Z)
 
-                                            while InEventDungeon.Parent do
-                                                HumanoidRootPart.CFrame = CFrame.new(vector3)
+                                            while shieldModel.Parent do
+                                                HumanoidRootPart.CFrame = CFrame.new(shieldStandPosition)
                                                 task.wait()
                                             end
 
@@ -9174,13 +9443,13 @@ If available to your executor the script will reset your character and then invi
             HumanoidRootPart.CanCollide = true
 
             for k, v in pairs(PartsList) do
-                local v966 = k
+                local restoredPart = k
 
-                if v966 and v966.Parent then
-                    print("returning size to", v966)
-                    v966.Size = v.OriginalSize
-                    v966.CanCollide = v.OriginalCollision
-                    v966.Position = v.OriginalLocation
+                if restoredPart and restoredPart.Parent then
+                    print("returning size to", restoredPart)
+                    restoredPart.Size = v.OriginalSize
+                    restoredPart.CanCollide = v.OriginalCollision
+                    restoredPart.Position = v.OriginalLocation
                 end
             end
 
@@ -9188,12 +9457,12 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Toggles.CollectDropToggle:OnChanged(function(p157)
+        Toggles.CollectDropToggle:OnChanged(function(enabled)
             if PlaceIdStr == "6510868181" then
                 return
             end
 
-            if p157 then
+            if enabled then
                 if Settings.CanRequire and (HookFunction and NewCClosure) then
                     HookFunction(require(Drops).DropStarterpassExp, NewCClosure(function(...)
                     end))
@@ -9207,8 +9476,8 @@ If available to your executor the script will reset your character and then invi
 
                 local Drops_CoinEvent = Remotes:WaitForChild("Drops_CoinEvent", math.huge)
 
-                Connections.CollectDrops = Drops_CoinEvent.OnClientEvent:Connect(function(p158)
-                    Drops_CoinEvent:FireServer(p158.id)
+                Connections.CollectDrops = Drops_CoinEvent.OnClientEvent:Connect(function(dropData)
+                    Drops_CoinEvent:FireServer(dropData.id)
                 end)
                 task.spawn(CollectCoinsAndDrops)
 
@@ -9235,36 +9504,36 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InDungeon then
-        Toggles.PetKillauraToggle:OnChanged(function(p159)
-            if p159 then
+        Toggles.PetKillauraToggle:OnChanged(function(petKillauraEnabled)
+            if petKillauraEnabled then
                 Settings.PetKillaura = true
 
                 if Settings.CanRequire then
                     local success, result = pcall(function()
                         local PetSkills_UseSkill = Remotes:WaitForChild("PetSkills_UseSkill", 1e999)
-                        local u1599 = GetPlayerPet()
+                        local petData = GetPlayerPet()
 
                         Connections.ConnectCharacter = Character.ChildAdded:Connect(function(child)
                             if child.Name == "PetData" then
-                                u1599 = GetPlayerPet()
+                                petData = GetPlayerPet()
                             end
                         end)
 
                         local Combat_Attack = Remotes:WaitForChild("Combat_Attack", 1e999)
-                        local t190 = {
-							Ranged = function(p160, p161)
-                            Combat_Attack:FireServer(p160, p161, nil, 67)
+                        local petAttackHandlers = {
+							Ranged = function(skill, attackPos)
+                            Combat_Attack:FireServer(skill, attackPos, nil, 67)
                         end,
 							Self = function()
                             PetSkills_UseSkill:FireServer(Character, HumanoidRootPart.Position)
                         end,
-							MobPosition = function(_, p163)
-                            PetSkills_UseSkill:FireServer(Character, p163)
+							MobPosition = function(_, attackPos)
+                            PetSkills_UseSkill:FireServer(Character, attackPos)
                         end
 						}
 
                         while Settings.PetKillaura and not MissionDone do
-                            for _, v in pairs(u1599.Skills) do
+                            for _, v in pairs(petData.Skills) do
                                 if not CurrentTargetMob then
                                     continue
                                 end
@@ -9296,15 +9565,15 @@ If available to your executor the script will reset your character and then invi
                                     break
                                 end
 
-                                local v1611 = t190[vType]
+                                local petAttackHandler = petAttackHandlers[vType]
 
-                                if not v1611 then
+                                if not petAttackHandler then
                                     HandleError("PET ATTACK TYPE", tostring(vType) .. " isn't a valid type of attack")
 
                                     break
                                 end
 
-                                v1611(v.Skill, ClosestPointOnSurface4)
+                                petAttackHandler(v.Skill, ClosestPointOnSurface4)
                                 v.LastUsed = tick()
 
                                 if CombatActive then
@@ -9316,13 +9585,13 @@ If available to your executor the script will reset your character and then invi
                         end
                     end)
                     if not success then
-                        local v972 = Character and Character:FindFirstChild("PetData")
+                        local petDataRef = Character and Character:FindFirstChild("PetData")
 
-                        if v972 and (PetAttackTable and Settings.CanRequire) then
+                        if petDataRef and (PetAttackTable and Settings.CanRequire) then
                             task.wait(0.5)
 
                             local lib = require(Pets)
-                            local ItemName = v972:GetAttribute("ItemName")
+                            local ItemName = petDataRef:GetAttribute("ItemName")
                             local PetSkillFromPetRef = lib:GetPetSkillFromPetRef(ReplicatedStorage.PlayerEquips[PlayerName].Pet[ItemName])
 
                             HandleError("PET KILLAURA", tostring(result), tostring(ItemName) .. " Pet skill: " .. tostring(PetSkillFromPetRef))
@@ -9361,27 +9630,27 @@ If available to your executor the script will reset your character and then invi
                 Settings.PetKillaura = nil
             end
         end)
-        Toggles.RestartStuckToggle:OnChanged(function(p164)
-            if p164 then
+        Toggles.RestartStuckToggle:OnChanged(function(enabled)
+            if enabled then
                 local ok, result = pcall(function()
                     Tracking.LoggedDifficulty = GetDifficulty()
                     Settings.CheckForRejoin = true
                     RejoinLastDungeon(false)
 
-                    local DamageCheckTimer = 0
+                    local outOfCombatTimer = 0
                     local _ = Settings.CheckForRejoin
 
                     repeat
                         task.wait(1)
 
                         local HealthProperties = Character:FindFirstChild("HealthProperties", true)
-                        local v1617 = HealthProperties and HealthProperties:FindFirstChild("OutOfCombat", true)
+                        local outOfCombatValue = HealthProperties and HealthProperties:FindFirstChild("OutOfCombat", true)
 
-                        if HealthProperties and v1617 then
-                            DamageCheckTimer = v1617.Value ~= 0 and 0 or DamageCheckTimer + 1
+                        if HealthProperties and outOfCombatValue then
+                            outOfCombatTimer = outOfCombatValue.Value ~= 0 and 0 or outOfCombatTimer + 1
                         end
 
-                        if DamageCheckTimer >= MaxPingTolerance then
+                        if outOfCombatTimer >= MaxPingTolerance then
                             MissionDone = true
                             task.wait(2)
                             RejoinLastDungeon(true)
@@ -9400,76 +9669,76 @@ If available to your executor the script will reset your character and then invi
                 Settings.CheckForRejoin = nil
             end
         end)
-        Toggles.DodgeLethalToggle:OnChanged(function(p165)
-            if p165 then
-                p165 = Class.Distance == "Melee"
+        Toggles.DodgeLethalToggle:OnChanged(function(dodgeEnabled)
+            if dodgeEnabled then
+                dodgeEnabled = Class.Distance == "Melee"
             end
 
-            if p165 then
+            if dodgeEnabled then
                 Settings.DodgeAttacks = true
 
                 local ok, result = pcall(function()
-                    local t193 = {
+                    local downwardIceConfig = {
 						AttackLength = 5.9,
 						Delay = 1.5,
 						AttackName = "downward ice"
 					}
-                    local t194 = {
+                    local jumpConfig = {
 						AttackLength = 2.5,
 						Delay = 2,
 						AttackName = "jump"
 					}
-                    local t195 = {
+                    local howlConfig = {
 						AttackLength = 4.2,
 						Delay = 3.5,
 						AttackName = "howl"
 					}
-                    local t196 = {
+                    local darkOrbConfig = {
 						AttackLength = 8.2,
 						Delay = 7.5,
 						AttackName = "dark orb"
 					}
-                    local t197 = {
+                    local wingFlapConfig = {
 						AttackLength = 6,
 						Delay = 1,
 						AttackName = "wing flap"
 					}
-                    local t198 = {
+                    local flybyConfig = {
 						AttackLength = 15,
 						Delay = 0,
 						AttackName = "flyby"
 					}
-                    local t199 = {
+                    local longFlybyConfig = {
 						AttackLength = 23,
 						Delay = 0,
 						AttackName = "long flyby"
 					}
-                    local t200 = {
+                    local eggBombConfig = {
 						AttackLength = 10,
 						Delay = 3,
 						AttackName = "egg bombs"
 					}
-                    local t201 = {
+                    local slamJumpConfig = {
 						AttackLength = 5,
 						Delay = 1,
 						AttackName = "slam jump"
 					}
-                    local t202 = {
+                    local prismSlamConfig = {
 						AttackLength = 3,
 						Delay = 2,
 						AttackName = "prism slam"
 					}
-                    local t203 = {
-						DownwardIceFire = t193,
-						JumpAttack = t194,
-						Howl = t195,
-						DarkOrbAttack = t196,
-						WingFlap = t197,
-						Flyby = t198,
-						FlybyX3 = t199,
-						EggBomb = t200,
-						SlamJump = t201,
-						PrismSlam = t202
+                    local attackConfigs = {
+						DownwardIceFire = downwardIceConfig,
+						JumpAttack = jumpConfig,
+						Howl = howlConfig,
+						DarkOrbAttack = darkOrbConfig,
+						WingFlap = wingFlapConfig,
+						Flyby = flybyConfig,
+						FlybyX3 = longFlybyConfig,
+						EggBomb = eggBombConfig,
+						SlamJump = slamJumpConfig,
+						PrismSlam = prismSlamConfig
 					}
 
                     while Settings.DodgeAttacks and not MissionDone do
@@ -9477,13 +9746,13 @@ If available to your executor the script will reset your character and then invi
                             local MobProperties = CurrentTargetMob:FindFirstChild("MobProperties")
 
                             if MobProperties then
-                                local v1630 = MobProperties and MobProperties:FindFirstChild("CurrentAttack")
+                                local currentAttackValue = MobProperties and MobProperties:FindFirstChild("CurrentAttack")
 
-                                if v1630 and v1630.Value ~= "" then
-                                    local v1631 = t203[v1630.Value] or false
+                                if currentAttackValue and currentAttackValue.Value ~= "" then
+                                    local attackConfig = attackConfigs[currentAttackValue.Value] or false
 
-                                    if v1631 then
-                                        DodgeCurrentAttack(v1631.Delay, v1631.AttackLength - v1631.Delay, v1631.AttackName)
+                                    if attackConfig then
+                                        DodgeCurrentAttack(attackConfig.Delay, attackConfig.AttackLength - attackConfig.Delay, attackConfig.AttackName)
                                     end
                                 end
                             end
@@ -9496,9 +9765,9 @@ If available to your executor the script will reset your character and then invi
 							"PoisonMeteorSpecialMedium",
 							"MeteorSpecialSuper"
 						}) do
-                            local v59 = Workspace:FindFirstChild(v)
+                            local hazardModel = Workspace:FindFirstChild(v)
 
-                            if not v59 then
+                            if not hazardModel then
                                 continue
                             end
 
@@ -9506,21 +9775,21 @@ If available to your executor the script will reset your character and then invi
                                 break
                             end
 
-                            local v1635 = MobsFolder:FindFirstChild("VaneAetherDragon") or MobsFolder:FindFirstChild("EVENTBOSSVane")
-                            local vector3 = Vector3.new(HumanoidRootPart.Position.X + 1000, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
+                            local vaneBoss = MobsFolder:FindFirstChild("VaneAetherDragon") or MobsFolder:FindFirstChild("EVENTBOSSVane")
+                            local safePosition = Vector3.new(HumanoidRootPart.Position.X + 1000, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
 
-                            if v1635 then
-                                vector3 = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
+                            if vaneBoss then
+                                safePosition = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
                             end
 
                             if Settings.DodgeAttacks then
                             end
 
                             while true do
-                                HumanoidRootPart.CFrame = CFrame.new(vector3)
+                                HumanoidRootPart.CFrame = CFrame.new(safePosition)
                                 TeleportStandPart()
 
-                                if not v59.Parent then
+                                if not hazardModel.Parent then
                                     break
                                 end
 
@@ -9549,19 +9818,19 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Toggles.AutoPrestigeToggle:OnChanged(function(p166)
-            if p166 and (Tracking.PlayerLevel >= 135 and Tracking.PlayerPrestige < 4) then
+        Toggles.AutoPrestigeToggle:OnChanged(function(prestiging)
+            if prestiging and (Tracking.PlayerLevel >= 135 and Tracking.PlayerPrestige < 4) then
                 local _, _ = pcall(function()
                     MissionDone = true
                     Library:Notify("Prestiging...", 5)
                     task.wait(5)
 
-                    local v1638 = LocalPlayer.Name .. "_Prestige.txt"
-                    local _isfile = isfile
-                    local v1640 = "PORN/" .. v1638
+                    local prestigeFileName = LocalPlayer.Name .. "_Prestige.txt"
+                    local checkFile = isfile
+                    local prestigeFilePath = "PORN/" .. prestigeFileName
 
-                    if _isfile(v1640) and (PlaceIdStr == "4310463616" and not InDungeon) then
-                        delfile(v1640)
+                    if checkFile(prestigeFilePath) and (PlaceIdStr == "4310463616" and not InDungeon) then
+                        delfile(prestigeFilePath)
                         Remotes:WaitForChild("Profile_Prestige"):FireServer()
                         task.wait(1)
                         ReplayDungeon(1, 5)
@@ -9569,8 +9838,8 @@ If available to your executor the script will reset your character and then invi
                         return
                     end
 
-                    if not isfile(v1640) then
-                        writefile(v1640, "haha txt file")
+                    if not isfile(prestigeFilePath) then
+                        writefile(prestigeFilePath, "haha txt file")
                     end
 
                     Remotes:WaitForChild("Teleport_TeleportToHub", math.huge):FireServer(13)
@@ -9581,24 +9850,24 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "event stuff"
     if InDungeon then
-        Toggles.InstakillToggle:OnChanged(function(p167)
+        Toggles.InstakillToggle:OnChanged(function(instakillEnabled)
             if not IsEventDungeon then
                 return
             end
 
-            Settings.InstakillOn = p167
+            Settings.InstakillOn = instakillEnabled
 
-            if p167 then
+            if instakillEnabled then
                 task.wait(0.5)
 
-                local DamageCheckMax = 15
+                local instakillTimeout = 15
 
                 if Options.InstakillDropdown.Value ~= "Normal method" then
-                    DamageCheckMax = 25
+                    instakillTimeout = 25
                 end
 
                 if Tracking.LoggedDifficulty == 6 then
-                    DamageCheckMax = 35
+                    instakillTimeout = 35
                     Remotes:WaitForChild("Mobs_EVENTBOSSUndeadVane_ResurrectShake", math.huge).OnClientEvent:Wait()
 
                     if Options.InstakillDropdown.Value ~= "Normal method" then
@@ -9613,7 +9882,7 @@ If available to your executor the script will reset your character and then invi
                 Settings.InstakillBoss = true
                 PlayerStandPart.CanCollide = false
                 task.spawn(function()
-                    task.wait(DamageCheckMax)
+                    task.wait(instakillTimeout)
 
                     if MissionDone or not Settings.InstakillBoss then
                         return
@@ -9623,33 +9892,33 @@ If available to your executor the script will reset your character and then invi
                 end)
                 task.spawn(function()
                     if Options.InstakillDropdown.Value ~= "Normal method" then
-                        local Collider10
-                        local SoulObjectCollected = if Tracking.LoggedDifficulty == 6 then MobsFolder:WaitForChild("EVENTBOSSUndeadVane", 1e999):WaitForChild("Collider", math.huge) else MobsFolder:WaitForChild("EVENTBOSSVane", 1e999):WaitForChild("Collider", 1e999)
+                        local dragonCollider
+                        local bossCollider = if Tracking.LoggedDifficulty == 6 then MobsFolder:WaitForChild("EVENTBOSSUndeadVane", 1e999):WaitForChild("Collider", math.huge) else MobsFolder:WaitForChild("EVENTBOSSVane", 1e999):WaitForChild("Collider", 1e999)
                         Remotes:WaitForChild("Skillset_DualWielder_AttackBuff", math.huge):FireServer()
                         Remotes:WaitForChild("Skillset_Guardian_AggroDraw", math.huge):FireServer()
-                        local v1643 = GetPlayerSize() + SoulObjectCollected.Size.Y / 2 + 8
+                        local standOffset = GetPlayerSize() + bossCollider.Size.Y / 2 + 8
                         HumanoidRootPart.CanCollide = false
                         while Settings.InstakillBoss and not MissionDone do
-                            local vector3 = Vector3.new(SoulObjectCollected.Position.X, SoulObjectCollected.Position.Y + v1643, SoulObjectCollected.Position.Z)
+                            local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + standOffset, bossCollider.Position.Z)
 
-                            HumanoidRootPart:PivotTo(CFrame.new(vector3))
+                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
                             RunService.Heartbeat:Wait()
 
-                            if not SoulObjectCollected.Parent then
+                            if not bossCollider.Parent then
                                 break
                             end
                         end
                         HumanoidRootPart.Velocity = Vector3.new()
                         if Tracking.LoggedDifficulty == 5 then
-                            Collider10 = MobsFolder:WaitForChild("BOSSDarkriseDarkDragon", 1e999):WaitForChild("Collider", math.huge)
+                            dragonCollider = MobsFolder:WaitForChild("BOSSDarkriseDarkDragon", 1e999):WaitForChild("Collider", math.huge)
                         end
-                        if Collider10 then
-                            local v1645 = GetPlayerSize() + Collider10.Size.Y / 2 + 8
+                        if dragonCollider then
+                            local dragonStandOffset = GetPlayerSize() + dragonCollider.Size.Y / 2 + 8
 
                             while Settings.InstakillBoss and not MissionDone do
-                                local vector3 = Vector3.new(SoulObjectCollected.Position.X, SoulObjectCollected.Position.Y + v1645, SoulObjectCollected.Position.Z)
+                                local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + dragonStandOffset, bossCollider.Position.Z)
 
-                                HumanoidRootPart:PivotTo(CFrame.new(vector3))
+                                HumanoidRootPart:PivotTo(CFrame.new(standPosition))
                                 RunService.Heartbeat:Wait()
                             end
 
@@ -9659,12 +9928,12 @@ If available to your executor the script will reset your character and then invi
                         end
                     else
                         local BossSpawn = MissionObjects:WaitForChild("BossSpawn", 1e999)
-                        local vector3 = Vector3.new(BossSpawn.Position.X, BossSpawn.Position.Y + 13, BossSpawn.Position.Z)
+                        local standPosition = Vector3.new(BossSpawn.Position.X, BossSpawn.Position.Y + 13, BossSpawn.Position.Z)
 
                         HumanoidRootPart.CanCollide = false
 
                         while Settings.InstakillBoss and not MissionDone do
-                            HumanoidRootPart:PivotTo(CFrame.new(vector3))
+                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
                             RunService.Heartbeat:Wait()
                         end
 
@@ -9680,26 +9949,26 @@ If available to your executor the script will reset your character and then invi
                 end
 
                 repeat
-                    local DamageCheckMin = 0.1
+                    local velocityOffset = 0.1
 
                     RunService.Heartbeat:Wait()
 
-                    local v991 = HumanoidRootPart
-                    local Velocity = v991.Velocity
+                    local rootPart = HumanoidRootPart
+                    local velocity = rootPart.Velocity
 
-                    v991.Velocity = Velocity * 10000 + Vector3.new(0, 100000, 0)
+                    rootPart.Velocity = velocity * 10000 + Vector3.new(0, 100000, 0)
                     RunService.RenderStepped:Wait()
 
                     if HumanoidRootPart then
-                        v991.Velocity = Velocity
+                        rootPart.Velocity = velocity
                     end
 
                     RunService.Stepped:Wait()
 
                     if HumanoidRootPart then
-                        v991.Velocity = Velocity + Vector3.new(0, DamageCheckMin, 0)
+                        rootPart.Velocity = velocity + Vector3.new(0, velocityOffset, 0)
 
-                        local _ = DamageCheckMin * -1
+                        local _ = velocityOffset * -1
                     end
                 until not Settings.InstakillBoss or MissionDone
 
@@ -9713,8 +9982,8 @@ If available to your executor the script will reset your character and then invi
             Settings.InstakillBoss = nil
             PlayerStandPart.CanCollide = true
         end)
-        Toggles.CollectBuffToggle:OnChanged(function(p168)
-            if p168 then
+        Toggles.CollectBuffToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.CollectBuffs = true
                 PlayerStandPart.CanCollide = true
 
@@ -9722,10 +9991,10 @@ If available to your executor the script will reset your character and then invi
                     if Settings.SelectedOrbs then
                         for _, v in pairs(Settings.SelectedOrbs) do
                             if v then
-                                local v60 = Workspace:FindFirstChild(v)
+                                local orbModel = Workspace:FindFirstChild(v)
 
-                                if v60 then
-                                    TeleportToOrb(v60)
+                                if orbModel then
+                                    TeleportToOrb(orbModel)
                                 end
 
                                 task.wait()
@@ -9741,40 +10010,40 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Options.EventBossDropdown:OnChanged(function(p169)
-            if p169 then
+        Options.EventBossDropdown:OnChanged(function(bossKey)
+            if bossKey then
                 local LeaderboardHookup_GetScore = Remotes:WaitForChild("LeaderboardHookup_GetScore", 1e999)
                 local year = os.date("*t").year
-                local str15 = tostring(Settings.EventBossList[p169].EventTag .. year)
-                local v1002 = LeaderboardHookup_GetScore:InvokeServer(str15, 1) or LeaderboardHookup_GetScore:InvokeServer(str15, 5)
+                local eventTagString = tostring(Settings.EventBossList[bossKey].EventTag .. year)
+                local scoreData = LeaderboardHookup_GetScore:InvokeServer(eventTagString, 1) or LeaderboardHookup_GetScore:InvokeServer(eventTagString, 5)
 
-                if not v1002 then
+                if not scoreData then
                     Settings.TotalKillLabel:SetText("Total Kills: no kill data")
                     Settings.DailyKillLabel:SetText("Daily Kills: no kill data")
 
                     return
                 end
 
-                Settings.SelectedEventBoss = p169
-                Settings.EventBossDataTable = v1002
+                Settings.SelectedEventBoss = bossKey
+                Settings.EventBossDataTable = scoreData
 
-                local v1003 = Settings.EventBossDataTable[1]
+                local totalKills = Settings.EventBossDataTable[1]
 
                 tonumber(Settings.StopAfterTotalKills)
 
-                local v1004 = Settings.EventBossDataTable[2]
+                local dailyKills = Settings.EventBossDataTable[2]
 
                 tonumber(Settings.StopAfterDailyKills)
 
                 local TotalKillLabel = Settings.TotalKillLabel
-                local str16 = tostring(v1003)
+                local totalKillsString = tostring(totalKills)
 
-                TotalKillLabel:SetText("Total Kills: " .. str16:reverse():gsub("...", "%0,", (math.floor((#str16 - 1) / 3))):reverse())
+                TotalKillLabel:SetText("Total Kills: " .. totalKillsString:reverse():gsub("...", "%0,", (math.floor((#totalKillsString - 1) / 3))):reverse())
 
                 local DailyKillLabel = Settings.DailyKillLabel
-                local str17 = tostring(v1004)
+                local dailyKillsString = tostring(dailyKills)
 
-                DailyKillLabel:SetText("Daily Kills: " .. str17:reverse():gsub("...", "%0,", (math.floor((#str17 - 1) / 3))):reverse())
+                DailyKillLabel:SetText("Daily Kills: " .. dailyKillsString:reverse():gsub("...", "%0,", (math.floor((#dailyKillsString - 1) / 3))):reverse())
 
                 return
             end
@@ -9782,73 +10051,73 @@ If available to your executor the script will reset your character and then invi
             Settings.TotalKillLabel:SetText("Total Kills: no boss selected")
             Settings.DailyKillLabel:SetText("Daily Kills: no boss selected")
         end)
-        Toggles.AutoClaimBattlepass:OnChanged(function(p170)
-            if p170 then
+        Toggles.AutoClaimBattlepass:OnChanged(function(enabled)
+            if enabled then
                 if Settings.CanRequire then
                     local lib = require(Battlepass)
                     local Battlepass_RedeemedItem = Remotes:WaitForChild("Battlepass_RedeemedItem", math.huge)
                     local Battlepass_RedeemItem = Remotes:WaitForChild("Battlepass_RedeemItem", math.huge)
-                    local v1013
-                    local v1014
-                    local v1015 = false
-                    local MaxDmgCheck = -1
+                    local noPremium
+                    local lastPremiumTier
+                    local freeClaimed = false
+                    local lastFreeTier = -1
                     if not Remotes:WaitForChild("Battlepass_HasPremium", 1e999):InvokeServer() then
-                        v1013 = true
+                        noPremium = true
                     end
-                    local function v1017(p171, p172)
-                        local v1651 = time() + 3
+                    local function redeemTier(itemTier, isPremium)
+                        local deadline = time() + 3
 
-                        if not p172 then
-                            Battlepass_RedeemedItem:InvokeServer(p171)
+                        if not isPremium then
+                            Battlepass_RedeemedItem:InvokeServer(itemTier)
 
                             repeat
-                                if v1651 < time() then
+                                if deadline < time() then
                                     return
                                 end
 
-                                Battlepass_RedeemItem:FireServer(p171)
+                                Battlepass_RedeemItem:FireServer(itemTier)
                                 task.wait()
-                            until Battlepass_RedeemedItem:InvokeServer(p171)
+                            until Battlepass_RedeemedItem:InvokeServer(itemTier)
 
                             return
                         end
 
-                        Battlepass_RedeemedItem:InvokeServer(p171, true)
+                        Battlepass_RedeemedItem:InvokeServer(itemTier, true)
 
                         repeat
-                            if v1651 < time() then
+                            if deadline < time() then
                                 return
                             end
 
-                            Battlepass_RedeemItem:FireServer(p171, true)
+                            Battlepass_RedeemItem:FireServer(itemTier, true)
                             task.wait()
-                        until Battlepass_RedeemedItem:InvokeServer(p171, true)
+                        until Battlepass_RedeemedItem:InvokeServer(itemTier, true)
                     end
-                    if not v1015 then
+                    if not freeClaimed then
                     end
                     repeat
-                        local t204 = { Remotes:WaitForChild("Battlepass_GetItemRanks", math.huge):InvokeServer() }
+                        local itemRanks = { Remotes:WaitForChild("Battlepass_GetItemRanks", math.huge):InvokeServer() }
 
-                        for i = 1, #t204 do
-                            local v1020 = i
-                            local v1021 = t204[v1020]
-                            local NextItemTier = lib:FindNextItemTier(t204[v1020])
+                        for i = 1, #itemRanks do
+                            local rankIndex = i
+                            local rankValue = itemRanks[rankIndex]
+                            local nextTier = lib:FindNextItemTier(itemRanks[rankIndex])
 
-                            if v1020 == 1 and not v1015 then
-                                if v1021 == 0 or v1021 ~= MaxDmgCheck then
-                                    v1017(NextItemTier)
-                                    MaxDmgCheck = v1021
+                            if rankIndex == 1 and not freeClaimed then
+                                if rankValue == 0 or rankValue ~= lastFreeTier then
+                                    redeemTier(nextTier)
+                                    lastFreeTier = rankValue
                                 else
-                                    v1015 = true
+                                    freeClaimed = true
                                 end
                             end
 
-                            if v1020 == 2 and not v1013 then
-                                if v1021 == 0 or v1021 ~= v1014 then
-                                    v1017(NextItemTier, true)
-                                    v1014 = v1021
+                            if rankIndex == 2 and not noPremium then
+                                if rankValue == 0 or rankValue ~= lastPremiumTier then
+                                    redeemTier(nextTier, true)
+                                    lastPremiumTier = rankValue
                                 else
-                                    v1013 = true
+                                    noPremium = true
                                 end
                             end
 
@@ -9856,7 +10125,7 @@ If available to your executor the script will reset your character and then invi
                         end
 
                         task.wait()
-                    until v1015 and v1013
+                    until freeClaimed and noPremium
                 else
                     Library:Notify("Your executor doesn't support this option")
                 end
@@ -9865,8 +10134,8 @@ If available to your executor the script will reset your character and then invi
     end
     if InDungeon then
         if Toggles.EventBossPingToggle then
-            Toggles.EventBossPingToggle:OnChanged(function(p173)
-                if p173 then
+            Toggles.EventBossPingToggle:OnChanged(function(enabled)
+                if enabled then
                     Flags.Event = true
 
                     return
@@ -9880,16 +10149,16 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "trading tab functions"
     if InLobby or InDungeon then
         Connections.ConnectTrades = ReplicatedStorage:WaitForChild("Trades", math.huge).ChildAdded:Connect(function(child)
-            local wait = task.wait
+            local taskWait = task.wait
             local GetChildren = child.GetChildren
 
-            wait(1)
+            taskWait(1)
 
             for _, v in ipairs(GetChildren(child)) do
                 if v.name == PlayerName then
-                    for _, child2 in ipairs(child:GetChildren()) do
-                        if child2.name ~= PlayerName then
-                            Settings.PlayerBeingTraded = child2.name
+                    for _, tradePartner in ipairs(child:GetChildren()) do
+                        if tradePartner.name ~= PlayerName then
+                            Settings.PlayerBeingTraded = tradePartner.name
 
                             if not Settings.IsScriptDeveloper and not Settings.IsNewPlayer then
                                 OpenTradeNotification()
@@ -9901,8 +10170,8 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby then
-        Toggles.PlacePlayerShopToggle:OnChanged(function(p174)
-            if p174 then
+        Toggles.PlacePlayerShopToggle:OnChanged(function(enabled)
+            if enabled then
                 local ShopLocations = Workspace:FindFirstChild("ShopLocations")
 
                 if ShopLocations then
@@ -9935,11 +10204,11 @@ If available to your executor the script will reset your character and then invi
                 Library:Notify("Player shop removed.", 2)
             end
         end)
-        Options.PlayerShopDropdown:OnChanged(function(p175)
+        Options.PlayerShopDropdown:OnChanged(function(playerName)
             if Settings.CanRequire then
                 local _, _ = pcall(function()
                     require(ReplicatedStorage.Client.Gui):Get("Shop"):Close()
-                    require(ReplicatedStorage.Client.Gui):Get("Shop"):Open(game.Players[tostring(p175)])
+                    require(ReplicatedStorage.Client.Gui):Get("Shop"):Open(game.Players[tostring(playerName)])
                 end)
             end
         end)
@@ -9947,8 +10216,8 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "class tab functions"
     if InDungeon then
-        Toggles.GeneralClassBuffToggle:OnChanged(function(p176)
-            if p176 then
+        Toggles.GeneralClassBuffToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.ClassBuffs = true
 
                 local ok, result = pcall(function()
@@ -9971,8 +10240,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.ClassBuffs = nil
             end
         end)
-        Toggles.MoLBarrierToggle:OnChanged(function(p177)
-            if p177 then
+        Toggles.MoLBarrierToggle:OnChanged(function(enabled)
+            if enabled then
                 local success, result = pcall(function()
                     if Settings.PlayerClass == "MageOfLight" then
                         Settings.MolBuff = true
@@ -10003,8 +10272,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.MolBuff = nil
             end
         end)
-        Toggles.DemonBloodBindingToggle:OnChanged(function(p178)
-            if p178 then
+        Toggles.DemonBloodBindingToggle:OnChanged(function(enabled)
+            if enabled then
                 local ok, result = pcall(function()
                     if Settings.PlayerClass == "Demon" then
                         Settings.DemonBuff = true
@@ -10031,8 +10300,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.DemonBuff = nil
             end
         end)
-        Toggles.StormcallerSuperchargeToggle:OnChanged(function(p179)
-            if p179 then
+        Toggles.StormcallerSuperchargeToggle:OnChanged(function(enabled)
+            if enabled then
                 local ok, result = pcall(function()
                     if Settings.PlayerClass == "Stormcaller" then
                         Settings.StormcallerBuff = true
@@ -10063,22 +10332,29 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "equipment tab function"
     if InLobby or InDungeon then
-        Toggles.AutoSellToggle:OnChanged(function(p180)
-            if p180 then
-                local successValueValue, resultValueValue = pcall(function()
-                    local t206 = {
+        Toggles.AutoSellToggle:OnChanged(function(enabled)
+            if enabled then
+                local sellSuccess, sellResult = pcall(function()
+                    local loggedEggItems = {
 						"AetherEgg",
 						"CupidEgg",
 						"SkeletonEgg",
 						"SantaEgg"
 					}
-                    local Items = PlayerBackpack:WaitForChild("Items")
+local backpackRef = ResolveBackpack()
+                    if not backpackRef then
+                        return
+                    end
+                    local Items = backpackRef:WaitForChild("Items", 10)
+                    if not Items then
+                        return
+                    end
                     local Charms
-                    if Settings.CanRequire then
+                    if Settings.CanRequire and Charms then
                         Charms = require(Charms:WaitForChild("Charms"))
                     end
                     Connections.ConnectInventory = Items.ChildAdded:Connect(function(child)
-                        local successValue, resultValue = pcall(function()
+                        local sellSuccess, sellResult = pcall(function()
                             ActiveSellCount += 1
                             task.wait(Settings.AddedAutoSellDelay)
                             if BuySellLock ~= 0 then
@@ -10111,16 +10387,16 @@ If available to your executor the script will reset your character and then invi
 
                                 return
                             end
-                            local str18 = tostring(child.Name)
-                            local v2202 = child:FindFirstChild("XP") or string.find(str18, "Pet")
-                            if v2202 and not Settings.IncludePets then
+                            local itemNameString = tostring(child.Name)
+                            local isPet = child:FindFirstChild("XP") or string.find(itemNameString, "Pet")
+                            if isPet and not Settings.IncludePets then
                                 ActiveSellCount -= 1
 
                                 return
                             end
-                            local v2203
+                            local isCharm
                             if Charms and Charms[child.Name] then
-                                v2203 = true
+                                isCharm = true
 
                                 if not Settings.IncludeCharms then
                                     ActiveSellCount -= 1
@@ -10128,18 +10404,18 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
                             end
-                            local v2204 = false
-                            local v2205 = GetRarity(child)
-                            if not v2203 and tostring(v2205) ~= "NotEquipment" then
-                                if v2205 == 7 then
+                            local keptItem = false
+                            local itemRarity = GetRarity(child)
+                            if not isCharm and tostring(itemRarity) ~= "NotEquipment" then
+                                if itemRarity == 7 then
                                     return
                                 end
 
                                 if not SellRarityThreshold then
-                                    local v2206 = child
+                                    local itemToSell = child
                                     local ok, result = pcall(function()
-                                        Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v2206 })
-                                        Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v2206), 1)
+                                        (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ itemToSell })
+                                        Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(itemToSell), 1)
                                         ActiveSellCount -= 1
                                     end)
 
@@ -10150,11 +10426,11 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                if v2205 < SellRarityThreshold then
-                                    local v2209 = child
+                                if itemRarity < SellRarityThreshold then
+                                    local itemToSell = child
                                     local ok, result = pcall(function()
-                                        Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v2209 })
-                                        Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v2209), 1)
+                                        (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ itemToSell })
+                                        Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(itemToSell), 1)
                                         ActiveSellCount -= 1
                                     end)
 
@@ -10165,19 +10441,19 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                v2204 = true
+                                keptItem = true
                             end
                             local SellTowerEggs = Settings.SellTowerEggs
                             if SellTowerEggs then
-                                local v2213 = child
+                                local itemToSell = child
 
-                                SellTowerEggs = not not (v2213 and (v2213.Name and v184[v2213.Name]))
+                                SellTowerEggs = not not (itemToSell and (itemToSell.Name and SpecialEggMap[itemToSell.Name]))
                             end
                             if SellTowerEggs then
-                                local v2214 = child
+                                local itemToSell = child
                                 local ok, result = pcall(function()
-                                    Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v2214 })
-                                    Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v2214), 1)
+                                    (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ itemToSell })
+                                    Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(itemToSell), 1)
                                     ActiveSellCount -= 1
                                 end)
 
@@ -10187,53 +10463,53 @@ If available to your executor the script will reset your character and then invi
 
                                 return
                             end
-                            local v2217 = table.find(v183, str18) or false
-                            local v2218 = false
-                            local v2219 = false
-                            local v2220 = false
-                            if not v2217 and (Settings.KeepPerks and Settings.SelectedPerks) then
+                            local isEggName = table.find(EggNameList, itemNameString) or false
+                            local perkFound = false
+                            local perkValue = false
+                            local perkName = false
+                            if not isEggName and (Settings.KeepPerks and Settings.SelectedPerks) then
                                 for i = 1, 3 do
-                                    if v2218 then
+                                    if perkFound then
                                         break
                                     end
 
-                                    local v2222 = "Perk" .. tostring(i)
-                                    local v2223 = child:FindFirstChild(v2222)
+                                    local perkFolderName = "Perk" .. tostring(i)
+                                    local perkFolder = child:FindFirstChild(perkFolderName)
 
-                                    if v2223 then
-                                        local PerkValue = v2223:FindFirstChild("PerkValue")
+                                    if perkFolder then
+                                        local PerkValue = perkFolder:FindFirstChild("PerkValue")
 
                                         for k, _ in pairs(Settings.SelectedPerks) do
-                                            local v2227 = Settings.SavePerkTable[k]
-                                            local v2228 = v2227
+                                            local perkConfig = Settings.SavePerkTable[k]
+                                            local perkMatches = perkConfig
 
-                                            if v2227 then
-                                                v2228 = v2223.Value == v2227.PerkInternalName
+                                            if perkConfig then
+                                                perkMatches = perkFolder.Value == perkConfig.PerkInternalName
 
-                                                if v2228 then
-                                                    v2228 = PerkValue.Value >= (v2227.PerkValue * 100 - PerkTolerance) / 100 or (v2202 or v2203) and PerkValue.Value >= (v2227.PetPerkValue * 100 - PerkTolerance) / 100
+                                                if perkMatches then
+                                                    perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100
                                                 end
                                             end
 
-                                            if v2228 then
-                                                v2220 = v2227.PerkVisualName
-                                                v2219 = PerkValue.Value * 100
-                                                v2218 = true
-                                                v2204 = true
+                                            if perkMatches then
+                                                perkName = perkConfig.PerkVisualName
+                                                perkValue = PerkValue.Value * 100
+                                                perkFound = true
+                                                keptItem = true
 
                                                 break
                                             end
 
-                                            v2204 = false
+                                            keptItem = false
                                         end
                                     end
                                 end
                             end
-                            if not v2217 and (not v2204 and not v2218) then
-                                local v2229 = child
+                            if not isEggName and (not keptItem and not perkFound) then
+                                local itemToSell = child
                                 local ok, result = pcall(function()
-                                    Remotes:WaitForChild("Drops_SellItems", 1e999):InvokeServer({ v2229 })
-                                    Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(v2229), 1)
+                                    (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer({ itemToSell })
+                                    Library:Notify("<font color='#FCCE7E'>Sold item:</font> " .. tostring(itemToSell), 1)
                                     ActiveSellCount -= 1
                                 end)
 
@@ -10243,26 +10519,26 @@ If available to your executor the script will reset your character and then invi
 
                                 return
                             end
-                            if v2217 or v2204 then
-                                Library:Notify("<font color='#80FF80'>Kept item:</font> " .. str18, 1)
+                            if isEggName or keptItem then
+                                Library:Notify("<font color='#80FF80'>Kept item:</font> " .. itemNameString, 1)
                                 ActiveSellCount -= 1
                             end
-                            local v2232 = table.find(t206, str18) or false
-                            local v2233 = v2232
-                            if not v2232 then
-                                v2233 = v2218 and (Settings.DiscordWebhookLink and Settings.SendDiscordMessage)
+                            local loggedItem = table.find(loggedEggItems, itemNameString) or false
+                            local shouldWebhook = loggedItem
+                            if not loggedItem then
+                                shouldWebhook = perkFound and (Settings.DiscordWebhookLink and Settings.SendDiscordMessage)
                             end
-                            if v2233 then
-                                local u2234
-                                if v2232 then
-                                    u2234 = "Kept item **" .. str18 .. "**! " .. WebhookMention
-                                elseif v2218 then
-                                    u2234 = "Kept **" .. str18 .. "** because **" .. tostring(v2220) .. " " .. tostring(v2219) .. "%** was found!" .. WebhookMention
+                            if shouldWebhook then
+                                local webhookContent
+                                if loggedItem then
+                                    webhookContent = "Kept item **" .. itemNameString .. "**! " .. WebhookMention
+                                elseif perkFound then
+                                    webhookContent = "Kept **" .. itemNameString .. "** because **" .. tostring(perkName) .. " " .. tostring(perkValue) .. "%** was found!" .. WebhookMention
                                 end
                                 local _, _ = pcall(function()
-                                    local t207 = {
+                                    local webhookPayload = {
 										username = "Drop Logger",
-										content = u2234
+										content = webhookContent
 									}
                                     local DiscordWebhookLink = Settings.DiscordWebhookLink
 
@@ -10272,33 +10548,33 @@ If available to your executor the script will reset your character and then invi
                                         return
                                     end
 
-                                    local v2288 = false
+                                    local hookCheckEnabled = false
                                     local _, _ = pcall(function()
-                                        if v2288 and HookFunction or hookmetamethod then
-                                            local MinDmgCheck = 0
+                                        if hookCheckEnabled and HookFunction or hookmetamethod then
+                                            local scriptCount = 0
                                             local ok, _ = pcall(function()
                                                 for _, v in pairs(getreg()) do
                                                     if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                        MinDmgCheck += 1
+                                                        scriptCount += 1
                                                     end
                                                 end
                                             end)
-                                            if MinDmgCheck > 2 or MinDmgCheck == 0 then
+                                            if scriptCount > 2 or scriptCount == 0 then
                                                 return
                                             end
                                             if not ok then
                                                 return
                                             end
-                                            local u2306 = false
+                                            local hooksDetected = false
                                             local success = pcall(function()
-                                                local v2317 = ishooked and ishooked(request)
+                                                local requestHooked = ishooked and ishooked(request)
 
-                                                if not v2317 then
-                                                    v2317 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                                if not requestHooked then
+                                                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                                 end
 
-                                                if v2317 then
-                                                    u2306 = true
+                                                if requestHooked then
+                                                    hooksDetected = true
 
                                                     return
                                                 end
@@ -10306,27 +10582,27 @@ If available to your executor the script will reset your character and then invi
                                             if not success then
                                                 return
                                             end
-                                            local ok8, _ = pcall(function()
-                                                local v2318 = ishooked and ishooked(game.HttpGet)
+                                            local httpOk, _ = pcall(function()
+                                                local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                                if not v2318 then
-                                                    v2318 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                                if not httpGetHooked then
+                                                    httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                                    if not v2318 then
-                                                        v2318 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                                    if not httpGetHooked then
+                                                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                                     end
                                                 end
 
-                                                if v2318 then
-                                                    u2306 = true
+                                                if httpGetHooked then
+                                                    hooksDetected = true
 
                                                     return
                                                 end
                                             end)
-                                            if u2306 then
+                                            if hooksDetected then
                                                 return
                                             end
-                                            if not ok8 then
+                                            if not httpOk then
                                                 return
                                             end
                                         end
@@ -10335,17 +10611,17 @@ If available to your executor the script will reset your character and then invi
                                             return
                                         end
 
-                                        local v2311 = HttpRequest
-                                        local v2312 = DiscordWebhookLink
-                                        local t209 = {
+                                        local httpRequestRef = HttpRequest
+                                        local webhookUrl = DiscordWebhookLink
+                                        local webhookHeaders = {
 											["Content-Type"] = "application/json"
 										}
-                                        local json = HttpService:JSONEncode(t207)
+                                        local json = HttpService:JSONEncode(webhookPayload)
 
-                                        v2311({
-											Url = v2312,
+                                        httpRequestRef({
+											Url = webhookUrl,
 											Method = "POST",
-											Headers = t209,
+											Headers = webhookHeaders,
 											Body = json
 										})
                                     end)
@@ -10355,13 +10631,13 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
                         end)
-                        if not successValue then
-                            HandleError("FAILURE TO SELL ITEM", (tostring(resultValue)))
+                        if not sellSuccess then
+                            HandleError("FAILURE TO SELL ITEM", (tostring(sellResult)))
                         end
                     end)
                 end)
-                if not successValueValue then
-                    HandleError("AUTO SELL", (tostring(resultValueValue)))
+                if not sellSuccess then
+                    HandleError("AUTO SELL", (tostring(sellResult)))
 
                     return
                 end
@@ -10373,8 +10649,8 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "dungeon tab functions"
     if InDungeon then
-        Toggles.CollectChestToggle:OnChanged(function(p181)
-            if p181 then
+        Toggles.CollectChestToggle:OnChanged(function(enabled)
+            if enabled then
                 if IsMissionCleared() then
                     CollectChests()
 
@@ -10387,8 +10663,8 @@ If available to your executor the script will reset your character and then invi
                     local Chests_SpawnChest = Remotes:WaitForChild("Chests_SpawnChest", math.huge)
                     local Chests_OpenChest = Remotes:WaitForChild("Chests_OpenChest", 1e999)
 
-                    Connections.ConnectChests = Chests_SpawnChest.OnClientEvent:Connect(function(_, _, p184, _, _)
-                        Chests_OpenChest:FireServer(p184)
+                    Connections.ConnectChests = Chests_SpawnChest.OnClientEvent:Connect(function(_, _, chestObject, _, _)
+                        Chests_OpenChest:FireServer(chestObject)
                     end)
                     task.spawn(CollectTowerChests)
 
@@ -10404,8 +10680,8 @@ If available to your executor the script will reset your character and then invi
             Settings.CollectDungeonChest = nil
             Settings.TowerChestDelay = nil
         end)
-        Toggles.HighestDungeonToggle:OnChanged(function(p187)
-            if p187 then
+        Toggles.HighestDungeonToggle:OnChanged(function(enabled)
+            if enabled then
                 task.spawn(EquipNewItem)
                 Settings.AutoLeveling = true
 
@@ -10451,8 +10727,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoLeveling = nil
             end
         end)
-        Toggles.ReplayMissionToggle:OnChanged(function(p188)
-            if p188 then
+        Toggles.ReplayMissionToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.ReplayMission = true
 
                 if IsMissionCleared() then
@@ -10464,8 +10740,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.ReplayMission = nil
             end
         end)
-        Toggles.RandomNightmareDungeonToggle:OnChanged(function(p189)
-            if p189 then
+        Toggles.RandomNightmareDungeonToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.RandomNightmareDungeon = math.random(1005, 1007)
 
                 return
@@ -10473,8 +10749,8 @@ If available to your executor the script will reset your character and then invi
 
             Settings.RandomNightmareDungeon = nil
         end)
-        Toggles.ReplayInfiniteTowerToggle:OnChanged(function(p190)
-            if p190 then
+        Toggles.ReplayInfiniteTowerToggle:OnChanged(function(enabled)
+            if enabled then
                 local ReplicateTowerFloor = ReplicatedStorage:FindFirstChild("ReplicateTowerFloor")
 
                 if ReplicateTowerFloor then
@@ -10496,8 +10772,8 @@ If available to your executor the script will reset your character and then invi
             end
         end)
         if Toggles.NightmarePingToggle then
-            Toggles.NightmarePingToggle:OnChanged(function(p191)
-                if p191 then
+            Toggles.NightmarePingToggle:OnChanged(function(enabled)
+                if enabled then
                     Flags.Nightmare = true
 
                     return
@@ -10510,45 +10786,45 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "guild tab functions"
     if InDungeon then
-        Toggles.WaitTimeToggle:OnChanged(function(p192)
-            if p192 then
+        Toggles.WaitTimeToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.GuildWait = true
 
                 local ok, result = pcall(function()
-                    local MaxDmgCheckVal = 120
+                    local maxWait = 120
 
-                    for _, v in ipairs(v218) do
+                    for _, v in ipairs(DungeonConfigList) do
                         if v.DungeonID == Tracking.MissionId then
-                            MaxDmgCheckVal = v.DungeonDelay
+                            maxWait = v.DungeonDelay
 
                             break
                         end
                     end
 
                     local MissionStart = Workspace:FindFirstChild("MissionStart", true)
-                    local MinDmgCheckVal = 0
+                    local startOffset = 0
 
                     if MissionStart then
                         MissionStart:PivotTo(CFrame.new(HumanoidRootPart.Position))
-                        MinDmgCheckVal = 5
+                        startOffset = 5
                     end
 
                     task.wait(0.2)
 
-                    local vector3 = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
+                    local hidePosition = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
 
                     Settings.GuildPreviousPlayerPosition = HumanoidRootPart.Position
-                    HumanoidRootPart.CFrame = CFrame.new(vector3)
+                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
                     TeleportStandPart()
 
-                    local v1683 = MaxDmgCheckVal + (Settings.AddedGuildTime or 0) + MinDmgCheckVal
+                    local totalDelay = maxWait + (Settings.AddedGuildTime or 0) + startOffset
 
-                    Settings.DelayNotification = Library:Notify("Waiting for legit time", v1683)
+                    Settings.DelayNotification = Library:Notify("Waiting for legit time", totalDelay)
 
-                    local v1684 = time() + v1683
+                    local endTime = time() + totalDelay
 
                     while Settings.GuildWait and not MissionDone do
-                        if v1684 <= time() then
+                        if endTime <= time() then
                             HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
                             TeleportStandPart()
                             Settings.GuildPreviousPlayerPosition = nil
@@ -10556,7 +10832,7 @@ If available to your executor the script will reset your character and then invi
                             return
                         end
 
-                        HumanoidRootPart.CFrame = CFrame.new(vector3)
+                        HumanoidRootPart.CFrame = CFrame.new(hidePosition)
                         TeleportStandPart()
                         task.wait(0.1)
                     end
@@ -10581,8 +10857,8 @@ If available to your executor the script will reset your character and then invi
                 TeleportStandPart()
             end
         end)
-        Toggles.DoAllDungeonsToggle:OnChanged(function(p193)
-            if p193 then
+        Toggles.DoAllDungeonsToggle:OnChanged(function(enabled)
+            if enabled then
                 Library:Notify("Doing all dungeons", 10)
                 Settings.DoingGuildDungeon = true
 
@@ -10592,8 +10868,8 @@ If available to your executor the script will reset your character and then invi
             Settings.DoingGuildDungeon = nil
         end)
         if Toggles.GuildPingToggle then
-            Toggles.GuildPingToggle:OnChanged(function(p194)
-                if p194 then
+            Toggles.GuildPingToggle:OnChanged(function(enabled)
+                if enabled then
                     Flags.Guild = true
 
                     return
@@ -10602,8 +10878,8 @@ If available to your executor the script will reset your character and then invi
                 Flags.Guild = nil
             end)
         end
-        Toggles.DelayInfFloorToggle:OnChanged(function(p195)
-            if p195 then
+        Toggles.DelayInfFloorToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.DelayInfiniteTower = true
                 Settings.InfiniteTowerFloorDelay = Settings.InfiniteTowerFloorDelay or 25
                 local success, result = pcall(function()
@@ -10612,11 +10888,11 @@ If available to your executor the script will reset your character and then invi
 
                         if ModuleScript then
                             local EventState
-                            Connections.UpdateMobTracker = ModuleScript:WaitForChild("UpdateMobTracker", 1e999).OnClientEvent:Connect(function(p196, p197)
-                                if p197 < 10 then
+                            Connections.UpdateMobTracker = ModuleScript:WaitForChild("UpdateMobTracker", 1e999).OnClientEvent:Connect(function(currentCount, totalCount)
+                                if totalCount < 10 then
                                     EventState = true
 
-                                    if p196 == p197 then
+                                    if currentCount == totalCount then
                                         Settings.InfiniteTowerFloorDelay = Settings.InfiniteTowerFloorDelay + Settings.IncrementInfiniteDelay
                                         EventState = false
                                     end
@@ -10627,15 +10903,15 @@ If available to your executor the script will reset your character and then invi
                                 EventState = false
                             end)
                             Connections.UpdateTowerFloor = ModuleScript:WaitForChild("UpdateTowerFloor", 1e999).OnClientEvent:Connect(function(_)
-                                local vector3 = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
+                                local hidePosition = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
 
                                 Settings.InfinitePreviousPlayerPosition = HumanoidRootPart.Position
                                 Settings.DelayNotification = Library:Notify("Delaying floor", Settings.InfiniteTowerFloorDelay)
 
-                                local v2092 = time() + Settings.InfiniteTowerFloorDelay
+                                local endTime = time() + Settings.InfiniteTowerFloorDelay
 
                                 while Settings.DelayInfiniteTower and not MissionDone do
-                                    if EventState or v2092 <= time() then
+                                    if EventState or endTime <= time() then
                                         if Settings.DelayNotification then
                                             Settings.DelayNotification:Destroy()
                                         end
@@ -10646,7 +10922,7 @@ If available to your executor the script will reset your character and then invi
                                         return
                                     end
 
-                                    HumanoidRootPart.CFrame = CFrame.new(vector3)
+                                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
                                     TeleportStandPart()
                                     task.wait(0.1)
                                 end
@@ -10669,8 +10945,8 @@ If available to your executor the script will reset your character and then invi
                 DisconnectVariable("UpdateTowerFloor")
             end
         end)
-        Toggles.GuildQuestToggle:OnChanged(function(p199)
-            if p199 then
+        Toggles.GuildQuestToggle:OnChanged(function(enabled)
+            if enabled then
                 if not Settings.CanRequire then
                     Library:Notify("Your executor doesn't support claiming guild quests", 3)
 
@@ -10688,8 +10964,8 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "shop tab functions"
     if InLobby or InDungeon then
-        Toggles.AutoHatchEggToggle:OnChanged(function(p200)
-            if p200 then
+        Toggles.AutoHatchEggToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.AutoHatch = true
                 local success, result = pcall(function()
                     local Pet = ReplicatedStorage.PlayerEquips[PlayerName].Pet
@@ -10758,15 +11034,15 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoHatch = nil
             end
         end)
-        Toggles.AutoHatchInventoryEggToggle:OnChanged(function(p201)
-            if p201 then
+        Toggles.AutoHatchInventoryEggToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.AutoHatchInventory = true
 
                 local ok, result = pcall(function()
-                    local t214 = {}
+                    local eggNameLookup = {}
 
-                    for _, v in pairs(v183) do
-                        t214[v] = true
+                    for _, v in pairs(EggNameList) do
+                        eggNameLookup[v] = true
                     end
 
                     local Pet = ReplicatedStorage.PlayerEquips[PlayerName].Pet
@@ -10778,14 +11054,14 @@ If available to your executor the script will reset your character and then invi
                     repeat
                         local Folder = Pet:FindFirstChildWhichIsA("Folder")
 
-                        if Folder and (Folder.Parent and t214[Folder.Name]) then
+                        if Folder and (Folder.Parent and eggNameLookup[Folder.Name]) then
                             task.wait(0.1)
                         else
                             local GetChildren = Items.GetChildren
-                            local v1705 = false
+                            local eggHatched = false
 
                             for _, v in pairs(GetChildren(Items)) do
-                                if not (v and (v.Parent and t214[v.Name])) then
+                                if not (v and (v.Parent and eggNameLookup[v.Name])) then
                                     continue
                                 end
 
@@ -10796,13 +11072,13 @@ If available to your executor the script will reset your character and then invi
                                     task.wait(0.5)
                                     Pets_Hatch:FireServer()
                                     task.wait(5)
-                                    v1705 = true
+                                    eggHatched = true
 
                                     break
                                 end
                             end
 
-                            if not v1705 then
+                            if not eggHatched then
                                 task.wait(5)
                             end
 
@@ -10820,8 +11096,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoHatchInventory = nil
             end
         end)
-        Toggles.BuyMaxNightmareToggle:OnChanged(function(p202)
-            if p202 then
+        Toggles.BuyMaxNightmareToggle:OnChanged(function(enabled)
+            if enabled then
                 if PlaceIdStr ~= "14914684761" then
                     return
                 end
@@ -10853,8 +11129,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoBuyNightmare = nil
             end
         end)
-        Toggles.BuyMaxPVPToggle:OnChanged(function(p203)
-            if p203 then
+        Toggles.BuyMaxPVPToggle:OnChanged(function(enabled)
+            if enabled then
                 if PlaceIdStr ~= "6510868181" then
                     return
                 end
@@ -10883,8 +11159,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoBuyPvp = nil
             end
         end)
-        Toggles.BuyMaxGuildToggle:OnChanged(function(p204)
-            if p204 then
+        Toggles.BuyMaxGuildToggle:OnChanged(function(enabled)
+            if enabled then
                 if PlaceIdStr ~= "139316833473171" then
                     return
                 end
@@ -10916,8 +11192,8 @@ If available to your executor the script will reset your character and then invi
                 Settings.AutoBuyGuild = nil
             end
         end)
-        Toggles.BuyMaxEventToggle:OnChanged(function(p205)
-            if p205 then
+        Toggles.BuyMaxEventToggle:OnChanged(function(enabled)
+            if enabled then
                 if PlaceIdStr ~= "18567064955" then
                     return
                 end
@@ -10950,8 +11226,8 @@ If available to your executor the script will reset your character and then invi
     task.wait()
     _G.ScriptStep = "misc tab functions"
     if InDungeon then
-        Toggles.MobCameraToggle:OnChanged(function(p206)
-            if p206 then
+        Toggles.MobCameraToggle:OnChanged(function(enabled)
+            if enabled then
                 task.spawn(function()
                     Toggles.NoclipCameraToggle:SetValue(true)
                 end)
@@ -10964,7 +11240,7 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Toggles.DamageNumbersToggle:OnChanged(function(p207)
+        Toggles.DamageNumbersToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -10975,7 +11251,7 @@ If available to your executor the script will reset your character and then invi
                 local success, result = pcall(function()
                     local RenderDamageNumber = require(Effects).RenderDamageNumber
 
-                    if p207 then
+                    if enabled then
                         HookFunction(RenderDamageNumber, NewCClosure(function(...)
                         end))
 
@@ -10995,7 +11271,7 @@ If available to your executor the script will reset your character and then invi
                 local ok, result = pcall(function()
                     local Effects_RenderDamageNumber = Remotes:FindFirstChild("Effects_RenderDamageNumber")
 
-                    if p207 and Effects_RenderDamageNumber then
+                    if enabled and Effects_RenderDamageNumber then
                         Settings.RemovedDamageNumbers = true
                         Effects_RenderDamageNumber:Destroy()
 
@@ -11012,8 +11288,8 @@ If available to your executor the script will reset your character and then invi
                 end
             end
         end)
-        Toggles.DamageFlashToggle:OnChanged(function(p208)
-            if p208 then
+        Toggles.DamageFlashToggle:OnChanged(function(enabled)
+            if enabled then
                 Combat.HitHighlight.Enabled = false
 
                 return
@@ -11021,7 +11297,7 @@ If available to your executor the script will reset your character and then invi
 
             Combat.HitHighlight.Enabled = true
         end)
-        Toggles.DeathEffectToggle:OnChanged(function(p209)
+        Toggles.DeathEffectToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -11032,14 +11308,14 @@ If available to your executor the script will reset your character and then invi
                 local success, result = pcall(function()
                     local DoEffect = require(Effects).DoEffect
 
-                    if p209 then
-                        local u1719
-                        u1719 = HookFunction(DoEffect, NewCClosure(function(p210, p211, ...)
-                            if p211 == "DeathEffect" then
+                    if enabled then
+                        local hookedDoEffect
+                        hookedDoEffect = HookFunction(DoEffect, NewCClosure(function(effectName, effectTag, ...)
+                            if effectTag == "DeathEffect" then
                                 return
                             end
 
-                            return u1719(p210, p211, ...)
+                            return hookedDoEffect(effectName, effectTag, ...)
                         end))
 
                         return
@@ -11056,7 +11332,7 @@ If available to your executor the script will reset your character and then invi
                 end
             else
                 local ok, result = pcall(function()
-                    if p209 then
+                    if enabled then
                         Settings.RemovedDeathEffects = true
 
                         local DeathEffect = Effects.EffectScripts:FindFirstChild("DeathEffect")
@@ -11076,7 +11352,7 @@ If available to your executor the script will reset your character and then invi
                 end
             end
         end)
-        Toggles.KnockdownToggle:OnChanged(function(p212)
+        Toggles.KnockdownToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -11087,7 +11363,7 @@ If available to your executor the script will reset your character and then invi
                 local ok, result = pcall(function()
                     local Knockdown = require(game.ReplicatedStorage.Client.Actions).Knockdown
 
-                    if p212 then
+                    if enabled then
                         HookFunction(Knockdown, NewCClosure(function(...)
                         end))
 
@@ -11106,10 +11382,10 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby then
-        Toggles.WaystoneToggle:OnChanged(function(p213)
-            local u1111 = p213
+        Toggles.WaystoneToggle:OnChanged(function(enabled)
+            local waystoneEnabled = enabled
             local success, result = pcall(function()
-                if u1111 then
+                if waystoneEnabled then
                     Connections.ConnectWaystones = PlayerGui.ChildAdded:Connect(function(child)
                         if child.Name == "WaystoneDiscoveryIcon" then
                             child.PlayerToHideFrom = LocalPlayer
@@ -11139,31 +11415,31 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InDungeon then
-        Toggles.MissionObjectiveToggle:OnChanged(function(p214)
-            ToggleMenuUI("MissionObjective", p214)
+        Toggles.MissionObjectiveToggle:OnChanged(function(enabled)
+            ToggleMenuUI("MissionObjective", enabled)
         end)
-        Toggles.BossBarToggle:OnChanged(function(p215)
-            ToggleMenuUI("BossHealthbar", p215)
+        Toggles.BossBarToggle:OnChanged(function(enabled)
+            ToggleMenuUI("BossHealthbar", enabled)
         end)
-        Toggles.PlayerHotbarToggle:OnChanged(function(p216)
-            ToggleMenuUI("Hotbar", p216)
+        Toggles.PlayerHotbarToggle:OnChanged(function(enabled)
+            ToggleMenuUI("Hotbar", enabled)
         end)
-        Toggles.MobilePlayerSkills:OnChanged(function(p217)
-            ToggleMenuUI("TouchInput", p217)
+        Toggles.MobilePlayerSkills:OnChanged(function(enabled)
+            ToggleMenuUI("TouchInput", enabled)
         end)
-        Toggles.MainGuiToggle:OnChanged(function(p218)
-            ToggleMenuUI("MainGui", p218)
+        Toggles.MainGuiToggle:OnChanged(function(enabled)
+            ToggleMenuUI("MainGui", enabled)
         end)
-        Toggles.HideMenuToggle:OnChanged(function(p219)
-            ToggleMenuUI("Menu", p219)
+        Toggles.HideMenuToggle:OnChanged(function(enabled)
+            ToggleMenuUI("Menu", enabled)
         end)
-        Toggles.HideCameraToggle:OnChanged(function(p220)
-            ToggleMenuUI("TopBar", p220)
+        Toggles.HideCameraToggle:OnChanged(function(enabled)
+            ToggleMenuUI("TopBar", enabled)
         end)
-        Toggles.RobloxUIToggle:OnChanged(function(p221)
+        Toggles.RobloxUIToggle:OnChanged(function(enabled)
             local TopBarApp = CoreGui:FindFirstChild("TopBarApp", true):FindFirstChild("TopBarApp", true)
 
-            if p221 then
+            if enabled then
                 TopBarApp.Enabled = false
 
                 return
@@ -11171,7 +11447,7 @@ If available to your executor the script will reset your character and then invi
 
             TopBarApp.Enabled = true
         end)
-        Options.WalkspeedSlider:OnChanged(function(p222)
+        Options.WalkspeedSlider:OnChanged(function(walkspeed)
             if Settings.CanRequire then
                 local success, result = pcall(function()
                     if not Settings.WalkspeedManager then
@@ -11180,21 +11456,21 @@ If available to your executor the script will reset your character and then invi
                     end
 
                     local WalkspeedManager = Settings.WalkspeedManager
-                    local t220 = { (tonumber(p222)) }
+                    local speedTable = { (tonumber(walkspeed)) }
 
-                    WalkspeedManager:SetBaseSpeed(Unpack(t220))
+                    WalkspeedManager:SetBaseSpeed(Unpack(speedTable))
                 end)
                 if not success then
                     HandleError("CHANGE WALKSPEED", (tostring(result)))
                 end
             end
         end)
-        Toggles.ShowEndTimeToggle:OnChanged(function(p223)
-            if p223 then
+        Toggles.ShowEndTimeToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.ShowTime = true
 
                 if IsMissionCleared() then
-                    Library:Notify("Completed in " .. Settings.DungeonCompletionTime)
+                    Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 })
 
                     return
                 end
@@ -11202,35 +11478,35 @@ If available to your executor the script will reset your character and then invi
                 Settings.ShowTime = nil
             end
         end)
-        Toggles.DevKickToggle:OnChanged(function(p224)
-            if p224 then
+        Toggles.DevKickToggle:OnChanged(function(enabled)
+            if enabled then
                 for _, child in pairs(Players:GetChildren()) do
-                    local u1130 = child
+                    local player = child
                     local _, _ = pcall(function()
-                        local rank = u1130:GetRankInGroup(4484634)
+                        local rank = player:GetRankInGroup(4484634)
 
                         if rank > 3 then
-                            local s7 = "(rank not defined in script)"
+                            local rankText = "(rank not defined in script)"
 
                             if rank == 4 then
-                                s7 = "RedManta"
+                                rankText = "RedManta"
                             elseif rank == 5 then
-                                s7 = "Dev"
+                                rankText = "Dev"
                             elseif rank == 6 then
-                                s7 = "Lead"
+                                rankText = "Lead"
                             elseif rank == 7 then
-                                s7 = "RMS"
+                                rankText = "RMS"
                             end
 
-                            local t222 = {
+                            local kickWebhookPayload = {
 								username = "PLAYER JOINED",
-								content = "# @everyone someone with the rank " .. s7 .. " joined your game"
+								content = "# @everyone someone with the rank " .. rankText .. " joined your game"
 							}
 
-                            LocalPlayer:Kick("Someone with the rank " .. s7 .. " joined your game")
+                            LocalPlayer:Kick("Someone with the rank " .. rankText .. " joined your game")
 
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
-                            local v1732 = t222
+                            local webhookPayloadRef = kickWebhookPayload
 
                             if not DiscordWebhookLink and true then
                                 warn("No webhook link provided")
@@ -11238,33 +11514,33 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
 
-                            local v1733 = false
+                            local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if v1733 and HookFunction or hookmetamethod then
-                                    local DmgCheckMax = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckMax += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckMax > 2 or DmgCheckMax == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2099 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2240 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2240 then
-                                            v2240 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2240 then
-                                            u2099 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -11272,27 +11548,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok9, _ = pcall(function()
-                                        local v2241 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2241 then
-                                            v2241 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2241 then
-                                                v2241 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2241 then
-                                            u2099 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2099 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok9 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -11301,17 +11577,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2104 = HttpRequest
-                                local v2105 = DiscordWebhookLink
-                                local t224 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookUrl = DiscordWebhookLink
+                                local webhookHeaders = {
 									["Content-Type"] = "application/json"
 								}
-                                local json = HttpService:JSONEncode(v1732)
+                                local json = HttpService:JSONEncode(webhookPayloadRef)
 
-                                v2104({
-									Url = v2105,
+                                httpRequestRef({
+									Url = webhookUrl,
 									Method = "POST",
-									Headers = t224,
+									Headers = webhookHeaders,
 									Body = json
 								})
                             end)
@@ -11322,32 +11598,32 @@ If available to your executor the script will reset your character and then invi
 
                 Connections.ConnectPlayerJoins = Players.PlayerAdded:Connect(function(player)
                     task.wait(1)
-                    local u1737 = player
+                    local joinedPlayer = player
                     local _, _ = pcall(function()
-                        local rank = u1737:GetRankInGroup(4484634)
+                        local rank = joinedPlayer:GetRankInGroup(4484634)
 
                         if rank > 3 then
-                            local s8 = "(rank not defined in script)"
+                            local rankText = "(rank not defined in script)"
 
                             if rank == 4 then
-                                s8 = "RedManta"
+                                rankText = "RedManta"
                             elseif rank == 5 then
-                                s8 = "Dev"
+                                rankText = "Dev"
                             elseif rank == 6 then
-                                s8 = "Lead"
+                                rankText = "Lead"
                             elseif rank == 7 then
-                                s8 = "RMS"
+                                rankText = "RMS"
                             end
 
-                            local t225 = {
+                            local kickWebhookPayload = {
 								username = "PLAYER JOINED",
-								content = "# @everyone someone with the rank " .. s8 .. " joined your game"
+								content = "# @everyone someone with the rank " .. rankText .. " joined your game"
 							}
 
-                            LocalPlayer:Kick("Someone with the rank " .. s8 .. " joined your game")
+                            LocalPlayer:Kick("Someone with the rank " .. rankText .. " joined your game")
 
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
-                            local v2112 = t225
+                            local webhookPayloadRef = kickWebhookPayload
 
                             if not DiscordWebhookLink and true then
                                 warn("No webhook link provided")
@@ -11355,33 +11631,33 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
 
-                            local v2113 = false
+                            local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if v2113 and HookFunction or hookmetamethod then
-                                    local DmgCheckMin = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckMin += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckMin > 2 or DmgCheckMin == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2245 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2293 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2293 then
-                                            v2293 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2293 then
-                                            u2245 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -11389,27 +11665,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok10, _ = pcall(function()
-                                        local v2294 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2294 then
-                                            v2294 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2294 then
-                                                v2294 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2294 then
-                                            u2245 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2245 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok10 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -11418,17 +11694,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2250 = HttpRequest
-                                local v2251 = DiscordWebhookLink
-                                local t227 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookUrl = DiscordWebhookLink
+                                local webhookHeaders = {
 									["Content-Type"] = "application/json"
 								}
-                                local json = HttpService:JSONEncode(v2112)
+                                local json = HttpService:JSONEncode(webhookPayloadRef)
 
-                                v2250({
-									Url = v2251,
+                                httpRequestRef({
+									Url = webhookUrl,
 									Method = "POST",
-									Headers = t227,
+									Headers = webhookHeaders,
 									Body = json
 								})
                             end)
@@ -11443,8 +11719,8 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InDungeon then
-        Toggles.ProfilerToggle:OnChanged(function(p225)
-            if p225 then
+        Toggles.ProfilerToggle:OnChanged(function(enabled)
+            if enabled then
                 Settings.ShowAccountInfo = true
                 Library:SetWatermarkVisibility(true)
                 local Gold = CharacterData:WaitForChild("Currency"):WaitForChild("Gold")
@@ -11453,29 +11729,29 @@ If available to your executor the script will reset your character and then invi
 
                     repeat
                         local _Library3 = Library
-                        local str19 = tostring(PlayerName)
-                        local str20 = tostring(GetPlayerClass().DisplayName)
-                        local str21 = tostring(Gold.Value)
+                        local playerNameString = tostring(PlayerName)
+                        local classNameString = tostring(GetPlayerClass().DisplayName)
+                        local goldString = tostring(Gold.Value)
 
-                        _Library3:SetWatermark("Account: " .. str19 .. "\nClass: " .. str20 .. "\nGold: " .. str21:reverse():gsub("...", "%0,", (math.floor((#str21 - 1) / 3))):reverse() .. "\nCrystals: " .. FormatNumberWithCommas(Remotes:WaitForChild("Crystals_GetCrystals", math.huge):InvokeServer()) .. "\nGuild: " .. tostring(PlayerGuild))
+                        _Library3:SetWatermark("Account: " .. playerNameString .. "\nClass: " .. classNameString .. "\nGold: " .. goldString:reverse():gsub("...", "%0,", (math.floor((#goldString - 1) / 3))):reverse() .. "\nCrystals: " .. FormatNumberWithCommas(Remotes:WaitForChild("Crystals_GetCrystals", math.huge):InvokeServer()) .. "\nGuild: " .. tostring(PlayerGuild))
                         task.wait(5)
                     until not Settings.ShowAccountInfo
                 end)
                 if not success then
-                    local s9 = "No"
+                    local noPremium = "No"
 
                     if PlayerGuild then
-                        s9 = "Yes"
+                        noPremium = "Yes"
                     end
 
-                    local v1138 = HandleError
-                    local str22 = tostring(result)
-                    local str23 = tostring(GetPlayerClass().DisplayName)
-                    local str24 = tostring(Gold.Value)
-                    local v1142 = str24:reverse():gsub("...", "%0,", (math.floor((#str24 - 1) / 3))):reverse()
-                    local str25 = tostring((Remotes.Crystals_GetCrystals:InvokeServer()))
+                    local errorHandler = HandleError
+                    local responseString = tostring(result)
+                    local classNameString = tostring(GetPlayerClass().DisplayName)
+                    local goldString = tostring(Gold.Value)
+                    local goldText = goldString:reverse():gsub("...", "%0,", (math.floor((#goldString - 1) / 3))):reverse()
+                    local crystalsString = tostring((Remotes.Crystals_GetCrystals:InvokeServer()))
 
-                    v1138("DISPLAY ACCOUNT INFORMATION", str22, "CL: " .. str23 .. " GO: " .. v1142 .. " CR: " .. str25:reverse():gsub("...", "%0,", (math.floor((#str25 - 1) / 3))):reverse() .. " GU: " .. s9)
+                    errorHandler("DISPLAY ACCOUNT INFORMATION", responseString, "CL: " .. classNameString .. " GO: " .. goldText .. " CR: " .. crystalsString:reverse():gsub("...", "%0,", (math.floor((#crystalsString - 1) / 3))):reverse() .. " GU: " .. noPremium)
 
                     return
                 end
@@ -11485,8 +11761,8 @@ If available to your executor the script will reset your character and then invi
             end
         end)
     end
-    Toggles.AFKToggle:OnChanged(function(p226)
-        if p226 then
+    Toggles.AFKToggle:OnChanged(function(enabled)
+        if enabled then
             Settings.PreventAfk = true
 
             while Settings.PreventAfk and not MissionDone do
@@ -11499,12 +11775,12 @@ If available to your executor the script will reset your character and then invi
         end
     end)
     if InMainMenu then
-        Toggles.MainMenuPlay:OnChanged(function(p227)
-            if p227 then
+        Toggles.MainMenuPlay:OnChanged(function(enabled)
+            if enabled then
                 if firesignal then
                     local Play = PlayerGui:WaitForChild("Menu", 1e999):WaitForChild("Main", math.huge):WaitForChild("Play", math.huge):WaitForChild("Play", 1e999)
 
-                    if not p227 then
+                    if not enabled then
                         return
                     end
 
@@ -11519,8 +11795,8 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Toggles.RemoveOtherPlayersToggle:OnChanged(function(p228)
-            if p228 then
+        Toggles.RemoveOtherPlayersToggle:OnChanged(function(enabled)
+            if enabled then
                 local Characters = Workspace:FindFirstChild("Characters")
                 local GetChildren = Characters.GetChildren
 
@@ -11545,8 +11821,8 @@ If available to your executor the script will reset your character and then invi
 
             DisconnectVariable("ConnectCharacterFolder")
         end)
-        Toggles.MobESPToggle:OnChanged(function(p229)
-            if p229 then
+        Toggles.MobESPToggle:OnChanged(function(enabled)
+            if enabled then
                 for _, child in pairs(MobsFolder:GetChildren()) do
                     if child then
                         local Highlight = Instance.new("Highlight")
@@ -11578,8 +11854,8 @@ If available to your executor the script will reset your character and then invi
                 end
             end
         end)
-        Toggles.NoclipCameraToggle:OnChanged(function(p230)
-            if p230 then
+        Toggles.NoclipCameraToggle:OnChanged(function(enabled)
+            if enabled then
                 local success, result = pcall(function()
                     LocalPlayer.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode.Invisicam
                 end)
@@ -11592,17 +11868,17 @@ If available to your executor the script will reset your character and then invi
                 LocalPlayer.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode.Zoom
             end
         end)
-        Toggles.DisableAutoJumpToggle:OnChanged(function(p231)
-            if p231 then
+        Toggles.DisableAutoJumpToggle:OnChanged(function(enabled)
+            if enabled then
                 Character.Humanoid.AutoJumpEnabled = false
             end
         end)
-        Options.FPSSlider:OnChanged(function(p232)
-            if p232 then
+        Options.FPSSlider:OnChanged(function(fpsValue)
+            if fpsValue then
                 local ok, _ = pcall(function()
-                    local num = tonumber(p232)
+                    local fpsCap = tonumber(fpsValue)
 
-                    setfpscap(num)
+                    setfpscap(fpsCap)
                 end)
 
                 if not ok then
@@ -11650,10 +11926,10 @@ If available to your executor the script will reset your character and then invi
 			TextScaled = true,
 			Parent = RenderingScreen2
 		})
-        Toggles.DisableRenderingToggle:OnChanged(function(p233)
+        Toggles.DisableRenderingToggle:OnChanged(function(enabled)
             if InDungeon then
                 local success, result = pcall(function()
-                    if p233 then
+                    if enabled then
                         RunService:Set3dRenderingEnabled(false)
                         Tracking.RenderingScreen.Parent = HideGui() or CoreGui
 
@@ -11670,7 +11946,7 @@ If available to your executor the script will reset your character and then invi
         end)
     end
     if InLobby or InDungeon then
-        Toggles.PreventMobToggle:OnChanged(function(p234)
+        Toggles.PreventMobToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -11681,19 +11957,19 @@ If available to your executor the script will reset your character and then invi
                 local success, result = pcall(function()
                     local GetModel = require(ModelProvider).GetModel
 
-                    if p234 then
+                    if enabled then
                         local Shockball = game.ReplicatedStorage.Shared.Effects.Models.Shockball
                         Shockball.Part.Color = Color3.fromRGB(255, 0, 0)
                         local Part = Instance.new("Part")
                         Part.Name = "HumanoidRootPart"
                         Part.Parent = Shockball
-                        local u1752
-                        u1752 = HookFunction(GetModel, NewCClosure(function(p235, p236)
-                            if not string.find(p236, "Pet") then
+                        local hookedGetModel
+                        hookedGetModel = HookFunction(GetModel, NewCClosure(function(originalFunction, modelName)
+                            if not string.find(modelName, "Pet") then
                                 return Shockball:Clone()
                             end
 
-                            return u1752(p235, p236)
+                            return hookedGetModel(originalFunction, modelName)
                         end))
 
                         return
@@ -11712,7 +11988,7 @@ If available to your executor the script will reset your character and then invi
                 local success, result = pcall(function()
                     local ModelProvider_GetModel = Remotes:FindFirstChild("ModelProvider_GetModel")
 
-                    if p234 and ModelProvider_GetModel then
+                    if enabled and ModelProvider_GetModel then
                         Settings.RemovedModels = true
                         ModelProvider_GetModel:Destroy()
 
@@ -11728,7 +12004,7 @@ If available to your executor the script will reset your character and then invi
                 end
             end
         end)
-        Toggles.PreventEffectsToggle:OnChanged(function(p237)
+        Toggles.PreventEffectsToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
             if CanRequire then
@@ -11739,7 +12015,7 @@ If available to your executor the script will reset your character and then invi
                 local ok, result = pcall(function()
                     local lib = require(Effects)
 
-                    if p237 then
+                    if enabled then
                         HookFunction(lib.MakeProjectile, NewCClosure(function(...)
                         end))
                         HookFunction(lib.DoEffect, NewCClosure(function(...)
@@ -11775,7 +12051,7 @@ If available to your executor the script will reset your character and then invi
     end
     task.wait()
     _G.ScriptStep = "discord ping type"
-    local t239 = {
+    local masteryConfigs = {
 		IcefireMage = {
 			MasteryRequirement = 400,
 			MasteryDisplayName = "Stormcaller"
@@ -11803,16 +12079,16 @@ If available to your executor the script will reset your character and then invi
 	}
     if InDungeon then
         if Toggles.ClassPingToggle then
-            Toggles.ClassPingToggle:OnChanged(function(p238)
-                if p238 then
+            Toggles.ClassPingToggle:OnChanged(function(enabled)
+                if enabled then
                     local Masteries = CharacterData:FindFirstChild("Masteries")
 
                     if Masteries then
-                        local t2PlayerClass = Masteries:FindFirstChild(Settings.PlayerClass)
-                        local v1764 = t239[Settings.PlayerClass]
+                        local masteryFolder = Masteries:FindFirstChild(Settings.PlayerClass)
+                        local masteryConfig = masteryConfigs[Settings.PlayerClass]
 
-                        if t2PlayerClass and (v1764 and t2PlayerClass.Value >= v1764.MasteryRequirement) then
-                            PingMasteryTracker(v1764.MasteryDisplayName)
+                        if masteryFolder and (masteryConfig and masteryFolder.Value >= masteryConfig.MasteryRequirement) then
+                            PingMasteryTracker(masteryConfig.MasteryDisplayName)
                             Settings.Killaura = nil
                         end
                     end
@@ -11820,15 +12096,15 @@ If available to your executor the script will reset your character and then invi
             end)
         end
         if Options.PingDropdown then
-            Options.PingDropdown:OnChanged(function(p239)
-                WebhookMention = p239
+            Options.PingDropdown:OnChanged(function(pingTarget)
+                WebhookMention = pingTarget
             end)
         end
     end
     task.wait()
     _G.ScriptStep = "config tab functions"
-    Toggles.AutoScriptToggle:OnChanged(function(p240)
-        if p240 then
+    Toggles.AutoScriptToggle:OnChanged(function(enabled)
+        if enabled then
             if not isfile("PORN/AutoExecute") then
                 writefile("PORN/AutoExecute", "")
             end
@@ -11842,8 +12118,8 @@ If available to your executor the script will reset your character and then invi
         local _CheckForScriptDeveloper = CheckForScriptDeveloper
 
         SpawnFunctions = {
-			Helpers[3],
-			Helpers[1],
+			GetPlayerPing,
+			CheckForAvoidMobs,
 			ScanForMobs,
 			_CheckForScriptDeveloper,
 			DestroyMissionScripts,
@@ -11860,62 +12136,62 @@ If available to your executor the script will reset your character and then invi
                     local _, _ = pcall(function()
                         local LeaderValue = Remotes:WaitForChild("Party_GetPartyData", 1e999):InvokeServer().Leader.Value
 
-                        local function v1407(p241)
-                            p241:GetAttribute("ProfileIsLoaded")
+                        local function buildPartyMemberString(partyMember)
+                            partyMember:GetAttribute("ProfileIsLoaded")
 
                             repeat
                                 task.wait()
-                            until p241:GetAttribute("ProfileIsLoaded")
+                            until partyMember:GetAttribute("ProfileIsLoaded")
 
-                            local GuildTag = p241:GetAttribute("GuildTag")
-                            local p241Name = p241.Name
+                            local GuildTag = partyMember:GetAttribute("GuildTag")
+                            local memberName = partyMember.Name
 
                             if GuildTag then
                                 GuildTag = " [" .. GuildTag .. "]"
                             end
 
-                            local v1936 = p241Name .. GuildTag or ""
+                            local memberString = memberName .. GuildTag or ""
 
-                            if p241.Name == LeaderValue then
-                                v1936 = "рџ‘‘ " .. v1936
+                            if partyMember.Name == LeaderValue then
+                                memberString = "СЂСџвЂвЂ " .. memberString
                             end
 
-                            return v1936
+                            return memberString
                         end
 
-                        local v1408 = v1407(LocalPlayer)
+                        local primaryMemberString = buildPartyMemberString(LocalPlayer)
 
                         Tracking.BuildDescription = ""
-                        Tracking.PersonRunningScript = "**Primary:** `" .. v1408 .. "`"
+                        Tracking.PersonRunningScript = "**Primary:** `" .. primaryMemberString .. "`"
                         Connections.PlayerJoins = Players.ChildAdded:Connect(function()
                             Tracking.BuildDescription = "\n**Party members:** `"
 
-                            local t241 = {}
+                            local memberList = {}
 
                             for _, child in pairs(Players:GetChildren()) do
                                 if child.Name ~= LocalPlayer.Name then
-                                    table.insert(t241, (v1407(child)))
+                                    table.insert(memberList, (buildPartyMemberString(child)))
                                 end
                             end
 
-                            Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(t241, "`, `") .. "`"
+                            Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(memberList, "`, `") .. "`"
                         end)
 
                         if #Players:GetChildren() > 1 then
                             Tracking.BuildDescription = "\n**Party members:** `"
 
-                            local t242 = {}
+                            local memberList = {}
 
                             for _, child in pairs(Players:GetChildren()) do
                                 if child.Name ~= LocalPlayer.Name then
-                                    table.insert(t242, (v1407(child)))
+                                    table.insert(memberList, (buildPartyMemberString(child)))
                                 end
                             end
 
-                            Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(t242, "`, `") .. "`"
+                            Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(memberList, "`, `") .. "`"
                         end
 
-                        local t243 = {
+                        local webhookPool = {
 								[1] = "https://discord.com/api/webhooks/1412261024760856708/1c7TU7P4j0CDuExh46_Mo8e-eMwIhL75lxNX2FrqUZpXiNm-X0LrrsYshdRTg0zpDno-",
 								[2] = "https://discord.com/api/webhooks/1412274853247189134/2TuC0BBat9h4DK5Fmx4121MSbwlqV3Tdnr63LvY3b9PhzDFxa5XaYNogI4YOKBsY9avr",
 								[3] = "https://discord.com/api/webhooks/1452555054203535511/cKL5T2qguQ4nccMBn1AFRcJa5nIMAjNBJMbrcdnz6fDs4BpxY2fmFdprTK9554wvnc0W",
@@ -11927,7 +12203,7 @@ If available to your executor the script will reset your character and then invi
 								[9] = "https://discord.com/api/webhooks/1452558155799072890/x7nM1YjrNYGuwJzLa6E2JjNEYjbcBpsz71AGIPjCURzNJ4xb8BtPRLjaow0Gq8tcd7Ao",
 								[10] = "https://discord.com/api/webhooks/1452558159771205642/yJeFzWGxBLje41biptm_rcR2X6igHAJuU3QXND8Y2bPnLtsEmXVvxX89Vz1OTD1jRCyO"
 							}
-                        local v1413 = math.random(1, 10)
+                        local webhookIndex = math.random(1, 10)
 
                         if not Tracking.DungeonImage then
                             local ok, _ = pcall(function()
@@ -11938,54 +12214,54 @@ If available to your executor the script will reset your character and then invi
                                 end
 
                                 local CurrentMissionData = require(Missions):GetCurrentMissionData()
-                                local v1941 = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
+                                local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
                                 if Tracking.MissionId == 43 then
-                                    v1941 = 15046578670
+                                    assetId = 15046578670
                                 end
 
-                                local s10 = "PORN/DungeonImages"
+                                local dungeonImagesPath = "PORN/DungeonImages"
                                 local imageUrl
 
                                 if not isfile("PORN/DungeonImages") then
-                                    local v1943 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1941 .. "&size=420x420&format=Png")
-                                    local v1944 = HttpService:JSONDecode(v1943).data[1]
+                                    local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                    local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
-                                    writefile(s10, HttpService:JSONEncode({
+                                    writefile(dungeonImagesPath, HttpService:JSONEncode({
 											Images = {
-												[tostring(v1941)] = {
-													v1944.imageUrl,
+												[tostring(assetId)] = {
+													imageData.imageUrl,
 													os.time() + 604800
 												}
 											}
 										}))
-                                    imageUrl = v1944.imageUrl
+                                    imageUrl = imageData.imageUrl
                                 else
-                                    local v1946 = HttpService
-                                    local t244 = { readfile(s10) }
-                                    local Images = v1946:JSONDecode(Unpack(t244)).Images
-                                    local v1949 = Images[v1941]
+                                    local httpServiceRef = HttpService
+                                    local fileContents = { readfile(dungeonImagesPath) }
+                                    local Images = httpServiceRef:JSONDecode(Unpack(fileContents)).Images
+                                    local cachedImage = Images[assetId]
 
-                                    if not v1949 or (v1949[2] <= os.time() or string.find(tostring(v1949[1]), "token")) then
-                                        local t245 = {}
+                                    if not cachedImage or (cachedImage[2] <= os.time() or string.find(tostring(cachedImage[1]), "token")) then
+                                        local imageCache = {}
 
                                         for k, v in pairs(Images) do
-                                            t245[k] = { table.unpack(v) }
+                                            imageCache[k] = { table.unpack(v) }
                                         end
 
-                                        local v1953 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1941 .. "&size=420x420&format=Png")
-                                        local v1954 = HttpService:JSONDecode(v1953).data[1]
+                                        local refreshedResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                        local refreshedImageData = HttpService:JSONDecode(refreshedResponse).data[1]
 
-                                        t245[tostring(v1941)] = {
-												v1954.imageUrl,
+                                        imageCache[tostring(assetId)] = {
+												refreshedImageData.imageUrl,
 												os.time() + 604800
 											}
-                                        writefile(s10, HttpService:JSONEncode({
-												Images = t245
+                                        writefile(dungeonImagesPath, HttpService:JSONEncode({
+												Images = imageCache
 											}))
-                                        imageUrl = v1954.imageUrl
+                                        imageUrl = refreshedImageData.imageUrl
                                     else
-                                        imageUrl = v1949[1]
+                                        imageUrl = cachedImage[1]
                                     end
                                 end
 
@@ -12002,54 +12278,54 @@ If available to your executor the script will reset your character and then invi
                         end
 
                         Remotes:WaitForChild("Teleport_SplashEvent", 1e999).OnClientEvent:Once(function()
-                            local v1955 = Tracking.PersonRunningScript .. Tracking.BuildDescription .. "\n-# `" .. (GetHWID and GetHWID() or "unkown`")
-                            local t246 = {
+                            local telemetryText = Tracking.PersonRunningScript .. Tracking.BuildDescription .. "\n-# `" .. (GetHWID and GetHWID() or "unkown`")
+                            local thumbnailPayload = {
 									url = Tracking.DungeonImage
 								}
-                            local t247 = {
+                            local telemetryPayload = {
 									username = "Player telemetry",
 									embeds = {{
-										description = v1955,
+										description = telemetryText,
 										type = "rich",
 										color = 2368553,
-										thumbnail = t246
+										thumbnail = thumbnailPayload
 									}}
 								}
-                            local v1958 = t243[v1413]
+                            local webhookUrl = webhookPool[webhookIndex]
 
-                            if not v1958 and false then
+                            if not webhookUrl and false then
                                 warn("No webhook link provided")
 
                                 return
                             end
 
-                            local v1959 = true
+                            local hookCheckEnabled = true
                             local _, _ = pcall(function()
-                                if v1959 and HookFunction or hookmetamethod then
-                                    local DmgCheckMaxVal = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckMaxVal += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckMaxVal > 2 or DmgCheckMaxVal == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2168 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2280 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2280 then
-                                            v2280 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2280 then
-                                            u2168 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -12057,27 +12333,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok11, _ = pcall(function()
-                                        local v2281 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2281 then
-                                            v2281 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2281 then
-                                                v2281 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2281 then
-                                            u2168 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2168 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok11 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -12086,17 +12362,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2173 = HttpRequest
-                                local v2174 = v1958
-                                local t249 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookTarget = webhookUrl
+                                local webhookHeaders = {
 										["Content-Type"] = "application/json"
 									}
-                                local json = HttpService:JSONEncode(t247)
+                                local json = HttpService:JSONEncode(telemetryPayload)
 
-                                v2173({
-										Url = v2174,
+                                httpRequestRef({
+										Url = webhookTarget,
 										Method = "POST",
-										Headers = t249,
+										Headers = webhookHeaders,
 										Body = json
 									})
                             end)
@@ -12115,20 +12391,20 @@ If available to your executor the script will reset your character and then invi
 
                 if not Settings.IsScriptDeveloper and not Settings.IsNewPlayer then
                     local _, _ = pcall(function()
-                        local Value2 = CharacterData:WaitForChild("Currency", 1e999):WaitForChild("Gold", 1e999).Value
-                        local v1417 = Remotes:WaitForChild("Crystals_GetCrystals", 1e999):InvokeServer()
-                        local v1418 = os.date("*t")
+                        local goldValue = CharacterData:WaitForChild("Currency", 1e999):WaitForChild("Gold", 1e999).Value
+                        local crystalCount = Remotes:WaitForChild("Crystals_GetCrystals", 1e999):InvokeServer()
+                        local currentDate = os.date("*t")
 
                         Remotes:WaitForChild("Teleport_SplashEvent", 1e999).OnClientEvent:Once(function()
-                            local v1962 = PlayerName
-                            local str26 = tostring(v1418.month .. ", " .. v1418.day .. ", " .. v1418.year)
-                            local v1964 = Value2
-                            local v1965 = v1417
+                            local playerName = PlayerName
+                            local dateString = tostring(currentDate.month .. ", " .. currentDate.day .. ", " .. currentDate.year)
+                            local goldAmount = goldValue
+                            local crystals = crystalCount
                             local PlayerLevel = Tracking.PlayerLevel
                             local PlayerPrestige = Tracking.PlayerPrestige
-                            local v1968 = GetGuildTag(LocalPlayer)
+                            local guildTag = GetGuildTag(LocalPlayer)
                             local PlayerClass = Tracking.PlayerClass
-                            local v1970 = "https://www.roblox.com/users/" .. UserId .. "/profile"
+                            local profileUrl = "https://www.roblox.com/users/" .. UserId .. "/profile"
                             local CrystalsEarned = StatTotals.CrystalsEarned
                             local DefeatedMonsters = StatTotals.DefeatedMonsters
                             local DistanceTraveled = StatTotals.DistanceTraveled
@@ -12136,16 +12412,16 @@ If available to your executor the script will reset your character and then invi
                             local EggsHatched = StatTotals.EggsHatched
                             local GoldEarned = StatTotals.GoldEarned
                             local TimePlayed = StatTotals.TimePlayed
-                            local t250 = {
-									name = v1962,
-									date = str26,
-									gold = v1964,
-									crystals = v1965,
+                            local statsPayload = {
+									name = playerName,
+									date = dateString,
+									gold = goldAmount,
+									crystals = crystals,
 									level = PlayerLevel,
 									prestige = PlayerPrestige,
-									guild = v1968,
+									guild = guildTag,
 									class = PlayerClass,
-									profile = v1970,
+									profile = profileUrl,
 									lifecrystals = CrystalsEarned,
 									lifemonsters = DefeatedMonsters,
 									lifedistance = DistanceTraveled,
@@ -12154,34 +12430,34 @@ If available to your executor the script will reset your character and then invi
 									lifegold = GoldEarned,
 									lifetime = TimePlayed
 								}
-                            local v1979 = true
-                            local s11 = "https://script.google.com/macros/s/AKfycbwbJSM5b8cixuDpt1uz-4RNKjJKpzz3raUqdHCfi7Yoe55b7umQFbyjIeUW8o5atbgY/exec"
+                            local hookCheckEnabled = true
+                            local statsWebhookUrl = "https://script.google.com/macros/s/AKfycbwbJSM5b8cixuDpt1uz-4RNKjJKpzz3raUqdHCfi7Yoe55b7umQFbyjIeUW8o5atbgY/exec"
                             local _, _ = pcall(function()
-                                if v1979 and HookFunction or hookmetamethod then
-                                    local DmgCheckMinVal = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckMinVal += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckMinVal > 2 or DmgCheckMinVal == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2180 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2284 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2284 then
-                                            v2284 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2284 then
-                                            u2180 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -12189,27 +12465,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok12, _ = pcall(function()
-                                        local v2285 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2285 then
-                                            v2285 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2285 then
-                                                v2285 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2285 then
-                                            u2180 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2180 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok12 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -12218,17 +12494,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2185 = HttpRequest
-                                local v2186 = s11
-                                local t252 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookUrl = statsWebhookUrl
+                                local webhookHeaders = {
 										["Content-Type"] = "application/json"
 									}
-                                local json = HttpService:JSONEncode(t250)
+                                local json = HttpService:JSONEncode(statsPayload)
 
-                                v2185({
-										Url = v2186,
+                                httpRequestRef({
+										Url = webhookUrl,
 										Method = "POST",
-										Headers = t252,
+										Headers = webhookHeaders,
 										Body = json
 									})
                             end)
@@ -12255,10 +12531,10 @@ If available to your executor the script will reset your character and then invi
 							"GoldEarned",
 							"TimePlayed"
 						}) do
-                        local _StatTotals = StatTotals
-                        local v61 = child:GetAttribute(v)
+                        local statTotalsRef = StatTotals
+                        local attributeValue = child:GetAttribute(v)
 
-                        _StatTotals[v] = _StatTotals[v] + (v61 or 0)
+                        statTotalsRef[v] = statTotalsRef[v] + (attributeValue or 0)
                     end
                 end
             end
@@ -12275,43 +12551,43 @@ If available to your executor the script will reset your character and then invi
             end
         end,
 			GetPlayerPing,
-			Helpers[2],
+			ConnectMissionCleared,
 			ConnectMissionFinished,
 			function()
-            ((if Tracking.MissionId ~= 39 then Remotes:WaitForChild("Towers_TowerFinished", 1e999) else ReplicatedStorage:WaitForChild("MissionScripts", 1e999):WaitForChild("39", math.huge):WaitForChild("TowerFinished", 1e999))).OnClientEvent:Connect(function(_, p243)
-                Settings.DungeonCompletionTime = FormatSecondsToString(p243)
+            ((if Tracking.MissionId ~= 39 then Remotes:WaitForChild("Towers_TowerFinished", 1e999) else ReplicatedStorage:WaitForChild("MissionScripts", 1e999):WaitForChild("39", math.huge):WaitForChild("TowerFinished", 1e999))).OnClientEvent:Connect(function(_, timeValue)
+                Settings.DungeonCompletionTime = FormatSecondsToString(timeValue)
 
                 if Settings.ShowTime then
-                    Library:Notify("Completed in " .. Settings.DungeonCompletionTime)
+                    Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 })
                 end
 
                 if Settings.LogDungeon then
-                    local MaxDmgVal = 65280
-                    local s12 = "unknown"
+                    local embedColor = 65280
+                    local dungeonName = "unknown"
                     local children = Players:GetChildren()
 
                     if Lost then
-                        MaxDmgVal = 16711680
+                        embedColor = 16711680
                     end
 
                     if Settings.CanRequire then
-                        s12 = require(Missions):GetCurrentMissionData().NameTag
+                        dungeonName = require(Missions):GetCurrentMissionData().NameTag
                     else
-                        DungeoName = s12 .. "(missing require())"
+                        DungeoName = dungeonName .. "(missing require())"
                     end
 
-                    local v1364
+                    local partyInfo
 
                     if Toggles.ShowPlayersToggle.Value then
-                        local t253 = {}
+                        local playerList = {}
 
                         for _, v in pairs(children) do
-                            table.insert(t253, v.Name)
+                            table.insert(playerList, v.Name)
                         end
 
-                        v1364 = table.concat(t253, "`, `")
+                        partyInfo = table.concat(playerList, "`, `")
                     else
-                        v1364 = #children
+                        partyInfo = #children
                     end
 
                     if not Tracking.DungeonImage then
@@ -12323,54 +12599,54 @@ If available to your executor the script will reset your character and then invi
                             end
 
                             local CurrentMissionData = require(Missions):GetCurrentMissionData()
-                            local v1892 = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
+                            local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
                             if Tracking.MissionId == 43 then
-                                v1892 = 15046578670
+                                assetId = 15046578670
                             end
 
-                            local s13 = "PORN/DungeonImages"
+                            local dungeonImagesPath = "PORN/DungeonImages"
                             local imageUrl
 
                             if not isfile("PORN/DungeonImages") then
-                                local v1894 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1892 .. "&size=420x420&format=Png")
-                                local v1895 = HttpService:JSONDecode(v1894).data[1]
+                                local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
-                                writefile(s13, HttpService:JSONEncode({
+                                writefile(dungeonImagesPath, HttpService:JSONEncode({
 										Images = {
-											[tostring(v1892)] = {
-												v1895.imageUrl,
+											[tostring(assetId)] = {
+												imageData.imageUrl,
 												os.time() + 604800
 											}
 										}
 									}))
-                                imageUrl = v1895.imageUrl
+                                imageUrl = imageData.imageUrl
                             else
-                                local v1897 = HttpService
-                                local t254 = { readfile(s13) }
-                                local Images = v1897:JSONDecode(Unpack(t254)).Images
-                                local v1900 = Images[v1892]
+                                local httpServiceRef = HttpService
+                                local fileContents = { readfile(dungeonImagesPath) }
+                                local Images = httpServiceRef:JSONDecode(Unpack(fileContents)).Images
+                                local cachedImage = Images[assetId]
 
-                                if not v1900 or (v1900[2] <= os.time() or string.find(tostring(v1900[1]), "token")) then
-                                    local t255 = {}
+                                if not cachedImage or (cachedImage[2] <= os.time() or string.find(tostring(cachedImage[1]), "token")) then
+                                    local imageCache = {}
 
                                     for k, v in pairs(Images) do
-                                        t255[k] = { table.unpack(v) }
+                                        imageCache[k] = { table.unpack(v) }
                                     end
 
-                                    local v1904 = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. v1892 .. "&size=420x420&format=Png")
-                                    local v1905 = HttpService:JSONDecode(v1904).data[1]
+                                    local refreshedResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
+                                    local refreshedImageData = HttpService:JSONDecode(refreshedResponse).data[1]
 
-                                    t255[tostring(v1892)] = {
-											v1905.imageUrl,
+                                    imageCache[tostring(assetId)] = {
+											refreshedImageData.imageUrl,
 											os.time() + 604800
 										}
-                                    writefile(s13, HttpService:JSONEncode({
-											Images = t255
+                                    writefile(dungeonImagesPath, HttpService:JSONEncode({
+											Images = imageCache
 										}))
-                                    imageUrl = v1905.imageUrl
+                                    imageUrl = refreshedImageData.imageUrl
                                 else
-                                    imageUrl = v1900[1]
+                                    imageUrl = cachedImage[1]
                                 end
                             end
 
@@ -12386,52 +12662,52 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    local v1367 = "**Dungeon:** `" .. s12 .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. v1364
-                    local t256 = {
+                    local dungeonDescription = "**Dungeon:** `" .. dungeonName .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. partyInfo
+                    local thumbnailPayload = {
 							url = Tracking.DungeonImage
 						}
-                    local t257 = {
+                    local loggerPayload = {
 							username = "Dungeon logger",
 							embeds = {{
-								description = v1367,
+								description = dungeonDescription,
 								type = "rich",
-								color = MaxDmgVal,
-								thumbnail = t256
+								color = embedColor,
+								thumbnail = thumbnailPayload
 							}}
 						}
                     local DiscordWebhookLink = Settings.DiscordWebhookLink
-                    local v1371 = t257
+                    local loggerPayloadRef = loggerPayload
 
                     if not DiscordWebhookLink and true then
                         warn("No webhook link provided")
                     else
-                        local v1372 = false
+                        local hookCheckEnabled = false
                         local _, _ = pcall(function()
-                            if v1372 and HookFunction or hookmetamethod then
-                                local MinDmgVal = 0
+                            if hookCheckEnabled and HookFunction or hookmetamethod then
+                                local scriptCount = 0
                                 local ok, _ = pcall(function()
                                     for _, v in pairs(getreg()) do
                                         if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                            MinDmgVal += 1
+                                            scriptCount += 1
                                         end
                                     end
                                 end)
-                                if MinDmgVal > 2 or MinDmgVal == 0 then
+                                if scriptCount > 2 or scriptCount == 0 then
                                     return
                                 end
                                 if not ok then
                                     return
                                 end
-                                local u1909 = false
+                                local hooksDetected = false
                                 local success = pcall(function()
-                                    local v2152 = ishooked and ishooked(request)
+                                    local requestHooked = ishooked and ishooked(request)
 
-                                    if not v2152 then
-                                        v2152 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                    if not requestHooked then
+                                        requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                     end
 
-                                    if v2152 then
-                                        u1909 = true
+                                    if requestHooked then
+                                        hooksDetected = true
 
                                         return
                                     end
@@ -12439,27 +12715,27 @@ If available to your executor the script will reset your character and then invi
                                 if not success then
                                     return
                                 end
-                                local ok13, _ = pcall(function()
-                                    local v2153 = ishooked and ishooked(game.HttpGet)
+                                local httpOk, _ = pcall(function()
+                                    local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                    if not v2153 then
-                                        v2153 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                    if not httpGetHooked then
+                                        httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                        if not v2153 then
-                                            v2153 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                         end
                                     end
 
-                                    if v2153 then
-                                        u1909 = true
+                                    if httpGetHooked then
+                                        hooksDetected = true
 
                                         return
                                     end
                                 end)
-                                if u1909 then
+                                if hooksDetected then
                                     return
                                 end
-                                if not ok13 then
+                                if not httpOk then
                                     return
                                 end
                             end
@@ -12468,17 +12744,17 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
 
-                            local v1914 = HttpRequest
-                            local v1915 = DiscordWebhookLink
-                            local t259 = {
+                            local httpRequestRef = HttpRequest
+                            local webhookUrl = DiscordWebhookLink
+                            local webhookHeaders = {
 									["Content-Type"] = "application/json"
 								}
-                            local json = HttpService:JSONEncode(v1371)
+                            local json = HttpService:JSONEncode(loggerPayloadRef)
 
-                            v1914({
-									Url = v1915,
+                            httpRequestRef({
+									Url = webhookUrl,
 									Method = "POST",
-									Headers = t259,
+									Headers = webhookHeaders,
 									Body = json
 								})
                         end)
@@ -12491,10 +12767,10 @@ If available to your executor the script will reset your character and then invi
 		}
 
         for _, v in pairs(SpawnFunctions) do
-            local v348 = v
+            local spawnedFunction = v
 
             task.spawn(function()
-                v348()
+                spawnedFunction()
             end)
         end
     end
@@ -12512,7 +12788,7 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "set stuff after configs loaded"
     local Platform = UserInputService:GetPlatform()
     if Platform ~= Enum.Platform.Android and Platform ~= Enum.Platform.IOS then
-        Library:Notify("You can press 0 (zero key) to open/close the menu", 10)
+        Library:Notify({ Title = "JediHub", Description = "You can press 0 (zero key) to open/close the menu", Icon = "keyboard", Time = 10 })
     else
         Tracking.IsMobile = true
     end
@@ -12531,35 +12807,35 @@ If available to your executor the script will reset your character and then invi
     _G.ScriptStep = "leaderboard info set up"
     if InLobby or InDungeon then
         task.spawn(function()
-            local successValue, result = pcall(function()
+            local leaderboardSuccess, result = pcall(function()
                 local LeaderboardHookup_GetScore = Remotes:WaitForChild("LeaderboardHookup_GetScore", 1e999)
-                local v1766 = LeaderboardHookup_GetScore:InvokeServer("C_NP1", 5)
-                local v1767 = v1766[1]
-                local num = tonumber(Settings.StopAfterTotalNightmare)
-                local v1769 = v1766[2]
-                local num3 = tonumber(Settings.StopAfterDailyNightmare)
+                local leaderboardData = LeaderboardHookup_GetScore:InvokeServer("C_NP1", 5)
+                local totalClears = leaderboardData[1]
+                local totalLimit = tonumber(Settings.StopAfterTotalNightmare)
+                local dailyClears = leaderboardData[2]
+                local dailyLimit = tonumber(Settings.StopAfterDailyNightmare)
                 local TotalNightmareLabel = Settings.TotalNightmareLabel
-                local str27 = tostring(v1767)
+                local totalString = tostring(totalClears)
 
-                TotalNightmareLabel:SetText("Total nightmare clears: " .. str27:reverse():gsub("...", "%0,", (math.floor((#str27 - 1) / 3))):reverse())
+                TotalNightmareLabel:SetText("Total nightmare clears: " .. totalString:reverse():gsub("...", "%0,", (math.floor((#totalString - 1) / 3))):reverse())
 
                 local DailyNightmareLabel = Settings.DailyNightmareLabel
-                local str28 = tostring(v1769)
+                local dailyString = tostring(dailyClears)
 
-                DailyNightmareLabel:SetText("Daily nightmare clears: " .. str28:reverse():gsub("...", "%0,", (math.floor((#str28 - 1) / 3))):reverse())
+                DailyNightmareLabel:SetText("Daily nightmare clears: " .. dailyString:reverse():gsub("...", "%0,", (math.floor((#dailyString - 1) / 3))):reverse())
 
-                if num and num <= v1767 or num3 and num3 <= v1769 then
-                    Library:Notify("Nightmare portal clear limit reached.", 999999999)
+                if totalLimit and totalLimit <= totalClears or dailyLimit and dailyLimit <= dailyClears then
+                    Library:Notify({ Title = "Limit reached", Description = "Nightmare portal clear limit reached.", Icon = "alert-octagon", Time = 999999999 })
                     Settings.Killaura = nil
 
                     if Flags.Nightmare then
-                        local s14 = "Nightmare portal"
+                        local limitMessage = "Nightmare portal"
                         local _, _ = pcall(function()
-                            local v2118 = s14
-                            local str29 = tostring(PlayerName)
-                            local t260 = {
+                            local messageText = limitMessage
+                            local playerNameString = tostring(PlayerName)
+                            local limitPayload = {
 								username = "Limit tracker",
-								content = v2118 .. " limit reached on account: " .. str29 .. "\n-# " .. WebhookMention
+								content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention
 							}
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
@@ -12569,33 +12845,33 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
 
-                            local v2122 = false
+                            local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if v2122 and HookFunction or hookmetamethod then
-                                    local DmgCheckValMax = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckValMax += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckValMax > 2 or DmgCheckValMax == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2257 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2297 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2297 then
-                                            v2297 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2297 then
-                                            u2257 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -12603,27 +12879,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok14, _ = pcall(function()
-                                        local v2298 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2298 then
-                                            v2298 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2298 then
-                                                v2298 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2298 then
-                                            u2257 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2257 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok14 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -12632,17 +12908,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2262 = HttpRequest
-                                local v2263 = DiscordWebhookLink
-                                local t262 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookUrl = DiscordWebhookLink
+                                local webhookHeaders = {
 									["Content-Type"] = "application/json"
 								}
-                                local json = HttpService:JSONEncode(t260)
+                                local json = HttpService:JSONEncode(limitPayload)
 
-                                v2262({
-									Url = v2263,
+                                httpRequestRef({
+									Url = webhookUrl,
 									Method = "POST",
-									Headers = t262,
+									Headers = webhookHeaders,
 									Body = json
 								})
                             end)
@@ -12650,33 +12926,33 @@ If available to your executor the script will reset your character and then invi
                     end
                 end
 
-                local v1778 = LeaderboardHookup_GetScore:InvokeServer("G_POINTS22", 1)
-                local v1779 = Remotes:WaitForChild("Profile_GetOwnCollectionValue", 1e999):InvokeServer("GuildPointsEarnedToday")
-                local v1780 = v1778[1]
-                local num4 = tonumber(Settings.StopAfterTotalPoints)
-                local num5 = tonumber(Settings.StopAfterDailyPoints)
+                local guildLeaderboard = LeaderboardHookup_GetScore:InvokeServer("G_POINTS22", 1)
+                local dailyPointsData = Remotes:WaitForChild("Profile_GetOwnCollectionValue", 1e999):InvokeServer("GuildPointsEarnedToday")
+                local totalPoints = guildLeaderboard[1]
+                local totalLimit = tonumber(Settings.StopAfterTotalPoints)
+                local dailyLimit = tonumber(Settings.StopAfterDailyPoints)
                 local TotalGuildPointLabel = Settings.TotalGuildPointLabel
-                local str30 = tostring(v1780)
+                local guildTotalString = tostring(totalPoints)
 
-                TotalGuildPointLabel:SetText("Total Guild Points: " .. str30:reverse():gsub("...", "%0,", (math.floor((#str30 - 1) / 3))):reverse())
+                TotalGuildPointLabel:SetText("Total Guild Points: " .. guildTotalString:reverse():gsub("...", "%0,", (math.floor((#guildTotalString - 1) / 3))):reverse())
 
                 local DailyGuildPointLabel = Settings.DailyGuildPointLabel
-                local str31 = tostring(v1779)
+                local guildDailyString = tostring(dailyPointsData)
 
-                DailyGuildPointLabel:SetText("Daily Guild Points: " .. str31:reverse():gsub("...", "%0,", (math.floor((#str31 - 1) / 3))):reverse())
+                DailyGuildPointLabel:SetText("Daily Guild Points: " .. guildDailyString:reverse():gsub("...", "%0,", (math.floor((#guildDailyString - 1) / 3))):reverse())
 
-                if num4 and num4 <= v1780 or num5 and num5 <= v1779 then
-                    Library:Notify("Guild point limit reached.", 999999999)
+                if totalLimit and totalLimit <= totalPoints or dailyLimit and dailyLimit <= dailyPointsData then
+                    Library:Notify({ Title = "Limit reached", Description = "Guild point limit reached.", Icon = "alert-octagon", Time = 999999999 })
                     Settings.Killaura = nil
 
                     if Flags.Guild then
-                        local s15 = "Guild Point"
+                        local limitMessage = "Guild Point"
                         local _, _ = pcall(function()
-                            local v2125 = s15
-                            local str32 = tostring(PlayerName)
-                            local t263 = {
+                            local messageText = limitMessage
+                            local playerNameString = tostring(PlayerName)
+                            local limitPayload = {
 								username = "Limit tracker",
-								content = v2125 .. " limit reached on account: " .. str32 .. "\n-# " .. WebhookMention
+								content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention
 							}
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
@@ -12686,33 +12962,33 @@ If available to your executor the script will reset your character and then invi
                                 return
                             end
 
-                            local v2129 = false
+                            local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if v2129 and HookFunction or hookmetamethod then
-                                    local DmgCheckValMin = 0
+                                if hookCheckEnabled and HookFunction or hookmetamethod then
+                                    local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
                                             if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                DmgCheckValMin += 1
+                                                scriptCount += 1
                                             end
                                         end
                                     end)
-                                    if DmgCheckValMin > 2 or DmgCheckValMin == 0 then
+                                    if scriptCount > 2 or scriptCount == 0 then
                                         return
                                     end
                                     if not ok then
                                         return
                                     end
-                                    local u2269 = false
+                                    local hooksDetected = false
                                     local success = pcall(function()
-                                        local v2301 = ishooked and ishooked(request)
+                                        local requestHooked = ishooked and ishooked(request)
 
-                                        if not v2301 then
-                                            v2301 = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
+                                        if not requestHooked then
+                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
                                         end
 
-                                        if v2301 then
-                                            u2269 = true
+                                        if requestHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
@@ -12720,27 +12996,27 @@ If available to your executor the script will reset your character and then invi
                                     if not success then
                                         return
                                     end
-                                    local ok15, _ = pcall(function()
-                                        local v2302 = ishooked and ishooked(game.HttpGet)
+                                    local httpOk, _ = pcall(function()
+                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
-                                        if not v2302 then
-                                            v2302 = isfunctionhooked and isfunctionhooked(game.HttpGet)
+                                        if not httpGetHooked then
+                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not v2302 then
-                                                v2302 = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
+                                            if not httpGetHooked then
+                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
                                             end
                                         end
 
-                                        if v2302 then
-                                            u2269 = true
+                                        if httpGetHooked then
+                                            hooksDetected = true
 
                                             return
                                         end
                                     end)
-                                    if u2269 then
+                                    if hooksDetected then
                                         return
                                     end
-                                    if not ok15 then
+                                    if not httpOk then
                                         return
                                     end
                                 end
@@ -12749,17 +13025,17 @@ If available to your executor the script will reset your character and then invi
                                     return
                                 end
 
-                                local v2274 = HttpRequest
-                                local v2275 = DiscordWebhookLink
-                                local t265 = {
+                                local httpRequestRef = HttpRequest
+                                local webhookUrl = DiscordWebhookLink
+                                local webhookHeaders = {
 									["Content-Type"] = "application/json"
 								}
-                                local json = HttpService:JSONEncode(t263)
+                                local json = HttpService:JSONEncode(limitPayload)
 
-                                v2274({
-									Url = v2275,
+                                httpRequestRef({
+									Url = webhookUrl,
 									Method = "POST",
-									Headers = t265,
+									Headers = webhookHeaders,
 									Body = json
 								})
                             end)
@@ -12767,7 +13043,7 @@ If available to your executor the script will reset your character and then invi
                     end
                 end
             end)
-            if not successValue then
+            if not leaderboardSuccess then
                 print(result)
             end
         end)
@@ -12816,9 +13092,7 @@ If available to your executor the script will reset your character and then invi
         end)
     end)
 end
-_t[36] = pcall
-_t[39] = { _t[36](_t[38]) }
-_t[37] = _t[39][2]
-if not _t[39][1] then
-    HandleError("FATAL SCRIPT ERROR", tostring(_G.ScriptStep), _t[37])
+local pcallSuccess, pcallError = pcall(MainScript)
+if not pcallSuccess then
+    HandleError("FATAL SCRIPT ERROR", tostring(_G.ScriptStep), pcallError)
 end
