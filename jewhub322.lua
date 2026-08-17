@@ -17,6 +17,9 @@ end)
 local instance_cache = {}
 local Unpack = unpack or table.unpack
 
+pcall(collectgarbage, "setpause", 150)
+pcall(collectgarbage, "setstepmul", 250)
+
 local function create_instance(className, props)
     local instance = Instance.new(className)
 
@@ -16233,7 +16236,7 @@ return PetSkills
 
     Loading = Library:CreateLoading({
 		Title = "JewHub",
-		Icon = "rbxassetid://15643951512",
+		Icon = "rbxassetid://81638085579862",
 		TotalSteps = 5,
 		ShowSidebar = true,
 		LoadingIconTweenTime = 4
@@ -16916,7 +16919,7 @@ return PetSkills
 
                             if not Part then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(blocker has no target part)")
+                                    warn("JEW:", mobName, "(blocker has no target part)")
                                 end
 
                                 return
@@ -16928,7 +16931,7 @@ return PetSkills
 							}
 
                             if MobDebug then
-                                print("PORN:", mobName, "(added, blocker)")
+                                print("JEW:", mobName, "(added, blocker)")
                             end
 
                             return
@@ -19898,404 +19901,6 @@ if InMainMenu or InLobby then
     end
 	})
     task.wait()
-    _G.ScriptStep = "creating character viewport"
-    local CharacterSlots = { "Primary", "Armor", "Offhand" }
-    local RarityNames = { [2] = "Uncommon", [3] = "Rare", [4] = "Epic", [5] = "Legendary", [7] = "Mythic" }
-    local selectedSlot = "Primary"
-    local selectedItem = nil
-    local CharacterModel = nil
-    local CharacterCamera = Instance.new("Camera")
-    local CharacterChannelVF = nil
-    local CharacterViewportLabel = nil
-    local CharacterStatusLabel = nil
-    local CharacterItemDropdown = nil
-    local ViewportDragging = false
-    local LastViewportMousePos = nil
-    local function FocusCharacterCamera()
-        if not CharacterModel then
-            return
-        end
-
-        local pivot = CharacterModel:GetPivot().Position
-        local _, size = CharacterModel:GetBoundingBox()
-        local maxExtent = math.max(size.X, size.Y, size.Z)
-        CharacterCamera.CFrame = CFrame.lookAt(pivot + Vector3.new(0, 2, math.max(maxExtent * 2.2, 6)), pivot + Vector3.new(0, 2, 0))
-    end
-    local function OrbitCharacterCamera(mouseDelta)
-        if not CharacterModel then
-            return
-        end
-
-        local Position = CharacterModel:GetPivot().Position
-        local RotationY = CFrame.fromAxisAngle(Vector3.new(0, 1, 0), -mouseDelta.X * 0.01)
-        CharacterCamera.CFrame = CFrame.new(Position) * RotationY * CFrame.new(-Position) * CharacterCamera.CFrame
-
-        local RotationX = CFrame.fromAxisAngle(CharacterCamera.CFrame.RightVector, -mouseDelta.Y * 0.01)
-        local PitchedCFrame = CFrame.new(Position) * RotationX * CFrame.new(-Position) * CharacterCamera.CFrame
-
-        if PitchedCFrame.UpVector.Y > 0.1 then
-            CharacterCamera.CFrame = PitchedCFrame
-        end
-    end
-    local function RefreshCharacterView()
-        local char = LocalPlayer.Character
-
-        if not char then
-            CharacterViewportLabel:SetText("Join a lobby to preview your character")
-
-            return
-        end
-
-        local ok, result = pcall(function()
-            local clone = char:Clone()
-
-            for _, script in pairs(clone:GetDescendants()) do
-                if script:IsA("LocalScript") then
-                    script:Destroy()
-                end
-            end
-
-            CharacterModel = clone
-            CharacterModel.Parent = CharacterChannelVF
-            CharacterChannelVF.CurrentCamera = CharacterCamera
-            FocusCharacterCamera()
-        end)
-
-        if not ok then
-            CharacterViewportLabel:SetText("Failed to load character")
-
-            return
-        end
-
-        CharacterViewportLabel:SetText("Player: " .. PlayerName)
-    end
-    local function RebuildItemList()
-        local ok, result = pcall(function()
-            local backpack = ResolveBackpack() or PlayerBackpack
-            local Items = backpack and backpack:FindFirstChild("Items")
-
-            if not Items then
-                CharacterItemDropdown:SetValues({ "No items" })
-
-                return
-            end
-
-            local display = {}
-            local count = 0
-
-            for _, child in pairs(Items:GetChildren()) do
-                local Level = child:FindFirstChild("Level")
-
-                if not Level then
-                    continue
-                end
-
-                local rarity = GetRarity(child)
-
-                if typeof(rarity) ~= "number" then
-                    continue
-                end
-
-                local rarityName = RarityNames[rarity] or "Common"
-                display[child.Name] = ("[Lv %s] %s (%s)"):format(Level.Value, child.Name, rarityName)
-                count += 1
-            end
-
-            if count == 0 then
-                CharacterItemDropdown:SetValues({ "No equipment items" })
-            else
-                CharacterItemDropdown:SetValues(display)
-            end
-        end)
-
-        if not ok then
-            HandleError("ITEM LIST", tostring(result))
-        end
-    end
-    local function UpdateEquipStatus()
-        local ok, result = pcall(function()
-            local playerEquips = ReplicatedStorage.PlayerEquips and ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
-
-            if not playerEquips then
-                CharacterStatusLabel:SetText("No equips loaded")
-
-                return
-            end
-
-            local parts = {}
-
-            for _, slot in pairs(CharacterSlots) do
-                local equipFolder = playerEquips[slot]
-                local Folder = equipFolder and equipFolder:FindFirstChildWhichIsA("Folder")
-
-                if Folder then
-                    parts[#parts + 1] = slot .. ": " .. Folder.Name
-                end
-            end
-
-            if #parts == 0 then
-                CharacterStatusLabel:SetText("Nothing equipped")
-            else
-                CharacterStatusLabel:SetText(table.concat(parts, "  |  "))
-            end
-        end)
-
-        if not ok then
-            CharacterStatusLabel:SetText("Equips unavailable")
-        end
-    end
-    local function RefreshAll()
-        RefreshCharacterView()
-        RebuildItemList()
-        UpdateEquipStatus()
-    end
-    local function BuildRawButton(parent, text, callback)
-        local ButtonFrame = Instance.new("TextButton")
-        ButtonFrame.BackgroundColor3 = Library.Scheme.MainColor
-        ButtonFrame.BackgroundTransparency = 0
-        ButtonFrame.BorderSizePixel = 0
-        ButtonFrame.Size = UDim2.new(1, 0, 0, 34)
-        ButtonFrame.Text = text
-        ButtonFrame.TextColor3 = Library.Scheme.FontColor
-        ButtonFrame.TextTransparency = 0.4
-        ButtonFrame.TextSize = 14
-        ButtonFrame.FontFace = Library.Scheme.Font
-        ButtonFrame.Parent = parent
-        local Stroke = Instance.new("UIStroke")
-        Stroke.Color = Library.Scheme.OutlineColor
-        Stroke.Transparency = 0
-        Stroke.Parent = ButtonFrame
-        local Corner = Instance.new("UICorner")
-        Corner.CornerRadius = UDim.new(0, 4)
-        Corner.Parent = ButtonFrame
-        ButtonFrame.MouseEnter:Connect(function()
-            ButtonFrame.BackgroundColor3 = Library:GetBetterColor(Library.Scheme.MainColor, 4)
-        end)
-        ButtonFrame.MouseLeave:Connect(function()
-            ButtonFrame.BackgroundColor3 = Library.Scheme.MainColor
-        end)
-        ButtonFrame.MouseButton1Click:Connect(callback)
-
-        return ButtonFrame
-    end
-    CharacterBox = GenTab:AddLeftGroupbox("Character")
-    local CharacterLayout = Instance.new("Frame")
-    CharacterLayout.BackgroundTransparency = 1
-    CharacterLayout.Size = UDim2.new(1, 0, 1, 0)
-    local LayoutList = Instance.new("UIListLayout")
-    LayoutList.FillDirection = Enum.FillDirection.Horizontal
-    LayoutList.Padding = UDim.new(0, 8)
-    LayoutList.SortOrder = Enum.SortOrder.LayoutOrder
-    LayoutList.Parent = CharacterLayout
-    CharacterChannelVF = Instance.new("ViewportFrame")
-    CharacterChannelVF.BackgroundTransparency = 1
-    CharacterChannelVF.Size = UDim2.new(0.7, 0, 1, 0)
-    CharacterChannelVF.CurrentCamera = CharacterCamera
-    CharacterChannelVF.Active = true
-    CharacterChannelVF.LayoutOrder = 1
-    CharacterChannelVF.Parent = CharacterLayout
-    local CharacterButtonColumn = Instance.new("Frame")
-    CharacterButtonColumn.BackgroundTransparency = 1
-    CharacterButtonColumn.Size = UDim2.new(0.3, 0, 1, 0)
-    CharacterButtonColumn.LayoutOrder = 2
-    CharacterButtonColumn.Parent = CharacterLayout
-    local ButtonColumnList = Instance.new("UIListLayout")
-    ButtonColumnList.Padding = UDim.new(0, 6)
-    ButtonColumnList.SortOrder = Enum.SortOrder.LayoutOrder
-    ButtonColumnList.VerticalAlignment = Enum.VerticalAlignment.Center
-    ButtonColumnList.Parent = CharacterButtonColumn
-    Connections.ConnectCharacterOrbit = CharacterChannelVF.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton2 or input.UserInputType == Enum.UserInputType.Touch then
-            ViewportDragging = true
-            LastViewportMousePos = input.Position
-        end
-    end)
-    Connections.ConnectCharacterOrbitEnd = UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton2 or input.UserInputType == Enum.UserInputType.Touch then
-            ViewportDragging = false
-        end
-    end)
-    Connections.ConnectCharacterOrbitMove = UserInputService.InputChanged:Connect(function(input)
-        if not ViewportDragging or not CharacterModel then
-            return
-        end
-
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            local MouseDelta = input.Position - LastViewportMousePos
-            LastViewportMousePos = input.Position
-            OrbitCharacterCamera(MouseDelta)
-        end
-    end)
-    Connections.ConnectCharacterZoom = CharacterChannelVF.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseWheel and CharacterModel then
-            CharacterCamera.CFrame += CharacterCamera.CFrame.LookVector * (input.Position.Z * 2)
-        end
-    end)
-    local CharacterEquipButton = BuildRawButton(CharacterButtonColumn, "Equip selected", function()
-        if not selectedItem or selectedItem == "No items" or selectedItem == "No equipment items" or selectedItem == "Loading..." then
-            Library:Notify("No item selected", 3)
-
-            return
-        end
-
-        local ok, result = pcall(function()
-            local backpack = ResolveBackpack() or PlayerBackpack
-            local child = backpack:WaitForChild("Items", 1e999):FindFirstChild(selectedItem)
-
-            if not child then
-                return false
-            end
-
-            local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
-            local equipFolder = playerEquips[selectedSlot]
-            local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
-            BuySellLock += 1
-            Inventory_EquipItem:FireServer(child, equipFolder)
-            BuySellLock -= 1
-
-            return true
-        end)
-
-        if not ok then
-            HandleError("EQUIP SELECTED", tostring(result))
-
-            return
-        end
-
-        Library:Notify(("Equipping %s to %s"):format(selectedItem, selectedSlot), 3)
-        task.delay(2, RefreshAll)
-    end)
-    local CharacterEquipBestButton = BuildRawButton(CharacterButtonColumn, "Equip best", function()
-        local ok, result = pcall(function()
-            local backpack = ResolveBackpack() or PlayerBackpack
-            local Items = backpack:WaitForChild("Items", 1e999)
-            local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
-            local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
-            local best = {}
-            local used = {}
-
-            for _, slot in pairs(CharacterSlots) do
-                local bestChild = nil
-                local bestLevel = -1
-                local bestRarity = -1
-
-                for _, child in pairs(Items:GetChildren()) do
-                    if used[child] then
-                        continue
-                    end
-
-                    local Level = child:FindFirstChild("Level")
-
-                    if not Level then
-                        continue
-                    end
-
-                    local rarity = GetRarity(child)
-
-                    if typeof(rarity) ~= "number" then
-                        continue
-                    end
-
-                    if Level.Value > bestLevel or (Level.Value == bestLevel and rarity > bestRarity) then
-                        bestChild = child
-                        bestLevel = Level.Value
-                        bestRarity = rarity
-                    end
-                end
-
-                if bestChild then
-                    best[slot] = { Child = bestChild, Level = bestLevel, Rarity = bestRarity }
-                    used[bestChild] = true
-                end
-            end
-
-            local equippedCount = 0
-            BuySellLock += 1
-
-            for _, slot in pairs(CharacterSlots) do
-                local entry = best[slot]
-
-                if not entry then
-                    continue
-                end
-
-                local equipFolder = playerEquips[slot]
-                local Folder = equipFolder and equipFolder:FindFirstChildWhichIsA("Folder")
-                local oldLevel = Folder and Folder:FindFirstChild("Level")
-                local oldRarity = Folder and GetRarity(Folder)
-                local isBetter = not oldLevel
-                    or entry.Level > oldLevel.Value
-                    or (entry.Level == oldLevel.Value and typeof(oldRarity) == "number" and entry.Rarity > oldRarity)
-
-                if isBetter then
-                    Inventory_EquipItem:FireServer(entry.Child, equipFolder)
-                    equippedCount += 1
-                end
-            end
-
-            BuySellLock -= 1
-
-            return equippedCount
-        end)
-
-        if not ok then
-            HandleError("EQUIP BEST", tostring(result))
-
-            return
-        end
-
-        if result and result > 0 then
-            Library:Notify(("Equipped %s item(s)"):format(result), 3)
-        else
-            Library:Notify("Already wearing the best items", 3)
-        end
-
-        task.delay(2, RefreshAll)
-    end)
-    local CharacterRefreshButton = BuildRawButton(CharacterButtonColumn, "Refresh view", function()
-        RefreshAll()
-    end)
-    CharacterBox:AddUIPassthrough("CharacterLayout", {
-        Instance = CharacterLayout,
-        Height = 230
-    })
-    CharacterViewportLabel = CharacterBox:AddLabel("Join a lobby to preview your character")
-    CharacterStatusLabel = CharacterBox:AddLabel("Nothing equipped")
-    local CharacterSlotDropdown = CharacterBox:AddDropdown("CharacterSlotDropdown", {
-        Text = "Slot",
-        Values = { "Primary", "Armor", "Offhand" },
-        Default = "Primary"
-    })
-    CharacterItemDropdown = CharacterBox:AddDropdown("CharacterItemDropdown", {
-        Text = "Item",
-        Values = { "Loading..." },
-        Default = "Loading..."
-    })
-    CharacterSlotDropdown:OnChanged(function(value)
-        selectedSlot = value
-    end)
-    CharacterItemDropdown:OnChanged(function(value)
-        selectedItem = value
-    end)
-    if not Connections.ConnectCharacterView then
-        Connections.ConnectCharacterView = LocalPlayer.CharacterAdded:Connect(function()
-            task.delay(2, RefreshCharacterView)
-        end)
-    end
-    task.spawn(function()
-        local backpack = ResolveBackpack() or PlayerBackpack
-        local Items = backpack and backpack:FindFirstChild("Items")
-
-        if Items and not Connections.ConnectCharacterItems then
-            Connections.ConnectCharacterItems = Items.ChildAdded:Connect(function()
-                task.delay(0.5, RebuildItemList)
-            end)
-        end
-
-        task.wait(1)
-        RefreshAll()
-    end)
-    CharacterBox:Resize()
     task.wait()
     _G.ScriptStep = "creating event tab"
     EventTabIconTable = {
@@ -24171,6 +23776,80 @@ If available to your executor the script will reset your character and then invi
 
             return best
         end
+        local AoETargetCache = setmetatable({}, { __mode = "k" })
+        local function CollectAoETargets(hrpLocal, maxRange)
+            local targets = {}
+            local hrpPos = hrpLocal.Position
+            local targetSets = { MobsFolder }
+            local dummiesFolder = Workspace:FindFirstChild("TargetDummies")
+
+            if dummiesFolder then
+                targetSets[2] = dummiesFolder
+            end
+
+            for _, folder in ipairs(targetSets) do
+                local children = folder:GetChildren()
+
+                for i = 1, #children do
+                    local mob = children[i]
+                    local entry = AoETargetCache[mob]
+
+                    if not entry then
+                        entry = {}
+                        AoETargetCache[mob] = entry
+                    end
+
+                    local healthProperties = entry.HealthProperties
+
+                    if not healthProperties then
+                        healthProperties = mob:FindFirstChild("HealthProperties")
+                        entry.HealthProperties = healthProperties
+                    end
+
+                    local health = entry.Health
+
+                    if not health then
+                        health = healthProperties and healthProperties:FindFirstChild("Health")
+                        entry.Health = health
+                    end
+
+                    if health and health.Value <= 0 then
+                        continue
+                    end
+
+                    local collider = entry.Collider
+
+                    if not collider then
+                        collider = mob:FindFirstChild("Collider")
+
+                        if not collider then
+                            collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart")
+                        end
+
+                        entry.Collider = collider
+                    end
+
+                    if collider then
+                        local ok, closest = pcall(collider.GetClosestPointOnSurface, collider, hrpPos)
+
+                        if ok and closest then
+                            local sep = (hrpPos - closest).Magnitude
+
+                            if sep <= maxRange then
+                                targets[#targets + 1] = {
+                                    Mob = mob,
+                                    Collider = collider,
+                                    Closest = closest,
+                                    Sep = sep
+                                }
+                            end
+                        end
+                    end
+                end
+            end
+
+            return targets
+        end
         local function run_aoe_killaura_loop()
             if not Class then
                 Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
@@ -24298,11 +23977,17 @@ If available to your executor the script will reset your character and then invi
                 local mobs = {}
                 local mobPositions = {}
                 local passCounter = 0
+                local mobCache = setmetatable({}, { __mode = "k" })
+                local lastCount = 0
 
                 while Settings.AoEKillauraActive do
                     table.clear(candidates)
                     table.clear(mobs)
                     table.clear(mobPositions)
+
+                    if lastCount == 0 then
+                        task.wait(0.1)
+                    end
 
                     for _, mob in ipairs(MobsFolder:GetChildren()) do
                         table.insert(candidates, mob)
@@ -24319,17 +24004,41 @@ If available to your executor the script will reset your character and then invi
 
                     for i = 1, #candidates do
                         local mob = candidates[i]
-                        local healthProperties = _findFirstChild(mob, "HealthProperties")
-                        local health = healthProperties and _findFirstChild(healthProperties, "Health")
+                        local entry = mobCache[mob]
+
+                        if not entry then
+                            entry = {}
+                            mobCache[mob] = entry
+                        end
+
+                        local healthProperties = entry.HealthProperties
+
+                        if not healthProperties then
+                            healthProperties = _findFirstChild(mob, "HealthProperties")
+                            entry.HealthProperties = healthProperties
+                        end
+
+                        local health = entry.Health
+
+                        if not health then
+                            health = healthProperties and _findFirstChild(healthProperties, "Health")
+                            entry.Health = health
+                        end
 
                         if health and health.Value <= 0 then
                             continue
                         end
 
-                        local collider = _findFirstChild(mob, "Collider")
+                        local collider = entry.Collider
 
                         if not collider then
-                            collider = mob.PrimaryPart or _findFirstChild(mob, "Part") or _findFirstChild(mob, "MeshPart")
+                            collider = _findFirstChild(mob, "Collider")
+
+                            if not collider then
+                                collider = mob.PrimaryPart or _findFirstChild(mob, "Part") or _findFirstChild(mob, "MeshPart")
+                            end
+
+                            entry.Collider = collider
                         end
 
                         if collider then
@@ -24342,6 +24051,8 @@ If available to your executor the script will reset your character and then invi
                             end
                         end
                     end
+
+                    lastCount = count
 
                     if count == 0 then
                         Heartbeat:Wait()
@@ -24541,60 +24252,103 @@ If available to your executor the script will reset your character and then invi
                 local now
                 local hrpCFrame
                 local cd
+                local aoeTargets = nil
 
                 while Settings.FastKillauraActive do
-                    target = CurrentTargetMob
-
-                    if not (target and target.Parent) then
-                        target = PickKillauraTarget()
-                        CurrentTargetMob = target
+                    if not (hrp and hrp.Parent) then
+                        RunService_Heartbeat:Wait()
+                        continue
                     end
 
-                    if target then
-                        collider = _findFirstChild(target, "Collider")
+                    hrpPos = hrp.Position
+                    now = _time()
+                    hrpCFrame = hrp.CFrame
+                    aoeTargets = nil
 
-                        if not collider then
-                            collider = target.PrimaryPart or _findFirstChild(target, "Part") or _findFirstChild(target, "MeshPart")
+                    if Settings.AoEKillaura then
+                        aoeTargets = CollectAoETargets(hrp, 50)
+                    end
+
+                    if not aoeTargets or #aoeTargets == 0 then
+                        aoeTargets = nil
+                        target = CurrentTargetMob
+
+                        if not (target and target.Parent) then
+                            target = PickKillauraTarget()
+                            CurrentTargetMob = target
                         end
 
-                        if collider and hrp and hrp.Parent then
-                            hrpPos = hrp.Position
-                            closest = _getClosest(collider, hrpPos)
-                            sep = (hrpPos - closest).Magnitude
-                            now = _time()
-                            hrpCFrame = hrp.CFrame
-                            for i = 1, numSkills do
-                                local s = Skills[i]
-                                cd = s._cachedCD
-                                if now - (s.LastUsed or 0) >= cd + zeroThreshold and s.Distance >= sep then
-                                    local handler = handlers[s._typeID]
-                                    if handler then
-                                        if s._typeID == TYPE_STARBREAKER then
-                                            local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
-                                            if Status and Status:FindFirstChild("Starforge") then
-                                                local distUnit = (closest - hrpPos).Unit
-                                                for k = 1, NUM_STARBREAK_HITS do
-                                                    combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
-                                                end
-                                            end
-                                        else
-                                            handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
-                                        end
-                                        s.LastUsed = now
-                                    else
-                                        HandleError("KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
-                                        return
-                                    end
-                                end
+                        if target then
+                            collider = _findFirstChild(target, "Collider")
+
+                            if not collider then
+                                collider = target.PrimaryPart or _findFirstChild(target, "Part") or _findFirstChild(target, "MeshPart")
                             end
 
-                            RunService_Heartbeat:Wait()
-                        else
-                            RunService_Heartbeat:Wait()
+                            if collider then
+                                closest = _getClosest(collider, hrpPos)
+                                sep = (hrpPos - closest).Magnitude
+                            else
+                                closest = nil
+                            end
                         end
-                    else
-                        RunService_Heartbeat:Wait()
                     end
+
+                    for i = 1, numSkills do
+                        local s = Skills[i]
+                        cd = s._cachedCD
+
+                        if now - (s.LastUsed or 0) >= cd + zeroThreshold then
+                            local handler = handlers[s._typeID]
+
+                            if handler then
+                                if aoeTargets then
+                                    for t = 1, #aoeTargets do
+                                        local tgt = aoeTargets[t]
+
+                                        if s.Distance >= tgt.Sep then
+                                            if s._typeID == TYPE_STARBREAKER then
+                                                local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+
+                                                if Status and Status:FindFirstChild("Starforge") then
+                                                    local distUnit = (tgt.Closest - hrpPos).Unit
+
+                                                    for k = 1, NUM_STARBREAK_HITS do
+                                                        combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                    end
+                                                end
+                                            else
+                                                handler(s.Skill, tgt.Mob, tgt.Closest, hrpPos, hrpCFrame, isRanged)
+                                            end
+                                        end
+                                    end
+
+                                    s.LastUsed = now
+                                elseif target and closest and s.Distance >= sep then
+                                    if s._typeID == TYPE_STARBREAKER then
+                                        local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+
+                                        if Status and Status:FindFirstChild("Starforge") then
+                                            local distUnit = (closest - hrpPos).Unit
+
+                                            for k = 1, NUM_STARBREAK_HITS do
+                                                combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                            end
+                                        end
+                                    else
+                                        handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
+                                    end
+
+                                    s.LastUsed = now
+                                end
+                            else
+                                HandleError("KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
+                                return
+                            end
+                        end
+                    end
+
+                    RunService_Heartbeat:Wait()
                 end
             end)
 
@@ -24612,6 +24366,8 @@ If available to your executor the script will reset your character and then invi
                 end
 
                 Settings.Killaura = true
+                Settings.AoEKillauraActive = nil
+                Settings.AoEKillauraThread = nil
 
                 local ok, result = pcall(function()
                     if LocalPlayer then
@@ -24727,7 +24483,7 @@ If available to your executor the script will reset your character and then invi
 
                                     if AttackReady and not CanAttack then
                                         if Settings.FastKillaura then
-                                            task.wait(0.002)
+                                            task.wait(0.02)
                                         else
                                             task.wait(AttackReady)
                                         end
@@ -24753,17 +24509,17 @@ local skillAttackHandlers = {
 					Melee = function(skill, targetClosest)
                         Combat_Attack2:FireServer(skill, HumanoidRootPart.Position, (targetClosest - HumanoidRootPart.Position).Unit, 67)
                     end,
-					ShadowChain = function(skillRemote)
+					ShadowChain = function(skillRemote, _, targetMob)
                         skillRemote:FireServer({
-								CurrentTargetMob,
-								CurrentTargetMob,
-								CurrentTargetMob,
-								CurrentTargetMob,
-								CurrentTargetMob
+								targetMob,
+								targetMob,
+								targetMob,
+								targetMob,
+								targetMob
 							})
                     end,
-					TableRemote = function(skillRemote)
-                        skillRemote:FireServer(CurrentTargetMob)
+					TableRemote = function(skillRemote, _, targetMob)
+                        skillRemote:FireServer(targetMob)
                     end,
 					Remote = function(skillRemote)
                         skillRemote:FireServer()
@@ -24805,11 +24561,23 @@ local skillAttackHandlers = {
                     local _ = Settings.Killaura
 
                     repeat
-                        for _, v in pairs(Class.Skills) do
-                            if not CurrentTargetMob then
-                                continue
-                            end
+                        local TargetList = nil
 
+                        if Settings.AoEKillaura then
+                            TargetList = CollectAoETargets(HumanoidRootPart, 50)
+                        end
+
+                        if not TargetList or #TargetList == 0 then
+                            TargetList = nil
+                        end
+
+                        if not TargetList and not CurrentTargetMob then
+                            task.wait()
+
+                            continue
+                        end
+
+                        for _, v in pairs(Class.Skills) do
                             local Cooldown = v.Cooldown
 
                             local FastKillauraBuffer = Settings.FastKillaura and 0.02 or 0
@@ -24819,26 +24587,7 @@ local skillAttackHandlers = {
                             end
 
                             local vType = v.Type
-                            local Collider7 = CurrentTargetMob:FindFirstChild("Collider")
-
-                            if not Collider7 then
-                                continue
-                            end
-
-                            local Distance = v.Distance
-                            local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider7.Position)
-                            local ClosestPointOnSurface3 = Collider7:GetClosestPointOnSurface(HumanoidRootPart.Position)
-
-                            if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface3).Magnitude) then
-                                continue
-                            end
-
-                            local T = CurrentTargetMob:GetAttribute("T")
-
-                            if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then
-                                break
-                            end
-
+                            local skillTargets = TargetList or { { Mob = CurrentTargetMob, Closest = nil } }
                             local attackHandler = skillAttackHandlers[vType]
 
                             if not attackHandler then
@@ -24848,12 +24597,36 @@ local skillAttackHandlers = {
                                 break
                             end
 
-                            attackHandler(v.Skill, ClosestPointOnSurface3)
+                            for _, skillTarget in ipairs(skillTargets) do
+                                local TargetMob = skillTarget.Mob
+                                local Collider7 = TargetMob:FindFirstChild("Collider")
+
+                                if not Collider7 then
+                                    continue
+                                end
+
+                                local Distance = v.Distance
+                                local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider7.Position)
+                                local ClosestPointOnSurface3 = skillTarget.Closest or Collider7:GetClosestPointOnSurface(HumanoidRootPart.Position)
+
+                                if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface3).Magnitude) then
+                                    continue
+                                end
+
+                                local T = TargetMob:GetAttribute("T")
+
+                                if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then
+                                    break
+                                end
+
+                                attackHandler(v.Skill, ClosestPointOnSurface3, TargetMob)
+                            end
+
                             v.LastUsed = time()
 
                             if AttackReady and not CanAttack then
                                 if Settings.FastKillaura then
-                                    task.wait(0.002)
+                                    task.wait(0.02)
                                 else
                                     task.wait(AttackReady)
                                 end
@@ -24892,6 +24665,8 @@ local skillAttackHandlers = {
             if enabled then
                 Settings.FastKillaura = true
                 Settings.FastKillauraActive = true
+                Settings.AoEKillauraActive = nil
+                Settings.AoEKillauraThread = nil
 
                 if not Settings.FastKillauraThread then
                     Settings.FastKillauraThread = task.spawn(run_fast_killaura_loop)
@@ -24906,21 +24681,20 @@ local skillAttackHandlers = {
         end)
         Toggles.AoEKillauraToggle:OnChanged(function(enabled)
             if enabled then
-                Settings.AoEKillauraActive = true
-                Toggles.KillauraToggle:SetDisabled(true)
-                Toggles.KillauraToggle:SetValue(false)
-                Toggles.FastKillauraToggle:SetDisabled(true)
-                Toggles.FastKillauraToggle:SetValue(false)
+                Settings.AoEKillaura = true
 
-                if not Settings.AoEKillauraThread then
-                    Settings.AoEKillauraThread = task.spawn(run_aoe_killaura_loop)
+                if not Settings.FastKillauraActive and not Settings.Killaura then
+                    Settings.AoEKillauraActive = true
+
+                    if not Settings.AoEKillauraThread then
+                        Settings.AoEKillauraThread = task.spawn(run_aoe_killaura_loop)
+                    end
                 end
 
                 return
             end
 
-            Toggles.KillauraToggle:SetDisabled(false)
-            Toggles.FastKillauraToggle:SetDisabled(false)
+            Settings.AoEKillaura = nil
             Settings.AoEKillauraActive = nil
             Settings.AoEKillauraThread = nil
         end)
