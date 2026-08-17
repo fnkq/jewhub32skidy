@@ -19716,11 +19716,11 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 		Icon = "swords",
 		Description = "Combat, farming and utility"
 	})
-    if InMainMenu or InLobby then
+if InMainMenu or InLobby then
         GenTab:UpdateWarningBox({
-			Title = "Warning",
-			Text = "Script functionality is heavily limited when outside of dungeons. Most functions have been entirely disabled for your safety.",
-			IsNormal = false,
+			Title = "Note",
+			Text = "Most features only work inside dungeons.",
+			IsNormal = true,
 			Visible = true,
 			LockSize = true
 		})
@@ -19897,6 +19897,405 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         MaxPingTolerance = restartDelay
     end
 	})
+    task.wait()
+    _G.ScriptStep = "creating character viewport"
+    local CharacterSlots = { "Primary", "Armor", "Offhand" }
+    local RarityNames = { [2] = "Uncommon", [3] = "Rare", [4] = "Epic", [5] = "Legendary", [7] = "Mythic" }
+    local selectedSlot = "Primary"
+    local selectedItem = nil
+    local CharacterModel = nil
+    local CharacterCamera = Instance.new("Camera")
+    local CharacterChannelVF = nil
+    local CharacterViewportLabel = nil
+    local CharacterStatusLabel = nil
+    local CharacterItemDropdown = nil
+    local ViewportDragging = false
+    local LastViewportMousePos = nil
+    local function FocusCharacterCamera()
+        if not CharacterModel then
+            return
+        end
+
+        local pivot = CharacterModel:GetPivot().Position
+        local _, size = CharacterModel:GetBoundingBox()
+        local maxExtent = math.max(size.X, size.Y, size.Z)
+        CharacterCamera.CFrame = CFrame.lookAt(pivot + Vector3.new(0, 2, math.max(maxExtent * 2.2, 6)), pivot + Vector3.new(0, 2, 0))
+    end
+    local function OrbitCharacterCamera(mouseDelta)
+        if not CharacterModel then
+            return
+        end
+
+        local Position = CharacterModel:GetPivot().Position
+        local RotationY = CFrame.fromAxisAngle(Vector3.new(0, 1, 0), -mouseDelta.X * 0.01)
+        CharacterCamera.CFrame = CFrame.new(Position) * RotationY * CFrame.new(-Position) * CharacterCamera.CFrame
+
+        local RotationX = CFrame.fromAxisAngle(CharacterCamera.CFrame.RightVector, -mouseDelta.Y * 0.01)
+        local PitchedCFrame = CFrame.new(Position) * RotationX * CFrame.new(-Position) * CharacterCamera.CFrame
+
+        if PitchedCFrame.UpVector.Y > 0.1 then
+            CharacterCamera.CFrame = PitchedCFrame
+        end
+    end
+    local function RefreshCharacterView()
+        local char = LocalPlayer.Character
+
+        if not char then
+            CharacterViewportLabel:SetText("Join a lobby to preview your character")
+
+            return
+        end
+
+        local ok, result = pcall(function()
+            local clone = char:Clone()
+
+            for _, script in pairs(clone:GetDescendants()) do
+                if script:IsA("LocalScript") then
+                    script:Destroy()
+                end
+            end
+
+            CharacterModel = clone
+            CharacterModel.Parent = CharacterChannelVF
+            CharacterChannelVF.CurrentCamera = CharacterCamera
+            FocusCharacterCamera()
+        end)
+
+        if not ok then
+            CharacterViewportLabel:SetText("Failed to load character")
+
+            return
+        end
+
+        CharacterViewportLabel:SetText("Player: " .. PlayerName)
+    end
+    local function RebuildItemList()
+        local ok, result = pcall(function()
+            local backpack = ResolveBackpack() or PlayerBackpack
+            local Items = backpack and backpack:FindFirstChild("Items")
+
+            if not Items then
+                CharacterItemDropdown:SetValues({ "No items" })
+
+                return
+            end
+
+            local display = {}
+            local count = 0
+
+            for _, child in pairs(Items:GetChildren()) do
+                local Level = child:FindFirstChild("Level")
+
+                if not Level then
+                    continue
+                end
+
+                local rarity = GetRarity(child)
+
+                if typeof(rarity) ~= "number" then
+                    continue
+                end
+
+                local rarityName = RarityNames[rarity] or "Common"
+                display[child.Name] = ("[Lv %s] %s (%s)"):format(Level.Value, child.Name, rarityName)
+                count += 1
+            end
+
+            if count == 0 then
+                CharacterItemDropdown:SetValues({ "No equipment items" })
+            else
+                CharacterItemDropdown:SetValues(display)
+            end
+        end)
+
+        if not ok then
+            HandleError("ITEM LIST", tostring(result))
+        end
+    end
+    local function UpdateEquipStatus()
+        local ok, result = pcall(function()
+            local playerEquips = ReplicatedStorage.PlayerEquips and ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
+
+            if not playerEquips then
+                CharacterStatusLabel:SetText("No equips loaded")
+
+                return
+            end
+
+            local parts = {}
+
+            for _, slot in pairs(CharacterSlots) do
+                local equipFolder = playerEquips[slot]
+                local Folder = equipFolder and equipFolder:FindFirstChildWhichIsA("Folder")
+
+                if Folder then
+                    parts[#parts + 1] = slot .. ": " .. Folder.Name
+                end
+            end
+
+            if #parts == 0 then
+                CharacterStatusLabel:SetText("Nothing equipped")
+            else
+                CharacterStatusLabel:SetText(table.concat(parts, "  |  "))
+            end
+        end)
+
+        if not ok then
+            CharacterStatusLabel:SetText("Equips unavailable")
+        end
+    end
+    local function RefreshAll()
+        RefreshCharacterView()
+        RebuildItemList()
+        UpdateEquipStatus()
+    end
+    local function BuildRawButton(parent, text, callback)
+        local ButtonFrame = Instance.new("TextButton")
+        ButtonFrame.BackgroundColor3 = Library.Scheme.MainColor
+        ButtonFrame.BackgroundTransparency = 0
+        ButtonFrame.BorderSizePixel = 0
+        ButtonFrame.Size = UDim2.new(1, 0, 0, 34)
+        ButtonFrame.Text = text
+        ButtonFrame.TextColor3 = Library.Scheme.FontColor
+        ButtonFrame.TextTransparency = 0.4
+        ButtonFrame.TextSize = 14
+        ButtonFrame.FontFace = Library.Scheme.Font
+        ButtonFrame.Parent = parent
+        local Stroke = Instance.new("UIStroke")
+        Stroke.Color = Library.Scheme.OutlineColor
+        Stroke.Transparency = 0
+        Stroke.Parent = ButtonFrame
+        local Corner = Instance.new("UICorner")
+        Corner.CornerRadius = UDim.new(0, 4)
+        Corner.Parent = ButtonFrame
+        ButtonFrame.MouseEnter:Connect(function()
+            ButtonFrame.BackgroundColor3 = Library:GetBetterColor(Library.Scheme.MainColor, 4)
+        end)
+        ButtonFrame.MouseLeave:Connect(function()
+            ButtonFrame.BackgroundColor3 = Library.Scheme.MainColor
+        end)
+        ButtonFrame.MouseButton1Click:Connect(callback)
+
+        return ButtonFrame
+    end
+    CharacterBox = GenTab:AddLeftGroupbox("Character")
+    local CharacterLayout = Instance.new("Frame")
+    CharacterLayout.BackgroundTransparency = 1
+    CharacterLayout.Size = UDim2.new(1, 0, 1, 0)
+    local LayoutList = Instance.new("UIListLayout")
+    LayoutList.FillDirection = Enum.FillDirection.Horizontal
+    LayoutList.Padding = UDim.new(0, 8)
+    LayoutList.SortOrder = Enum.SortOrder.LayoutOrder
+    LayoutList.Parent = CharacterLayout
+    CharacterChannelVF = Instance.new("ViewportFrame")
+    CharacterChannelVF.BackgroundTransparency = 1
+    CharacterChannelVF.Size = UDim2.new(0.7, 0, 1, 0)
+    CharacterChannelVF.CurrentCamera = CharacterCamera
+    CharacterChannelVF.Active = true
+    CharacterChannelVF.LayoutOrder = 1
+    CharacterChannelVF.Parent = CharacterLayout
+    local CharacterButtonColumn = Instance.new("Frame")
+    CharacterButtonColumn.BackgroundTransparency = 1
+    CharacterButtonColumn.Size = UDim2.new(0.3, 0, 1, 0)
+    CharacterButtonColumn.LayoutOrder = 2
+    CharacterButtonColumn.Parent = CharacterLayout
+    local ButtonColumnList = Instance.new("UIListLayout")
+    ButtonColumnList.Padding = UDim.new(0, 6)
+    ButtonColumnList.SortOrder = Enum.SortOrder.LayoutOrder
+    ButtonColumnList.VerticalAlignment = Enum.VerticalAlignment.Center
+    ButtonColumnList.Parent = CharacterButtonColumn
+    Connections.ConnectCharacterOrbit = CharacterChannelVF.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton2 or input.UserInputType == Enum.UserInputType.Touch then
+            ViewportDragging = true
+            LastViewportMousePos = input.Position
+        end
+    end)
+    Connections.ConnectCharacterOrbitEnd = UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton2 or input.UserInputType == Enum.UserInputType.Touch then
+            ViewportDragging = false
+        end
+    end)
+    Connections.ConnectCharacterOrbitMove = UserInputService.InputChanged:Connect(function(input)
+        if not ViewportDragging or not CharacterModel then
+            return
+        end
+
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            local MouseDelta = input.Position - LastViewportMousePos
+            LastViewportMousePos = input.Position
+            OrbitCharacterCamera(MouseDelta)
+        end
+    end)
+    Connections.ConnectCharacterZoom = CharacterChannelVF.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseWheel and CharacterModel then
+            CharacterCamera.CFrame += CharacterCamera.CFrame.LookVector * (input.Position.Z * 2)
+        end
+    end)
+    local CharacterEquipButton = BuildRawButton(CharacterButtonColumn, "Equip selected", function()
+        if not selectedItem or selectedItem == "No items" or selectedItem == "No equipment items" or selectedItem == "Loading..." then
+            Library:Notify("No item selected", 3)
+
+            return
+        end
+
+        local ok, result = pcall(function()
+            local backpack = ResolveBackpack() or PlayerBackpack
+            local child = backpack:WaitForChild("Items", 1e999):FindFirstChild(selectedItem)
+
+            if not child then
+                return false
+            end
+
+            local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
+            local equipFolder = playerEquips[selectedSlot]
+            local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
+            BuySellLock += 1
+            Inventory_EquipItem:FireServer(child, equipFolder)
+            BuySellLock -= 1
+
+            return true
+        end)
+
+        if not ok then
+            HandleError("EQUIP SELECTED", tostring(result))
+
+            return
+        end
+
+        Library:Notify(("Equipping %s to %s"):format(selectedItem, selectedSlot), 3)
+        task.delay(2, RefreshAll)
+    end)
+    local CharacterEquipBestButton = BuildRawButton(CharacterButtonColumn, "Equip best", function()
+        local ok, result = pcall(function()
+            local backpack = ResolveBackpack() or PlayerBackpack
+            local Items = backpack:WaitForChild("Items", 1e999)
+            local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
+            local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
+            local best = {}
+            local used = {}
+
+            for _, slot in pairs(CharacterSlots) do
+                local bestChild = nil
+                local bestLevel = -1
+                local bestRarity = -1
+
+                for _, child in pairs(Items:GetChildren()) do
+                    if used[child] then
+                        continue
+                    end
+
+                    local Level = child:FindFirstChild("Level")
+
+                    if not Level then
+                        continue
+                    end
+
+                    local rarity = GetRarity(child)
+
+                    if typeof(rarity) ~= "number" then
+                        continue
+                    end
+
+                    if Level.Value > bestLevel or (Level.Value == bestLevel and rarity > bestRarity) then
+                        bestChild = child
+                        bestLevel = Level.Value
+                        bestRarity = rarity
+                    end
+                end
+
+                if bestChild then
+                    best[slot] = { Child = bestChild, Level = bestLevel, Rarity = bestRarity }
+                    used[bestChild] = true
+                end
+            end
+
+            local equippedCount = 0
+            BuySellLock += 1
+
+            for _, slot in pairs(CharacterSlots) do
+                local entry = best[slot]
+
+                if not entry then
+                    continue
+                end
+
+                local equipFolder = playerEquips[slot]
+                local Folder = equipFolder and equipFolder:FindFirstChildWhichIsA("Folder")
+                local oldLevel = Folder and Folder:FindFirstChild("Level")
+                local oldRarity = Folder and GetRarity(Folder)
+                local isBetter = not oldLevel
+                    or entry.Level > oldLevel.Value
+                    or (entry.Level == oldLevel.Value and typeof(oldRarity) == "number" and entry.Rarity > oldRarity)
+
+                if isBetter then
+                    Inventory_EquipItem:FireServer(entry.Child, equipFolder)
+                    equippedCount += 1
+                end
+            end
+
+            BuySellLock -= 1
+
+            return equippedCount
+        end)
+
+        if not ok then
+            HandleError("EQUIP BEST", tostring(result))
+
+            return
+        end
+
+        if result and result > 0 then
+            Library:Notify(("Equipped %s item(s)"):format(result), 3)
+        else
+            Library:Notify("Already wearing the best items", 3)
+        end
+
+        task.delay(2, RefreshAll)
+    end)
+    local CharacterRefreshButton = BuildRawButton(CharacterButtonColumn, "Refresh view", function()
+        RefreshAll()
+    end)
+    CharacterBox:AddUIPassthrough("CharacterLayout", {
+        Instance = CharacterLayout,
+        Height = 230
+    })
+    CharacterViewportLabel = CharacterBox:AddLabel("Join a lobby to preview your character")
+    CharacterStatusLabel = CharacterBox:AddLabel("Nothing equipped")
+    local CharacterSlotDropdown = CharacterBox:AddDropdown("CharacterSlotDropdown", {
+        Text = "Slot",
+        Values = { "Primary", "Armor", "Offhand" },
+        Default = "Primary"
+    })
+    CharacterItemDropdown = CharacterBox:AddDropdown("CharacterItemDropdown", {
+        Text = "Item",
+        Values = { "Loading..." },
+        Default = "Loading..."
+    })
+    CharacterSlotDropdown:OnChanged(function(value)
+        selectedSlot = value
+    end)
+    CharacterItemDropdown:OnChanged(function(value)
+        selectedItem = value
+    end)
+    if not Connections.ConnectCharacterView then
+        Connections.ConnectCharacterView = LocalPlayer.CharacterAdded:Connect(function()
+            task.delay(2, RefreshCharacterView)
+        end)
+    end
+    task.spawn(function()
+        local backpack = ResolveBackpack() or PlayerBackpack
+        local Items = backpack and backpack:FindFirstChild("Items")
+
+        if Items and not Connections.ConnectCharacterItems then
+            Connections.ConnectCharacterItems = Items.ChildAdded:Connect(function()
+                task.delay(0.5, RebuildItemList)
+            end)
+        end
+
+        task.wait(1)
+        RefreshAll()
+    end)
+    CharacterBox:Resize()
     task.wait()
     _G.ScriptStep = "creating event tab"
     EventTabIconTable = {
@@ -22943,7 +23342,6 @@ If available to your executor the script will reset your character and then invi
 		Tooltip = "Does exactly what you think it does"
 	})
     FirstTab = MiscTabLeft:AddTab("Extra")
-    WebhookTab = MiscTabLeft:AddTab("Webhooks")
     SecondTab = MiscTabLeft:AddTab("Hide ui's")
     SecondTab:AddToggle("WaystoneToggle", {
 		Text = "Hide closest waystone",
@@ -22990,7 +23388,7 @@ If available to your executor the script will reset your character and then invi
 		Default = false,
 		Tooltip = "Hides the roblox icons from your screen in the top left"
 	})
-    MiscTabRight = MiscTab:AddRightTabbox("Extras")
+    PerformanceTabbox = MiscTab:AddLeftTabbox("Extras")
     FirstTab:AddInput("JoinPlayerInput", {
 		Text = "Enter name",
 		Default = "",
@@ -23099,7 +23497,7 @@ If available to your executor the script will reset your character and then invi
         end
     end
 	})
-    SecondTab = MiscTabRight:AddTab("Performance")
+    SecondTab = PerformanceTabbox:AddTab("Performance")
     SecondTab:AddToggle("RemoveOtherPlayersToggle", {
 		Text = "Remove other players",
 		Default = false,
@@ -23140,6 +23538,7 @@ If available to your executor the script will reset your character and then invi
 
     task.wait()
     _G.ScriptStep = "creating webhooks tab"
+    WebhookBox = MiscTab:AddRightGroupbox("Webhooks")
     local function buildDiscordEmbed(titleText, descriptionText, fields, accentColor)
         local embedColor = accentColor or Settings.DiscordEmbedColor or Color3.fromRGB(255, 255, 255)
         local colorInt = math.floor(embedColor.r * 255) * 65536 + math.floor(embedColor.g * 255) * 256 + math.floor(embedColor.b * 255)
@@ -23188,8 +23587,8 @@ If available to your executor the script will reset your character and then invi
         return okResult, errResult
     end
 
-    WebhookTab:AddLabel("Webhook", true)
-    WebhookTab:AddInput("DiscordWebhookInput", {
+    WebhookBox:AddLabel("Webhook", true)
+    WebhookBox:AddInput("DiscordWebhookInput", {
 		Text = "Webhook URL",
 		Default = "",
 		Placeholder = "https://discord.com/api/webhooks/...",
@@ -23198,13 +23597,13 @@ If available to your executor the script will reset your character and then invi
 			Settings.DiscordWebhookLink = (urlValue == "" and "" or urlValue)
 		end
 	})
-    WebhookTab:AddInput("DiscordWebhookNameInput", {
+    WebhookBox:AddInput("DiscordWebhookNameInput", {
 		Text = "Webhook name",
 		Default = "JewHub",
 		Placeholder = "JewHub",
 		Tooltip = "How the bot will appear when it sends messages."
 	})
-    WebhookTab:AddDropdown("DiscordPingDropdown", {
+    WebhookBox:AddDropdown("DiscordPingDropdown", {
 		Text = "Mention",
 		Values = {
 			"No ping",
@@ -23216,7 +23615,7 @@ If available to your executor the script will reset your character and then invi
 		Default = "No ping",
 		Tooltip = "Mentions everyone or online members in the channel whenever a notification is sent."
 	})
-    local discordColorLabel = WebhookTab:AddLabel("Embed color")
+    local discordColorLabel = WebhookBox:AddLabel("Embed color")
     local discordColorPicker = discordColorLabel:AddColorPicker("DiscordEmbedColorPicker", {
 		Title = "Embed color",
 		Default = Color3.fromRGB(255, 255, 255),
@@ -23224,10 +23623,10 @@ If available to your executor the script will reset your character and then invi
 			Settings.DiscordEmbedColor = colorValue
 		end
 	})
-    WebhookTab:AddDivider({
+    WebhookBox:AddDivider({
 		Margin = -5
 	})
-    WebhookTab:AddButton({
+    WebhookBox:AddButton({
 		Text = "Send test embed",
 		Tooltip = "Posts a sample embed to your webhook so you can preview the formatting before enabling notifications.",
 		DoubleClick = true,
@@ -23250,33 +23649,33 @@ If available to your executor the script will reset your character and then invi
         end
     end
 	})
-    WebhookTab:AddLabel("Embeds are sent asynchronously and never block the script.", true)
-    WebhookTab:AddDivider({
+    WebhookBox:AddLabel("Embeds are sent asynchronously and never block the script.", true)
+    WebhookBox:AddDivider({
 		Margin = -5
 	})
-    WebhookTab:AddLabel("Events", true)
-    WebhookTab:AddToggle("DiscordScriptLoadedToggle", {
+    WebhookBox:AddLabel("Events", true)
+    WebhookBox:AddToggle("DiscordScriptLoadedToggle", {
 		Text = "Script loaded",
 		Default = false,
 		Tooltip = "Sends an embed to your webhook every time the script finishes loading."
 	})
-    WebhookTab:AddToggle("DiscordErrorToggle", {
+    WebhookBox:AddToggle("DiscordErrorToggle", {
 		Text = "Script errors",
 		Default = false,
 		Tooltip = "Sends an embed whenever the script catches a runtime error, including the location and error message."
 	})
-    WebhookTab:AddDivider({
+    WebhookBox:AddDivider({
 		Margin = -5
 	})
-    WebhookTab:AddLabel("Guide", true)
-    WebhookTab:AddLabel("1. Open your Discord server\n2. Go to Server Settings > Integrations > Webhooks\n3. Create a webhook and copy its URL\n4. Paste the URL into 'Webhook URL'\n5. Press 'Send test embed' to confirm it works", true)
-    WebhookTab:AddLabel("", true)
-    WebhookTab:AddLabel("Notifications are sent as rich embeds that include the script version, your executor, your account name and a timestamp. The color and mention settings above control how they look.", true)
+    WebhookBox:AddLabel("Guide", true)
+    WebhookBox:AddLabel("1. Open your Discord server\n2. Go to Server Settings > Integrations > Webhooks\n3. Create a webhook and copy its URL\n4. Paste the URL into 'Webhook URL'\n5. Press 'Send test embed' to confirm it works", true)
+    WebhookBox:AddLabel("", true)
+    WebhookBox:AddLabel("Notifications are sent as rich embeds that include the script version, your executor, your account name and a timestamp. The color and mention settings above control how they look.", true)
     _G.ScriptStep = "creating config tab"
     ConfigTab = Window:AddTab({
 		Name = "Settings",
 		Icon = "settings",
-		Description = "UI appearance, keybinds and configs"
+		Description = "UI appearance and configs"
 	})
     ConfigTabLeft = ConfigTab:AddLeftTabbox("Main")
     FirstTab = ConfigTabLeft:AddTab("Main")
