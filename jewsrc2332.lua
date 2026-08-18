@@ -472,7 +472,7 @@ local SkillActive = true
 local MaxDungeonLevel = 1
 if QueueOnTeleport then
     if isfile("JEW/AutoExecute") then
-        QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
+        QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua\"))()")
         Settings.AlreadyQueued = true
     end
 end
@@ -28190,7 +28190,7 @@ local backpackRef = ResolveBackpack()
             end
 
             if not Settings.AlreadyQueued and QueueOnTeleport then
-                QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
+                QueueOnTeleport("loadstring(game:HttpGet("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua"))()")
             end
         end
     end)
