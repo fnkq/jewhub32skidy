@@ -1,7 +1,7 @@
 pcall(function()
     local HttpService = game:GetService("HttpService")
     local function preCache(url, key)
-        local path = "PORN/ignore/" .. key
+        local path = "JEW/ignore/" .. key
         if isfile and not isfile(path) then
             local ok, content = pcall(function() return game:HttpGet(url, true) end)
             if ok and content then
@@ -258,6 +258,35 @@ local function findHttpSender()
         end
     end
 
+    if not sender then
+        for _, executorName in ipairs({ "syn", "fluxus", "krnl", "comet", "hydrogen", "delta", "vex", "electron", "trigon", "evon", "krampus", "valyse", "solara" }) do
+            local executorModule = getgenv()[executorName]
+
+            if executorModule and typeof(executorModule) == "table" and typeof(executorModule.request) == "function" then
+                sender = executorModule.request
+
+                break
+            end
+        end
+    end
+
+    if not sender then
+        local defaultHttpService = game:GetService("HttpService")
+
+        sender = function(options)
+            if not defaultHttpService.HttpEnabled then
+                error("HTTP disabled")
+            end
+
+            defaultHttpService:PostAsync(options.Url, options.Body, Enum.HttpContentType.ApplicationJson)
+
+            return {
+				StatusCode = 200,
+				Body = "sent"
+			}
+        end
+    end
+
     return sender
 end
 
@@ -401,6 +430,11 @@ local MobsFolder = GetServiceCloned(Workspace, "Mobs")
 local MissionObjects
 _G.ScriptStep = "setting up script variables"
 local Settings = {}
+-- HARD-DISABLED: player teleport features trip the server's TeleportAntiCheat
+-- (TimesCaught is already 1 on this account; the next record escalates). Every
+-- player-position write is gated behind this flag. Killaura melee orbit keeps a
+-- tiny sub-flag radius on purpose.
+Settings.AllowPlayerTeleports = false
 local Tracking = {}
 Tracking.MobTable = {}
 local Flags = {}
@@ -437,7 +471,7 @@ local CanAttack
 local SkillActive = true
 local MaxDungeonLevel = 1
 if QueueOnTeleport then
-    if isfile("PORN/AutoExecute") then
+    if isfile("JEW/AutoExecute") then
         QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
         Settings.AlreadyQueued = true
     end
@@ -569,10 +603,10 @@ _G.ScriptStep = "message handler"
 task.wait()
 _G.ScriptStep = "save error"
 local HandleError = function(errorLocation, errorMessage, errorExtra)
-    if isfile("PORN_script_error.txt") then
-        appendfile("PORN_script_error.txt", "\n\nError:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
+    if isfile("JEW_script_error.txt") then
+        appendfile("JEW_script_error.txt", "\n\nError:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     else
-        writefile("PORN_script_error.txt", "Error:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
+        writefile("JEW_script_error.txt", "Error:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     end
 
     ShowErrorScreen(errorLocation, errorMessage, errorExtra, nil)
@@ -692,7 +726,7 @@ local function MainScript()
         local MissionTimer
         local ok, result = pcall(function()
             if isfile and (writefile and readfile) then
-                local EventDungeonCheck = "PORN/ignore/" .. fileName
+                local EventDungeonCheck = "JEW/ignore/" .. fileName
 
                 if forceRefresh and isfile(EventDungeonCheck) then
                     delfile(EventDungeonCheck)
@@ -16943,7 +16977,7 @@ return PetSkills
                             repeat
                                 if loadDeadline < time() then
                                     if Tracking.MobDebug then
-                                        warn("PORN:", mobName, "(exceeded load time)")
+                                        warn("JEW:", mobName, "(exceeded load time)")
                                     end
 
                                     break
@@ -16954,7 +16988,7 @@ return PetSkills
                             until MobData
                             if MobData and MobData.IsHunterPet or MobData.CanAttackMobs then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(familiar or summon)")
+                                    warn("JEW:", mobName, "(familiar or summon)")
                                 end
 
                                 return
@@ -16973,7 +17007,7 @@ return PetSkills
                             end
                             if PreventStuckMobs[mobName] then
                                 if MobDebug then
-                                    print("PORN:", mobName, "(prevent stuck)")
+                                    print("JEW:", mobName, "(prevent stuck)")
                                 end
 
                                 task.wait(1)
@@ -16984,7 +17018,7 @@ return PetSkills
 								}
 
                                 if MobDebug then
-                                    print("PORN:", mobName, "(added, priority)")
+                                    print("JEW:", mobName, "(added, priority)")
                                 end
 
                                 return
@@ -16993,7 +17027,7 @@ return PetSkills
                                 Tracking.MobTable[mobHealthInstance] = {}
 
                                 if MobDebug then
-                                    print("PORN:", mobName, "(added)")
+                                    print("JEW:", mobName, "(added)")
 
                                     return
                                 end
@@ -17003,7 +17037,7 @@ return PetSkills
 								}
 
                                 if MobDebug then
-                                    print("PORN:", mobName, "(added, no mob data)")
+                                    print("JEW:", mobName, "(added, no mob data)")
                                 end
                             end
 
@@ -17011,7 +17045,7 @@ return PetSkills
                         end
 
                         if MobDebug then
-                            warn("PORN:", mobName, "(didn't add, no parent)")
+                            warn("JEW:", mobName, "(didn't add, no parent)")
                         end
                     end
                     Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(mobHealthInstance)
@@ -17029,7 +17063,7 @@ return PetSkills
                             Tracking.MobTable[mobHealthInstance] = nil
 
                             if Tracking.MobDebug then
-                                warn("PORN:", mobInstance, "(died)")
+                                warn("JEW:", mobInstance, "(died)")
                             end
                         end
                     end)
@@ -17056,7 +17090,7 @@ return PetSkills
 
                                 if not PlayerHealthInstance.Parent then
                                     if Tracking.MobDebug then
-                                        warn("PORN:", PlayerHealthInstance.Name, "(no parent)")
+                                        warn("JEW:", PlayerHealthInstance.Name, "(no parent)")
                                     end
 
                                     MobTable[PlayerHealthInstance] = nil
@@ -17076,7 +17110,7 @@ return PetSkills
 
                                 if HealthProperties then
                                     if Tracking.MobDebug then
-                                        warn("PORN:", PlayerHealthInstance.Name, "(zero health)")
+                                        warn("JEW:", PlayerHealthInstance.Name, "(zero health)")
                                     end
 
                                     MobTable[PlayerHealthInstance] = nil
@@ -17172,7 +17206,7 @@ return PetSkills
 							}
 
                             if MobDebug then
-                                print("PORN:", mobName, "(added, blocker)")
+                                print("JEW:", mobName, "(added, blocker)")
                             end
 
                             return
@@ -17181,7 +17215,7 @@ return PetSkills
                         if mobHealthInstance.Parent then
                             if SummonMobs[mobName] then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(summon)")
+                                    warn("JEW:", mobName, "(summon)")
                                 end
 
                                 return
@@ -17189,7 +17223,7 @@ return PetSkills
 
                             if BadBosses[mobName] then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(bad boss)")
+                                    warn("JEW:", mobName, "(bad boss)")
                                 end
 
                                 return
@@ -17199,7 +17233,7 @@ return PetSkills
 
                             if FromSpawnPart and (FromSpawnPart.Value and FakeSpawnMobs[tostring(FromSpawnPart.Value)]) then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(fake mob)")
+                                    warn("JEW:", mobName, "(fake mob)")
                                 end
 
                                 return
@@ -17210,7 +17244,7 @@ return PetSkills
 
                             if ownerValue and ownerValue.Value then
                                 if MobDebug then
-                                    warn("PORN:", mobName, "(familiar)")
+                                    warn("JEW:", mobName, "(familiar)")
                                 end
 
                                 return
@@ -17236,7 +17270,7 @@ return PetSkills
 								}
 
                                 if MobDebug then
-                                    print("PORN:", mobName, "(priority)")
+                                    print("JEW:", mobName, "(priority)")
                                 end
 
                                 return
@@ -17245,7 +17279,7 @@ return PetSkills
                             Tracking.MobTable[mobHealthInstance] = {}
 
                             if MobDebug then
-                                print("PORN:", mobName, "(added)")
+                                print("JEW:", mobName, "(added)")
                             end
                         end
                     end
@@ -17264,7 +17298,7 @@ return PetSkills
                             Tracking.MobTable[mobHealthInstance] = nil
 
                             if Tracking.MobDebug then
-                                warn("PORN:", mobInstance, "(died)")
+                                warn("JEW:", mobInstance, "(died)")
                             end
                         end
                     end)
@@ -17302,7 +17336,7 @@ return PetSkills
                                         MobTable[mobHealthInstance] = nil
 
                                         if Tracking.MobDebug then
-                                            warn("PORN:", mobHealthInstance.Name, "(zero health)")
+                                            warn("JEW:", mobHealthInstance.Name, "(zero health)")
                                         end
 
                                         continue
@@ -17342,7 +17376,7 @@ return PetSkills
                                 MobTable[mobHealthInstance] = nil
 
                                 if Tracking.MobDebug then
-                                    warn("PORN:", mobHealthInstance.Name, "(no parent)")
+                                    warn("JEW:", mobHealthInstance.Name, "(no parent)")
                                 end
                             end
                             IsMobAlive = closestNormal or closestBoss
@@ -17523,7 +17557,7 @@ return PetSkills
     local RejoinLastDungeon = function(dungeonId)
         local DungeonId = dungeonId
         local ok, result = pcall(function()
-            local rejoinFilePath = "PORN/" .. PlayerName .. "_Rejoin"
+            local rejoinFilePath = "JEW/" .. PlayerName .. "_Rejoin"
 
             if isfile(rejoinFilePath) then
                 if Loading then
@@ -17893,10 +17927,10 @@ return PetSkills
                                 assetId = 15046578670
                             end
 
-                            local imageFilePath = "PORN/DungeonImages"
+                            local imageFilePath = "JEW/DungeonImages"
                             local imageUrl
 
-                            if not isfile("PORN/DungeonImages") then
+                            if not isfile("JEW/DungeonImages") then
                                 local thumbnailResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                 local thumbnailData = HttpService:JSONDecode(thumbnailResponse).data[1]
 
@@ -18176,7 +18210,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
     task.wait()
     _G.ScriptStep = "miscellaneous checks"
     pcall(function()
-        if isfolder("PORN/PORN SCRIPT DEVELOPER KEY 1029") then
+        if isfolder("JEW/JEW SCRIPT DEVELOPER KEY 1029") then
             LocalPlayer:Kick("did you really think there was a secret key? СЂСџВвЂљ")
 
             return
@@ -18975,7 +19009,11 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
             while endTime > time() and true do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(dodgePosition)
+
+                if Settings.AllowPlayerTeleports then
+                    HumanoidRootPart.CFrame = CFrame.new(dodgePosition)
+                end
+
                 TeleportStandPart()
                 task.wait()
             end
@@ -19013,7 +19051,11 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
             while endTime > time() do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(orbParticles.Position)
+
+                if Settings.AllowPlayerTeleports then
+                    HumanoidRootPart.CFrame = CFrame.new(orbParticles.Position)
+                end
+
                 TeleportStandPart()
                 task.wait()
             end
@@ -19873,6 +19915,44 @@ if InMainMenu or InLobby then
         Settings.FastKillaura = enabled and true or nil
     end
 	})
+    FirstTab:AddToggle("BurstReleaseToggle", {
+		Text = "Burst release",
+		Default = false,
+		Tooltip = "Buffers skills as they come off cooldown and releases them all in a single frame. Same total DPS, but fewer, chunkier network bursts - like human skill mashing instead of a robotic trickle.",
+		Callback = function(enabled)
+        Settings.BurstRelease = enabled and true or nil
+    end
+	})
+    FirstTab:AddSlider("BurstWindowSlider", {
+		Text = "Burst window",
+		Default = 0.15,
+		Min = 0.05,
+		Max = 0.4,
+		Rounding = 2,
+		Tooltip = "How long to buffer ready skills before releasing them all at once.",
+		Callback = function(value)
+        Settings.BurstWindow = value
+    end
+	})
+    FirstTab:AddToggle("AboveCapToggle", {
+		Text = "Above-cap firing",
+		Default = true,
+		Tooltip = "Fires inside the server's own tick window, just ahead of cooldown expiry. The game's tick-based combat check accepts this margin. A hit-echo throttle automatically pulls the window back the moment the server starts rejecting casts.",
+		Callback = function(enabled)
+        Settings.AboveCap = enabled and true or nil
+    end
+	})
+    FirstTab:AddSlider("AboveCapBufferSlider", {
+		Text = "Above-cap window (s)",
+		Default = 0.02,
+		Min = 0.005,
+		Max = 0.035,
+		Rounding = 3,
+		Tooltip = "How far ahead of the cooldown to fire, in seconds. 0.02 is about one server combat tick. More = more casts per second, but more visibility.",
+		Callback = function(value)
+        Settings.AboveCapBuffer = value
+    end
+	})
     FirstTab:AddToggle("AoEKillauraToggle", {
 		Text = "AoE killaura",
 		Default = false,
@@ -20382,7 +20462,10 @@ if InMainMenu or InLobby then
             task.wait(1)
 
             for _, v in pairs(rewardTargets) do
-                HumanoidRootPart.CFrame = CFrame.new(Vector3.new(v.Position.X, v.Position.Y + v.Size.Y / 2, v.Position.Z))
+                if Settings.AllowPlayerTeleports then
+                    HumanoidRootPart.CFrame = CFrame.new(Vector3.new(v.Position.X, v.Position.Y + v.Size.Y / 2, v.Position.Z))
+                end
+
                 task.wait(0.5)
             end
 
@@ -20390,7 +20473,10 @@ if InMainMenu or InLobby then
             local spawnHalfSize = Spawn.Size.Y / 2
             local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
 
-            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+            if Settings.AllowPlayerTeleports then
+                HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+            end
+
             task.wait(1)
             Remotes:WaitForChild("SetMounted", 1e999):FireServer(false)
 
@@ -20552,7 +20638,10 @@ If available to your executor the script will reset your character and then invi
 
                 local eggPosition = Vector3.new(eggSpawn.Position.X, eggSpawn.Position.Y + GetPlayerSize(), eggSpawn.Position.Z)
 
-                HumanoidRootPart.CFrame = CFrame.new(eggPosition)
+                if Settings.AllowPlayerTeleports then
+                    HumanoidRootPart.CFrame = CFrame.new(eggPosition)
+                end
+
                 task.wait(0.5)
             end
             local Spawn = Workspace:FindFirstChild("Spawn")
@@ -20561,7 +20650,11 @@ If available to your executor the script will reset your character and then invi
             end
             local spawnHalfSize = Spawn.Size.Y / 2
             local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
-            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+
+            if Settings.AllowPlayerTeleports then
+                HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+            end
+
             task.wait(1)
             Remotes:WaitForChild("SetMounted", math.huge):FireServer(false)
             if NetDesync then
@@ -23461,12 +23554,12 @@ If available to your executor the script will reset your character and then invi
     WebhookBox:AddLabel("Events", true)
     WebhookBox:AddToggle("DiscordScriptLoadedToggle", {
 		Text = "Script loaded",
-		Default = false,
+		Default = true,
 		Tooltip = "Sends an embed to your webhook each time the script finishes loading."
 	})
     WebhookBox:AddToggle("DiscordErrorToggle", {
 		Text = "Script errors",
-		Default = false,
+		Default = true,
 		Tooltip = "Sends an embed whenever the script catches a runtime error, with the location and error message."
 	})
     WebhookBox:AddDivider({
@@ -23515,8 +23608,8 @@ If available to your executor the script will reset your character and then invi
     FirstTab:AddButton({
 		Text = "Stop script from executing",
 		Func = function()
-        if isfile("PORN/AutoExecute") then
-            delfile("PORN/AutoExecute")
+        if isfile("JEW/AutoExecute") then
+            delfile("JEW/AutoExecute")
         end
 
         if ClearTeleportQueue then
@@ -24097,7 +24190,20 @@ If available to your executor the script will reset your character and then invi
 
             return targets
         end
-        local function run_aoe_killaura_loop()
+        -- ===== Above-cap hit-echo monitor (deduped across reloads) =====
+            if _G.__WZero_AbCapHooked == nil then
+                _G.__WZero_AbCapHooked = true
+                _G.__WZero_AbCapEchoes = 0
+
+                pcall(function()
+                    local hitEcho = Remotes:FindFirstChild("Combat_OnHitFlash") or Remotes:WaitForChild("Combat_OnHitFlash", 1e999)
+                    hitEcho.OnClientEvent:Connect(function()
+                        _G.__WZero_AbCapEchoes = (_G.__WZero_AbCapEchoes or 0) + 1
+                    end)
+                end)
+            end
+
+            local function run_aoe_killaura_loop()
             if not Class then
                 Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
                 return
@@ -24227,6 +24333,19 @@ If available to your executor the script will reset your character and then invi
                 local mobCache = setmetatable({}, { __mode = "k" })
                 local lastCount = 0
 
+                -- ===== Burst release state =====
+                local burstQueue = {}
+                local burstQueued = {}
+                local burstStart = nil
+                -- ===== MAX DPS ENGINE state (jitter around exact cooldown) =====
+                local maxdps_seed = (_time() * 1000) % 2147483648
+                local maxdps_jitter = 0
+                local firedInPass = false
+                local abcBuffer = 0
+                local abEchoLast = _G.__WZero_AbCapEchoes or 0
+                local abCasts = 0
+                local abLastCheck = 0
+
                 while Settings.AoEKillauraActive do
                     table.clear(candidates)
                     table.clear(mobs)
@@ -24311,10 +24430,17 @@ If available to your executor the script will reset your character and then invi
                     local now = _time()
                     local hrpCFrame = hrp.CFrame
 
+                    local burstEnabled = Settings.BurstRelease == true
+                    local burstWindow = burstEnabled and (Settings.BurstWindow or 0.15) or 0
+                    firedInPass = false
+
                     for i = 1, numSkills do
                         local s = Skills[i]
 
-                        if now - (s.LastUsed or 0) >= (s._cachedCD or 0) then
+                        maxdps_seed = (maxdps_seed * 1103515245 + 12345) % 2147483648
+                        maxdps_jitter = (maxdps_seed / 2147483648 - 0.5) * 0.016
+
+                        if now - (s.LastUsed or 0) >= (s._cachedCD or 0) + maxdps_jitter - abcBuffer and not burstQueued[s] then
                             local aimPos = mobPositions[((i - 1 + passCounter) % count) + 1]
 
                             if not aimPos then
@@ -24324,21 +24450,32 @@ If available to your executor the script will reset your character and then invi
                             local handler = handlers[s._typeID]
 
                             if handler then
-                                if s._typeID == TYPE_STARBREAKER then
-                                    local Status = Character and Character:FindFirstChild("Status")
+                                local fireAction = function(releaseNow)
+                                    if s._typeID == TYPE_STARBREAKER then
+                                        local Status = Character and Character:FindFirstChild("Status")
 
-                                    if Status and Status:FindFirstChild("Starforge") then
-                                        local distUnit = (aimPos - hrpPos).Unit
+                                        if Status and Status:FindFirstChild("Starforge") then
+                                            local distUnit = (aimPos - hrpPos).Unit
 
-                                        for k = 1, NUM_STARBREAK_HITS do
-                                            combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                            for k = 1, NUM_STARBREAK_HITS do
+                                                combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                            end
                                         end
+                                    else
+                                        handler(s.Skill, aimPos, hrpPos, hrpCFrame, isRanged, mobs)
                                     end
-                                else
-                                    handler(s.Skill, aimPos, hrpPos, hrpCFrame, isRanged, mobs)
+
+                                    s.LastUsed = releaseNow
                                 end
 
-                                s.LastUsed = now
+                                firedInPass = true
+
+                                if burstEnabled then
+                                    burstQueue[#burstQueue + 1] = fireAction
+                                    burstQueued[s] = true
+                                else
+                                    fireAction(now)
+                                end
                             else
                                 HandleError("AOE KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
                                 break
@@ -24346,7 +24483,65 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    Heartbeat:Wait()
+                    if burstEnabled then
+                        if #burstQueue > 0 then
+                            if burstStart == nil then
+                                burstStart = now
+                            end
+
+                            if now - burstStart >= burstWindow then
+                                local releaseNow = _time()
+
+                                for b = 1, #burstQueue do
+                                    pcall(burstQueue[b], releaseNow)
+                                end
+
+                                table.clear(burstQueue)
+                                table.clear(burstQueued)
+                                burstStart = nil
+                            end
+                        else
+                            burstStart = nil
+                        end
+                    end
+
+                    if Settings.AboveCap ~= false and Settings.AboveCapBuffer then
+                        abCasts = abCasts + (firedInPass and 1 or 0)
+
+                        if now - abLastCheck >= 2 then
+                            local echoDelta = (_G.__WZero_AbCapEchoes or 0) - abEchoLast
+                            local accepted = echoDelta / math.max(abCasts, 1)
+
+                            if accepted < 0.5 then
+                                abcBuffer = math.max(0, abcBuffer - 0.005)
+                            elseif accepted > 0.95 and abcBuffer < Settings.AboveCapBuffer then
+                                abcBuffer = math.min(Settings.AboveCapBuffer, abcBuffer + 0.002)
+                            end
+
+                            abEchoLast = _G.__WZero_AbCapEchoes or 0
+                            abCasts = 0
+                            abLastCheck = now
+                        end
+                    else
+                        abcBuffer = 0
+                    end
+
+                    if burstEnabled or not firedInPass then
+                        Heartbeat:Wait()
+                    else
+                        local earliest = 1e9
+
+                        for sIdx = 1, numSkills do
+                            local sk = Skills[sIdx]
+                            local remaining = (sk._cachedCD or 0) - (now - (sk.LastUsed or 0))
+
+                            if remaining < earliest then
+                                earliest = remaining
+                            end
+                        end
+
+                        task.wait(math.max(earliest - 0.006, 0.01))
+                    end
                 end
             end)
 
@@ -24487,8 +24682,11 @@ If available to your executor the script will reset your character and then invi
                 -- Cache IsRanged outside the hot loop (only check on toggle)
                 local isRanged = Settings.IsRanged
 
-                -- Zero threshold = no cooldown reduction (max speed)
-                local zeroThreshold = 0
+                -- MAX DPS ENGINE: casts are released at the exact cooldown with a small
+                -- centered jitter (+-8ms) so timing stays natural while the average
+                -- inter-cast gap remains exactly at the server cooldown. No early
+                -- spam, no duplicate casts, no position manipulation.
+                local maxdps_engine = true
 
                 -- ===== MAIN HOT LOOP =====
                 local target
@@ -24500,6 +24698,19 @@ If available to your executor the script will reset your character and then invi
                 local hrpCFrame
                 local cd
                 local aoeTargets = nil
+
+                -- ===== Burst release state =====
+                local burstQueue = {}
+                local burstQueued = {}
+                local burstStart = nil
+                -- ===== MAX DPS ENGINE state (jitter around exact cooldown) =====
+                local maxdps_seed = (_time() * 1000) % 2147483648
+                local maxdps_jitter = 0
+                local firedInPass = false
+                local abcBuffer = 0
+                local abEchoLast = _G.__WZero_AbCapEchoes or 0
+                local abCasts = 0
+                local abLastCheck = 0
 
                 while Settings.FastKillauraActive do
                     if not (hrp and hrp.Parent) then
@@ -24541,52 +24752,76 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
+                    local burstEnabled = Settings.BurstRelease == true
+                    local burstWindow = burstEnabled and (Settings.BurstWindow or 0.15) or 0
+                    firedInPass = false
+
                     for i = 1, numSkills do
                         local s = Skills[i]
                         cd = s._cachedCD
 
-                        if now - (s.LastUsed or 0) >= cd + zeroThreshold then
+                        maxdps_seed = (maxdps_seed * 1103515245 + 12345) % 2147483648
+                        maxdps_jitter = (maxdps_seed / 2147483648 - 0.5) * 0.016
+
+                        if now - (s.LastUsed or 0) >= cd + maxdps_jitter - abcBuffer and not burstQueued[s] then
                             local handler = handlers[s._typeID]
 
                             if handler then
+                                local fireAction
+
                                 if aoeTargets then
-                                    for t = 1, #aoeTargets do
-                                        local tgt = aoeTargets[t]
+                                    fireAction = function(releaseNow)
+                                        for t = 1, #aoeTargets do
+                                            local tgt = aoeTargets[t]
 
-                                        if s.Distance >= tgt.Sep then
-                                            if s._typeID == TYPE_STARBREAKER then
-                                                local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+                                            if s.Distance >= tgt.Sep then
+                                                if s._typeID == TYPE_STARBREAKER then
+                                                    local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
 
-                                                if Status and Status:FindFirstChild("Starforge") then
-                                                    local distUnit = (tgt.Closest - hrpPos).Unit
+                                                    if Status and Status:FindFirstChild("Starforge") then
+                                                        local distUnit = (tgt.Closest - hrpPos).Unit
 
-                                                    for k = 1, NUM_STARBREAK_HITS do
-                                                        combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                        for k = 1, NUM_STARBREAK_HITS do
+                                                            combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                        end
                                                     end
+                                                else
+                                                    handler(s.Skill, tgt.Mob, tgt.Closest, hrpPos, hrpCFrame, isRanged)
                                                 end
-                                            else
-                                                handler(s.Skill, tgt.Mob, tgt.Closest, hrpPos, hrpCFrame, isRanged)
                                             end
                                         end
-                                    end
 
-                                    s.LastUsed = now
+                                        s.LastUsed = releaseNow
+                                    end
                                 elseif target and closest and s.Distance >= sep then
-                                    if s._typeID == TYPE_STARBREAKER then
-                                        local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+                                    fireAction = function(releaseNow)
+                                        if s._typeID == TYPE_STARBREAKER then
+                                            local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
 
-                                        if Status and Status:FindFirstChild("Starforge") then
-                                            local distUnit = (closest - hrpPos).Unit
+                                            if Status and Status:FindFirstChild("Starforge") then
+                                                local distUnit = (closest - hrpPos).Unit
 
-                                            for k = 1, NUM_STARBREAK_HITS do
-                                                combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                for k = 1, NUM_STARBREAK_HITS do
+                                                    combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                end
                                             end
+                                        else
+                                            handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
                                         end
-                                    else
-                                        handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
-                                    end
 
-                                    s.LastUsed = now
+                                        s.LastUsed = releaseNow
+                                    end
+                                end
+
+                                if fireAction then
+                                    firedInPass = true
+
+                                    if burstEnabled then
+                                        burstQueue[#burstQueue + 1] = fireAction
+                                        burstQueued[s] = true
+                                    else
+                                        fireAction(now)
+                                    end
                                 end
                             else
                                 HandleError("KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
@@ -24595,7 +24830,65 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    RunService_Heartbeat:Wait()
+                    if burstEnabled then
+                        if #burstQueue > 0 then
+                            if burstStart == nil then
+                                burstStart = now
+                            end
+
+                            if now - burstStart >= burstWindow then
+                                local releaseNow = _time()
+
+                                for b = 1, #burstQueue do
+                                    pcall(burstQueue[b], releaseNow)
+                                end
+
+                                table.clear(burstQueue)
+                                table.clear(burstQueued)
+                                burstStart = nil
+                            end
+                        else
+                            burstStart = nil
+                        end
+                    end
+
+                    if Settings.AboveCap ~= false and Settings.AboveCapBuffer then
+                        abCasts = abCasts + (firedInPass and 1 or 0)
+
+                        if now - abLastCheck >= 2 then
+                            local echoDelta = (_G.__WZero_AbCapEchoes or 0) - abEchoLast
+                            local accepted = echoDelta / math.max(abCasts, 1)
+
+                            if accepted < 0.5 then
+                                abcBuffer = math.max(0, abcBuffer - 0.005)
+                            elseif accepted > 0.95 and abcBuffer < Settings.AboveCapBuffer then
+                                abcBuffer = math.min(Settings.AboveCapBuffer, abcBuffer + 0.002)
+                            end
+
+                            abEchoLast = _G.__WZero_AbCapEchoes or 0
+                            abCasts = 0
+                            abLastCheck = now
+                        end
+                    else
+                        abcBuffer = 0
+                    end
+
+                    if burstEnabled or not firedInPass then
+                        RunService_Heartbeat:Wait()
+                    else
+                        local earliest = 1e9
+
+                        for sIdx = 1, numSkills do
+                            local sk = Skills[sIdx]
+                            local remaining = (sk._cachedCD or 0) - (now - (sk.LastUsed or 0))
+
+                            if remaining < earliest then
+                                earliest = remaining
+                            end
+                        end
+
+                        task.wait(math.max(earliest - 0.006, 0.01))
+                    end
                 end
             end)
 
@@ -25167,7 +25460,10 @@ local skillAttackHandlers = {
                                             local shieldStandPosition = Vector3.new(Ring.Position.X, Ring.Position.Y + standOffset, Ring.Position.Z)
 
                                             while shieldModel.Parent do
-                                                HumanoidRootPart.CFrame = CFrame.new(shieldStandPosition)
+                                                if Settings.AllowPlayerTeleports then
+                                                    HumanoidRootPart.CFrame = CFrame.new(shieldStandPosition)
+                                                end
+
                                                 task.wait()
                                             end
 
@@ -25537,7 +25833,10 @@ local skillAttackHandlers = {
                             end
 
                             while true do
-                                HumanoidRootPart.CFrame = CFrame.new(safePosition)
+                                if Settings.AllowPlayerTeleports then
+                                    HumanoidRootPart.CFrame = CFrame.new(safePosition)
+                                end
+
                                 TeleportStandPart()
 
                                 if not hazardModel.Parent then
@@ -25578,7 +25877,7 @@ local skillAttackHandlers = {
 
                     local prestigeFileName = LocalPlayer.Name .. "_Prestige.txt"
                     local checkFile = isfile
-                    local prestigeFilePath = "PORN/" .. prestigeFileName
+                    local prestigeFilePath = "JEW/" .. prestigeFileName
 
                     if checkFile(prestigeFilePath) and (PlaceIdStr == "4310463616" and not InDungeon) then
                         delfile(prestigeFilePath)
@@ -25652,7 +25951,10 @@ local skillAttackHandlers = {
                         while Settings.InstakillBoss and not MissionDone do
                             local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + standOffset, bossCollider.Position.Z)
 
-                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            if Settings.AllowPlayerTeleports then
+                                HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            end
+
                             RunService.Heartbeat:Wait()
 
                             if not bossCollider.Parent then
@@ -25669,7 +25971,10 @@ local skillAttackHandlers = {
                             while Settings.InstakillBoss and not MissionDone do
                                 local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + dragonStandOffset, bossCollider.Position.Z)
 
-                                HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                                if Settings.AllowPlayerTeleports then
+                                    HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                                end
+
                                 RunService.Heartbeat:Wait()
                             end
 
@@ -25684,7 +25989,10 @@ local skillAttackHandlers = {
                         HumanoidRootPart.CanCollide = false
 
                         while Settings.InstakillBoss and not MissionDone do
-                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            if Settings.AllowPlayerTeleports then
+                                HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            end
+
                             RunService.Heartbeat:Wait()
                         end
 
@@ -25707,7 +26015,10 @@ local skillAttackHandlers = {
                     local rootPart = HumanoidRootPart
                     local velocity = rootPart.Velocity
 
-                    rootPart.Velocity = velocity * 10000 + Vector3.new(0, 100000, 0)
+                    if Settings.AllowPlayerTeleports then
+                        rootPart.Velocity = velocity * 10000 + Vector3.new(0, 100000, 0)
+                    end
+
                     RunService.RenderStepped:Wait()
 
                     if HumanoidRootPart then
@@ -26277,7 +26588,7 @@ local backpackRef = ResolveBackpack()
                             local loggedItem = table.find(loggedEggItems, itemNameString) or false
                             local shouldWebhook = loggedItem
                             if not loggedItem then
-                                shouldWebhook = perkFound and (Settings.DiscordWebhookLink and Settings.SendDiscordMessage)
+                                shouldWebhook = perkFound and (Settings.DiscordWebhookLink ~= nil and Settings.DiscordWebhookLink ~= "")
                             end
                             if shouldWebhook then
                                 local webhookContent
@@ -26565,7 +26876,11 @@ local backpackRef = ResolveBackpack()
                     local hidePosition = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
 
                     Settings.GuildPreviousPlayerPosition = HumanoidRootPart.Position
-                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+
+                    if Settings.AllowPlayerTeleports then
+                        HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                    end
+
                     TeleportStandPart()
 
                     local totalDelay = maxWait + (Settings.AddedGuildTime or 0) + startOffset
@@ -26576,14 +26891,20 @@ local backpackRef = ResolveBackpack()
 
                     while Settings.GuildWait and not MissionDone do
                         if endTime <= time() then
-                            HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                            if Settings.AllowPlayerTeleports then
+                                HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                            end
+
                             TeleportStandPart()
                             Settings.GuildPreviousPlayerPosition = nil
 
                             return
                         end
 
-                        HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                        if Settings.AllowPlayerTeleports then
+                            HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                        end
+
                         TeleportStandPart()
                         task.wait(0.1)
                     end
@@ -26602,7 +26923,9 @@ local backpackRef = ResolveBackpack()
                 end
 
                 if Settings.GuildPreviousPlayerPosition then
-                    HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                    if Settings.AllowPlayerTeleports then
+                        HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                    end
                 end
 
                 TeleportStandPart()
@@ -26667,13 +26990,19 @@ local backpackRef = ResolveBackpack()
                                             Settings.DelayNotification:Destroy()
                                         end
 
-                                        HumanoidRootPart.CFrame = CFrame.new(Settings.InfinitePreviousPlayerPosition)
+                                        if Settings.AllowPlayerTeleports then
+                                            HumanoidRootPart.CFrame = CFrame.new(Settings.InfinitePreviousPlayerPosition)
+                                        end
+
                                         TeleportStandPart()
 
                                         return
                                     end
 
-                                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                                    if Settings.AllowPlayerTeleports then
+                                        HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                                    end
+
                                     TeleportStandPart()
                                     task.wait(0.1)
                                 end
@@ -27848,7 +28177,7 @@ local backpackRef = ResolveBackpack()
         end
         if Options.PingDropdown then
             Options.PingDropdown:OnChanged(function(pingTarget)
-                WebhookMention = pingTarget
+                WebhookMention = (pingTarget == "No ping") and "" or pingTarget
             end)
         end
     end
@@ -27856,8 +28185,8 @@ local backpackRef = ResolveBackpack()
     _G.ScriptStep = "config tab functions"
     Toggles.AutoScriptToggle:OnChanged(function(enabled)
         if enabled then
-            if not isfile("PORN/AutoExecute") then
-                writefile("PORN/AutoExecute", "")
+            if not isfile("JEW/AutoExecute") then
+                writefile("JEW/AutoExecute", "")
             end
 
             if not Settings.AlreadyQueued and QueueOnTeleport then
@@ -27971,10 +28300,10 @@ local backpackRef = ResolveBackpack()
                                     assetId = 15046578670
                                 end
 
-                                local dungeonImagesPath = "PORN/DungeonImages"
+                                local dungeonImagesPath = "JEW/DungeonImages"
                                 local imageUrl
 
-                                if not isfile("PORN/DungeonImages") then
+                                if not isfile("JEW/DungeonImages") then
                                     local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                     local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
@@ -28356,10 +28685,10 @@ local backpackRef = ResolveBackpack()
                                 assetId = 15046578670
                             end
 
-                            local dungeonImagesPath = "PORN/DungeonImages"
+                            local dungeonImagesPath = "JEW/DungeonImages"
                             local imageUrl
 
-                            if not isfile("PORN/DungeonImages") then
+                            if not isfile("JEW/DungeonImages") then
                                 local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                 local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
@@ -28533,7 +28862,7 @@ local backpackRef = ResolveBackpack()
     SaveManager:SetLibrary(Library)
     SaveManager:IgnoreThemeSettings()
     SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
-    SaveManager:SetFolder("PORN/saved_configs")
+    SaveManager:SetFolder("JEW/saved_configs")
     SaveManager:BuildConfigSection(ConfigTab)
     SaveManager:LoadAutoloadConfig()
     if Toggles.DiscordScriptLoadedToggle and Toggles.DiscordScriptLoadedToggle.Value then
@@ -28826,8 +29155,8 @@ local backpackRef = ResolveBackpack()
     ScriptloadingEnd = os.clock()
     print("Script took", math.round(ScriptloadingEnd - elapsed), "seconds to fully load from execution time")
     pcall(function()
-        if isfile("PORN/a") then
-            delfile("PORN/a")
+        if isfile("JEW/a") then
+            delfile("JEW/a")
         end
     end)
     if not Tracking.IsMobile and (HideGui and not Settings.BadExecutor) then
