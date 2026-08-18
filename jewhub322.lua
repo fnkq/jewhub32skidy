@@ -381,7 +381,7 @@ local CanAttack
 local SkillActive = true
 local MaxDungeonLevel = 1
 if QueueOnTeleport then
-    if isfile("JEW/AutoExecute") then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua\"))()"); Settings.AlreadyQueued = true end
+    if isfile("JEW/AutoExecute") then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewhub322.lua\"))()"); Settings.AlreadyQueued = true end
 end
 if ExecName == "Xeno" or ExecName == "Solara" or ExecName == "Velocity" then Settings.BadExecutor = true end
 _G.ScriptStep = "setting up location identifier"
@@ -19504,7 +19504,7 @@ local backpackRef = ResolveBackpack()
         if enabled then
             if not isfile("JEW/AutoExecute") then writefile("JEW/AutoExecute", "") end
 
-            if not Settings.AlreadyQueued and QueueOnTeleport then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua\"))()") end
+            if not Settings.AlreadyQueued and QueueOnTeleport then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewhub322.lua\"))()") end
         end
     end)
     if InLobby or InDungeon then
