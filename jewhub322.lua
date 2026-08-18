@@ -20269,7 +20269,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
     end
 
     local function ApplyHatVisualizer()
-        if Toggles.HatVisualizerToggle == false then
+        if not Toggles.HatVisualizerToggle or Toggles.HatVisualizerToggle.Value ~= true then
             return
         end
 
@@ -23684,7 +23684,7 @@ If available to your executor the script will reset your character and then invi
     FirstTab:AddToggle("HatVisualizerToggle", {
 		Text = "Hat visualizer",
 		Default = true,
-		Tooltip = "Wears a wide, low-poly, semi-transparent Japanese Kasa hat (translucent cone with a wide circular brim) on your character. The hat follows your head like a real accessory. Color and opacity are controlled below.",
+		Tooltip = "Wears a kasa hat",
 		Callback = function(enabled)
         if enabled then
             ApplyHatVisualizer()
@@ -23701,6 +23701,31 @@ If available to your executor the script will reset your character and then invi
 		Callback = function(colorValue)
         Settings.HatColor = colorValue
         ApplyHatVisualizer()
+    end
+	})
+    FirstTab:AddToggle("HatRGBToggle", {
+		Text = "Rainbow mode",
+		Default = false,
+		Tooltip = "Smoothly cycles the hat color from red to blue and back to red.",
+		Callback = function(enabled)
+        if enabled then
+            Settings.HatColorSaved = Settings.HatColor or Color3.fromRGB(255, 255, 255)
+        else
+            Settings.HatColor = Settings.HatColorSaved or Color3.fromRGB(255, 255, 255)
+        end
+        Settings.HatRGBToggle = enabled
+        ApplyHatVisualizer()
+    end
+	})
+    FirstTab:AddSlider("HatRgbSpeedSlider", {
+		Text = "RGB speed",
+		Default = 2,
+		Min = 0.5,
+		Max = 5,
+		Rounding = 1,
+		Tooltip = "How fast the hat cycles through colors.",
+		Callback = function(value)
+        Settings.HatRgbSpeed = value
     end
 	})
     local classColorLabel = FirstTab:AddLabel("Class color")
@@ -23728,6 +23753,26 @@ If available to your executor the script will reset your character and then invi
     end
 	})
     ApplyHatVisualizer()
+    task.spawn(function()
+        local hatRgbT = 0
+        local hatRgbDir = 1
+        while true do
+            if (Toggles.HatRGBToggle and Toggles.HatRGBToggle.Value == true) or Settings.HatRGBToggle == true then
+                local rgbStep = 0.004 * (Settings.HatRgbSpeed or 2) * hatRgbDir
+                hatRgbT = hatRgbT + rgbStep
+                if hatRgbT >= 1 then
+                    hatRgbT = 1
+                    hatRgbDir = -1
+                elseif hatRgbT <= 0 then
+                    hatRgbT = 0
+                    hatRgbDir = 1
+                end
+                Settings.HatColor = Color3.fromRGB(255 * (1 - hatRgbT), 0, 255 * hatRgbT)
+                pcall(ApplyHatVisualizer)
+            end
+            task.wait(0.03)
+        end
+    end)
     SecondTab = PerformanceTabbox:AddTab("Performance")
     SecondTab:AddToggle("RemoveOtherPlayersToggle", {
 		Text = "Remove other players",
