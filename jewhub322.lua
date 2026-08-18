@@ -1,17 +1,14 @@
-﻿pcall(function()
+
+
+pcall(function()
     local HttpService = game:GetService("HttpService")
     local function preCache(url, key)
-        local path = "PORN/ignore/" .. key
+        local path = "JEW/ignore/" .. key
         if isfile and not isfile(path) then
             local ok, content = pcall(function() return game:HttpGet(url, true) end)
-            if ok and content then
-                writefile(path, content)
-                local ts = os.date("*t")
-                writefile(path .. "_tfwd", HttpService:JSONEncode({dd = ts.day, md = ts.month}))
-            end
+            if ok and content then writefile(path, content) local ts = os.date("*t") writefile(path .. "_tfwd", HttpService:JSONEncode({dd = ts.day, md = ts.month})) end
         end
     end
-    -- class tables and pet tables are embedded in this script - no external fetch needed
 end)
 
 local instance_cache = {}
@@ -25,14 +22,10 @@ local function create_instance(className, props)
 
     if props then
         for key, value in pairs(props) do
-            if key ~= "Parent" then
-                instance[key] = value
-            end
+            if key ~= "Parent" then instance[key] = value end
         end
 
-        if props.Parent ~= nil then
-            instance.Parent = props.Parent
-        end
+        if props.Parent ~= nil then instance.Parent = props.Parent end
     end
 
     return instance
@@ -42,29 +35,18 @@ local CI = create_instance
 
 local function get_ui_parent()
     local ok, result = pcall(function()
-        if HideGui then
-            local hidden = HideGui()
-            if hidden then
-                return hidden
-            end
-        end
+        if HideGui then local hidden = HideGui(); if hidden then return hidden end end
 
-        if CoreGui then
-            return CoreGui
-        end
+        if CoreGui then return CoreGui end
 
         local players = game:GetService("Players")
         local localPlayer = players and players.LocalPlayer
-        if localPlayer and localPlayer:FindFirstChild("PlayerGui") then
-            return localPlayer.PlayerGui
-        end
+        if localPlayer and localPlayer:FindFirstChild("PlayerGui") then return localPlayer.PlayerGui end
 
         return game:GetService("CoreGui")
     end)
 
-    if ok then
-        return result
-    end
+    if ok then return result end
 
     return nil
 end
@@ -73,36 +55,18 @@ local function ShowErrorScreen(errorSource, errorMessage, extraInfo)
     local errorExtra = extraInfo or "N/A"
     local createInstance = CI
     local uiParent = get_ui_parent()
-    local errorGui = createInstance("ScreenGui", {
-		Name = "Script_Error",
-		DisplayOrder = 1e999,
-		Parent = uiParent
-	})
+    local errorGui = createInstance("ScreenGui", { Name = "Script_Error", DisplayOrder = 1e999, Parent = uiParent })
     local createInstance2 = createInstance
     local anchorCenter = Vector2.new(0.5, 0.5)
     local centerPos = UDim2.new(0.5, 0, 0.5, 0)
     local fullSize = UDim2.new(1, 0, 1, 0)
-    local errorBg = createInstance2("Frame", {
-		Name = "Script_Error",
-		AnchorPoint = anchorCenter,
-		BackgroundTransparency = 1,
-		Position = centerPos,
-		Size = fullSize,
-		Parent = errorGui
-	})
+    local errorBg = createInstance2("Frame", { Name = "Script_Error", AnchorPoint = anchorCenter, BackgroundTransparency = 1, Position = centerPos, Size = fullSize, Parent = errorGui })
     local createInstance3 = createInstance2
     local anchorCenter2 = Vector2.new(0.5, 0.5)
     local goldColor = Color3.fromRGB(255, 215, 0)
     local centerPos2 = UDim2.new(0.5, 0, 0.5, 0)
     local frameSize = UDim2.new(0.4, 0, 0.4, 0)
-    local errorFrame = createInstance3("Frame", {
-		Name = "Error_Frame",
-		AnchorPoint = anchorCenter2,
-		BackgroundColor3 = goldColor,
-		Position = centerPos2,
-		Size = frameSize,
-		Parent = errorBg
-	})
+    local errorFrame = createInstance3("Frame", { Name = "Error_Frame", AnchorPoint = anchorCenter2, BackgroundColor3 = goldColor, Position = centerPos2, Size = frameSize, Parent = errorBg })
 
     CI("UICorner", {
 		CornerRadius = UDim.new(0.05, 0),
@@ -150,14 +114,7 @@ local function ShowErrorScreen(errorSource, errorMessage, extraInfo)
     local color3_6 = Color3.fromRGB(145, 145, 145)
     local uDim2_13 = UDim2.new(0.436, 0, 0.808, 0)
     local uDim2_14 = UDim2.new(0.25, 0, 0.15, 0)
-    local closeButton = CI("ImageButton", {
-		Name = "Close_Button",
-		BackgroundColor3 = color3_6,
-		BackgroundTransparency = 0.75,
-		Position = uDim2_13,
-		Size = uDim2_14,
-		Parent = errorFrame
-	})
+    local closeButton = CI("ImageButton", { Name = "Close_Button", BackgroundColor3 = color3_6, BackgroundTransparency = 0.75, Position = uDim2_13, Size = uDim2_14, Parent = errorFrame })
 
     CI("UICorner", {
 		CornerRadius = UDim.new(0.25, 0),
@@ -185,16 +142,7 @@ local function ShowErrorScreen(errorSource, errorMessage, extraInfo)
     local vector2_6 = Vector2.new(0.5, 0.5)
     local uDim2_17 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_18 = UDim2.new(0.4, 0, 0.4, 0)
-    local errorGlow = CI("Frame", {
-		Name = "Error_Glow",
-		AnchorPoint = vector2_6,
-		BackgroundTransparency = 1,
-		Position = uDim2_17,
-		Interactable = false,
-		ZIndex = -1,
-		Size = uDim2_18,
-		Parent = errorFrame
-	})
+    local errorGlow = CI("Frame", { Name = "Error_Glow", AnchorPoint = vector2_6, BackgroundTransparency = 1, Position = uDim2_17, Interactable = false, ZIndex = -1, Size = uDim2_18, Parent = errorFrame })
     local vector2_7 = Vector2.new(0.5, 0.5)
     local uDim2_19 = UDim2.new(0.5, 0, 0.5, 0)
     local uDim2_20 = UDim2.new(1.1, 0, 1.1, 0)
@@ -212,18 +160,13 @@ local function ShowErrorScreen(errorSource, errorMessage, extraInfo)
 		Parent = errorGlow
 	})
 
-    local blurEffect = CI("BlurEffect", {
-		Size = 50,
-		Parent = Lighting
-	})
+    local blurEffect = CI("BlurEffect", { Size = 50, Parent = Lighting })
     closeButton.MouseButton1Click:Once(function()
         errorGui:Destroy()
         blurEffect:Destroy()
     end)
 end
-if not game:IsLoaded() then
-    game.Loaded:Wait()
-end
+if not game:IsLoaded() then game.Loaded:Wait() end
 if _G.Is_Script_Running then
     warn("stopping duplicate script from running")
 
@@ -232,11 +175,7 @@ end
 _G.Is_Script_Running = true
 _G.ScriptStep = "check if in world zero"
 local GameId = tostring(game.GameId)
-if GameId ~= "985731078" then
-    print("u r not in world zero skid")
-    wait(.5)
-    game:Shutdown()
-end
+if GameId ~= "985731078" then print("u r not in world zero skid") wait(.5) game:Shutdown() end
 _G.ScriptStep = "executor function references"
 local IdentifyExecutor = identifyexecutor or (getexecutorname or false)
 local ExecSuccess, ExecVersion, ExecRequest = IdentifyExecutor()
@@ -246,15 +185,38 @@ local ExecVersionStr = ExecVersion
 local function findHttpSender()
     local sender = http_request or request
 
-    if not sender and http then
-        sender = http.request or http.http_request
-    end
+    if not sender and http then sender = http.request or http.http_request end
 
     if not sender and getexecutorname then
         local executorInfo = getexecutorname()
 
-        if type(executorInfo) == "table" then
-            sender = executorInfo.request or executorInfo.http_request
+        if type(executorInfo) == "table" then sender = executorInfo.request or executorInfo.http_request end
+    end
+
+    if not sender then
+        for _, executorName in ipairs({ "syn", "fluxus", "krnl", "comet", "hydrogen", "delta", "vex", "electron", "trigon", "evon", "krampus", "valyse", "solara" }) do
+            local executorModule = getgenv()[executorName]
+
+            if executorModule and typeof(executorModule) == "table" and typeof(executorModule.request) == "function" then
+                sender = executorModule.request
+
+                break
+            end
+        end
+    end
+
+    if not sender then
+        local defaultHttpService = game:GetService("HttpService")
+
+        sender = function(options)
+            if not defaultHttpService.HttpEnabled then error("HTTP disabled") end
+
+            defaultHttpService:PostAsync(options.Url, options.Body, Enum.HttpContentType.ApplicationJson)
+
+            return {
+				StatusCode = 200,
+				Body = "sent"
+			}
         end
     end
 
@@ -264,16 +226,9 @@ end
 local function postDiscordWebhook(webhookUrl, body, headers)
     local sender = findHttpSender()
 
-    if not sender then
-        return false, "no http sender available"
-    end
+    if not sender then return false, "no http sender available" end
 
-    local requestPayload = {
-        Url = webhookUrl,
-        Method = "POST",
-        Headers = headers or { ["Content-Type"] = "application/json" },
-        Body = body
-    }
+    local requestPayload = { Url = webhookUrl, Method = "POST", Headers = headers or { ["Content-Type"] = "application/json" }, Body = body }
 
     local ok, err = pcall(function()
         sender(requestPayload)
@@ -297,9 +252,7 @@ _G.ScriptStep = "return things for the script"
 local function getServiceCloned(serviceName)
     local service = game:GetService(serviceName)
 
-    if service then
-        return CloneRef(service)
-    end
+    if service then return CloneRef(service) end
 
     warn("Unable to get service", serviceName)
 end
@@ -319,9 +272,7 @@ local WaitForAttribute = function(instance, attrName)
     return instance:GetAttribute(attrName)
 end
 local function ResolveBackpack()
-    if PlayerBackpack and PlayerBackpack.Parent then
-        return PlayerBackpack
-    end
+    if PlayerBackpack and PlayerBackpack.Parent then return PlayerBackpack end
 
     local players = game:GetService("Players")
     local lp = players and players.LocalPlayer
@@ -329,9 +280,7 @@ local function ResolveBackpack()
     local profile = playerGui and playerGui:FindFirstChild("Profile")
     local backpack = profile and profile:FindFirstChild("Inventory")
 
-    if backpack then
-        PlayerBackpack = backpack
-    end
+    if backpack then PlayerBackpack = backpack end
 
     return backpack
 end
@@ -340,21 +289,13 @@ local function GetSellRemote()
     local liveRemotes = rs:FindFirstChild("Remotes")
     local sellRemote = liveRemotes and liveRemotes:FindFirstChild("Drops_SellItems")
 
-    if not sellRemote and Remotes then
-        sellRemote = Remotes:FindFirstChild("Drops_SellItems")
-    end
+    if not sellRemote and Remotes then sellRemote = Remotes:FindFirstChild("Drops_SellItems") end
 
-    if not sellRemote then
-        sellRemote = liveRemotes and liveRemotes:WaitForChild("Drops_SellItems", 5)
-    end
+    if not sellRemote then sellRemote = liveRemotes and liveRemotes:WaitForChild("Drops_SellItems", 5) end
 
-    if not sellRemote and Remotes then
-        sellRemote = Remotes:WaitForChild("Drops_SellItems", 5)
-    end
+    if not sellRemote and Remotes then sellRemote = Remotes:WaitForChild("Drops_SellItems", 5) end
 
-    if sellRemote then
-        Remotes = liveRemotes or Remotes
-    end
+    if sellRemote then Remotes = liveRemotes or Remotes end
 
     return sellRemote
 end
@@ -400,7 +341,10 @@ GetServiceCloned(Workspace, "Camera")
 local MobsFolder = GetServiceCloned(Workspace, "Mobs")
 local MissionObjects
 _G.ScriptStep = "setting up script variables"
+
+
 local Settings = {}
+Settings.AllowPlayerTeleports = false
 local Tracking = {}
 Tracking.MobTable = {}
 local Flags = {}
@@ -437,109 +381,21 @@ local CanAttack
 local SkillActive = true
 local MaxDungeonLevel = 1
 if QueueOnTeleport then
-    if isfile("PORN/AutoExecute") then
-        QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
-        Settings.AlreadyQueued = true
-    end
+    if isfile("JEW/AutoExecute") then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua\"))()"); Settings.AlreadyQueued = true end
 end
-if ExecName == "Xeno" or ExecName == "Solara" or ExecName == "Velocity" then
-    Settings.BadExecutor = true
-end
+if ExecName == "Xeno" or ExecName == "Solara" or ExecName == "Velocity" then Settings.BadExecutor = true end
 _G.ScriptStep = "setting up location identifier"
 local PlaceIdStr = tostring(game.PlaceId)
 local InLobby = false
 local InMainMenu = false
 local InDungeon = false
 local InTower = false
-local MainMenuPlaceIds = {
-	["2727067538"] = true
-}
-local WorldHubPlaceIds = {
-	["4310463616"] = true,
-	["4310463940"] = true,
-	["4465987684"] = true,
-	["4646472003"] = true,
-	["5703355191"] = true,
-	["6075083204"] = true,
-	["6847035264"] = true,
-	["9944262922"] = true,
-	["10651517727"] = true,
-	["14914684761"] = true,
-	["7499964980"] = true,
-	["6510868181"] = true,
-	["139316833473171"] = true,
-	["105045973347410"] = true,
-	["87656507991995"] = true,
-	["100868012981049"] = true,
-	["18567064955"] = true,
-	["125645867930579"] = true,
-	["5862275930"] = true,
-	["4526768266"] = true,
-	["111346137875750 "] = true,
-	["73832225581864"] = true,
-	["84106607802351"] = true,
-	["136326194224398"] = true,
-	["73334696605120"] = true
-}
-local DungeonPlaceIds = {
-	["107701891477606"] = 49,
-	["2978696440"] = 1,
-	["4310476380"] = 3,
-	["4310464656"] = 2,
-	["4310478830"] = 4,
-	["3383444582"] = 6,
-	["3885726701"] = 11,
-	["3994953548"] = 12,
-	["4050468028"] = 13,
-	["3165900886"] = 7,
-	["4465988196"] = 14,
-	["4465989351"] = 15,
-	["4465989998"] = 16,
-	["4646473427"] = 20,
-	["4646475342"] = 19,
-	["4646475570"] = 18,
-	["6386112652"] = 24,
-	["11466514043"] = 35,
-	["6510862058"] = 25,
-	["11533444995"] = 36,
-	["6847034886"] = 26,
-	["11644048314"] = 37,
-	["9944263348"] = 30,
-	["10014664329"] = 31,
-	["10651527284"] = 32,
-	["10727165164"] = 33,
-	["14914700740"] = 41,
-	["14914855930"] = 42
-}
-local EventDungeonPlaceIds = {
-	["93889085342251"] = 51,
-	["102111805987017"] = 47,
-	["81373988789544"] = 46,
-	["109614960834199"] = 50,
-	["138178936582742"] = 48,
-	["110769392907898"] = 52,
-	["75540798045662"] = 45,
-	["18567068844"] = 44,
-	["5862277651"] = 22,
-	["4526768588"] = 17
-}
-local TowerPlaceIds = {
-	["5703353651"] = 21,
-	["6075085184"] = 23,
-	["7071564842"] = 27,
-	["10089970465"] = 29,
-	["10795158121"] = 34,
-	["15121292578"] = 43,
-	["14400549310"] = 39,
-	["13988110964"] = 38
-}
-local PlaceIds = {
-	MainMenu = MainMenuPlaceIds,
-	WorldHubs = WorldHubPlaceIds,
-	Dungeons = DungeonPlaceIds,
-	EventDungeons = EventDungeonPlaceIds,
-	Towers = TowerPlaceIds
-}
+local MainMenuPlaceIds = { ["2727067538"] = true }
+local WorldHubPlaceIds = { ["4310463616"] = true, ["4310463940"] = true, ["4465987684"] = true, ["4646472003"] = true, ["5703355191"] = true, ["6075083204"] = true, ["6847035264"] = true, ["9944262922"] = true, ["10651517727"] = true, ["14914684761"] = true, ["7499964980"] = true, ["6510868181"] = true, ["139316833473171"] = true, ["105045973347410"] = true, ["87656507991995"] = true, ["100868012981049"] = true, ["18567064955"] = true, ["125645867930579"] = true, ["5862275930"] = true, ["4526768266"] = true, ["111346137875750 "] = true, ["73832225581864"] = true, ["84106607802351"] = true, ["136326194224398"] = true, ["73334696605120"] = true }
+local DungeonPlaceIds = { ["107701891477606"] = 49, ["2978696440"] = 1, ["4310476380"] = 3, ["4310464656"] = 2, ["4310478830"] = 4, ["3383444582"] = 6, ["3885726701"] = 11, ["3994953548"] = 12, ["4050468028"] = 13, ["3165900886"] = 7, ["4465988196"] = 14, ["4465989351"] = 15, ["4465989998"] = 16, ["4646473427"] = 20, ["4646475342"] = 19, ["4646475570"] = 18, ["6386112652"] = 24, ["11466514043"] = 35, ["6510862058"] = 25, ["11533444995"] = 36, ["6847034886"] = 26, ["11644048314"] = 37, ["9944263348"] = 30, ["10014664329"] = 31, ["10651527284"] = 32, ["10727165164"] = 33, ["14914700740"] = 41, ["14914855930"] = 42 }
+local EventDungeonPlaceIds = { ["93889085342251"] = 51, ["102111805987017"] = 47, ["81373988789544"] = 46, ["109614960834199"] = 50, ["138178936582742"] = 48, ["110769392907898"] = 52, ["75540798045662"] = 45, ["18567068844"] = 44, ["5862277651"] = 22, ["4526768588"] = 17 }
+local TowerPlaceIds = { ["5703353651"] = 21, ["6075085184"] = 23, ["7071564842"] = 27, ["10089970465"] = 29, ["10795158121"] = 34, ["15121292578"] = 43, ["14400549310"] = 39, ["13988110964"] = 38 }
+local PlaceIds = { MainMenu = MainMenuPlaceIds, WorldHubs = WorldHubPlaceIds, Dungeons = DungeonPlaceIds, EventDungeons = EventDungeonPlaceIds, Towers = TowerPlaceIds }
 if PlaceIds.MainMenu[PlaceIdStr] then
     InMainMenu = true
     print("JEW: player in main menu")
@@ -561,18 +417,16 @@ else
     InLobby = true
     print("JEW: cannot determine where player is located... placeid: " .. PlaceIdStr)
 end
-if not (InLobby or InMainMenu) then
-    Tracking.CurrentDungeonID = PlaceIds.EventDungeons[PlaceIdStr] or (PlaceIds.Dungeons[PlaceIdStr] or (PlaceIds.Towers[PlaceIdStr] or nil))
-end
+if not (InLobby or InMainMenu) then Tracking.CurrentDungeonID = PlaceIds.EventDungeons[PlaceIdStr] or (PlaceIds.Dungeons[PlaceIdStr] or (PlaceIds.Towers[PlaceIdStr] or nil)) end
 task.wait()
 _G.ScriptStep = "message handler"
 task.wait()
 _G.ScriptStep = "save error"
 local HandleError = function(errorLocation, errorMessage, errorExtra)
-    if isfile("PORN_script_error.txt") then
-        appendfile("PORN_script_error.txt", "\n\nError:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
+    if isfile("JEW_script_error.txt") then
+        appendfile("JEW_script_error.txt", "\n\nError:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     else
-        writefile("PORN_script_error.txt", "Error:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
+        writefile("JEW_script_error.txt", "Error:\n" .. errorMessage .. "\nLocation: " .. errorLocation)
     end
 
     ShowErrorScreen(errorLocation, errorMessage, errorExtra, nil)
@@ -602,24 +456,16 @@ local HandleError = function(errorLocation, errorMessage, errorExtra)
             local hookedScriptCount = 0
             local ok, _ = pcall(function()
                 for _, v in pairs(getreg()) do
-                    if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                        hookedScriptCount += 1
-                    end
+                    if typeof(v) == "Instance" and v.ClassName == "LocalScript" then hookedScriptCount += 1 end
                 end
             end)
-            if hookedScriptCount > 2 or hookedScriptCount == 0 then
-                return
-            end
-            if not ok then
-                return
-            end
+            if hookedScriptCount > 2 or hookedScriptCount == 0 then return end
+            if not ok then return end
             local antiDesyncEnabled = false
             local success = pcall(function()
                 local requestHooked = ishooked and ishooked(request)
 
-                if not requestHooked then
-                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                end
+                if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                 if requestHooked then
                     antiDesyncEnabled = true
@@ -627,18 +473,14 @@ local HandleError = function(errorLocation, errorMessage, errorExtra)
                     return
                 end
             end)
-            if not success then
-                return
-            end
+            if not success then return end
             local pcallOk, _ = pcall(function()
                 local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                 if not httpGetHooked then
                     httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                    if not httpGetHooked then
-                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                    end
+                    if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                 end
 
                 if httpGetHooked then
@@ -647,23 +489,15 @@ local HandleError = function(errorLocation, errorMessage, errorExtra)
                     return
                 end
             end)
-            if antiDesyncEnabled then
-                return
-            end
-            if not pcallOk then
-                return
-            end
+            if antiDesyncEnabled then return end
+            if not pcallOk then return end
         end
 
-        if not HttpRequest then
-            return
-        end
+        if not HttpRequest then return end
 
         local discard1 = HttpRequest
         local discard2 = webhookURL
-        local requestHeaders = {
-			["Content-Type"] = "application/json"
-		}
+        local requestHeaders = { ["Content-Type"] = "application/json" }
         local json = HttpService:JSONEncode(webhookPayload)
 
         discard1({
@@ -674,6 +508,8 @@ local HandleError = function(errorLocation, errorMessage, errorExtra)
 		})
     end)
 end
+
+
 local function MainScript()
     local elapsed = os.clock()
     task.wait()
@@ -692,21 +528,16 @@ local function MainScript()
         local MissionTimer
         local ok, result = pcall(function()
             if isfile and (writefile and readfile) then
-                local EventDungeonCheck = "PORN/ignore/" .. fileName
+                local EventDungeonCheck = "JEW/ignore/" .. fileName
 
-                if forceRefresh and isfile(EventDungeonCheck) then
-                    delfile(EventDungeonCheck)
-                    task.wait(1)
-                end
+                if forceRefresh and isfile(EventDungeonCheck) then delfile(EventDungeonCheck); task.wait(1) end
 
                 if not isfile(EventDungeonCheck) then
                     while true do
                         local success, result = pcall(function()
                             writefile(EventDungeonCheck, game:HttpGet(fileUrl))
                         end)
-                        if success then
-                            break
-                        end
+                        if success then break end
                         warn("writefile() failed... trying again in 2 seconds...\nReasom: " .. tostring(result))
                         task.wait(2)
                     end
@@ -724,9 +555,7 @@ local function MainScript()
                             local success, result = pcall(function()
                                 writefile(EventDungeonCheck, game:HttpGet(fileUrl))
                             end)
-                            if success then
-                                break
-                            end
+                            if success then break end
                             warn("writefile() failed... trying again in 2 seconds...\nReasom: " .. tostring(result))
                             task.wait(2)
                         end
@@ -761,31 +590,20 @@ local function MainScript()
 
             MissionTimer = loadstring(game:HttpGet(fileUrl))()
         end)
-        if not ok then
-            HandleError("FAILED TO GET FILE", tostring(result), (tostring(fileName)))
-        end
-        if MissionTimer == nil then
-            warn(fileName .. " has no data? Trying to download it again...")
-            MissionTimer = LoadCachedFile(fileUrl, fileName, true)
-        end
-        if MissionTimer then
-            return MissionTimer
-        end
+        if not ok then HandleError("FAILED TO GET FILE", tostring(result), (tostring(fileName))) end
+        if MissionTimer == nil then warn(fileName .. " has no data? Trying to download it again..."); MissionTimer = LoadCachedFile(fileUrl, fileName, true) end
+        if MissionTimer then return MissionTimer end
     end
     task.wait()
     _G.ScriptStep = "jewhub embedded assets"
     local function _JWRun(sourceCode, chunkName)
         local chunk, compileError = loadstring(sourceCode, chunkName)
 
-        if not chunk then
-            return nil, compileError
-        end
+        if not chunk then return nil, compileError end
 
         local ran, result = pcall(chunk)
 
-        if not ran then
-            return nil, tostring(result)
-        end
+        if not ran then return nil, tostring(result) end
 
         return result
     end
@@ -858,21 +676,15 @@ local CustomImageManagerAssets = {
 }
 do
     local function RecursiveCreatePath(Path: string, IsFile: boolean?)
-        if not isfolder or not makefolder then
-            return
-        end
+        if not isfolder or not makefolder then return end
 
         local Segments = Path:split("/")
         local TraversedPath = ""
 
-        if IsFile then
-            table.remove(Segments, #Segments)
-        end
+        if IsFile then table.remove(Segments, #Segments) end
 
         for _, Segment in ipairs(Segments) do
-            if not isfolder(TraversedPath .. Segment) then
-                makefolder(TraversedPath .. Segment)
-            end
+            if not isfolder(TraversedPath .. Segment) then makefolder(TraversedPath .. Segment) end
 
             TraversedPath = TraversedPath .. Segment .. "/"
         end
@@ -886,9 +698,7 @@ do
         URL: string,
         ForceRedownload: boolean?
     )
-        if CustomImageManagerAssets[AssetName] ~= nil then
-            error(string.format("Asset %q already exists", AssetName))
-        end
+        if CustomImageManagerAssets[AssetName] ~= nil then error(string.format("Asset %q already exists", AssetName)) end
 
         assert(typeof(RobloxAssetId) == "number", "RobloxAssetId must be a number")
 
@@ -904,23 +714,17 @@ do
     end
 
     function CustomImageManager.GetAsset(AssetName: string)
-        if not CustomImageManagerAssets[AssetName] then
-            return nil
-        end
+        if not CustomImageManagerAssets[AssetName] then return nil end
 
         local AssetData = CustomImageManagerAssets[AssetName]
-        if AssetData.Id then
-            return AssetData.Id
-        end
+        if AssetData.Id then return AssetData.Id end
 
         local AssetID = string.format("rbxassetid://%s", AssetData.RobloxId)
 
         if getcustomasset then
             local Success, NewID = pcall(getcustomasset, AssetData.Path)
 
-            if Success and NewID then
-                AssetID = NewID
-            end
+            if Success and NewID then AssetID = NewID end
         end
 
         AssetData.Id = AssetID
@@ -928,17 +732,13 @@ do
     end
 
     function CustomImageManager.DownloadAsset(AssetName: string, ForceRedownload: boolean?)
-        if not getcustomasset or not writefile or not isfile then
-            return false, "missing functions"
-        end
+        if not getcustomasset or not writefile or not isfile then return false, "missing functions" end
 
         local AssetData = CustomImageManagerAssets[AssetName]
 
         RecursiveCreatePath(AssetData.Path, true)
 
-        if ForceRedownload ~= true and isfile(AssetData.Path) then
-            return true, nil
-        end
+        if ForceRedownload ~= true and isfile(AssetData.Path) then return true, nil end
 
         local success, errorMessage = pcall(function()
             writefile(AssetData.Path, game:HttpGet(AssetData.URL))
@@ -947,9 +747,7 @@ do
         return success, errorMessage
     end
 
-    for AssetName, _ in CustomImageManagerAssets do
-        CustomImageManager.DownloadAsset(AssetName)
-    end
+    for AssetName, _ in CustomImageManagerAssets do CustomImageManager.DownloadAsset(AssetName) end
 end
 
 local Library = {
@@ -1055,34 +853,12 @@ else
 end
 
 local Templates = {
-    --// UI \\-
-    Frame = {
-        BorderSizePixel = 0,
-    },
-    ImageLabel = {
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-    },
-    ImageButton = {
-        AutoButtonColor = false,
-        BorderSizePixel = 0,
-    },
-    ScrollingFrame = {
-        BorderSizePixel = 0,
-    },
-    TextLabel = {
-        BorderSizePixel = 0,
-        FontFace = "Font",
-        RichText = true,
-        TextColor3 = "FontColor",
-    },
-    TextButton = {
-        AutoButtonColor = false,
-        BorderSizePixel = 0,
-        FontFace = "Font",
-        RichText = true,
-        TextColor3 = "FontColor",
-    },
+    Frame = { BorderSizePixel = 0, },
+    ImageLabel = { BackgroundTransparency = 1, BorderSizePixel = 0, },
+    ImageButton = { AutoButtonColor = false, BorderSizePixel = 0, },
+    ScrollingFrame = { BorderSizePixel = 0, },
+    TextLabel = { BorderSizePixel = 0, FontFace = "Font", RichText = true, TextColor3 = "FontColor", },
+    TextButton = { AutoButtonColor = false, BorderSizePixel = 0, FontFace = "Font", RichText = true, TextColor3 = "FontColor", },
     TextBox = {
         BorderSizePixel = 0,
         FontFace = "Font",
@@ -1093,14 +869,9 @@ local Templates = {
         Text = "",
         TextColor3 = "FontColor",
     },
-    UIListLayout = {
-        SortOrder = Enum.SortOrder.LayoutOrder,
-    },
-    UIStroke = {
-        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-    },
+    UIListLayout = { SortOrder = Enum.SortOrder.LayoutOrder, },
+    UIStroke = { ApplyStrokeMode = Enum.ApplyStrokeMode.Border, },
 
-    --// Library \\--
     Window = {
         Title = "No Title",
         Footer = "No Footer",
@@ -1117,7 +888,7 @@ local Templates = {
         ShowCustomCursor = true,
         Font = Enum.Font.Code,
         ToggleKeybind = Enum.KeyCode.RightControl,
-        
+
         ShowMobileButtons = true,
         MobileButtonsSide = "Left",
 
@@ -1129,21 +900,13 @@ local Templates = {
         SidebarCompacted = false,
         MinContainerWidth = 256,
 
-        --// Snapping \\--
         MinSidebarWidth = 128,
         SidebarCompactWidth = 48,
         SidebarCollapseThreshold = 0.5,
 
-        --// Dragging \\--
         CompactWidthActivation = 128,
     },
-    Dialog = {
-        Title = "Dialog",
-        Description = "Description",
-        AutoDismiss = true,
-        OutsideClickDismiss = true,
-        FooterButtons = {}
-    },
+    Dialog = { Title = "Dialog", Description = "Description", AutoDismiss = true, OutsideClickDismiss = true, FooterButtons = {} },
     Loading = {
         Title = "mspaint",
         Icon = 95816097006870,
@@ -1226,41 +989,11 @@ local Templates = {
         Disabled = false,
         Visible = true,
     },
-    Viewport = {
-        Object = nil,
-        Camera = nil,
-        Clone = true,
-        AutoFocus = true,
-        Interactive = false,
-        Height = 200,
-        Visible = true,
-    },
-    Image = {
-        Image = "",
-        Transparency = 0,
-        BackgroundTransparency = 0,
-        Color = Color3.new(1, 1, 1),
-        RectOffset = Vector2.zero,
-        RectSize = Vector2.zero,
-        ScaleType = Enum.ScaleType.Fit,
-        Height = 200,
-        Visible = true,
-    },
-    Video = {
-        Video = "",
-        Looped = false,
-        Playing = false,
-        Volume = 1,
-        Height = 200,
-        Visible = true,
-    },
-    UIPassthrough = {
-        Instance = nil,
-        Height = 24,
-        Visible = true,
-    },
+    Viewport = { Object = nil, Camera = nil, Clone = true, AutoFocus = true, Interactive = false, Height = 200, Visible = true, },
+    Image = { Image = "", Transparency = 0, BackgroundTransparency = 0, Color = Color3.new(1, 1, 1), RectOffset = Vector2.zero, RectSize = Vector2.zero, ScaleType = Enum.ScaleType.Fit, Height = 200, Visible = true, },
+    Video = { Video = "", Looped = false, Playing = false, Volume = 1, Height = 200, Visible = true, },
+    UIPassthrough = { Instance = nil, Height = 24, Visible = true, },
 
-    --// Addons \\-
     KeyPicker = {
         Text = "KeyPicker",
 
@@ -1289,32 +1022,15 @@ local Templates = {
     },
 }
 
-local Places = {
-    Bottom = { 0, 1 },
-    Right = { 1, 0 },
-}
-local Sizes = {
-    Left = { 0.5, 1 },
-    Right = { 0.5, 1 },
-}
+local Places = { Bottom = { 0, 1 }, Right = { 1, 0 }, }
+local Sizes = { Left = { 0.5, 1 }, Right = { 0.5, 1 }, }
 
---// Scheme Functions \\--
-local SchemeReplaceAlias = {
-    RedColor = "Red",
-    WhiteColor = "White",
-    DarkColor = "Dark"
-}
+local SchemeReplaceAlias = { RedColor = "Red", WhiteColor = "White", DarkColor = "Dark" }
 
-local SchemeAlias = {
-    Red = "RedColor",
-    White = "WhiteColor",
-    Dark = "DarkColor"
-}
+local SchemeAlias = { Red = "RedColor", White = "WhiteColor", Dark = "DarkColor" }
 
 local function GetSchemeValue(Index)
-    if not Index then
-        return nil
-    end
+    if not Index then return nil end
 
     local ReplaceAliasIndex = SchemeReplaceAlias[Index]
     if ReplaceAliasIndex and Library.Scheme[ReplaceAliasIndex] ~= nil then
@@ -1325,15 +1041,11 @@ local function GetSchemeValue(Index)
     end
 
     local AliasIndex = SchemeAlias[Index]
-    if AliasIndex and Library.Scheme[AliasIndex] ~= nil then
-        warn(string.format("Scheme Value %q is deprecated, please use %q instead.", Index, AliasIndex))
-        return Library.Scheme[AliasIndex]
-    end
+    if AliasIndex and Library.Scheme[AliasIndex] ~= nil then warn(string.format("Scheme Value %q is deprecated, please use %q instead.", Index, AliasIndex)); return Library.Scheme[AliasIndex] end
 
     return Library.Scheme[Index]
 end
 
---// Basic Functions \\--
 local function WaitForEvent(Event, Timeout, Condition)
     local Bindable = Instance.new("BindableEvent")
     local Connection = Event:Once(function(...)
@@ -1364,34 +1076,27 @@ local function IsClickInput(Input: InputObject, IncludeM2: boolean?)
         and Input.UserInputState == Enum.UserInputState.Begin
         and Library.IsRobloxFocused
 end
-local function IsHoverInput(Input: InputObject)
-    return (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch)
-        and Input.UserInputState == Enum.UserInputState.Change
-end
+local function IsHoverInput(Input: InputObject) return (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch); and Input.UserInputState == Enum.UserInputState.Change end
 local function IsDragInput(Input: InputObject, IncludeM2: boolean?)
     return IsMouseInput(Input, IncludeM2)
         and (Input.UserInputState == Enum.UserInputState.Begin or Input.UserInputState == Enum.UserInputState.Change)
         and Library.IsRobloxFocused
 end
 local function IsMouseClickInput(Input: InputObject)
-    return Input.UserInputType == Enum.UserInputType.MouseButton1 or 
-        Input.UserInputType == Enum.UserInputType.MouseButton2 or 
+    return Input.UserInputType == Enum.UserInputType.MouseButton1 or
+        Input.UserInputType == Enum.UserInputType.MouseButton2 or
         Input.UserInputType == Enum.UserInputType.MouseButton3
 end
 
 local function GetTableSize(Table: { [any]: any })
     local Size = 0
 
-    for _, _ in Table do
-        Size += 1
-    end
+    for _, _ in Table do Size += 1 end
 
     return Size
 end
 local function StopTween(Tween: TweenBase)
-    if not (Tween and Tween.PlaybackState == Enum.PlaybackState.Playing) then
-        return
-    end
+    if not (Tween and Tween.PlaybackState == Enum.PlaybackState.Playing) then return end
 
     Tween:Cancel()
 end
@@ -1401,9 +1106,7 @@ end
 local function Round(Value, Rounding)
     assert(Rounding >= 0, "Invalid rounding number.")
 
-    if Rounding == 0 then
-        return math.floor(Value)
-    end
+    if Rounding == 0 then return math.floor(Value) end
 
     return tonumber(string.format("%." .. Rounding .. "f", Value))
 end
@@ -1411,12 +1114,7 @@ end
 local function GetPlayers(ExcludeLocalPlayer: boolean?)
     local PlayerList = Players:GetPlayers()
 
-    if ExcludeLocalPlayer then
-        local Idx = table.find(PlayerList, LocalPlayer)
-        if Idx then
-            table.remove(PlayerList, Idx)
-        end
-    end
+    if ExcludeLocalPlayer then local Idx = table.find(PlayerList, LocalPlayer); if Idx then table.remove(PlayerList, Idx) end end
 
     table.sort(PlayerList, function(Player1, Player2)
         return Player1.Name:lower() < Player2.Name:lower()
@@ -1435,13 +1133,9 @@ local function GetTeams()
 end
 
 function Library:UpdateDependencyBoxes()
-    for _, Depbox in Library.DependencyBoxes do
-        Depbox:Update(true)
-    end
+    for _, Depbox in Library.DependencyBoxes do Depbox:Update(true) end
 
-    if Library.Searching then
-        Library:UpdateSearch(Library.SearchText)
-    end
+    if Library.Searching then Library:UpdateSearch(Library.SearchText) end
 end
 
 local function CheckDepbox(Box, Search)
@@ -1452,10 +1146,8 @@ local function CheckDepbox(Box, Search)
             ElementInfo.Holder.Visible = false
             continue
         elseif ElementInfo.SubButton then
-            --// Check if any of the Buttons Name matches with Search
             local Visible = false
 
-            --// Check if Search matches Element's Name and if Element is Visible
             if ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
                 Visible = true
             else
@@ -1467,14 +1159,11 @@ local function CheckDepbox(Box, Search)
                 ElementInfo.SubButton.Base.Visible = false
             end
             ElementInfo.Holder.Visible = Visible
-            if Visible then
-                VisibleElements += 1
-            end
+            if Visible then VisibleElements += 1 end
 
             continue
         end
 
-        --// Check if Search matches Element's Name and if Element is Visible
         if ElementInfo.Text and ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
             ElementInfo.Holder.Visible = true
             VisibleElements += 1
@@ -1484,9 +1173,7 @@ local function CheckDepbox(Box, Search)
     end
 
     for _, Depbox in Box.DependencyBoxes do
-        if not Depbox.Visible then
-            continue
-        end
+        if not Depbox.Visible then continue end
 
         VisibleElements += CheckDepbox(Depbox, Search)
     end
@@ -1498,32 +1185,24 @@ local function RestoreDepbox(Box)
     for _, ElementInfo in Box.Elements do
         ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible or true
 
-        if ElementInfo.SubButton then
-            ElementInfo.Base.Visible = ElementInfo.Visible
-            ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible
-        end
+        if ElementInfo.SubButton then ElementInfo.Base.Visible = ElementInfo.Visible; ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible end
     end
 
     Box:Resize()
     Box.Holder.Visible = true
 
     for _, Depbox in Box.DependencyBoxes do
-        if not Depbox.Visible then
-            continue
-        end
+        if not Depbox.Visible then continue end
 
         RestoreDepbox(Depbox)
     end
 end
 
 local function ApplySearchToTab(Tab, Search)
-    if not Tab then
-        return
-    end
+    if not Tab then return end
 
     local HasVisible = false
 
-    --// Loop through Groupboxes to get Elements Info
     for _, Groupbox in Tab.Groupboxes do
         local VisibleElements = 0
 
@@ -1532,10 +1211,8 @@ local function ApplySearchToTab(Tab, Search)
                 ElementInfo.Holder.Visible = false
                 continue
             elseif ElementInfo.SubButton then
-                --// Check if any of the Buttons Name matches with Search
                 local Visible = false
 
-                --// Check if Search matches Element's Name and if Element is Visible
                 if ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
                     Visible = true
                 else
@@ -1547,14 +1224,11 @@ local function ApplySearchToTab(Tab, Search)
                     ElementInfo.SubButton.Base.Visible = false
                 end
                 ElementInfo.Holder.Visible = Visible
-                if Visible then
-                    VisibleElements += 1
-                end
+                if Visible then VisibleElements += 1 end
 
                 continue
             end
 
-            --// Check if Search matches Element's Name and if Element is Visible
             if ElementInfo.Text and ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
                 ElementInfo.Holder.Visible = true
                 VisibleElements += 1
@@ -1564,18 +1238,12 @@ local function ApplySearchToTab(Tab, Search)
         end
 
         for _, Depbox in Groupbox.DependencyBoxes do
-            if not Depbox.Visible then
-                continue
-            end
+            if not Depbox.Visible then continue end
 
             VisibleElements += CheckDepbox(Depbox, Search)
         end
 
-        --// Update Groupbox Size and Visibility if found any element
-        if VisibleElements > 0 then
-            Groupbox:Resize()
-            HasVisible = true
-        end
+        if VisibleElements > 0 then Groupbox:Resize(); HasVisible = true end
         Groupbox.BoxHolder.Visible = VisibleElements > 0
     end
 
@@ -1591,10 +1259,8 @@ local function ApplySearchToTab(Tab, Search)
                     ElementInfo.Holder.Visible = false
                     continue
                 elseif ElementInfo.SubButton then
-                    --// Check if any of the Buttons Name matches with Search
                     local Visible = false
 
-                    --// Check if Search matches Element's Name and if Element is Visible
                     if ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
                         Visible = true
                     else
@@ -1606,14 +1272,11 @@ local function ApplySearchToTab(Tab, Search)
                         ElementInfo.SubButton.Base.Visible = false
                     end
                     ElementInfo.Holder.Visible = Visible
-                    if Visible then
-                        VisibleElements[SubTab] += 1
-                    end
+                    if Visible then VisibleElements[SubTab] += 1 end
 
                     continue
                 end
 
-                --// Check if Search matches Element's Name and if Element is Visible
                 if ElementInfo.Text and ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
                     ElementInfo.Holder.Visible = true
                     VisibleElements[SubTab] += 1
@@ -1623,9 +1286,7 @@ local function ApplySearchToTab(Tab, Search)
             end
 
             for _, Depbox in SubTab.DependencyBoxes do
-                if not Depbox.Visible then
-                    continue
-                end
+                if not Depbox.Visible then continue end
 
                 VisibleElements[SubTab] += CheckDepbox(Depbox, Search)
             end
@@ -1639,37 +1300,27 @@ local function ApplySearchToTab(Tab, Search)
 
                 if Tabbox.ActiveTab == SubTab then
                     SubTab:Resize()
-                elseif Tabbox.ActiveTab and VisibleElements[Tabbox.ActiveTab] == 0 then
-                    SubTab:Show()
-                end
+                elseif Tabbox.ActiveTab and VisibleElements[Tabbox.ActiveTab] == 0 then SubTab:Show() end
             end
         end
 
-        --// Update Tabbox Visibility if any visible
         Tabbox.BoxHolder.Visible = VisibleTabs > 0
     end
 
     return HasVisible
 end
 local function ResetTab(Tab)
-    if not Tab then
-        return
-    end
+    if not Tab then return end
 
     for _, Groupbox in Tab.Groupboxes do
         for _, ElementInfo in Groupbox.Elements do
             ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible or true
 
-            if ElementInfo.SubButton then
-                ElementInfo.Base.Visible = ElementInfo.Visible
-                ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible
-            end
+            if ElementInfo.SubButton then ElementInfo.Base.Visible = ElementInfo.Visible; ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible end
         end
 
         for _, Depbox in Groupbox.DependencyBoxes do
-            if not Depbox.Visible then
-                continue
-            end
+            if not Depbox.Visible then continue end
 
             RestoreDepbox(Depbox)
         end
@@ -1683,16 +1334,11 @@ local function ResetTab(Tab)
             for _, ElementInfo in SubTab.Elements do
                 ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible or true
 
-                if ElementInfo.SubButton then
-                    ElementInfo.Base.Visible = ElementInfo.Visible
-                    ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible
-                end
+                if ElementInfo.SubButton then ElementInfo.Base.Visible = ElementInfo.Visible; ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible end
             end
 
             for _, Depbox in SubTab.DependencyBoxes do
-                if not Depbox.Visible then
-                    continue
-                end
+                if not Depbox.Visible then continue end
 
                 RestoreDepbox(Depbox)
             end
@@ -1700,9 +1346,7 @@ local function ResetTab(Tab)
             SubTab.ButtonHolder.Visible = true
         end
 
-        if Tabbox.ActiveTab then
-            Tabbox.ActiveTab:Resize()
-        end
+        if Tabbox.ActiveTab then Tabbox.ActiveTab:Resize() end
         Tabbox.BoxHolder.Visible = true
     end
 end
@@ -1714,29 +1358,15 @@ function Library:UpdateSearch(SearchText)
 
     if Library.GlobalSearch then
         for _, Tab in Library.Tabs do
-            if typeof(Tab) == "table" and not Tab.IsKeyTab then
-                table.insert(TabsToReset, Tab)
-            end
+            if typeof(Tab) == "table" and not Tab.IsKeyTab then table.insert(TabsToReset, Tab) end
         end
-    elseif Library.LastSearchTab and typeof(Library.LastSearchTab) == "table" then
-        table.insert(TabsToReset, Library.LastSearchTab)
-    end
+    elseif Library.LastSearchTab and typeof(Library.LastSearchTab) == "table" then table.insert(TabsToReset, Library.LastSearchTab) end
 
-    for _, Tab in ipairs(TabsToReset) do
-        ResetTab(Tab)
-    end
+    for _, Tab in ipairs(TabsToReset) do ResetTab(Tab) end
 
     local Search = SearchText:lower()
-    if Trim(Search) == "" then
-        Library.Searching = false
-        Library.LastSearchTab = nil
-        return
-    end
-    if not Library.GlobalSearch and Library.ActiveTab and Library.ActiveTab.IsKeyTab then
-        Library.Searching = false
-        Library.LastSearchTab = nil
-        return
-    end
+    if Trim(Search) == "" then Library.Searching = false Library.LastSearchTab = nil return end
+    if not Library.GlobalSearch and Library.ActiveTab and Library.ActiveTab.IsKeyTab then Library.Searching = false Library.LastSearchTab = nil return end
 
     Library.Searching = true
 
@@ -1744,30 +1374,15 @@ function Library:UpdateSearch(SearchText)
 
     if Library.GlobalSearch then
         TabsToSearch = TabsToReset
-        if #TabsToSearch == 0 then
-            for _, Tab in Library.Tabs do
-                if typeof(Tab) == "table" and not Tab.IsKeyTab then
-                    table.insert(TabsToSearch, Tab)
-                end
-            end
-        end
-    elseif Library.ActiveTab then
-        table.insert(TabsToSearch, Library.ActiveTab)
-    end
+        if #TabsToSearch == 0 then for _, Tab in Library.Tabs do if typeof(Tab) == "table" and not Tab.IsKeyTab then table.insert(TabsToSearch, Tab) end end end
+    elseif Library.ActiveTab then table.insert(TabsToSearch, Library.ActiveTab) end
 
     local FirstVisibleTab = nil
     local ActiveHasVisible = false
 
     for _, Tab in ipairs(TabsToSearch) do
         local HasVisible = ApplySearchToTab(Tab, Search)
-        if HasVisible then
-            if not FirstVisibleTab then
-                FirstVisibleTab = Tab
-            end
-            if Tab == Library.ActiveTab then
-                ActiveHasVisible = true
-            end
-        end
+        if HasVisible then if not FirstVisibleTab then FirstVisibleTab = Tab end; if Tab == Library.ActiveTab then ActiveHasVisible = true end end
     end
 
     if Library.GlobalSearch then
@@ -1776,13 +1391,9 @@ function Library:UpdateSearch(SearchText)
         elseif FirstVisibleTab then
             local SearchMarker = SearchText
             task.defer(function()
-                if Library.SearchText ~= SearchMarker then
-                    return
-                end
+                if Library.SearchText ~= SearchMarker then return end
 
-                if Library.ActiveTab ~= FirstVisibleTab then
-                    FirstVisibleTab:Show()
-                end
+                if Library.ActiveTab ~= FirstVisibleTab then FirstVisibleTab:Show() end
             end)
         end
         Library.LastSearchTab = nil
@@ -1804,9 +1415,7 @@ function Library:UpdateColorsUsingRegistry()
         for Property, Index in Properties do
             local SchemeValue = GetSchemeValue(Index)
 
-            if SchemeValue or typeof(Index) == "function" then
-                Instance[Property] = SchemeValue or Index()
-            end
+            if SchemeValue or typeof(Index) == "function" then Instance[Property] = SchemeValue or Index() end
         end
     end
 end
@@ -1815,26 +1424,18 @@ function Library:SetDPIScale(DPIScale: number)
     Library.DPIScale = DPIScale / 100
     Library.MinSize = Library.OriginalMinSize * Library.DPIScale
 
-	for _, UIScale in Library.Scales do
-        UIScale.Scale = Library.DPIScale - (tonumber(Library.ScalesOffset[UIScale]) or 0)
-    end
+	for _, UIScale in Library.Scales do UIScale.Scale = Library.DPIScale - (tonumber(Library.ScalesOffset[UIScale]) or 0) end
 
     for _, Option in Options do
-        if Option.Type == "Dropdown" then
-            Option:RecalculateListSize()
-        end
+        if Option.Type == "Dropdown" then Option:RecalculateListSize() end
     end
 
-    for _, Notification in Library.Notifications do
-        Notification:Resize()
-    end
+    for _, Notification in Library.Notifications do Notification:Resize() end
 end
 
 function Library:GiveSignal(Connection: RBXScriptConnection | RBXScriptSignal)
     local ConnectionType = typeof(Connection)
-    if Connection and (ConnectionType == "RBXScriptConnection" or ConnectionType == "RBXScriptSignal") then
-        table.insert(Library.Signals, Connection)
-    end
+    if Connection and (ConnectionType == "RBXScriptConnection" or ConnectionType == "RBXScriptSignal") then table.insert(Library.Signals, Connection) end
 
     return Connection
 end
@@ -1863,26 +1464,18 @@ local FetchIcons, Icons = pcall(function()
 end)
 
 function Library:GetIcon(IconName: string)
-    if not FetchIcons then
-        return
-    end
+    if not FetchIcons then return end
 
     local Success, Icon = pcall(Icons.GetAsset, IconName)
-    if not Success then
-        return
-    end
-    
+    if not Success then return end
+
     return Icon
 end
 
 function Library:GetCustomIcon(IconName: string): any
-    if not IconName then
-        return nil
-    end
+    if not IconName then return nil end
 
-    if tonumber(IconName) then
-        IconName = string.format("rbxassetid://%s", tostring(IconName))
-    end
+    if tonumber(IconName) then IconName = string.format("rbxassetid://%s", tostring(IconName)) end
 
     local CustomIcon = IsValidCustomIcon(IconName)
     if CustomIcon then
@@ -1895,34 +1488,25 @@ function Library:GetCustomIcon(IconName: string): any
     end
 
     local LucideIcon = Library:GetIcon(IconName)
-    if LucideIcon then
-        return LucideIcon
-    end
+    if LucideIcon then return LucideIcon end
 
     return nil
 end
 
 function Library:Validate(Table: { [string]: any }, Template: { [string]: any }): { [string]: any }
-    if typeof(Table) ~= "table" then
-        return Template
-    end
+    if typeof(Table) ~= "table" then return Template end
 
     for k, v in Template do
-        if typeof(k) == "number" then
-            continue
-        end
+        if typeof(k) == "number" then continue end
 
         if typeof(v) == "table" then
             Table[k] = Library:Validate(Table[k], v)
-        elseif Table[k] == nil then
-            Table[k] = v
-        end
+        elseif Table[k] == nil then Table[k] = v end
     end
 
     return Table
 end
 
---// Creator Functions \\--
 local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
     local ThemeProperties = Library.Registry[Instance] or {}
 
@@ -1941,17 +1525,13 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
         Instance[key] = value
     end
 
-    if GetTableSize(ThemeProperties) > 0 then
-        Library.Registry[Instance] = ThemeProperties
-    end
+    if GetTableSize(ThemeProperties) > 0 then Library.Registry[Instance] = ThemeProperties end
 end
 
 local function New(ClassName: string, Properties: { [string]: any }): any
     local Instance = Instance.new(ClassName)
 
-    if Templates[ClassName] then
-        FillInstance(Templates[ClassName], Instance)
-    end
+    if Templates[ClassName] then FillInstance(Templates[ClassName], Instance) end
     FillInstance(Properties, Instance)
 
     if Properties["Parent"] and not Properties["ZIndex"] then
@@ -1963,12 +1543,9 @@ local function New(ClassName: string, Properties: { [string]: any }): any
     return Instance
 end
 
---// Main Instances \\-
 local function SafeParentUI(Instance: Instance, Parent: Instance | () -> Instance)
     local success, _error = pcall(function()
-        if not Parent then
-            Parent = CoreGui
-        end
+        if not Parent then Parent = CoreGui end
 
         local DestinationParent
         if typeof(Parent) == "function" then
@@ -1980,26 +1557,17 @@ local function SafeParentUI(Instance: Instance, Parent: Instance | () -> Instanc
         Instance.Parent = DestinationParent
     end)
 
-    if not (success and Instance.Parent) then
-        Instance.Parent = Library.LocalPlayer:WaitForChild("PlayerGui", math.huge)
-    end
+    if not (success and Instance.Parent) then Instance.Parent = Library.LocalPlayer:WaitForChild("PlayerGui", math.huge) end
 end
 
 local function ParentUI(UI: Instance, SkipHiddenUI: boolean?)
-    if SkipHiddenUI then
-        SafeParentUI(UI, CoreGui)
-        return
-    end
+    if SkipHiddenUI then SafeParentUI(UI, CoreGui); return end
 
     pcall(protectgui, UI)
     SafeParentUI(UI, gethui)
 end
 
-local ScreenGui = New("ScreenGui", {
-    Name = "Obsidian",
-    DisplayOrder = 998,
-    ResetOnSpawn = false,
-})
+local ScreenGui = New("ScreenGui", { Name = "Obsidian", DisplayOrder = 998, ResetOnSpawn = false, })
 ParentUI(ScreenGui)
 Library.ScreenGui = ScreenGui
 
@@ -2007,17 +1575,8 @@ ScreenGui.DescendantRemoving:Connect(function(Instance)
     Library:RemoveFromRegistry(Instance)
 end)
 
-local ModalElement = New("TextButton", {
-    BackgroundTransparency = 1,
-    Modal = false,
-    Size = UDim2.fromScale(0, 0),
-    AnchorPoint = Vector2.zero,
-    Text = "",
-    ZIndex = -999,
-    Parent = ScreenGui,
-})
+local ModalElement = New("TextButton", { BackgroundTransparency = 1, Modal = false, Size = UDim2.fromScale(0, 0), AnchorPoint = Vector2.zero, Text = "", ZIndex = -999, Parent = ScreenGui, })
 
---// Cursor
 local Cursor, CursorCustomImage
 do
     Cursor = New("Frame", {
@@ -2037,14 +1596,7 @@ do
         Parent = Cursor,
     })
 
-    local CursorV = New("Frame", {
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        BackgroundColor3 = "WhiteColor",
-        Position = UDim2.fromScale(0.5, 0.5),
-        Size = UDim2.fromOffset(1, 9),
-        ZIndex = 11000,
-        Parent = Cursor,
-    })
+    local CursorV = New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = "WhiteColor", Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(1, 9), ZIndex = 11000, Parent = Cursor, })
     New("Frame", {
         AnchorPoint = Vector2.new(0.5, 0.5),
         BackgroundColor3 = "DarkColor",
@@ -2065,7 +1617,6 @@ do
     })
 end
 
---// Notification
 local NotificationArea
 local NotificationList
 do
@@ -2090,17 +1641,10 @@ do
     })
 end
 
---// Lib Functions \\--
-function Library:ResetCursorIcon()
-    CursorCustomImage.Visible = false
-    CursorCustomImage.Size = UDim2.fromOffset(20, 20)
-end
+function Library:ResetCursorIcon() CursorCustomImage.Visible = false; CursorCustomImage.Size = UDim2.fromOffset(20, 20) end
 
 function Library:ChangeCursorIcon(ImageId: string)
-    if not ImageId or ImageId == "" then
-        Library:ResetCursorIcon()
-        return
-    end
+    if not ImageId or ImageId == "" then Library:ResetCursorIcon(); return end
 
     local Icon = Library:GetCustomIcon(ImageId)
     assert(Icon, "Image must be a valid Roblox asset or a valid URL or a valid lucide icon.")
@@ -2111,10 +1655,7 @@ function Library:ChangeCursorIcon(ImageId: string)
     CursorCustomImage.ImageRectSize = Icon.ImageRectSize
 end
 
-function Library:ChangeCursorIconSize(Size: UDim2)
-    assert(typeof(Size) == "UDim2", "UDim2 expected.")
-    CursorCustomImage.Size = Size
-end
+function Library:ChangeCursorIconSize(Size: UDim2) assert(typeof(Size) == "UDim2", "UDim2 expected."); CursorCustomImage.Size = Size end
 
 function Library:GetBetterColor(Color: Color3, Add: number): Color3
     Add = Add * (Library.IsLightTheme and -4 or 2)
@@ -2136,9 +1677,7 @@ function Library:GetDarkerColor(Color: Color3): Color3
 end
 
 function Library:GetKeyString(KeyCode: Enum.KeyCode)
-    if KeyCode.EnumType == Enum.KeyCode and KeyCode.Value > 33 and KeyCode.Value < 127 then
-        return string.char(KeyCode.Value)
-    end
+    if KeyCode.EnumType == Enum.KeyCode and KeyCode.Value > 33 and KeyCode.Value < 127 then return string.char(KeyCode.Value) end
 
     return KeyCode.Name
 end
@@ -2177,22 +1716,16 @@ function Library:IsInsideFrame(ParentFrame: GuiObject, Frame: GuiObject)
 end
 
 function Library:SafeCallback(Func: (...any) -> ...any, ...: any)
-    if not (Func and typeof(Func) == "function") then
-        return
-    end
+    if not (Func and typeof(Func) == "function") then return end
 
     local Result = table.pack(xpcall(Func, function(Error)
         task.defer(error, debug.traceback(Error, 2))
-        if Library.NotifyOnError and Library.Notify then
-            Library:Notify(Error)
-        end
+        if Library.NotifyOnError and Library.Notify then Library:Notify(Error) end
 
         return Error
     end, ...))
 
-    if not Result[1] then
-        return nil
-    end
+    if not Result[1] then return nil end
 
     return table.unpack(Result, 2, Result.n)
 end
@@ -2200,15 +1733,13 @@ end
 function GetOverlappingDraggable(UI: GuiObject, TargetPos: Vector2?)
     local Pos1 = TargetPos or UI.AbsolutePosition
     local Size1 = UI.AbsoluteSize
-    
+
     for _, Other in ipairs(Library.DraggableElements) do
-        if Other == UI or not Other.Visible or not Other.Parent then
-            continue
-        end
+        if Other == UI or not Other.Visible or not Other.Parent then continue end
 
         local Pos2 = Other.AbsolutePosition
         local Size2 = Other.AbsoluteSize
-        
+
         if Pos1.X < Pos2.X + Size2.X and
             Pos1.X + Size1.X > Pos2.X and
             Pos1.Y < Pos2.Y + Size2.Y and
@@ -2216,7 +1747,7 @@ function GetOverlappingDraggable(UI: GuiObject, TargetPos: Vector2?)
             return Other
         end
     end
-    
+
     return nil
 end
 
@@ -2224,38 +1755,29 @@ function GetNonOverlappingPosition(UI: GuiObject, StartPos: UDim2?)
     local ScreenSize = (workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)) - Vector2.new(100, 100)
     local Start = StartPos and Vector2.new(StartPos.X.Offset, StartPos.Y.Offset) or Vector2.new(6, 6)
     local Padding = 6
-    
+
     local CurrentX = Start.X
     local CurrentY = Start.Y
-    
+
     local Size = UI.AbsoluteSize
-    if Size.X == 0 and Size.Y == 0 then
-        RunService.RenderStepped:Wait()
-        Size = UI.AbsoluteSize
-    end
-    
+    if Size.X == 0 and Size.Y == 0 then RunService.RenderStepped:Wait(); Size = UI.AbsoluteSize end
+
     if Size.X == 0 then Size = Vector2.new(150, 40) end
 
     local MaxXInColumn = Size.X
 
     while true do
         local Obstacle = GetOverlappingDraggable(UI, Vector2.new(CurrentX, CurrentY))
-        if not Obstacle then
-            break
-        end
-        
-        if Obstacle.AbsoluteSize.X > MaxXInColumn then
-            MaxXInColumn = Obstacle.AbsoluteSize.X
-        end
-        
+        if not Obstacle then break end
+
+        if Obstacle.AbsoluteSize.X > MaxXInColumn then MaxXInColumn = Obstacle.AbsoluteSize.X end
+
         local NextY = Obstacle.AbsolutePosition.Y + Obstacle.AbsoluteSize.Y + Padding
         if NextY + Size.Y > ScreenSize.Y - Padding then
             local NextX = CurrentX + MaxXInColumn + Padding
-            
-            if NextX + Size.X > ScreenSize.X - Padding then
-                break
-            end
-            
+
+            if NextX + Size.X > ScreenSize.X - Padding then break end
+
             CurrentY = Start.Y
             CurrentX = NextX
             MaxXInColumn = Size.X
@@ -2263,7 +1785,7 @@ function GetNonOverlappingPosition(UI: GuiObject, StartPos: UDim2?)
             CurrentY = NextY
         end
     end
-    
+
     return UDim2.fromOffset(CurrentX, CurrentY)
 end
 
@@ -2280,24 +1802,17 @@ function Library:MakeDraggable(UI: GuiObject, DragFrame: GuiObject, IgnoreToggle
     local InputChanged
 
     InputBegan = DragFrame.InputBegan:Connect(function(Input: InputObject)
-        if not IsClickInput(Input) or IsMainWindow and Library.CantDragForced then
-            return
-        end
+        if not IsClickInput(Input) or IsMainWindow and Library.CantDragForced then return end
 
         StartPos = Input.Position
         FramePos = UI.Position
         Dragging = true
 
         Changed = Input.Changed:Connect(function()
-            if Input.UserInputState ~= Enum.UserInputState.End then
-                return
-            end
+            if Input.UserInputState ~= Enum.UserInputState.End then return end
 
             Dragging = false
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
         end)
     end)
 
@@ -2308,46 +1823,29 @@ function Library:MakeDraggable(UI: GuiObject, DragFrame: GuiObject, IgnoreToggle
             or not (ScreenGui and ScreenGui.Parent)
         then
             Dragging = false
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
 
             return
         end
 
-        if Dragging and IsHoverInput(Input) then
-            local Delta = Input.Position - StartPos
-            UI.Position =
-                UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
-        end
+        if Dragging and IsHoverInput(Input) then local Delta = Input.Position - StartPos UI.Position = UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y) end
     end)
 
     Library:GiveSignal(InputChanged)
     Library:GiveSignal(InputBegan)
-    
+
     UI.Destroying:Once(function()
-        if InputChanged and InputChanged.Connected then
-            InputChanged:Disconnect()
-        end
+        if InputChanged and InputChanged.Connected then InputChanged:Disconnect() end
 
-        if InputBegan and InputBegan.Connected then
-            InputBegan:Disconnect()
-        end
+        if InputBegan and InputBegan.Connected then InputBegan:Disconnect() end
 
-        if Changed and Changed.Connected then
-            Changed:Disconnect()
-        end
+        if Changed and Changed.Connected then Changed:Disconnect() end
 
         local IdxChanged = table.find(Library.Signals, InputChanged)
-        if IdxChanged then
-            table.remove(Library.Signals, IdxChanged)
-        end
+        if IdxChanged then table.remove(Library.Signals, IdxChanged) end
 
         local IdxBegan = table.find(Library.Signals, InputBegan)
-        if IdxBegan then
-            table.remove(Library.Signals, IdxBegan)
-        end
+        if IdxBegan then table.remove(Library.Signals, IdxBegan) end
     end)
 end
 
@@ -2360,34 +1858,24 @@ function Library:MakeResizable(UI: GuiObject, DragFrame: GuiObject, Callback: ()
     local InputChanged
 
     InputBegan = DragFrame.InputBegan:Connect(function(Input: InputObject)
-        if not IsClickInput(Input) then
-            return
-        end
+        if not IsClickInput(Input) then return end
 
         StartPos = Input.Position
         FrameSize = UI.Size
         Dragging = true
 
         Changed = Input.Changed:Connect(function()
-            if Input.UserInputState ~= Enum.UserInputState.End then
-                return
-            end
+            if Input.UserInputState ~= Enum.UserInputState.End then return end
 
             Dragging = false
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
         end)
     end)
 
     InputChanged = UserInputService.InputChanged:Connect(function(Input: InputObject)
         if not UI.Visible or not (ScreenGui and ScreenGui.Parent) then
             Dragging = false
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
 
             return
         end
@@ -2400,9 +1888,7 @@ function Library:MakeResizable(UI: GuiObject, DragFrame: GuiObject, Callback: ()
                 FrameSize.Y.Scale,
                 math.clamp(FrameSize.Y.Offset + Delta.Y, Library.MinSize.Y, math.huge)
             )
-            if Callback then
-                Library:SafeCallback(Callback)
-            end
+            if Callback then Library:SafeCallback(Callback) end
         end
     end)
 
@@ -2410,27 +1896,17 @@ function Library:MakeResizable(UI: GuiObject, DragFrame: GuiObject, Callback: ()
     Library:GiveSignal(InputBegan)
 
     UI.Destroying:Once(function()
-        if InputChanged and InputChanged.Connected then
-            InputChanged:Disconnect()
-        end
+        if InputChanged and InputChanged.Connected then InputChanged:Disconnect() end
 
-        if InputBegan and InputBegan.Connected then
-            InputBegan:Disconnect()
-        end
+        if InputBegan and InputBegan.Connected then InputBegan:Disconnect() end
 
-        if Changed and Changed.Connected then
-            Changed:Disconnect()
-        end
+        if Changed and Changed.Connected then Changed:Disconnect() end
 
         local IdxChanged = table.find(Library.Signals, InputChanged)
-        if IdxChanged then
-            table.remove(Library.Signals, IdxChanged)
-        end
+        if IdxChanged then table.remove(Library.Signals, IdxChanged) end
 
         local IdxBegan = table.find(Library.Signals, InputBegan)
-        if IdxBegan then
-            table.remove(Library.Signals, IdxBegan)
-        end
+        if IdxBegan then table.remove(Library.Signals, IdxBegan) end
     end)
 end
 
@@ -2438,43 +1914,20 @@ function Library:MakeCover(Holder: GuiObject, Place: string)
     local Pos = Places[Place] or { 0, 0 }
     local Size = Sizes[Place] or { 1, 0.5 }
 
-    local Cover = New("Frame", {
-        AnchorPoint = Vector2.new(Pos[1], Pos[2]),
-        BackgroundColor3 = Holder.BackgroundColor3,
-        Position = UDim2.fromScale(Pos[1], Pos[2]),
-        Size = UDim2.fromScale(Size[1], Size[2]),
-        Parent = Holder,
-    })
+    local Cover = New("Frame", { AnchorPoint = Vector2.new(Pos[1], Pos[2]), BackgroundColor3 = Holder.BackgroundColor3, Position = UDim2.fromScale(Pos[1], Pos[2]), Size = UDim2.fromScale(Size[1], Size[2]), Parent = Holder, })
 
     return Cover
 end
 
 function Library:MakeLine(Frame: GuiObject, Info)
-    local Line = New("Frame", {
-        AnchorPoint = Info.AnchorPoint or Vector2.zero,
-        BackgroundColor3 = "OutlineColor",
-        Position = Info.Position,
-        Size = Info.Size,
-        ZIndex = Info.ZIndex or Frame.ZIndex,
-        Parent = Frame,
-    })
+    local Line = New("Frame", { AnchorPoint = Info.AnchorPoint or Vector2.zero, BackgroundColor3 = "OutlineColor", Position = Info.Position, Size = Info.Size, ZIndex = Info.ZIndex or Frame.ZIndex, Parent = Frame, })
 
     return Line
 end
 
 function Library:AddOutline(Frame: GuiObject)
-    local OutlineStroke = New("UIStroke", {
-        Color = "OutlineColor",
-        Thickness = 1,
-        ZIndex = 2,
-        Parent = Frame,
-    })
-    local ShadowStroke = New("UIStroke", {
-        Color = "DarkColor",
-        Thickness = 1.5,
-        ZIndex = 1,
-        Parent = Frame,
-    })
+    local OutlineStroke = New("UIStroke", { Color = "OutlineColor", Thickness = 1, ZIndex = 2, Parent = Frame, })
+    local ShadowStroke = New("UIStroke", { Color = "DarkColor", Thickness = 1.5, ZIndex = 1, Parent = Frame, })
     return OutlineStroke, ShadowStroke
 end
 
@@ -2486,24 +1939,11 @@ function Library:AddBlank(Frame: GuiObject, Size: UDim2)
     })
 end
 
---// Deprecated \\--
 function Library:MakeOutline(Frame: GuiObject, Corner: number?, ZIndex: number?)
     warn("Obsidian:MakeOutline is deprecated, please use Obsidian:AddOutline instead.")
-    local Holder = New("Frame", {
-        BackgroundColor3 = "DarkColor",
-        Position = UDim2.fromOffset(-2, -2),
-        Size = UDim2.new(1, 4, 1, 4),
-        ZIndex = ZIndex,
-        Parent = Frame,
-    })
+    local Holder = New("Frame", { BackgroundColor3 = "DarkColor", Position = UDim2.fromOffset(-2, -2), Size = UDim2.new(1, 4, 1, 4), ZIndex = ZIndex, Parent = Frame, })
 
-    local Outline = New("Frame", {
-        BackgroundColor3 = "OutlineColor",
-        Position = UDim2.fromOffset(1, 1),
-        Size = UDim2.new(1, -2, 1, -2),
-        ZIndex = ZIndex,
-        Parent = Holder,
-    })
+    local Outline = New("Frame", { BackgroundColor3 = "OutlineColor", Position = UDim2.fromOffset(1, 1), Size = UDim2.new(1, -2, 1, -2), ZIndex = ZIndex, Parent = Holder, })
 
     if Corner and Corner > 0 then
         New("UICorner", {
@@ -2529,51 +1969,27 @@ function Library:AddDraggableLabel(...)
         Text = Params.Text
         Icon = Params.Icon
         IconPosition = Params.IconPosition or "left"
-    elseif typeof(Params) == "string" then
-        Text = Params
-        Icon = select(2, ...)
-        IconPosition = select(3, ...) or "left"
-    end
+    elseif typeof(Params) == "string" then Text = Params Icon = select(2, ...) IconPosition = select(3, ...) or "left" end
 
-    if typeof(IconPosition) ~= "string" then
-        IconPosition = "left"
-    end
+    if typeof(IconPosition) ~= "string" then IconPosition = "left" end
 
     IconPosition = string.lower(IconPosition)
     assert(IconPosition == "left" or IconPosition == "right", "Icon Position needs to be either 'left' or 'right'.")
 
-    local DraggableLabel = {
-        Connections = {},
-        Destroyed = false
-    }
+    local DraggableLabel = { Connections = {}, Destroyed = false }
 
     local IconImage
-    local Label = New("TextLabel", {
-        AutomaticSize = Enum.AutomaticSize.XY,
-        BackgroundColor3 = "BackgroundColor",
-        Size = UDim2.fromOffset(0, 0),
-        Position = UDim2.fromOffset(6, 6),
-        Text = Text,
-        TextSize = 15,
-        ZIndex = 10,
-        Parent = ScreenGui,
-    })
+    local Label = New("TextLabel", { AutomaticSize = Enum.AutomaticSize.XY, BackgroundColor3 = "BackgroundColor", Size = UDim2.fromOffset(0, 0), Position = UDim2.fromOffset(6, 6), Text = Text, TextSize = 15, ZIndex = 10, Parent = ScreenGui, })
 
     table.insert(
-        Library.Corners, 
+        Library.Corners,
         New("UICorner", {
             CornerRadius = UDim.new(0, Library.CornerRadius),
             Parent = Label,
         })
     )
 
-    local Padding = New("UIPadding", {
-        PaddingBottom = UDim.new(0, 6),
-        PaddingLeft = UDim.new(0, 12),
-        PaddingRight = UDim.new(0, 12),
-        PaddingTop = UDim.new(0, 6),
-        Parent = Label,
-    })
+    local Padding = New("UIPadding", { PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 12), PaddingRight = UDim.new(0, 12), PaddingTop = UDim.new(0, 6), Parent = Label, })
     table.insert(
         Library.Scales,
         New("UIScale", {
@@ -2635,13 +2051,11 @@ function Library:AddDraggableLabel(...)
     function DraggableLabel:SetVisible(Visible: boolean)
         Label.Visible = Visible
     end
-    
+
     DraggableLabel:SetIcon(Icon)
     DraggableLabel.Label = Label
 
-    if not table.find(Library.DraggableElements, Label) then
-        table.insert(Library.DraggableElements, Label)
-    end
+    if not table.find(Library.DraggableElements, Label) then table.insert(Library.DraggableElements, Label) end
 
     PositionDraggable(Label, Label.Position)
 
@@ -2649,19 +2063,13 @@ function Library:AddDraggableLabel(...)
         DraggableLabel.Destroyed = true
 
         if DraggableLabel.Connections then
-            for _, connection in DraggableLabel.Connections do
-                connection:Disconnect()
-            end
+            for _, connection in DraggableLabel.Connections do connection:Disconnect() end
         end
 
         local ElemIdx = table.find(Library.DraggableElements, Label)
-        if ElemIdx then
-            table.remove(Library.DraggableElements, ElemIdx)
-        end
+        if ElemIdx then table.remove(Library.DraggableElements, ElemIdx) end
 
-        if Label then
-            Label:Destroy()
-        end
+        if Label then Label:Destroy() end
     end
 
     return DraggableLabel
@@ -2687,20 +2095,11 @@ function Library:AddDraggableButton(...)
         ExcludeDragging = select(4, ...)
     end
 
-    local DraggableButton = {
-        Connections = {},
-        Destroyed = false
-    }
+    local DraggableButton = { Connections = {}, Destroyed = false }
 
-    local Button = New("TextButton", {
-        BackgroundColor3 = "BackgroundColor",
-        Position = UDim2.fromOffset(6, 6),
-        TextSize = 16,
-        ZIndex = 10,
-        Parent = ScreenGui,
-    })
+    local Button = New("TextButton", { BackgroundColor3 = "BackgroundColor", Position = UDim2.fromOffset(6, 6), TextSize = 16, ZIndex = 10, Parent = ScreenGui, })
     table.insert(
-        Library.Corners, 
+        Library.Corners,
         New("UICorner", {
             CornerRadius = UDim.new(0, Library.CornerRadius),
             Parent = Button,
@@ -2718,29 +2117,20 @@ function Library:AddDraggableButton(...)
 
     local DragThreshold = if ExcludeDragging then 0.25 else math.huge
     Button.InputBegan:Connect(function(Input: InputObject)
-        if not IsClickInput(Input) then
-            return
-        end
-        
+        if not IsClickInput(Input) then return end
+
         local Start = tick()
 
         local Changed
         Changed = Input.Changed:Connect(function()
-            if Input.UserInputState ~= Enum.UserInputState.End then
-                return
-            end
+            if Input.UserInputState ~= Enum.UserInputState.End then return end
 
             local IsLikelyDragging = tick() - Start > DragThreshold
-            if IsLikelyDragging then
-                return
-            end
+            if IsLikelyDragging then return end
 
             Library:SafeCallback(Func, DraggableButton)
 
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
         end)
     end)
 
@@ -2755,9 +2145,7 @@ function Library:AddDraggableButton(...)
     DraggableButton:SetText(Text)
     DraggableButton.Button = Button
 
-    if not table.find(Library.DraggableElements, Button) then
-        table.insert(Library.DraggableElements, Button)
-    end
+    if not table.find(Library.DraggableElements, Button) then table.insert(Library.DraggableElements, Button) end
 
     PositionDraggable(Button, Button.Position)
 
@@ -2765,33 +2153,20 @@ function Library:AddDraggableButton(...)
         DraggableButton.Destroyed = true
 
         if DraggableButton.Connections then
-            for _, connection in DraggableButton.Connections do
-                connection:Disconnect()
-            end
+            for _, connection in DraggableButton.Connections do connection:Disconnect() end
         end
 
         local ElemIdx = table.find(Library.DraggableElements, Button)
-        if ElemIdx then
-            table.remove(Library.DraggableElements, ElemIdx)
-        end
+        if ElemIdx then table.remove(Library.DraggableElements, ElemIdx) end
 
-        if Button then
-            Button:Destroy()
-        end
+        if Button then Button:Destroy() end
     end
 
     return DraggableButton
 end
 
 function Library:AddDraggableMenu(Name: string)
-    local Holder = New("Frame", {
-        AutomaticSize = Enum.AutomaticSize.XY,
-        BackgroundColor3 = "BackgroundColor",
-        Position = UDim2.fromOffset(6, 6),
-        Size = UDim2.fromOffset(0, 0),
-        ZIndex = 10,
-        Parent = ScreenGui,
-    })
+    local Holder = New("Frame", { AutomaticSize = Enum.AutomaticSize.XY, BackgroundColor3 = "BackgroundColor", Position = UDim2.fromOffset(6, 6), Size = UDim2.fromOffset(0, 0), ZIndex = 10, Parent = ScreenGui, })
     table.insert(
         Library.Corners,
         New("UICorner", {
@@ -2807,31 +2182,16 @@ function Library:AddDraggableMenu(Name: string)
     )
     Library:AddOutline(Holder)
 
-    Library:MakeLine(Holder, {
-        Position = UDim2.fromOffset(0, 34),
-        Size = UDim2.new(1, 0, 0, 1),
-    })
+    Library:MakeLine(Holder, { Position = UDim2.fromOffset(0, 34), Size = UDim2.new(1, 0, 0, 1), })
 
-    local Label = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 34),
-        Text = Name,
-        TextSize = 15,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = Holder,
-    })
+    local Label = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 34), Text = Name, TextSize = 15, TextXAlignment = Enum.TextXAlignment.Left, Parent = Holder, })
     New("UIPadding", {
         PaddingLeft = UDim.new(0, 12),
         PaddingRight = UDim.new(0, 12),
         Parent = Label,
     })
 
-    local Container = New("Frame", {
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(0, 35),
-        Size = UDim2.new(1, 0, 1, -35),
-        Parent = Holder,
-    })
+    local Container = New("Frame", { BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 35), Size = UDim2.new(1, 0, 1, -35), Parent = Holder, })
     New("UIListLayout", {
         Padding = UDim.new(0, 7),
         Parent = Container,
@@ -2846,9 +2206,7 @@ function Library:AddDraggableMenu(Name: string)
 
     Library:MakeDraggable(Holder, Label, true)
 
-    if not table.find(Library.DraggableElements, Holder) then
-        table.insert(Library.DraggableElements, Holder)
-    end
+    if not table.find(Library.DraggableElements, Holder) then table.insert(Library.DraggableElements, Holder) end
 
     PositionDraggable(Holder, Holder.Position)
 
@@ -2880,27 +2238,12 @@ function Library:AddDraggableImageButton(...)
 
     local DraggableImageButton = {}
 
-    local Button = New("TextButton", {
-        BackgroundColor3 = "BackgroundColor",
-        Position = UDim2.fromOffset(6, 6),
-        Size = UDim2.fromOffset(IconSize + 12, IconSize + 12),
-        Text = "",
-        ZIndex = 10,
-        Parent = ScreenGui,
-    })
-    
-    local IconImage = New("ImageLabel", {
-        BackgroundTransparency = 1,
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        Position = UDim2.fromScale(0.5, 0.5),
-        Size = UDim2.fromOffset(IconSize, IconSize),
-        ImageColor3 = "FontColor",
-        ZIndex = 11,
-        Parent = Button,
-    })
+    local Button = New("TextButton", { BackgroundColor3 = "BackgroundColor", Position = UDim2.fromOffset(6, 6), Size = UDim2.fromOffset(IconSize + 12, IconSize + 12), Text = "", ZIndex = 10, Parent = ScreenGui, })
+
+    local IconImage = New("ImageLabel", { BackgroundTransparency = 1, AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(IconSize, IconSize), ImageColor3 = "FontColor", ZIndex = 11, Parent = Button, })
 
     table.insert(
-        Library.Corners, 
+        Library.Corners,
         New("UICorner", {
             CornerRadius = UDim.new(0, Library.CornerRadius),
             Parent = Button,
@@ -2918,35 +2261,26 @@ function Library:AddDraggableImageButton(...)
 
     local DragThreshold = if ExcludeDragging then 0.25 else math.huge
     Button.InputBegan:Connect(function(Input: InputObject)
-        if not IsClickInput(Input) then
-            return
-        end
-        
+        if not IsClickInput(Input) then return end
+
         local Start = tick()
 
         local Changed
         Changed = Input.Changed:Connect(function()
-            if Input.UserInputState ~= Enum.UserInputState.End then
-                return
-            end
+            if Input.UserInputState ~= Enum.UserInputState.End then return end
 
             local IsLikelyDragging = tick() - Start > DragThreshold
-            if IsLikelyDragging then
-                return
-            end
+            if IsLikelyDragging then return end
 
             Library:SafeCallback(Func, DraggableImageButton)
 
-            if Changed and Changed.Connected then
-                Changed:Disconnect()
-                Changed = nil
-            end
+            if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
         end)
     end)
 
     function DraggableImageButton:SetIcon(NewIcon: string)
         Icon = NewIcon or Icon
-        
+
         local CustomIcon = Library:GetCustomIcon(Icon)
         assert(CustomIcon, "Icon must be a valid Roblox asset or a valid URL or a valid lucide icon.")
 
@@ -2965,32 +2299,22 @@ function Library:AddDraggableImageButton(...)
     DraggableImageButton:SetIcon(Icon)
     DraggableImageButton.Button = Button
 
-    if not table.find(Library.DraggableElements, Button) then
-        table.insert(Library.DraggableElements, Button)
-    end
+    if not table.find(Library.DraggableElements, Button) then table.insert(Library.DraggableElements, Button) end
 
     PositionDraggable(Button, Button.Position)
 
     return DraggableImageButton
 end
 
---// Watermark - Deprecated \\--
 do
     local WatermarkLabel = Library:AddDraggableLabel("")
     WatermarkLabel:SetVisible(false)
 
-    function Library:SetWatermark(Text: string)
-        warn("Watermark is deprecated, please use Library:AddDraggableLabel instead.")
-        WatermarkLabel:SetText(Text)
-    end
+    function Library:SetWatermark(Text: string) warn("Watermark is deprecated, please use Library:AddDraggableLabel instead."); WatermarkLabel:SetText(Text) end
 
-    function Library:SetWatermarkVisibility(Visible: boolean)
-        warn("Watermark is deprecated, please use Library:AddDraggableLabel instead.")
-        WatermarkLabel:SetVisible(Visible)
-    end
+    function Library:SetWatermarkVisibility(Visible: boolean) warn("Watermark is deprecated, please use Library:AddDraggableLabel instead."); WatermarkLabel:SetVisible(Visible) end
 end
 
---// Context Menu \\--
 local CurrentMenu
 function Library:AddContextMenu(
     Holder: GuiObject,
@@ -3003,9 +2327,7 @@ function Library:AddContextMenu(
 )
     local Menu
     local ParentGui = Holder:FindFirstAncestorOfClass("ScreenGui")
-    if ParentGui ~= ScreenGui and (Library.ActiveLoading and ParentGui ~= Library.ActiveLoading.ScreenGui) then
-        ParentGui = ScreenGui
-    end
+    if ParentGui ~= ScreenGui and (Library.ActiveLoading and ParentGui ~= Library.ActiveLoading.ScreenGui) then ParentGui = ScreenGui end
 
     if List then
         Menu = New("ScrollingFrame", {
@@ -3107,9 +2429,7 @@ function Library:AddContextMenu(
     function Table:Open()
         if CurrentMenu == Table then
             return
-        elseif CurrentMenu then
-            CurrentMenu:Close()
-        end
+        elseif CurrentMenu then CurrentMenu:Close() end
 
         CurrentMenu = Table
         Table.Active = true
@@ -3126,9 +2446,7 @@ function Library:AddContextMenu(
             )
         end
         Menu.Size = typeof(Table.Size) == "function" and Table.Size() or Table.Size
-        if typeof(ActiveCallback) == "function" then
-            Library:SafeCallback(ActiveCallback, true)
-        end
+        if typeof(ActiveCallback) == "function" then Library:SafeCallback(ActiveCallback, true) end
 
         Menu.Visible = true
 
@@ -3145,27 +2463,18 @@ function Library:AddContextMenu(
                 )
             end
 
-            if not Library:IsInsideFrame(Library.WindowContainer, Holder) and Table.Active then
-                Table:Close()
-            end
+            if not Library:IsInsideFrame(Library.WindowContainer, Holder) and Table.Active then Table:Close() end
         end)
     end
 
     function Table:Close()
-        if CurrentMenu ~= Table then
-            return
-        end
+        if CurrentMenu ~= Table then return end
         Menu.Visible = false
 
-        if Table.Signal then
-            Table.Signal:Disconnect()
-            Table.Signal = nil
-        end
+        if Table.Signal then Table.Signal:Disconnect(); Table.Signal = nil end
         Table.Active = false
         CurrentMenu = nil
-        if typeof(ActiveCallback) == "function" then
-            Library:SafeCallback(ActiveCallback, false)
-        end
+        if typeof(ActiveCallback) == "function" then Library:SafeCallback(ActiveCallback, false) end
     end
 
     function Table:Toggle()
@@ -3176,36 +2485,25 @@ function Library:AddContextMenu(
         end
     end
 
-    function Table:SetSize(Size)
-        Table.Size = Size
-        Menu.Size = typeof(Size) == "function" and Size() or Size
-    end
+    function Table:SetSize(Size) Table.Size = Size; Menu.Size = typeof(Size) == "function" and Size() or Size end
 
     function Table:Destroy()
         Table.Destroyed = true
 
         if Table.Connections then
-            for _, Connection in Table.Connections do
-                Connection:Disconnect()
-            end
+            for _, Connection in Table.Connections do Connection:Disconnect() end
         end
 
-        if CurrentMenu == Table then
-            Table:Close()
-        end
+        if CurrentMenu == Table then Table:Close() end
 
-        if Menu then
-            Menu:Destroy()
-        end
+        if Menu then Menu:Destroy() end
     end
 
     return Table
 end
 
 Library:GiveSignal(UserInputService.InputBegan:Connect(function(Input: InputObject)
-    if Library.Unloaded then
-        return
-    end
+    if Library.Unloaded then return end
 
     if IsClickInput(Input, true) then
         local Location = Input.Position
@@ -3222,16 +2520,7 @@ Library:GiveSignal(UserInputService.InputBegan:Connect(function(Input: InputObje
     end
 end))
 
---// Tooltip \\--
-local TooltipLabel = New("TextLabel", {
-    AutomaticSize = Enum.AutomaticSize.Y,
-    BackgroundColor3 = "BackgroundColor",
-    TextSize = 14,
-    TextWrapped = true,
-    Visible = false,
-    ZIndex = 20,
-    Parent = ScreenGui,
-})
+local TooltipLabel = New("TextLabel", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "BackgroundColor", TextSize = 14, TextWrapped = true, Visible = false, ZIndex = 20, Parent = ScreenGui, })
 New("UIPadding", {
     PaddingBottom = UDim.new(0, 2),
     PaddingLeft = UDim.new(0, 4),
@@ -3257,9 +2546,7 @@ table.insert(
     })
 )
 TooltipLabel:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-    if Library.Unloaded then
-        return
-    end
+    if Library.Unloaded then return end
 
     local X, _ = Library:GetTextBounds(
         TooltipLabel.Text,
@@ -3273,11 +2560,7 @@ end)
 
 local CurrentHoverInstance
 function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInstance: GuiObject)
-    local TooltipTable = {
-        Disabled = false,
-        Hovering = false,
-        Signals = {},
-    }
+    local TooltipTable = { Disabled = false, Hovering = false, Signals = {}, }
 
     local function DoHover()
         if
@@ -3292,9 +2575,7 @@ function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInsta
         CurrentHoverInstance = HoverInstance
 
         local ParentGui = HoverInstance:FindFirstAncestorOfClass("ScreenGui")
-        if ParentGui ~= ScreenGui and (Library.ActiveLoading and ParentGui ~= Library.ActiveLoading.ScreenGui) then
-            ParentGui = ScreenGui
-        end
+        if ParentGui ~= ScreenGui and (Library.ActiveLoading and ParentGui ~= Library.ActiveLoading.ScreenGui) then ParentGui = ScreenGui end
         TooltipLabel.Parent = ParentGui
 
         TooltipLabel.Text = TooltipTable.Disabled and DisabledInfoStr or InfoStr
@@ -3320,9 +2601,7 @@ function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInsta
 
     local function GiveSignal(Connection: RBXScriptConnection | RBXScriptSignal)
         local ConnectionType = typeof(Connection)
-        if Connection and (ConnectionType == "RBXScriptConnection" or ConnectionType == "RBXScriptSignal") then
-            table.insert(TooltipTable.Signals, Connection)
-        end
+        if Connection and (ConnectionType == "RBXScriptConnection" or ConnectionType == "RBXScriptSignal") then table.insert(TooltipTable.Signals, Connection) end
 
         return Connection
     end
@@ -3330,26 +2609,17 @@ function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInsta
     GiveSignal(HoverInstance.MouseEnter:Connect(DoHover))
     GiveSignal(HoverInstance.MouseMoved:Connect(DoHover))
     GiveSignal(HoverInstance.MouseLeave:Connect(function()
-        if CurrentHoverInstance ~= HoverInstance then
-            return
-        end
+        if CurrentHoverInstance ~= HoverInstance then return end
 
         TooltipLabel.Visible = false
         CurrentHoverInstance = nil
     end))
 
     function TooltipTable:Destroy()
-        for Index = #TooltipTable.Signals, 1, -1 do
-            local Connection = table.remove(TooltipTable.Signals, Index)
-            if Connection and Connection.Connected then
-                Connection:Disconnect()
-            end
-        end
+        for Index = #TooltipTable.Signals, 1, -1 do local Connection = table.remove(TooltipTable.Signals, Index); if Connection and Connection.Connected then Connection:Disconnect() end end
 
         if CurrentHoverInstance == HoverInstance then
-            if TooltipLabel then
-                TooltipLabel.Visible = false
-            end
+            if TooltipLabel then TooltipLabel.Visible = false end
 
             CurrentHoverInstance = nil
         end
@@ -3373,7 +2643,6 @@ function Library:SetIconModule(module: IconModule)
     FetchIcons = true
     Icons = module
 
-    -- Top ten fixes 🚀
     CheckIcon = Library:GetIcon("check")
     ArrowIcon = Library:GetIcon("chevron-up")
     ResizeIcon = Library:GetIcon("move-diagonal-2")
@@ -3435,28 +2704,16 @@ do
         if KeyPicker.SyncToggleState then
             Info.Modes = { "Toggle", "Hold" }
 
-            if not table.find(Info.Modes, Info.Mode) then
-                Info.Mode = "Toggle"
-            end
+            if not table.find(Info.Modes, Info.Mode) then Info.Mode = "Toggle" end
         end
 
         local Picking = false
         local IsForButton = ParentObj.Type == "Button" or ParentObj.Type == "SubButton"
 
-        -- Special Keys
-        local SpecialKeys = {
-            ["MB1"] = Enum.UserInputType.MouseButton1,
-            ["MB2"] = Enum.UserInputType.MouseButton2,
-            ["MB3"] = Enum.UserInputType.MouseButton3,
-        }
+        local SpecialKeys = { ["MB1"] = Enum.UserInputType.MouseButton1, ["MB2"] = Enum.UserInputType.MouseButton2, ["MB3"] = Enum.UserInputType.MouseButton3, }
 
-        local SpecialKeysInput = {
-            [Enum.UserInputType.MouseButton1] = "MB1",
-            [Enum.UserInputType.MouseButton2] = "MB2",
-            [Enum.UserInputType.MouseButton3] = "MB3",
-        }
+        local SpecialKeysInput = { [Enum.UserInputType.MouseButton1] = "MB1", [Enum.UserInputType.MouseButton2] = "MB2", [Enum.UserInputType.MouseButton3] = "MB3", }
 
-        -- Modifiers
         local Modifiers = {
             ["LAlt"] = Enum.KeyCode.LeftAlt,
             ["RAlt"] = Enum.KeyCode.RightAlt,
@@ -3493,12 +2750,8 @@ do
             local ActiveModifiers = {}
 
             for Name, Input in Modifiers do
-                if table.find(ActiveModifiers, Name) then
-                    continue
-                end
-                if not UserInputService:IsKeyDown(Input) then
-                    continue
-                end
+                if table.find(ActiveModifiers, Name) then continue end
+                if not UserInputService:IsKeyDown(Input) then continue end
 
                 table.insert(ActiveModifiers, Name)
             end
@@ -3507,17 +2760,13 @@ do
         end
 
         local AreModifiersHeld = function(Required)
-            if not (typeof(Required) == "table" and GetTableSize(Required) > 0) then
-                return true
-            end
+            if not (typeof(Required) == "table" and GetTableSize(Required) > 0) then return true end
 
             local ActiveModifiers = GetActiveModifiers()
             local Holding = true
 
             for _, Name in Required do
-                if table.find(ActiveModifiers, Name) then
-                    continue
-                end
+                if table.find(ActiveModifiers, Name) then continue end
 
                 Holding = false
                 break
@@ -3527,9 +2776,7 @@ do
         end
 
         local IsInputDown = function(Input)
-            if not Input then
-                return false
-            end
+            if not Input then return false end
 
             if SpecialKeysInput[Input.UserInputType] ~= nil then
                 return UserInputService:IsMouseButtonPressed(Input.UserInputType)
@@ -3544,24 +2791,18 @@ do
         local ConvertToInputModifiers = function(CurrentModifiers)
             local InputModifiers = {}
 
-            for _, name in CurrentModifiers do
-                table.insert(InputModifiers, Modifiers[name])
-            end
+            for _, name in CurrentModifiers do table.insert(InputModifiers, Modifiers[name]) end
 
             return InputModifiers
         end
 
         local VerifyModifiers = function(CurrentModifiers)
-            if typeof(CurrentModifiers) ~= "table" then
-                return {}
-            end
+            if typeof(CurrentModifiers) ~= "table" then return {} end
 
             local ValidModifiers = {}
 
             for _, name in CurrentModifiers do
-                if not Modifiers[name] then
-                    continue
-                end
+                if not Modifiers[name] then continue end
 
                 table.insert(ValidModifiers, name)
             end
@@ -3579,48 +2820,26 @@ do
         local SlideForwardTween
         local SlideBackTween
         local HandleForwardTween = function(State)
-            if State ~= Enum.PlaybackState.Completed then
-                return
-            end
+            if State ~= Enum.PlaybackState.Completed then return end
 
             task.wait(1.5)
-            if SlideBackTween then
-                SlideBackTween:Play()
-            end
+            if SlideBackTween then SlideBackTween:Play() end
         end
 
         local HandleBackTween = function(State)
-            if State ~= Enum.PlaybackState.Completed then
-                return
-            end
+            if State ~= Enum.PlaybackState.Completed then return end
 
             task.wait(1.5)
-            if SlideForwardTween then
-                SlideForwardTween:Play()
-            end
+            if SlideForwardTween then SlideForwardTween:Play() end
         end
 
         local CancelSlidingTweens = function()
-            if SlideForwardTween then
-                SlideForwardTween:Cancel()
-                SlideForwardTween:Destroy()
-                SlideForwardTween = nil
-            end
+            if SlideForwardTween then SlideForwardTween:Cancel() SlideForwardTween:Destroy() SlideForwardTween = nil end
 
-            if SlideBackTween then
-                SlideBackTween:Cancel()
-                SlideBackTween:Destroy()
-                SlideBackTween = nil
-            end
+            if SlideBackTween then SlideBackTween:Cancel() SlideBackTween:Destroy() SlideBackTween = nil end
         end
 
-        local Picker = New("TextButton", {
-            BackgroundColor3 = "MainColor",
-            Size = UDim2.fromOffset(18, 18),
-            Text = (IsForButton and SlideOverflow) and "" or KeyPicker.Value,
-            TextSize = 14,
-            Parent = ToggleLabel,
-        })
+        local Picker = New("TextButton", { BackgroundColor3 = "MainColor", Size = UDim2.fromOffset(18, 18), Text = (IsForButton and SlideOverflow) and "" or KeyPicker.Value, TextSize = 14, Parent = ToggleLabel, })
 
         if IsForButton and SlideOverflow then
             Picker.ClipsDescendants = true
@@ -3636,9 +2855,7 @@ do
                 Parent = Picker,
             })
 
-            Library:AddToRegistry(SlidingLabel, {
-                TextColor3 = "FontColor",
-            })
+            Library:AddToRegistry(SlidingLabel, { TextColor3 = "FontColor", })
         end
 
         New("UIStroke", {
@@ -3655,11 +2872,7 @@ do
         }); table.insert(Library.SpecificCorners, PickerCorner)
 
         if IsForButton then
-            local Holder = New("Frame", {
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 21),
-                Parent = ToggleLabel.Parent,
-            })
+            local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 21), Parent = ToggleLabel.Parent, })
 
             New("UIListLayout", {
                 FillDirection = Enum.FillDirection.Horizontal,
@@ -3676,32 +2889,11 @@ do
 
         local KeybindsToggle = { Normal = KeyPicker.Mode ~= "Toggle" }
         do
-            local Holder = New("TextButton", {
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 16),
-                Text = "",
-                Visible = not Info.NoUI,
-                Parent = Library.KeybindContainer,
-            })
+            local Holder = New("TextButton", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 16), Text = "", Visible = not Info.NoUI, Parent = Library.KeybindContainer, })
 
-            local Label = New("TextLabel", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(0, 1),
-                Text = "",
-                TextSize = 14,
-                TextTransparency = 0.5,
-                Parent = Holder,
-            })
+            local Label = New("TextLabel", { AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, Size = UDim2.fromScale(0, 1), Text = "", TextSize = 14, TextTransparency = 0.5, Parent = Holder, })
 
-            local Checkbox = New("Frame", {
-                AnchorPoint = Vector2.new(0, 0.5),
-                BackgroundColor3 = "MainColor",
-                Position = UDim2.fromScale(0, 0.5),
-                Size = UDim2.fromOffset(14, 14),
-                SizeConstraint = Enum.SizeConstraint.RelativeYY,
-                Parent = Holder,
-            })
+            local Checkbox = New("Frame", { AnchorPoint = Vector2.new(0, 0.5), BackgroundColor3 = "MainColor", Position = UDim2.fromScale(0, 0.5), Size = UDim2.fromOffset(14, 14), SizeConstraint = Enum.SizeConstraint.RelativeYY, Parent = Holder, })
             table.insert(
                 Library.Corners,
                 New("UICorner", {
@@ -3714,21 +2906,9 @@ do
                 Parent = Checkbox,
             })
 
-            local CheckImage = New("ImageLabel", {
-                Image = CheckIcon and CheckIcon.Url or "",
-                ImageColor3 = "FontColor",
-                ImageRectOffset = CheckIcon and CheckIcon.ImageRectOffset or Vector2.zero,
-                ImageRectSize = CheckIcon and CheckIcon.ImageRectSize or Vector2.zero,
-                ImageTransparency = 1,
-                Position = UDim2.fromOffset(2, 2),
-                Size = UDim2.new(1, -4, 1, -4),
-                Parent = Checkbox,
-            })
+            local CheckImage = New("ImageLabel", { Image = CheckIcon and CheckIcon.Url or "", ImageColor3 = "FontColor", ImageRectOffset = CheckIcon and CheckIcon.ImageRectOffset or Vector2.zero, ImageRectSize = CheckIcon and CheckIcon.ImageRectSize or Vector2.zero, ImageTransparency = 1, Position = UDim2.fromOffset(2, 2), Size = UDim2.new(1, -4, 1, -4), Parent = Checkbox, })
 
-            function KeybindsToggle:Display(State)
-                Label.TextTransparency = State and 0 or 0.5
-                CheckImage.ImageTransparency = State and 0 or 1
-            end
+            function KeybindsToggle:Display(State) Label.TextTransparency = State and 0 or 0.5; CheckImage.ImageTransparency = State and 0 or 1 end
 
             function KeybindsToggle:SetText(Text)
                 Label.Text = Text
@@ -3748,9 +2928,7 @@ do
 
             KeyPicker.DoClick = function(...) end --// make luau lsp shut up
             Holder.MouseButton1Click:Connect(function()
-                if KeybindsToggle.Normal then
-                    return
-                end
+                if KeybindsToggle.Normal then return end
 
                 KeyPicker.Toggled = not KeyPicker.Toggled
                 KeyPicker:DoClick()
@@ -3776,16 +2954,8 @@ do
         for Index, Mode in Info.Modes do
             local ModeButton = {}
 
-            local Button = New("TextButton", {
-                BackgroundColor3 = "MainColor",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, IsForButton and 21 or (TotalModeButtons == 1 and 18 or 19)),
-                Text = Mode,
-                TextSize = 14,
-                TextTransparency = 0.5,
-                Parent = MenuTable.Menu,
-            })
-            
+            local Button = New("TextButton", { BackgroundColor3 = "MainColor", BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, IsForButton and 21 or (TotalModeButtons == 1 and 18 or 19)), Text = Mode, TextSize = 14, TextTransparency = 0.5, Parent = MenuTable.Menu, })
+
             if Index == 1 and TotalModeButtons == 1 then
                 table.insert(Library.SpecificCorners, New("UICorner", {
                     TopLeftRadius = UDim.new(0, 0),
@@ -3813,9 +2983,7 @@ do
             end
 
             function ModeButton:Select()
-                for _, Button in ModeButtons do
-                    Button:Deselect()
-                end
+                for _, Button in ModeButtons do Button:Deselect() end
 
                 KeyPicker.Mode = Mode
 
@@ -3836,23 +3004,17 @@ do
                 ModeButton:Select()
             end)
 
-            if KeyPicker.Mode == Mode then
-                ModeButton:Select()
-            end
+            if KeyPicker.Mode == Mode then ModeButton:Select() end
 
             ModeButtons[Mode] = ModeButton
         end
 
         function KeyPicker:Display(PickerText)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local DisplayText = PickerText or KeyPicker.DisplayValue
             if IsForButton and SlideOverflow then
-                if LastPickerWidth == Picker.AbsoluteSize.X then
-                    return
-                end
+                if LastPickerWidth == Picker.AbsoluteSize.X then return end
 
                 local X, _Y = Library:GetTextBounds(
                     DisplayText,
@@ -3930,21 +3092,14 @@ do
         function KeyPicker:Update()
             KeyPicker:Display()
 
-            if Info.NoUI then
-                return
-            end
+            if Info.NoUI then return end
 
-            if KeyPicker.Mode == "Toggle" and ParentObj.Type == "Toggle" and ParentObj.Disabled then
-                KeybindsToggle:SetVisibility(false)
-                return
-            end
+            if KeyPicker.Mode == "Toggle" and ParentObj.Type == "Toggle" and ParentObj.Disabled then KeybindsToggle:SetVisibility(false); return end
 
             local State = KeyPicker:GetState()
             local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == "Toggle"
 
-            if KeyPicker.SyncToggleState and ParentObj.Value ~= State then
-                ParentObj:SetValue(State)
-            end
+            if KeyPicker.SyncToggleState and ParentObj.Value ~= State then ParentObj:SetValue(State) end
 
             if KeybindsToggle.Loaded then
                 if ShowToggle then
@@ -3964,22 +3119,14 @@ do
                 return true
             elseif KeyPicker.Mode == "Hold" then
                 local Key = KeyPicker.Value
-                if Key == "None" then
-                    return false
-                end
+                if Key == "None" then return false end
 
-                if not AreModifiersHeld(KeyPicker.Modifiers) then
-                    return false
-                end
+                if not AreModifiersHeld(KeyPicker.Modifiers) then return false end
 
-                if Library.IsPicking then
-                    return false
-                end
+                if Library.IsPicking then return false end
 
                 if SpecialKeys[Key] ~= nil then
-                    if Library.Toggled then
-                        return false
-                    end
+                    if Library.Toggled then return false end
 
                     return UserInputService:IsMouseButtonPressed(SpecialKeys[Key])
                         and not UserInputService:GetFocusedTextBox()
@@ -4001,9 +3148,7 @@ do
 
         function KeyPicker:DoClick()
             if KeyPicker.Mode == "Press" then
-                if KeyPicker.Toggled and Info.WaitForCallback == true then
-                    return
-                end
+                if KeyPicker.Toggled and Info.WaitForCallback == true then return end
 
                 KeyPicker.Toggled = true
             end
@@ -4011,27 +3156,18 @@ do
             Library:SafeCallback(KeyPicker.Callback, KeyPicker.Toggled)
             Library:SafeCallback(KeyPicker.Clicked, KeyPicker.Toggled)
 
-            if IsForButton then
-                Library:SafeCallback(ParentObj.Func, KeyPicker.Toggled)
-            end
+            if IsForButton then Library:SafeCallback(ParentObj.Func, KeyPicker.Toggled) end
 
-            if KeyPicker.Mode == "Press" then
-                KeyPicker.Toggled = false
-            end
+            if KeyPicker.Mode == "Press" then KeyPicker.Toggled = false end
         end
 
         function KeyPicker:SetValue(Data)
             local Key, Mode, Modifiers = Data[1], Data[2], Data[3]
 
             local IsKeyValid, KeyCode = pcall(function()
-                if Key == "None" then
-                    Key = nil
-                    return nil
-                end
+                if Key == "None" then Key = nil; return nil end
 
-                if SpecialKeys[Key] == nil then
-                    return Enum.KeyCode[Key]
-                end
+                if SpecialKeys[Key] == nil then return Enum.KeyCode[Key] end
 
                 return SpecialKeys[Key]
             end)
@@ -4050,9 +3186,7 @@ do
                 then (table.concat(KeyPicker.Modifiers, " + ") .. " + " .. KeyPicker.Value)
                 else KeyPicker.Value
 
-            if ModeButtons[Mode] then
-                ModeButtons[Mode]:Select()
-            end
+            if ModeButtons[Mode] then ModeButtons[Mode]:Select() end
 
             local NewModifiers = ConvertToInputModifiers(KeyPicker.Modifiers)
             Library:SafeCallback(KeyPicker.ChangedCallback, KeyCode, NewModifiers)
@@ -4061,27 +3195,19 @@ do
             KeyPicker:Update()
         end
 
-        function KeyPicker:SetText(Text)
-            KeybindsToggle:SetText(Text)
-            KeyPicker:Update()
-        end
+        function KeyPicker:SetText(Text) KeybindsToggle:SetText(Text); KeyPicker:Update() end
 
         local SetPickingState = function(State)
             Picking = State
             Library.IsPicking = State
 
-            if IsForButton then
-                ToggleLabel.Visible = not Picking
-                RunService.RenderStepped:Wait()
-            end
+            if IsForButton then ToggleLabel.Visible = not Picking; RunService.RenderStepped:Wait() end
 
             KeyPicker:Update()
         end
 
         Picker.MouseButton1Click:Connect(function()
-            if Picking or Library.IsPicking then
-                return
-            end
+            if Picking or Library.IsPicking then return end
 
             SetPickingState(true)
 
@@ -4092,19 +3218,14 @@ do
                 Picker.Size = IsForButton and UDim2.new(0, 29, 1, 0) or UDim2.fromOffset(29, 18)
             end
 
-            -- Wait for an non modifier key --
             local Input
             local ActiveModifiers = {}
 
             local GetInput = nil; GetInput = function()
                 Input = UserInputService.InputBegan:Wait()
-                if UserInputService:GetFocusedTextBox() ~= nil then
-                    return true
-                end
+                if UserInputService:GetFocusedTextBox() ~= nil then return true end
 
-                if Input.KeyCode == Enum.KeyCode.Escape then
-                    return false
-                end
+                if Input.KeyCode == Enum.KeyCode.Escape then return false end
 
                 local IsMod = IsModifierInput(Input)
                 local KeyName
@@ -4120,21 +3241,13 @@ do
 
                 if KeyName then
                     if IsMod then
-                        if KeyPicker.WhitelistedModifiers and #KeyPicker.WhitelistedModifiers > 0 and not table.find(KeyPicker.WhitelistedModifiers, KeyName) then
-                            return GetInput()
-                        end
+                        if KeyPicker.WhitelistedModifiers and #KeyPicker.WhitelistedModifiers > 0 and not table.find(KeyPicker.WhitelistedModifiers, KeyName) then return GetInput() end
 
-                        if KeyPicker.BlacklistedModifiers and table.find(KeyPicker.BlacklistedModifiers, KeyName) then
-                            return GetInput()
-                        end
+                        if KeyPicker.BlacklistedModifiers and table.find(KeyPicker.BlacklistedModifiers, KeyName) then return GetInput() end
                     else
-                        if KeyPicker.Whitelisted and #KeyPicker.Whitelisted > 0 and not table.find(KeyPicker.Whitelisted, KeyName) then
-                            return GetInput()
-                        end
+                        if KeyPicker.Whitelisted and #KeyPicker.Whitelisted > 0 and not table.find(KeyPicker.Whitelisted, KeyName) then return GetInput() end
 
-                        if KeyPicker.Blacklisted and table.find(KeyPicker.Blacklisted, KeyName) then
-                            return GetInput()
-                        end
+                        if KeyPicker.Blacklisted and table.find(KeyPicker.Blacklisted, KeyName) then return GetInput() end
                     end
                 end
 
@@ -4144,7 +3257,6 @@ do
             repeat
                 task.wait()
 
-                -- Wait for any input --
                 if IsForButton and SlideOverflow then
                     KeyPicker:Display("...")
                 else
@@ -4152,17 +3264,10 @@ do
                     Picker.Size = IsForButton and UDim2.new(0, 29, 1, 0) or UDim2.fromOffset(29, 18)
                 end
 
-                if GetInput() then
-                    SetPickingState(false)
-                    return
-                end
+                if GetInput() then SetPickingState(false); return end
 
-                -- Escape --
-                if Input.KeyCode == Enum.KeyCode.Escape then
-                    break
-                end
+                if Input.KeyCode == Enum.KeyCode.Escape then break end
 
-                -- Handle modifier keys --
                 if IsModifierInput(Input) then
                     local StopLoop = false
 
@@ -4172,39 +3277,23 @@ do
                             task.wait(0.075)
 
                             if UserInputService:IsKeyDown(Input.KeyCode) then
-                                -- Add modifier to the key list --
-                                if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then
-                                    ActiveModifiers[#ActiveModifiers + 1] = ModifiersInput[Input.KeyCode]
-                                    KeyPicker:Display(table.concat(ActiveModifiers, " + ") .. " + ...")
-                                end
+                                if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then ActiveModifiers[#ActiveModifiers + 1] = ModifiersInput[Input.KeyCode]; KeyPicker:Display(table.concat(ActiveModifiers, " + ") .. " + ...") end
 
-                                -- Wait for another input --
                                 if GetInput() then
                                     StopLoop = true
                                     break -- Invalid Input
                                 end
 
-                                -- Escape --
-                                if Input.KeyCode == Enum.KeyCode.Escape then
-                                    break
-                                end
+                                if Input.KeyCode == Enum.KeyCode.Escape then break end
 
-                                -- Stop loop if its a normal key --
-                                if not IsModifierInput(Input) then
-                                    break
-                                end
+                                if not IsModifierInput(Input) then break end
                             else
-                                if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then
-                                    break -- Modifier is meant to be used as a normal key --
-                                end
+                                if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then break -- Modifier is meant to be used as a normal key -- end
                             end
                         end
                     until false
 
-                    if StopLoop then
-                        SetPickingState(false)
-                        return
-                    end
+                    if StopLoop then SetPickingState(false); return end
                 end
 
                 break -- Input found, end loop
@@ -4213,9 +3302,7 @@ do
             local Key = "Unknown"
             if SpecialKeysInput[Input.UserInputType] ~= nil then
                 Key = SpecialKeysInput[Input.UserInputType]
-            elseif Input.UserInputType == Enum.UserInputType.Keyboard then
-                Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name
-            end
+            elseif Input.UserInputType == Enum.UserInputType.Keyboard then Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name end
 
             ActiveModifiers = if Input.KeyCode == Enum.KeyCode.Escape or Key == "Unknown" then {} else ActiveModifiers
 
@@ -4231,9 +3318,7 @@ do
         Picker.MouseButton2Click:Connect(MenuTable.Toggle)
 
         table.insert(KeyPicker.Connections, UserInputService.InputBegan:Connect(function(Input: InputObject)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local IsMouse = IsMouseClickInput(Input)
             if
@@ -4264,23 +3349,16 @@ do
             end
 
             if KeyPicker.Mode == "Toggle" then
-                if HoldingKey then
-                    KeyPicker.Toggled = not KeyPicker.Toggled
-                    KeyPicker:DoClick()
-                end
+                if HoldingKey then KeyPicker.Toggled = not KeyPicker.Toggled; KeyPicker:DoClick() end
             elseif KeyPicker.Mode == "Press" then
-                if HoldingKey then
-                    KeyPicker:DoClick()
-                end
+                if HoldingKey then KeyPicker:DoClick() end
             end
 
             KeyPicker:Update()
         end))
 
         table.insert(KeyPicker.Connections, UserInputService.InputEnded:Connect(function(Input: InputObject)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local IsMouse = IsMouseClickInput(Input)
             if
@@ -4299,9 +3377,7 @@ do
 
         KeyPicker:Update()
 
-        if ParentObj.Addons then
-            table.insert(ParentObj.Addons, KeyPicker)
-        end
+        if ParentObj.Addons then table.insert(ParentObj.Addons, KeyPicker) end
 
         KeyPicker.Default = KeyPicker.Value
         KeyPicker.DefaultModifiers = table.clone(KeyPicker.Modifiers or {})
@@ -4310,45 +3386,25 @@ do
             KeyPicker.Destroyed = true
 
             if KeyPicker.Connections then
-                for _, Connection in KeyPicker.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in KeyPicker.Connections do Connection:Disconnect() end
             end
 
-            if KeybindsToggle and KeybindsToggle.Loaded then
-                if KeybindsToggle.Holder then 
-                    KeybindsToggle.Holder:Destroy()
-                end
-                local KTIdx = table.find(Library.KeybindToggles, KeybindsToggle)
-                if KTIdx then
-                    table.remove(Library.KeybindToggles, KTIdx)
-                end
-            end
+            if KeybindsToggle and KeybindsToggle.Loaded then if KeybindsToggle.Holder then KeybindsToggle.Holder:Destroy() end local KTIdx = table.find(Library.KeybindToggles, KeybindsToggle) if KTIdx then table.remove(Library.KeybindToggles, KTIdx) end end
 
-            if MenuTable then 
-                MenuTable:Destroy() 
-            end
+            if MenuTable then MenuTable:Destroy() end
 
             if IsForButton and SlideOverflow then
-                if SlideForwardTween then 
-                    SlideForwardTween:Destroy() 
-                end
+                if SlideForwardTween then SlideForwardTween:Destroy() end
 
-                if SlideBackTween then 
-                    SlideBackTween:Destroy() 
-                end
+                if SlideBackTween then SlideBackTween:Destroy() end
             end
 
-            if Picker then
-                Picker:Destroy()
-            end
+            if Picker then Picker:Destroy() end
 
             if ParentObj and ParentObj.Addons then
                 local AddonIdx = table.find(ParentObj.Addons, KeyPicker)
-                
-                if AddonIdx then 
-                    table.remove(ParentObj.Addons, AddonIdx) 
-                end
+
+                if AddonIdx then table.remove(ParentObj.Addons, AddonIdx) end
             end
 
             Options[Idx] = nil
@@ -4360,9 +3416,7 @@ do
     end
 
     local HueSequenceTable = {}
-    for Hue = 0, 1, 0.1 do
-        table.insert(HueSequenceTable, ColorSequenceKeypoint.new(Hue, Color3.fromHSV(Hue, 1, 1)))
-    end
+    for Hue = 0, 1, 0.1 do table.insert(HueSequenceTable, ColorSequenceKeypoint.new(Hue, Color3.fromHSV(Hue, 1, 1))) end
     function Funcs:AddColorPicker(Idx, Info)
         if self.Destroyed then return nil end
 
@@ -4387,17 +3441,9 @@ do
         }
         ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib = ColorPicker.Value:ToHSV()
 
-        local Holder = New("TextButton", {
-            BackgroundColor3 = ColorPicker.Value,
-            Size = UDim2.fromOffset(18, 18),
-            Text = "",
-            Parent = ToggleLabel,
-        })
+        local Holder = New("TextButton", { BackgroundColor3 = ColorPicker.Value, Size = UDim2.fromOffset(18, 18), Text = "", Parent = ToggleLabel, })
 
-        local HolderStroke = New("UIStroke", {
-            Color = Library:GetDarkerColor(ColorPicker.Value),
-            Parent = Holder,
-        })
+        local HolderStroke = New("UIStroke", { Color = Library:GetDarkerColor(ColorPicker.Value), Parent = Holder, })
 
         local ColorPickerCorner = New("UICorner", {
             TopLeftRadius = UDim.new(0, Library.CornerRadius / 2),
@@ -4407,15 +3453,7 @@ do
             Parent = Holder,
         }); table.insert(Library.SpecificCorners, ColorPickerCorner)
 
-        local HolderTransparency = New("ImageLabel", {
-            Image = CustomImageManager.GetAsset("TransparencyTexture"),
-            ImageTransparency = (1 - ColorPicker.Transparency),
-            ScaleType = Enum.ScaleType.Tile,
-            Position = UDim2.new(0, -1, 0, -1),
-            Size = UDim2.new(1, 2, 1, 2),
-            TileSize = UDim2.fromOffset(9, 9),
-            Parent = Holder,
-        })
+        local HolderTransparency = New("ImageLabel", { Image = CustomImageManager.GetAsset("TransparencyTexture"), ImageTransparency = (1 - ColorPicker.Transparency), ScaleType = Enum.ScaleType.Tile, Position = UDim2.new(0, -1, 0, -1), Size = UDim2.new(1, 2, 1, 2), TileSize = UDim2.fromOffset(9, 9), Parent = Holder, })
 
         table.insert(
             Library.Corners,
@@ -4425,7 +3463,6 @@ do
             })
         )
 
-        --// Color Menu \\--
         local ColorMenu = Library:AddContextMenu(
             Holder,
             UDim2.fromOffset(Info.Transparency and 256 or 234, 0),
@@ -4458,31 +3495,16 @@ do
             })
         end
 
-        local ColorHolder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 200),
-            Parent = ColorMenu.Menu,
-        })
+        local ColorHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 200), Parent = ColorMenu.Menu, })
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
             Padding = UDim.new(0, 6),
             Parent = ColorHolder,
         })
 
-        --// Sat Map
-        local SatVipMap = New("ImageButton", {
-            BackgroundColor3 = ColorPicker.Value,
-            Image = CustomImageManager.GetAsset("SaturationMap"),
-            Size = UDim2.fromOffset(200, 200),
-            Parent = ColorHolder,
-        })
+        local SatVipMap = New("ImageButton", { BackgroundColor3 = ColorPicker.Value, Image = CustomImageManager.GetAsset("SaturationMap"), Size = UDim2.fromOffset(200, 200), Parent = ColorHolder, })
 
-        local SatVibCursor = New("Frame", {
-            AnchorPoint = Vector2.new(0.5, 0.5),
-            BackgroundColor3 = "WhiteColor",
-            Size = UDim2.fromOffset(6, 6),
-            Parent = SatVipMap,
-        })
+        local SatVibCursor = New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = "WhiteColor", Size = UDim2.fromOffset(6, 6), Parent = SatVipMap, })
         New("UICorner", {
             CornerRadius = UDim.new(1, 0),
             Parent = SatVibCursor,
@@ -4492,29 +3514,15 @@ do
             Parent = SatVibCursor,
         })
 
-        --// Hue
-        local HueSelector = New("TextButton", {
-            Size = UDim2.fromOffset(16, 200),
-            Text = "",
-            Parent = ColorHolder,
-        })
+        local HueSelector = New("TextButton", { Size = UDim2.fromOffset(16, 200), Text = "", Parent = ColorHolder, })
         New("UIGradient", {
             Color = ColorSequence.new(HueSequenceTable),
             Rotation = 90,
             Parent = HueSelector,
         })
 
-        local HueCursor = New("Frame", {
-            AnchorPoint = Vector2.new(0.5, 0.5),
-            BackgroundColor3 = "WhiteColor",
-            BorderColor3 = "DarkColor",
-            BorderSizePixel = 1,
-            Position = UDim2.fromScale(0.5, ColorPicker.Hue),
-            Size = UDim2.new(1, 2, 0, 1),
-            Parent = HueSelector,
-        })
+        local HueCursor = New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), BackgroundColor3 = "WhiteColor", BorderColor3 = "DarkColor", BorderSizePixel = 1, Position = UDim2.fromScale(0.5, ColorPicker.Hue), Size = UDim2.new(1, 2, 0, 1), Parent = HueSelector, })
 
-        --// Alpha
         local TransparencySelector, TransparencyColor, TransparencyCursor
         if Info.Transparency then
             TransparencySelector = New("ImageButton", {
@@ -4550,11 +3558,7 @@ do
             })
         end
 
-        local InfoHolder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 20),
-            Parent = ColorMenu.Menu,
-        })
+        local InfoHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 20), Parent = ColorMenu.Menu, })
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
             HorizontalFlex = Enum.UIFlexAlignment.Fill,
@@ -4562,14 +3566,7 @@ do
             Parent = InfoHolder,
         })
 
-        local HueBox = New("TextBox", {
-            BackgroundColor3 = "MainColor",
-            ClearTextOnFocus = false,
-            Size = UDim2.fromScale(1, 1),
-            Text = "#??????",
-            TextSize = 14,
-            Parent = InfoHolder,
-        })
+        local HueBox = New("TextBox", { BackgroundColor3 = "MainColor", ClearTextOnFocus = false, Size = UDim2.fromScale(1, 1), Text = "#??????", TextSize = 14, Parent = InfoHolder, })
 
         New("UIStroke", {
             Color = "OutlineColor",
@@ -4584,14 +3581,7 @@ do
             })
         )
 
-        local RgbBox = New("TextBox", {
-            BackgroundColor3 = "MainColor",
-            ClearTextOnFocus = false,
-            Size = UDim2.fromScale(1, 1),
-            Text = "?, ?, ?",
-            TextSize = 14,
-            Parent = InfoHolder,
-        })
+        local RgbBox = New("TextBox", { BackgroundColor3 = "MainColor", ClearTextOnFocus = false, Size = UDim2.fromScale(1, 1), Text = "?, ?, ?", TextSize = 14, Parent = InfoHolder, })
 
         New("UIStroke", {
             Color = "OutlineColor",
@@ -4606,7 +3596,6 @@ do
             })
         )
 
-        --// Context Menu \\--
         local ContextMenu = Library:AddContextMenu(Holder, UDim2.fromOffset(93, 0), function()
             return { Holder.AbsoluteSize.X + 1.5, 0.5 }
         end, 1, function(Active: boolean)
@@ -4617,13 +3606,7 @@ do
         ContextMenu.List.Padding = UDim.new(0, 6)
         do
             local function CreateButton(Text, Func)
-                local Button = New("TextButton", {
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(1, 0, 0, 21),
-                    Text = Text,
-                    TextSize = 14,
-                    Parent = ContextMenu.Menu,
-                })
+                local Button = New("TextButton", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 21), Text = Text, TextSize = 14, Parent = ContextMenu.Menu, })
 
                 Button.MouseButton1Click:Connect(function()
                     Library:SafeCallback(Func)
@@ -4655,15 +3638,12 @@ do
             end
         end
 
-        --// End \\--
         function ColorPicker:SetHSVFromRGB(Color)
             ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib = Color:ToHSV()
         end
 
         function ColorPicker:Display()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             ColorPicker.Value = Color3.fromHSV(ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib)
 
@@ -4672,15 +3652,11 @@ do
             HolderTransparency.ImageTransparency = (1 - ColorPicker.Transparency)
 
             SatVipMap.BackgroundColor3 = Color3.fromHSV(ColorPicker.Hue, 1, 1)
-            if TransparencyColor then
-                TransparencyColor.BackgroundColor3 = ColorPicker.Value
-            end
+            if TransparencyColor then TransparencyColor.BackgroundColor3 = ColorPicker.Value end
 
             SatVibCursor.Position = UDim2.fromScale(ColorPicker.Sat, 1 - ColorPicker.Vib)
             HueCursor.Position = UDim2.fromScale(0.5, ColorPicker.Hue)
-            if TransparencyCursor then
-                TransparencyCursor.Position = UDim2.fromScale(0.5, ColorPicker.Transparency)
-            end
+            if TransparencyCursor then TransparencyCursor.Position = UDim2.fromScale(0.5, ColorPicker.Transparency) end
 
             HueBox.Text = "#" .. ColorPicker.Value:ToHex()
             RgbBox.Text = table.concat({
@@ -4702,10 +3678,7 @@ do
         end
 
         function ColorPicker:SetValue(HSV, Transparency)
-            if typeof(HSV) == "Color3" then
-                ColorPicker:SetValueRGB(HSV, Transparency)
-                return
-            end
+            if typeof(HSV) == "Color3" then ColorPicker:SetValueRGB(HSV, Transparency); return end
 
             local Color = Color3.fromHSV(HSV[1], HSV[2], HSV[3])
             ColorPicker.Transparency = Info.Transparency and Transparency or 0
@@ -4737,9 +3710,7 @@ do
                 ColorPicker.Sat = (LocationX - MinX) / (MaxX - MinX)
                 ColorPicker.Vib = 1 - ((LocationY - MinY) / (MaxY - MinY))
 
-                if ColorPicker.Sat ~= OldSat or ColorPicker.Vib ~= OldVib then
-                    ColorPicker:Update()
-                end
+                if ColorPicker.Sat ~= OldSat or ColorPicker.Vib ~= OldVib then ColorPicker:Update() end
 
                 RunService.RenderStepped:Wait()
             end
@@ -4754,14 +3725,12 @@ do
                 local OldHue = ColorPicker.Hue
                 ColorPicker.Hue = (Location - Min) / (Max - Min)
 
-                if ColorPicker.Hue ~= OldHue then
-                    ColorPicker:Update()
-                end
+                if ColorPicker.Hue ~= OldHue then ColorPicker:Update() end
 
                 RunService.RenderStepped:Wait()
             end
         end))
-        
+
         if TransparencySelector then
             table.insert(ColorPicker.Connections, TransparencySelector.InputBegan:Connect(function(Input: InputObject)
                 while IsDragInput(Input) and not ColorPicker.Destroyed do
@@ -4772,9 +3741,7 @@ do
                     local OldTransparency = ColorPicker.Transparency
                     ColorPicker.Transparency = (Location - Min) / (Max - Min)
 
-                    if ColorPicker.Transparency ~= OldTransparency then
-                        ColorPicker:Update()
-                    end
+                    if ColorPicker.Transparency ~= OldTransparency then ColorPicker:Update() end
 
                     RunService.RenderStepped:Wait()
                 end
@@ -4782,36 +3749,26 @@ do
         end
 
         table.insert(ColorPicker.Connections, HueBox.FocusLost:Connect(function(Enter)
-            if not Enter then
-                return
-            end
+            if not Enter then return end
 
             local Success, Color = pcall(Color3.fromHex, HueBox.Text)
-            if Success and typeof(Color) == "Color3" then
-                ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib = Color:ToHSV()
-            end
+            if Success and typeof(Color) == "Color3" then ColorPicker.Hue, ColorPicker.Sat, ColorPicker.Vib = Color:ToHSV() end
 
             ColorPicker:Update()
         end))
 
         table.insert(ColorPicker.Connections, RgbBox.FocusLost:Connect(function(Enter)
-            if not Enter then
-                return
-            end
+            if not Enter then return end
 
             local R, G, B = RgbBox.Text:match("(%d+),%s*(%d+),%s*(%d+)")
-            if R and G and B then
-                ColorPicker:SetHSVFromRGB(Color3.fromRGB(R, G, B))
-            end
+            if R and G and B then ColorPicker:SetHSVFromRGB(Color3.fromRGB(R, G, B)) end
 
             ColorPicker:Update()
         end))
 
         ColorPicker:Display()
 
-        if ParentObj.Addons then
-            table.insert(ParentObj.Addons, ColorPicker)
-        end
+        if ParentObj.Addons then table.insert(ParentObj.Addons, ColorPicker) end
 
         ColorPicker.Default = ColorPicker.Value
 
@@ -4819,29 +3776,19 @@ do
             ColorPicker.Destroyed = true
 
             if ColorPicker.Connections then
-                for _, Connection in ColorPicker.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in ColorPicker.Connections do Connection:Disconnect() end
             end
 
-            if ColorMenu then 
-                ColorMenu:Destroy() 
-            end
+            if ColorMenu then ColorMenu:Destroy() end
 
-            if ContextMenu then 
-                ContextMenu:Destroy() 
-            end
+            if ContextMenu then ContextMenu:Destroy() end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             if ParentObj and ParentObj.Addons then
                 local AddonIdx = table.find(ParentObj.Addons, ColorPicker)
-                
-                if AddonIdx then 
-                    table.remove(ParentObj.Addons, AddonIdx) 
-                end
+
+                if AddonIdx then table.remove(ParentObj.Addons, AddonIdx) end
             end
 
             Options[Idx] = nil
@@ -4874,24 +3821,14 @@ do
             Text = Params.Text
             MarginTop = Params.MarginTop or Params.Margin or 0
             MarginBottom = Params.MarginBottom or Params.Margin or 0
-        elseif typeof(Params) == "string" then
-            Text = Params
-        end
+        elseif typeof(Params) == "string" then Text = Params end
 
         local Groupbox = self
         local Container = Groupbox.Container
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 6 + MarginTop + MarginBottom),
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 6 + MarginTop + MarginBottom), Parent = Container, })
 
-        local InnerHolder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 1, 0),
-            Parent = Holder,
-        })
+        local InnerHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Parent = Holder, })
 
         New("UIPadding", {
             PaddingTop = UDim.new(0, MarginTop),
@@ -4900,16 +3837,7 @@ do
         })
 
         if Text then
-            local TextLabel = New("TextLabel", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Text = Text,
-                TextSize = 14,
-                TextTransparency = 0.5,
-                TextXAlignment = Enum.TextXAlignment.Center,
-                Parent = InnerHolder,
-            })
+            local TextLabel = New("TextLabel", { AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Text = Text, TextSize = 14, TextTransparency = 0.5, TextXAlignment = Enum.TextXAlignment.Center, Parent = InnerHolder, })
 
             local X, _ = Library:GetTextBounds(Text, TextLabel.FontFace, TextLabel.TextSize, TextLabel.AbsoluteSize.X)
             local SizeX = X // 2 + 10
@@ -4957,28 +3885,19 @@ do
             Type = "Divider",
         }
 
-        function Divider:SetVisible(Value)
-            Holder.Visible = Value == true
-            Groupbox:Resize()
-        end
+        function Divider:SetVisible(Value) Holder.Visible = Value == true; Groupbox:Resize() end
 
         function Divider:Destroy()
             Divider.Destroyed = true
 
             if Divider.Connections then
-                for _, Connection in Divider.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Divider.Connections do Connection:Disconnect() end
             end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Divider)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
         end
@@ -5028,15 +3947,7 @@ do
             Type = "Label",
         }
 
-        local TextLabel = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
-            Text = Label.Text,
-            TextSize = Data.Size,
-            TextWrapped = Label.DoesWrap,
-            TextXAlignment = Groupbox.IsKeyTab and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left,
-            Parent = Container,
-        })
+        local TextLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 18), Text = Label.Text, TextSize = Data.Size, TextWrapped = Label.DoesWrap, TextXAlignment = Groupbox.IsKeyTab and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left, Parent = Container, })
 
         function Label:SetVisible(Visible: boolean)
             Label.Visible = Visible
@@ -5049,11 +3960,7 @@ do
             Label.Text = Text
             TextLabel.Text = Text
 
-            if Label.DoesWrap then
-                local _, Y =
-                    Library:GetTextBounds(Label.Text, TextLabel.FontFace, TextLabel.TextSize, TextLabel.AbsoluteSize.X)
-                TextLabel.Size = UDim2.new(1, 0, 0, Y + 4)
-            end
+            if Label.DoesWrap then local _, Y = Library:GetTextBounds(Label.Text, TextLabel.FontFace, TextLabel.TextSize, TextLabel.AbsoluteSize.X) TextLabel.Size = UDim2.new(1, 0, 0, Y + 4) end
 
             Groupbox:Resize()
         end
@@ -5065,9 +3972,7 @@ do
 
             local Last = TextLabel.AbsoluteSize
             TextLabel:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-                if TextLabel.AbsoluteSize == Last then
-                    return
-                end
+                if TextLabel.AbsoluteSize == Last then return end
 
                 local _, Y =
                     Library:GetTextBounds(Label.Text, TextLabel.FontFace, TextLabel.TextSize, TextLabel.AbsoluteSize.X)
@@ -5089,9 +3994,7 @@ do
 
         Label.TextLabel = TextLabel
         Label.Container = Container
-        if not Data.DoesWrap then
-            setmetatable(Label, BaseAddons)
-        end
+        if not Data.DoesWrap then setmetatable(Label, BaseAddons) end
 
         Label.Holder = TextLabel
         table.insert(Groupbox.Elements, Label)
@@ -5106,19 +4009,13 @@ do
             Label.Destroyed = true
 
             if Label.Connections then
-                for _, Connection in Label.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Label.Connections do Connection:Disconnect() end
             end
 
-            if TextLabel then 
-                TextLabel:Destroy() 
-            end
+            if TextLabel then TextLabel:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Label)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
 
@@ -5126,10 +4023,8 @@ do
                 Labels[Data.Idx] = nil
             else
                 local LblIdx = table.find(Labels, Label)
-                
-                if LblIdx then 
-                    table.remove(Labels, LblIdx) 
-                end
+
+                if LblIdx then table.remove(Labels, LblIdx) end
             end
         end
 
@@ -5200,11 +4095,7 @@ do
             Type = "Button",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 21),
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 21), Parent = Container, })
 
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -5214,22 +4105,9 @@ do
         })
 
         local function CreateButton(Button)
-            local Base = New("TextButton", {
-                Active = not Button.Disabled,
-                BackgroundColor3 = Button.Disabled and "BackgroundColor" or "MainColor",
-                Size = UDim2.fromScale(1, 1),
-                Text = Button.Text,
-                TextSize = 14,
-                TextTransparency = 0.4,
-                Visible = Button.Visible,
-                Parent = Holder,
-            })
+            local Base = New("TextButton", { Active = not Button.Disabled, BackgroundColor3 = Button.Disabled and "BackgroundColor" or "MainColor", Size = UDim2.fromScale(1, 1), Text = Button.Text, TextSize = 14, TextTransparency = 0.4, Visible = Button.Visible, Parent = Holder, })
 
-            local Stroke = New("UIStroke", {
-                Color = "OutlineColor",
-                Transparency = Button.Disabled and 0.5 or 0,
-                Parent = Base,
-            })
+            local Stroke = New("UIStroke", { Color = "OutlineColor", Transparency = Button.Disabled and 0.5 or 0, Parent = Base, })
 
             table.insert(
                 Library.Corners,
@@ -5244,9 +4122,7 @@ do
 
         local function InitEvents(Button)
             Button.Base.MouseEnter:Connect(function()
-                if Button.Disabled then
-                    return
-                end
+                if Button.Disabled then return end
 
                 Button.Tween = TweenService:Create(Button.Base, Library.TweenInfo, {
                     TextTransparency = 0,
@@ -5254,9 +4130,7 @@ do
                 Button.Tween:Play()
             end)
             Button.Base.MouseLeave:Connect(function()
-                if Button.Disabled then
-                    return
-                end
+                if Button.Disabled then return end
 
                 Button.Tween = TweenService:Create(Button.Base, Library.TweenInfo, {
                     TextTransparency = 0.4,
@@ -5265,9 +4139,7 @@ do
             end)
 
             Button.Base.MouseButton1Click:Connect(function()
-                if Button.Disabled or Button.Locked then
-                    return
-                end
+                if Button.Disabled or Button.Locked then return end
 
                 if Button.DoubleClick then
                     Button.Locked = true
@@ -5282,9 +4154,7 @@ do
                     Button.Base.TextColor3 = Button.Risky and Library.Scheme.RedColor or Library.Scheme.FontColor
                     Library.Registry[Button.Base].TextColor3 = Button.Risky and "RedColor" or "FontColor"
 
-                    if Clicked then
-                        Library:SafeCallback(Button.Func)
-                    end
+                    if Clicked then Library:SafeCallback(Button.Func) end
 
                     RunService.RenderStepped:Wait() --// Mouse Button fires without waiting (i hate roblox)
                     Button.Locked = false
@@ -5326,9 +4196,7 @@ do
             InitEvents(SubButton)
 
             function SubButton:UpdateColors()
-                if Library.Unloaded then
-                    return
-                end
+                if Library.Unloaded then return end
 
                 StopTween(SubButton.Tween)
 
@@ -5344,9 +4212,7 @@ do
             function SubButton:SetDisabled(Disabled: boolean)
                 SubButton.Disabled = Disabled
 
-                if SubButton.TooltipTable then
-                    SubButton.TooltipTable.Disabled = SubButton.Disabled
-                end
+                if SubButton.TooltipTable then SubButton.TooltipTable.Disabled = SubButton.Disabled end
 
                 SubButton.Base.Active = not SubButton.Disabled
                 SubButton:UpdateColors()
@@ -5359,21 +4225,11 @@ do
                 Groupbox:Resize()
             end
 
-            function SubButton:SetText(Text: string)
-                SubButton.Text = Text
-                SubButton.Base.Text = Text
-            end
+            function SubButton:SetText(Text: string) SubButton.Text = Text; SubButton.Base.Text = Text end
 
-            if typeof(SubButton.Tooltip) == "string" or typeof(SubButton.DisabledTooltip) == "string" then
-                SubButton.TooltipTable =
-                    Library:AddTooltip(SubButton.Tooltip, SubButton.DisabledTooltip, SubButton.Base)
-                SubButton.TooltipTable.Disabled = SubButton.Disabled
-            end
+            if typeof(SubButton.Tooltip) == "string" or typeof(SubButton.DisabledTooltip) == "string" then SubButton.TooltipTable = Library:AddTooltip(SubButton.Tooltip, SubButton.DisabledTooltip, SubButton.Base) SubButton.TooltipTable.Disabled = SubButton.Disabled end
 
-            if SubButton.Risky then
-                SubButton.Base.TextColor3 = Library.Scheme.RedColor
-                Library.Registry[SubButton.Base].TextColor3 = "RedColor"
-            end
+            if SubButton.Risky then SubButton.Base.TextColor3 = Library.Scheme.RedColor; Library.Registry[SubButton.Base].TextColor3 = "RedColor" end
 
             SubButton:UpdateColors()
 
@@ -5388,26 +4244,18 @@ do
             function SubButton:Destroy()
                 SubButton.Destroyed = true
 
-                if SubButton.TooltipTable then 
-                    SubButton.TooltipTable:Destroy() 
-                end
+                if SubButton.TooltipTable then SubButton.TooltipTable:Destroy() end
 
-                if SubButton.Tween then 
-                    SubButton.Tween:Destroy() 
-                end
+                if SubButton.Tween then SubButton.Tween:Destroy() end
 
-                if SubButton.Base then 
-                    SubButton.Base:Destroy() 
-                end
+                if SubButton.Base then SubButton.Base:Destroy() end
 
                 if Info.Idx then
                     Buttons[Info.Idx] = nil
                 else
                     local BIdx = table.find(Buttons, SubButton)
-                    
-                    if BIdx then 
-                        table.remove(Buttons, BIdx) 
-                    end
+
+                    if BIdx then table.remove(Buttons, BIdx) end
                 end
             end
 
@@ -5415,9 +4263,7 @@ do
         end
 
         function Button:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             StopTween(Button.Tween)
 
@@ -5432,9 +4278,7 @@ do
         function Button:SetDisabled(Disabled: boolean)
             Button.Disabled = Disabled
 
-            if Button.TooltipTable then
-                Button.TooltipTable.Disabled = Button.Disabled
-            end
+            if Button.TooltipTable then Button.TooltipTable.Disabled = Button.Disabled end
 
             Button.Base.Active = not Button.Disabled
             Button:UpdateColors()
@@ -5447,20 +4291,11 @@ do
             Groupbox:Resize()
         end
 
-        function Button:SetText(Text: string)
-            Button.Text = Text
-            Button.Base.Text = Text
-        end
+        function Button:SetText(Text: string) Button.Text = Text; Button.Base.Text = Text end
 
-        if typeof(Button.Tooltip) == "string" or typeof(Button.DisabledTooltip) == "string" then
-            Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, Button.Base)
-            Button.TooltipTable.Disabled = Button.Disabled
-        end
+        if typeof(Button.Tooltip) == "string" or typeof(Button.DisabledTooltip) == "string" then Button.TooltipTable = Library:AddTooltip(Button.Tooltip, Button.DisabledTooltip, Button.Base); Button.TooltipTable.Disabled = Button.Disabled end
 
-        if Button.Risky then
-            Button.Base.TextColor3 = Library.Scheme.RedColor
-            Library.Registry[Button.Base].TextColor3 = "RedColor"
-        end
+        if Button.Risky then Button.Base.TextColor3 = Library.Scheme.RedColor; Library.Registry[Button.Base].TextColor3 = "RedColor" end
 
         Button:UpdateColors()
         Groupbox:Resize()
@@ -5479,26 +4314,16 @@ do
         function Button:Destroy()
             Button.Destroyed = true
 
-            if Button.TooltipTable then 
-                Button.TooltipTable:Destroy() 
-            end
+            if Button.TooltipTable then Button.TooltipTable:Destroy() end
 
-            if Button.Tween then 
-                Button.Tween:Destroy() 
-            end
+            if Button.Tween then Button.Tween:Destroy() end
 
-            if Button.SubButton then 
-                Button.SubButton:Destroy() 
-            end
+            if Button.SubButton then Button.SubButton:Destroy() end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Button)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
 
@@ -5506,10 +4331,8 @@ do
                 Buttons[Info.Idx] = nil
             else
                 local BIdx = table.find(Buttons, Button)
-                
-                if BIdx then 
-                    table.remove(Buttons, BIdx) 
-                end
+
+                if BIdx then table.remove(Buttons, BIdx) end
             end
         end
 
@@ -5547,25 +4370,9 @@ do
             Type = "Toggle",
         }
 
-        local Button = New("TextButton", {
-            Active = not Toggle.Disabled,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
-            Text = "",
-            Visible = Toggle.Visible,
-            Parent = Container,
-        })
+        local Button = New("TextButton", { Active = not Toggle.Disabled, BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 18), Text = "", Visible = Toggle.Visible, Parent = Container, })
 
-        local Label = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Position = UDim2.fromOffset(26, 0),
-            Size = UDim2.new(1, -26, 1, 0),
-            Text = Toggle.Text,
-            TextSize = 14,
-            TextTransparency = 0.4,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Parent = Button,
-        })
+        local Label = New("TextLabel", { BackgroundTransparency = 1, Position = UDim2.fromOffset(26, 0), Size = UDim2.new(1, -26, 1, 0), Text = Toggle.Text, TextSize = 14, TextTransparency = 0.4, TextXAlignment = Enum.TextXAlignment.Left, Parent = Button, })
 
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -5574,12 +4381,7 @@ do
             Parent = Label,
         })
 
-        local Checkbox = New("Frame", {
-            BackgroundColor3 = "MainColor",
-            Size = UDim2.fromScale(1, 1),
-            SizeConstraint = Enum.SizeConstraint.RelativeYY,
-            Parent = Button,
-        })
+        local Checkbox = New("Frame", { BackgroundColor3 = "MainColor", Size = UDim2.fromScale(1, 1), SizeConstraint = Enum.SizeConstraint.RelativeYY, Parent = Button, })
         table.insert(
             Library.Corners,
             New("UICorner", {
@@ -5588,30 +4390,16 @@ do
             })
         )
 
-        local CheckboxStroke = New("UIStroke", {
-            Color = "OutlineColor",
-            Parent = Checkbox,
-        })
+        local CheckboxStroke = New("UIStroke", { Color = "OutlineColor", Parent = Checkbox, })
 
-        local CheckImage = New("ImageLabel", {
-            Image = CheckIcon and CheckIcon.Url or "",
-            ImageColor3 = "FontColor",
-            ImageRectOffset = CheckIcon and CheckIcon.ImageRectOffset or Vector2.zero,
-            ImageRectSize = CheckIcon and CheckIcon.ImageRectSize or Vector2.zero,
-            ImageTransparency = 1,
-            Position = UDim2.fromOffset(2, 2),
-            Size = UDim2.new(1, -4, 1, -4),
-            Parent = Checkbox,
-        })
+        local CheckImage = New("ImageLabel", { Image = CheckIcon and CheckIcon.Url or "", ImageColor3 = "FontColor", ImageRectOffset = CheckIcon and CheckIcon.ImageRectOffset or Vector2.zero, ImageRectSize = CheckIcon and CheckIcon.ImageRectSize or Vector2.zero, ImageTransparency = 1, Position = UDim2.fromOffset(2, 2), Size = UDim2.new(1, -4, 1, -4), Parent = Checkbox, })
 
         function Toggle:UpdateColors()
             Toggle:Display()
         end
 
         function Toggle:Display()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             CheckboxStroke.Transparency = Toggle.Disabled and 0.5 or 0
 
@@ -5641,18 +4429,13 @@ do
         end
 
         function Toggle:SetValue(Value)
-            if Toggle.Disabled then
-                return
-            end
+            if Toggle.Disabled then return end
 
             Toggle.Value = Value
             Toggle:Display()
 
             for _, Addon in Toggle.Addons do
-                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then
-                    Addon.Toggled = Toggle.Value
-                    Addon:Update()
-                end
+                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then Addon.Toggled = Toggle.Value; Addon:Update() end
             end
 
             Library:UpdateDependencyBoxes()
@@ -5663,14 +4446,10 @@ do
         function Toggle:SetDisabled(Disabled: boolean)
             Toggle.Disabled = Disabled
 
-            if Toggle.TooltipTable then
-                Toggle.TooltipTable.Disabled = Toggle.Disabled
-            end
+            if Toggle.TooltipTable then Toggle.TooltipTable.Disabled = Toggle.Disabled end
 
             for _, Addon in Toggle.Addons do
-                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then
-                    Addon:Update()
-                end
+                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then Addon:Update() end
             end
 
             Button.Active = not Toggle.Disabled
@@ -5684,28 +4463,17 @@ do
             Groupbox:Resize()
         end
 
-        function Toggle:SetText(Text: string)
-            Toggle.Text = Text
-            Label.Text = Text
-        end
+        function Toggle:SetText(Text: string) Toggle.Text = Text; Label.Text = Text end
 
         table.insert(Toggle.Connections, Button.MouseButton1Click:Connect(function()
-            if Toggle.Disabled then
-                return
-            end
+            if Toggle.Disabled then return end
 
             Toggle:SetValue(not Toggle.Value)
         end))
 
-        if typeof(Toggle.Tooltip) == "string" or typeof(Toggle.DisabledTooltip) == "string" then
-            Toggle.TooltipTable = Library:AddTooltip(Toggle.Tooltip, Toggle.DisabledTooltip, Button)
-            Toggle.TooltipTable.Disabled = Toggle.Disabled
-        end
+        if typeof(Toggle.Tooltip) == "string" or typeof(Toggle.DisabledTooltip) == "string" then Toggle.TooltipTable = Library:AddTooltip(Toggle.Tooltip, Toggle.DisabledTooltip, Button); Toggle.TooltipTable.Disabled = Toggle.Disabled end
 
-        if Toggle.Risky then
-            Label.TextColor3 = Library.Scheme.RedColor
-            Library.Registry[Label].TextColor3 = "RedColor"
-        end
+        if Toggle.Risky then Label.TextColor3 = Library.Scheme.RedColor; Library.Registry[Label].TextColor3 = "RedColor" end
 
         Toggle:Display()
         Groupbox:Resize()
@@ -5725,32 +4493,19 @@ do
             Toggle.Destroyed = true
 
             if Toggle.Connections then
-                for _, Connection in Toggle.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Toggle.Connections do Connection:Disconnect() end
             end
 
-            if Toggle.TooltipTable then 
-                Toggle.TooltipTable:Destroy() 
-            end
+            if Toggle.TooltipTable then Toggle.TooltipTable:Destroy() end
 
-            if Button then 
-                Button:Destroy() 
-            end
+            if Button then Button:Destroy() end
 
             if Toggle.Addons then
-                for Index = #Toggle.Addons, 1, -1 do
-                    local Addon = table.remove(Toggle.Addons, Index)
-                    if Addon and Addon.Destroy then
-                        Addon:Destroy()
-                    end
-                end
+                for Index = #Toggle.Addons, 1, -1 do local Addon = table.remove(Toggle.Addons, Index); if Addon and Addon.Destroy then Addon:Destroy() end end
             end
 
             local ElemIdx = table.find(Groupbox.Elements, Toggle)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Toggles[Idx] = nil
@@ -5762,9 +4517,7 @@ do
     function Funcs:AddToggle(Idx, Info)
         if self.Destroyed then return nil end
 
-        if Library.ForceCheckbox then
-            return Funcs.AddCheckbox(self, Idx, Info)
-        end
+        if Library.ForceCheckbox then return Funcs.AddCheckbox(self, Idx, Info) end
 
         Info = Library:Validate(Info, Templates.Toggle)
 
@@ -5794,24 +4547,9 @@ do
             Type = "Toggle",
         }
 
-        local Button = New("TextButton", {
-            Active = not Toggle.Disabled,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
-            Text = "",
-            Visible = Toggle.Visible,
-            Parent = Container,
-        })
+        local Button = New("TextButton", { Active = not Toggle.Disabled, BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 18), Text = "", Visible = Toggle.Visible, Parent = Container, })
 
-        local Label = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, -40, 1, 0),
-            Text = Toggle.Text,
-            TextSize = 14,
-            TextTransparency = 0.4,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Parent = Button,
-        })
+        local Label = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, -40, 1, 0), Text = Toggle.Text, TextSize = 14, TextTransparency = 0.4, TextXAlignment = Enum.TextXAlignment.Left, Parent = Button, })
 
         New("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -5820,13 +4558,7 @@ do
             Parent = Label,
         })
 
-        local Switch = New("Frame", {
-            AnchorPoint = Vector2.new(1, 0),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(1, 0),
-            Size = UDim2.fromOffset(32, 18),
-            Parent = Button,
-        })
+        local Switch = New("Frame", { AnchorPoint = Vector2.new(1, 0), BackgroundColor3 = "MainColor", Position = UDim2.fromScale(1, 0), Size = UDim2.fromOffset(32, 18), Parent = Button, })
         New("UICorner", {
             CornerRadius = UDim.new(1, 0),
             Parent = Switch,
@@ -5838,17 +4570,9 @@ do
             PaddingTop = UDim.new(0, 2),
             Parent = Switch,
         })
-        local SwitchStroke = New("UIStroke", {
-            Color = "OutlineColor",
-            Parent = Switch,
-        })
+        local SwitchStroke = New("UIStroke", { Color = "OutlineColor", Parent = Switch, })
 
-        local Ball = New("Frame", {
-            BackgroundColor3 = "FontColor",
-            Size = UDim2.fromScale(1, 1),
-            SizeConstraint = Enum.SizeConstraint.RelativeYY,
-            Parent = Switch,
-        })
+        local Ball = New("Frame", { BackgroundColor3 = "FontColor", Size = UDim2.fromScale(1, 1), SizeConstraint = Enum.SizeConstraint.RelativeYY, Parent = Switch, })
         New("UICorner", {
             CornerRadius = UDim.new(1, 0),
             Parent = Ball,
@@ -5859,9 +4583,7 @@ do
         end
 
         function Toggle:Display()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local Offset = Toggle.Value and 1 or 0
 
@@ -5904,18 +4626,13 @@ do
         end
 
         function Toggle:SetValue(Value)
-            if Toggle.Disabled then
-                return
-            end
+            if Toggle.Disabled then return end
 
             Toggle.Value = Value
             Toggle:Display()
 
             for _, Addon in Toggle.Addons do
-                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then
-                    Addon.Toggled = Toggle.Value
-                    Addon:Update()
-                end
+                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then Addon.Toggled = Toggle.Value; Addon:Update() end
             end
 
             Library:UpdateDependencyBoxes()
@@ -5926,14 +4643,10 @@ do
         function Toggle:SetDisabled(Disabled: boolean)
             Toggle.Disabled = Disabled
 
-            if Toggle.TooltipTable then
-                Toggle.TooltipTable.Disabled = Toggle.Disabled
-            end
+            if Toggle.TooltipTable then Toggle.TooltipTable.Disabled = Toggle.Disabled end
 
             for _, Addon in Toggle.Addons do
-                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then
-                    Addon:Update()
-                end
+                if Addon.Type == "KeyPicker" and Addon.SyncToggleState then Addon:Update() end
             end
 
             Button.Active = not Toggle.Disabled
@@ -5947,28 +4660,17 @@ do
             Groupbox:Resize()
         end
 
-        function Toggle:SetText(Text: string)
-            Toggle.Text = Text
-            Label.Text = Text
-        end
+        function Toggle:SetText(Text: string) Toggle.Text = Text; Label.Text = Text end
 
         table.insert(Toggle.Connections, Button.MouseButton1Click:Connect(function()
-            if Toggle.Disabled then
-                return
-            end
+            if Toggle.Disabled then return end
 
             Toggle:SetValue(not Toggle.Value)
         end))
 
-        if typeof(Toggle.Tooltip) == "string" or typeof(Toggle.DisabledTooltip) == "string" then
-            Toggle.TooltipTable = Library:AddTooltip(Toggle.Tooltip, Toggle.DisabledTooltip, Button)
-            Toggle.TooltipTable.Disabled = Toggle.Disabled
-        end
+        if typeof(Toggle.Tooltip) == "string" or typeof(Toggle.DisabledTooltip) == "string" then Toggle.TooltipTable = Library:AddTooltip(Toggle.Tooltip, Toggle.DisabledTooltip, Button); Toggle.TooltipTable.Disabled = Toggle.Disabled end
 
-        if Toggle.Risky then
-            Label.TextColor3 = Library.Scheme.RedColor
-            Library.Registry[Label].TextColor3 = "RedColor"
-        end
+        if Toggle.Risky then Label.TextColor3 = Library.Scheme.RedColor; Library.Registry[Label].TextColor3 = "RedColor" end
 
         Toggle:Display()
         Groupbox:Resize()
@@ -5988,32 +4690,19 @@ do
             Toggle.Destroyed = true
 
             if Toggle.Connections then
-                for _, Connection in Toggle.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Toggle.Connections do Connection:Disconnect() end
             end
 
-            if Toggle.TooltipTable then 
-                Toggle.TooltipTable:Destroy() 
-            end
+            if Toggle.TooltipTable then Toggle.TooltipTable:Destroy() end
 
-            if Button then 
-                Button:Destroy() 
-            end
+            if Button then Button:Destroy() end
 
             if Toggle.Addons then
-                for Index = #Toggle.Addons, 1, -1 do
-                    local Addon = table.remove(Toggle.Addons, Index)
-                    if Addon and Addon.Destroy then
-                        Addon:Destroy()
-                    end
-                end
+                for Index = #Toggle.Addons, 1, -1 do local Addon = table.remove(Toggle.Addons, Index); if Addon and Addon.Destroy then Addon:Destroy() end end
             end
 
             local ElemIdx = table.find(Groupbox.Elements, Toggle)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Toggles[Idx] = nil
@@ -6025,9 +4714,7 @@ do
     function Funcs:AddInput(Idx, Info)
         if self.Destroyed then return nil end
 
-        if typeof(Info) == "table" and (typeof(Info.VerifyValue) == "function" and Info.Finished ~= true) then
-            Info.Finished = true
-        end
+        if typeof(Info) == "table" and (typeof(Info.VerifyValue) == "function" and Info.Finished ~= true) then Info.Finished = true end
 
         Info = Library:Validate(Info, Templates.Input)
 
@@ -6063,35 +4750,11 @@ do
             Type = "Input",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 39),
-            Visible = Input.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 39), Visible = Input.Visible, Parent = Container, })
 
-        local Label = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 14),
-            Text = Input.Text,
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Parent = Holder,
-        })
+        local Label = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 14), Text = Input.Text, TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, Parent = Holder, })
 
-        local Box = New("TextBox", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            ClearTextOnFocus = not Input.Disabled and Input.ClearTextOnFocus,
-            PlaceholderText = Input.Placeholder,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 21),
-            Text = Input.Value,
-            TextEditable = not Input.Disabled,
-            TextScaled = true,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Parent = Holder,
-        })
+        local Box = New("TextBox", { AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", ClearTextOnFocus = not Input.Disabled and Input.ClearTextOnFocus, PlaceholderText = Input.Placeholder, Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, 0, 0, 21), Text = Input.Value, TextEditable = not Input.Disabled, TextScaled = true, TextXAlignment = Enum.TextXAlignment.Left, Parent = Holder, })
 
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 3),
@@ -6115,9 +4778,7 @@ do
         )
 
         function Input:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             Label.TextTransparency = Input.Disabled and 0.8 or 0
             Box.TextTransparency = Input.Disabled and 0.8 or 0
@@ -6128,39 +4789,26 @@ do
         end
 
         function Input:SetValue(Text)
-            if not Input.AllowEmpty and Trim(Text) == "" then
-                Text = Input.EmptyReset
-            end
+            if not Input.AllowEmpty and Trim(Text) == "" then Text = Input.EmptyReset end
 
-            if Info.MaxLength and #Text > Info.MaxLength then
-                Text = Text:sub(1, Info.MaxLength)
-            end
+            if Info.MaxLength and #Text > Info.MaxLength then Text = Text:sub(1, Info.MaxLength) end
 
             if Input.Numeric then
-                if #tostring(Text) > 0 and not tonumber(Text) then
-                    Text = Input.Value
-                end
+                if #tostring(Text) > 0 and not tonumber(Text) then Text = Input.Value end
             end
 
-            if typeof(Info.VerifyValue) == "function" and (Text ~= Input.EmptyReset and Info.VerifyValue(Text) ~= true) then
-                Text = Input.EmptyReset
-            end
+            if typeof(Info.VerifyValue) == "function" and (Text ~= Input.EmptyReset and Info.VerifyValue(Text) ~= true) then Text = Input.EmptyReset end
 
             Input.Value = Text
             Box.Text = Text
 
-            if not Input.Disabled then
-                Library:SafeCallback(Input.Callback, Input.Value)
-                Library:SafeCallback(Input.Changed, Input.Value)
-            end
+            if not Input.Disabled then Library:SafeCallback(Input.Callback, Input.Value); Library:SafeCallback(Input.Changed, Input.Value) end
         end
 
         function Input:SetDisabled(Disabled: boolean)
             Input.Disabled = Disabled
 
-            if Input.TooltipTable then
-                Input.TooltipTable.Disabled = Input.Disabled
-            end
+            if Input.TooltipTable then Input.TooltipTable.Disabled = Input.Disabled end
 
             Box.ClearTextOnFocus = not Input.Disabled and Input.ClearTextOnFocus
             Box.TextEditable = not Input.Disabled
@@ -6174,17 +4822,12 @@ do
             Groupbox:Resize()
         end
 
-        function Input:SetText(Text: string)
-            Input.Text = Text
-            Label.Text = Text
-        end
+        function Input:SetText(Text: string) Input.Text = Text; Label.Text = Text end
 
         if Input.Finished then
             table.insert(Input.Connections, Box.FocusLost:Connect(function(Enter)
                 if not Enter then
-                    if Input.ClearTextOnBlur then
-                        Box.Text = Input.Value
-                    end
+                    if Input.ClearTextOnBlur then Box.Text = Input.Value end
 
                     return
                 end
@@ -6194,15 +4837,12 @@ do
         else
             table.insert(Input.Connections, Box:GetPropertyChangedSignal("Text"):Connect(function()
                 if Box.Text == Input.Value then return end
-                
+
                 Input:SetValue(Box.Text)
             end))
         end
 
-        if typeof(Input.Tooltip) == "string" or typeof(Input.DisabledTooltip) == "string" then
-            Input.TooltipTable = Library:AddTooltip(Input.Tooltip, Input.DisabledTooltip, Box)
-            Input.TooltipTable.Disabled = Input.Disabled
-        end
+        if typeof(Input.Tooltip) == "string" or typeof(Input.DisabledTooltip) == "string" then Input.TooltipTable = Library:AddTooltip(Input.Tooltip, Input.DisabledTooltip, Box); Input.TooltipTable.Disabled = Input.Disabled end
 
         Groupbox:Resize()
 
@@ -6210,34 +4850,23 @@ do
         table.insert(Groupbox.Elements, Input)
 
         Input.Default = Input.Value
-        if typeof(Info.VerifyValue) == "function" and (Input.Default ~= Input.EmptyReset and Info.VerifyValue(Input.Default) ~= true) then
-            Input:SetValue(Input.EmptyReset)
-            Input.Default = Input.EmptyReset
-        end
-        
+        if typeof(Info.VerifyValue) == "function" and (Input.Default ~= Input.EmptyReset and Info.VerifyValue(Input.Default) ~= true) then Input:SetValue(Input.EmptyReset); Input.Default = Input.EmptyReset end
+
         Options[Idx] = Input
 
         function Input:Destroy()
             Input.Destroyed = true
 
             if Input.Connections then
-                for _, Connection in Input.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Input.Connections do Connection:Disconnect() end
             end
 
-            if Input.TooltipTable then 
-                Input.TooltipTable:Destroy() 
-            end
+            if Input.TooltipTable then Input.TooltipTable:Destroy() end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Input)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -6285,12 +4914,7 @@ do
             Type = "Slider",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Compact and 15 or 33),
-            Visible = Slider.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Info.Compact and 15 or 33), Visible = Slider.Visible, Parent = Container, })
 
         local SliderLabel
         if not Info.Compact then
@@ -6304,29 +4928,14 @@ do
             })
         end
 
-        local Bar = New("TextButton", {
-            Active = not Slider.Disabled,
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 15),
-            Text = "",
-            Parent = Holder,
-        })
+        local Bar = New("TextButton", { Active = not Slider.Disabled, AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, 0, 0, 15), Text = "", Parent = Holder, })
 
         New("UIStroke", {
             Color = "OutlineColor",
             Parent = Bar,
         })
 
-        local DisplayLabel = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 1),
-            Text = "",
-            TextSize = 14,
-            ZIndex = 2,
-            Parent = Bar,
-        })
+        local DisplayLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Text = "", TextSize = 14, ZIndex = 2, Parent = Bar, })
         New("UIStroke", {
             ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
             Color = "DarkColor",
@@ -6354,11 +4963,7 @@ do
             })
         end
 
-        local Fill = New("Frame", {
-            BackgroundColor3 = "AccentColor",
-            Size = UDim2.fromScale(0.5, 1),
-            Parent = Bar,
-        })
+        local Fill = New("Frame", { BackgroundColor3 = "AccentColor", Size = UDim2.fromScale(0.5, 1), Parent = Bar, })
 
         table.insert(
             Library.Corners,
@@ -6377,32 +4982,22 @@ do
         )
 
         function Slider:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
-            if SliderLabel then
-                SliderLabel.TextTransparency = Slider.Disabled and 0.8 or 0
-            end
+            if SliderLabel then SliderLabel.TextTransparency = Slider.Disabled and 0.8 or 0 end
             DisplayLabel.TextTransparency = Slider.Disabled and 0.8 or 0
-            
-            if Info.AllowRightClickInput then
-                InputTextBox.TextTransparency = Slider.Disabled and 0.8 or 0
-            end
+
+            if Info.AllowRightClickInput then InputTextBox.TextTransparency = Slider.Disabled and 0.8 or 0 end
 
             Fill.BackgroundColor3 = Slider.Disabled and Library.Scheme.OutlineColor or Library.Scheme.AccentColor
             Library.Registry[Fill].BackgroundColor3 = Slider.Disabled and "OutlineColor" or "AccentColor"
         end
 
         function Slider:Display()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local CustomDisplayText = nil
-            if Info.FormatDisplayValue then
-                CustomDisplayText = Info.FormatDisplayValue(Slider, Slider.Value)
-            end
+            if Info.FormatDisplayValue then CustomDisplayText = Info.FormatDisplayValue(Slider, Slider.Value) end
 
             if CustomDisplayText then
                 DisplayLabel.Text = tostring(CustomDisplayText)
@@ -6450,14 +5045,10 @@ do
         end
 
         function Slider:SetValue(Str)
-            if Slider.Disabled then
-                return
-            end
+            if Slider.Disabled then return end
 
             local Num = tonumber(Str)
-            if not Num or Num == Slider.Value then
-                return
-            end
+            if not Num or Num == Slider.Value then return end
 
             Num = math.clamp(Num, Slider.Min, Slider.Max)
 
@@ -6471,9 +5062,7 @@ do
         function Slider:SetDisabled(Disabled: boolean)
             Slider.Disabled = Disabled
 
-            if Slider.TooltipTable then
-                Slider.TooltipTable.Disabled = Slider.Disabled
-            end
+            if Slider.TooltipTable then Slider.TooltipTable.Disabled = Slider.Disabled end
 
             Bar.Active = not Slider.Disabled
             Slider:UpdateColors()
@@ -6486,25 +5075,15 @@ do
             Groupbox:Resize()
         end
 
-
         function Slider:SetText(Text: string)
             Slider.Text = Text
-            if SliderLabel then
-                SliderLabel.Text = Text
-                return
-            end
+            if SliderLabel then SliderLabel.Text = Text; return end
             Slider:Display()
         end
 
-        function Slider:SetPrefix(Prefix: string)
-            Slider.Prefix = Prefix
-            Slider:Display()
-        end
+        function Slider:SetPrefix(Prefix: string) Slider.Prefix = Prefix; Slider:Display() end
 
-        function Slider:SetSuffix(Suffix: string)
-            Slider.Suffix = Suffix
-            Slider:Display()
-        end
+        function Slider:SetSuffix(Suffix: string) Slider.Suffix = Suffix; Slider:Display() end
 
         if Info.AllowRightClickInput then
             local LastValidText = ""
@@ -6515,29 +5094,17 @@ do
                 if #tostring(Text) > 0 and not AsNum and Text ~= "-" then
                     InputTextBox.Text = LastValidText
                 else
-                    if Slider.Rounding == 0 and Text:find("%.") then
-                        InputTextBox.Text = LastValidText
-                        return
-                    end
+                    if Slider.Rounding == 0 and Text:find("%.") then InputTextBox.Text = LastValidText; return end
 
                     local DecimalPos = Text:find("%.")
                     if DecimalPos and Slider.Rounding > 0 then
                         local Decimals = #Text - DecimalPos
-                        if Decimals > Slider.Rounding then
-                            InputTextBox.Text = LastValidText
-                            return
-                        end
+                        if Decimals > Slider.Rounding then InputTextBox.Text = LastValidText; return end
                     end
 
                     LastValidText = Text
 
-                    if AsNum then
-                        if AsNum > Slider.Max then
-                            InputTextBox.Text = tostring(Slider.Max)
-                        elseif AsNum < Slider.Min then
-                            InputTextBox.Text = tostring(Slider.Min)
-                        end
-                    end
+                    if AsNum then if AsNum > Slider.Max then InputTextBox.Text = tostring(Slider.Max) elseif AsNum < Slider.Min then InputTextBox.Text = tostring(Slider.Min) end end
                 end
             end))
 
@@ -6546,9 +5113,7 @@ do
                 DisplayLabel.Visible = true
 
                 local Num = tonumber(InputTextBox.Text)
-                if not Num then
-                    return
-                end
+                if not Num then return end
 
                 Num = Round(Num, Slider.Rounding)
                 Slider:SetValue(Num)
@@ -6558,19 +5123,15 @@ do
         local LastTap = 0
         table.insert(Slider.Connections, Bar.InputBegan:Connect(function(Input: InputObject)
             local ValidInput = IsClickInput(Input) or Input.UserInputType == Enum.UserInputType.MouseButton2
-            if not ValidInput or Slider.Disabled then
-                return
-            end
+            if not ValidInput or Slider.Disabled then return end
 
             if Info.AllowRightClickInput then
                 local IsRightClick = Input.UserInputType == Enum.UserInputType.MouseButton2
                 local IsDoubleTap = false
 
                 if Library.IsMobile and Input.UserInputType == Enum.UserInputType.Touch then
-                    if tick() - LastTap < 0.3 then
-                        IsDoubleTap = true
-                    end
-                    
+                    if tick() - LastTap < 0.3 then IsDoubleTap = true end
+
                     LastTap = tick()
                 end
 
@@ -6584,19 +5145,13 @@ do
                 end
             end
 
-            if not IsClickInput(Input) then
-                return
-            end
+            if not IsClickInput(Input) then return end
 
             if Library.ActiveTab then
-                for _, Side in Library.ActiveTab.Sides do
-                    Side.ScrollingEnabled = false
-                end
+                for _, Side in Library.ActiveTab.Sides do Side.ScrollingEnabled = false end
             end
 
-            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then
-                Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = false
-            end
+            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = false end
 
             while IsDragInput(Input) and not Slider.Destroyed do
                 local Location = Mouse.X
@@ -6606,29 +5161,19 @@ do
                 Slider.Value = Round(Slider.Min + ((Slider.Max - Slider.Min) * Scale), Slider.Rounding)
 
                 Slider:Display()
-                if Slider.Value ~= OldValue then
-                    Library:SafeCallback(Slider.Callback, Slider.Value)
-                    Library:SafeCallback(Slider.Changed, Slider.Value)
-                end
+                if Slider.Value ~= OldValue then Library:SafeCallback(Slider.Callback, Slider.Value); Library:SafeCallback(Slider.Changed, Slider.Value) end
 
                 RunService.RenderStepped:Wait()
             end
 
             if Library.ActiveTab then
-                for _, Side in Library.ActiveTab.Sides do
-                    Side.ScrollingEnabled = true
-                end
+                for _, Side in Library.ActiveTab.Sides do Side.ScrollingEnabled = true end
             end
 
-            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then
-                Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = true
-            end
+            if Library.ActiveLoading and Library.ActiveLoading.Sidebar then Library.ActiveLoading.Sidebar.Container.ScrollingEnabled = true end
         end))
 
-        if typeof(Slider.Tooltip) == "string" or typeof(Slider.DisabledTooltip) == "string" then
-            Slider.TooltipTable = Library:AddTooltip(Slider.Tooltip, Slider.DisabledTooltip, Bar)
-            Slider.TooltipTable.Disabled = Slider.Disabled
-        end
+        if typeof(Slider.Tooltip) == "string" or typeof(Slider.DisabledTooltip) == "string" then Slider.TooltipTable = Library:AddTooltip(Slider.Tooltip, Slider.DisabledTooltip, Bar); Slider.TooltipTable.Disabled = Slider.Disabled end
 
         Slider:UpdateColors()
         Slider:Display()
@@ -6645,23 +5190,15 @@ do
             Slider.Destroyed = true
 
             if Slider.Connections then
-                for _, Connection in Slider.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Slider.Connections do Connection:Disconnect() end
             end
 
-            if Slider.TooltipTable then 
-                Slider.TooltipTable:Destroy() 
-            end
+            if Slider.TooltipTable then Slider.TooltipTable:Destroy() end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Slider)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -6681,10 +5218,7 @@ do
         if Info.SpecialType == "Player" then
             Info.Values = GetPlayers(Info.ExcludeLocalPlayer)
             Info.AllowNull = true
-        elseif Info.SpecialType == "Team" then
-            Info.Values = GetTeams()
-            Info.AllowNull = true
-        end
+        elseif Info.SpecialType == "Team" then Info.Values = GetTeams(); Info.AllowNull = true end
 
         local Dropdown = {
             Connections = {},
@@ -6716,34 +5250,11 @@ do
             Type = "Dropdown",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Dropdown.Text and 39 or 21),
-            Visible = Dropdown.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Dropdown.Text and 39 or 21), Visible = Dropdown.Visible, Parent = Container, })
 
-        local Label = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 14),
-            Text = Dropdown.Text,
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Visible = not not Info.Text,
-            ZIndex = 3,
-            Parent = Holder,
-        })
+        local Label = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 14), Text = Dropdown.Text, TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, Visible = not not Info.Text, ZIndex = 3, Parent = Holder, })
 
-        local DisplayContainer = New("TextButton", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(0.99999, 0, 0, 21),
-            Text = "",
-            TextTransparency = 1,
-            ZIndex = 2,
-            Parent = Holder,
-        })
+        local DisplayContainer = New("TextButton", { AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", Position = UDim2.fromScale(0, 1), Size = UDim2.new(0.99999, 0, 0, 21), Text = "", TextTransparency = 1, ZIndex = 2, Parent = Holder, })
 
         New("UIPadding", {
             PaddingLeft = UDim.new(0, 8),
@@ -6764,15 +5275,7 @@ do
             Parent = DisplayContainer,
         }); table.insert(Library.SpecificCorners, DropdownCorner)
 
-        local DisplayImage = New("ImageLabel", {
-            BackgroundTransparency = 1,
-            Position = UDim2.fromOffset(-4, 3),
-            Size = UDim2.fromOffset(16, 16),
-            Image = "",
-            ImageTransparency = 1,
-            ZIndex = 2,
-            Parent = DisplayContainer,
-        })
+        local DisplayImage = New("ImageLabel", { BackgroundTransparency = 1, Position = UDim2.fromOffset(-4, 3), Size = UDim2.fromOffset(16, 16), Image = "", ImageTransparency = 1, ZIndex = 2, Parent = DisplayContainer, })
 
         local DisplayButton = New("TextButton", {
             Active = not Dropdown.Disabled,
@@ -6785,17 +5288,7 @@ do
             Parent = DisplayContainer,
         })
 
-        local ArrowImage = New("ImageLabel", {
-            AnchorPoint = Vector2.new(1, 0.5),
-            Image = ArrowIcon and ArrowIcon.Url or "",
-            ImageColor3 = "FontColor",
-            ImageRectOffset = ArrowIcon and ArrowIcon.ImageRectOffset or Vector2.zero,
-            ImageRectSize = ArrowIcon and ArrowIcon.ImageRectSize or Vector2.zero,
-            ImageTransparency = 0.5,
-            Position = UDim2.fromScale(1, 0.5),
-            Size = UDim2.fromOffset(16, 16),
-            Parent = DisplayContainer,
-        })
+        local ArrowImage = New("ImageLabel", { AnchorPoint = Vector2.new(1, 0.5), Image = ArrowIcon and ArrowIcon.Url or "", ImageColor3 = "FontColor", ImageRectOffset = ArrowIcon and ArrowIcon.ImageRectOffset or Vector2.zero, ImageRectSize = ArrowIcon and ArrowIcon.ImageRectSize or Vector2.zero, ImageTransparency = 0.5, Position = UDim2.fromScale(1, 0.5), Size = UDim2.fromOffset(16, 16), Parent = DisplayContainer, })
 
         local SearchBox
         if Info.Searchable then
@@ -6816,19 +5309,13 @@ do
         end
 
         local GetValueImage = function(Value)
-            if not Value then
-                return nil
-            end
+            if not Value then return nil end
 
             local ValueImage = nil
             if Dropdown.SpecialType == "Player" and Dropdown.EnablePlayerImages == true then
-                if typeof(Value) == "Instance" and Value:IsA("Player") then
-                    ValueImage = { Url = string.format("rbxthumb://type=AvatarHeadShot&id=%s&w=48&h=48", tostring(Value.UserId)) }
-                end
+                if typeof(Value) == "Instance" and Value:IsA("Player") then ValueImage = { Url = string.format("rbxthumb://type=AvatarHeadShot&id=%s&w=48&h=48", tostring(Value.UserId)) } end
             else
-                if Info.ValueImages and Info.ValueImages[Value] then
-                    ValueImage = Library:GetCustomIcon(Info.ValueImages[Value])
-                end
+                if Info.ValueImages and Info.ValueImages[Value] then ValueImage = Library:GetCustomIcon(Info.ValueImages[Value]) end
             end
 
             return ValueImage
@@ -6849,10 +5336,7 @@ do
                 ArrowImage.ImageTransparency = Active and 0 or 0.5
                 ArrowImage.Rotation = Active and 180 or 0
 
-                if SearchBox then
-                    SearchBox.Text = ""
-                    SearchBox.Visible = Active
-                end
+                if SearchBox then SearchBox.Text = ""; SearchBox.Visible = Active end
 
                 DropdownCorner.BottomRightRadius = Active and UDim.new(0, 0) or UDim.new(0, Library.CornerRadius / 2)
                 DropdownCorner.BottomLeftRadius = Active and UDim.new(0, 0) or UDim.new(0, Library.CornerRadius / 2)
@@ -6871,9 +5355,7 @@ do
         end
 
         function Dropdown:UpdateColors()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             Label.TextTransparency = Dropdown.Disabled and 0.8 or 0
             DisplayButton.TextTransparency = Dropdown.Disabled and 0.8 or 0
@@ -6882,9 +5364,7 @@ do
         end
 
         function Dropdown:Display()
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
             local Str = ""
             local ValueImage = nil
@@ -6892,9 +5372,7 @@ do
             if Info.Multi then
                 for _, Value in Dropdown.Values do
                     if Dropdown.Value[Value] then
-                        if not ValueImage then
-                            ValueImage = GetValueImage(Value)
-                        end
+                        if not ValueImage then ValueImage = GetValueImage(Value) end
 
                         Str = Str
                             .. (Info.FormatDisplayValue and tostring(Info.FormatDisplayValue(Value)) or tostring(Value))
@@ -6907,17 +5385,13 @@ do
                 ValueImage = GetValueImage(Dropdown.Value)
                 Str = Dropdown.Value and tostring(Dropdown.Value) or ""
 
-                if Str ~= "" and Info.FormatDisplayValue then
-                    Str = tostring(Info.FormatDisplayValue(Str))
-                end
+                if Str ~= "" and Info.FormatDisplayValue then Str = tostring(Info.FormatDisplayValue(Str)) end
             end
 
-            if #Str > 25 then
-                Str = Str:sub(1, 22) .. "..."
-            end
+            if #Str > 25 then Str = Str:sub(1, 22) .. "..." end
 
             DisplayButton.Text = (Str == "" and "---" or Str)
-            
+
             if ValueImage then
                 DisplayImage.Image = ValueImage.Url
                 DisplayImage.ImageRectOffset = ValueImage.ImageRectOffset or Vector2.zero
@@ -6940,13 +5414,9 @@ do
             local Table = {}
 
             if Info.Multi then
-                for Value, _ in Dropdown.Value do
-                    table.insert(Table, Value)
-                end
+                for Value, _ in Dropdown.Value do table.insert(Table, Value) end
             else
-                if Dropdown.Value then
-                    table.insert(Table, Dropdown.Value)
-                end
+                if Dropdown.Value then table.insert(Table, Dropdown.Value) end
             end
 
             return ReturnCount == true and GetTableSize(Table) or Table
@@ -6957,11 +5427,9 @@ do
             local Values = Dropdown.Values
             local DisabledValues = Dropdown.DisabledValues
 
-            for Button, _ in Buttons do
-                Button.Parent:Destroy()
-            end
+            for Button, _ in Buttons do Button.Parent:Destroy() end
             table.clear(Buttons)
-            
+
             local Count = 0
             local ProcessedCount = 0
             local TotalLen = GetTableSize(Values) + GetTableSize(DisabledValues)
@@ -6970,9 +5438,7 @@ do
                 ProcessedCount += 1
 
                 local FormattedValue = tostring(Info.FormatListValue and Info.FormatListValue(Value) or Value)
-                if SearchBox and not FormattedValue:lower():match(SearchBox.Text:lower()) then
-                    continue
-                end
+                if SearchBox and not FormattedValue:lower():match(SearchBox.Text:lower()) then continue end
 
                 Count += 1
 
@@ -6980,13 +5446,7 @@ do
                 local Table = {}
                 local ValueImage = GetValueImage(Value)
 
-                local Container = New("Frame", {
-                    BackgroundColor3 = "MainColor",
-                    BackgroundTransparency = 1,
-                    LayoutOrder = IsDisabled and 1 or 0,
-                    Size = UDim2.new(1, 0, 0, 21),
-                    Parent = MenuTable.Menu,
-                })
+                local Container = New("Frame", { BackgroundColor3 = "MainColor", BackgroundTransparency = 1, LayoutOrder = IsDisabled and 1 or 0, Size = UDim2.new(1, 0, 0, 21), Parent = MenuTable.Menu, })
 
                 if ProcessedCount == TotalLen then
                     local Corner = New("UICorner", {
@@ -7009,16 +5469,7 @@ do
                     Parent = Container,
                 })
 
-                local Button = New("TextButton", {
-                    BackgroundTransparency = 1,
-                    Size = ValueImage and UDim2.new(1, -18, 0, 21) or UDim2.new(1, 0, 0, 21),
-                    Position = ValueImage and UDim2.fromOffset(18, 0) or UDim2.fromOffset(0, 0),
-                    Text = FormattedValue,
-                    TextSize = 14,
-                    TextTransparency = 0.5,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = Container,
-                })
+                local Button = New("TextButton", { BackgroundTransparency = 1, Size = ValueImage and UDim2.new(1, -18, 0, 21) or UDim2.new(1, 0, 0, 21), Position = ValueImage and UDim2.fromOffset(18, 0) or UDim2.fromOffset(0, 0), Text = FormattedValue, TextSize = 14, TextTransparency = 0.5, TextXAlignment = Enum.TextXAlignment.Left, Parent = Container, })
                 New("UIPadding", {
                     PaddingLeft = UDim.new(0, 7),
                     PaddingRight = UDim.new(0, 7),
@@ -7042,9 +5493,7 @@ do
                     Container.BackgroundTransparency = Selected and 0 or 1
                     Button.TextTransparency = IsDisabled and 0.8 or Selected and 0 or 0.5
 
-                    if Image then
-                        Image.ImageTransparency = IsDisabled and 0.8 or Selected and 0 or 0.5
-                    end
+                    if Image then Image.ImageTransparency = IsDisabled and 0.8 or Selected and 0 or 0.5 end
                 end
 
                 if not IsDisabled then
@@ -7059,9 +5508,7 @@ do
                                 Dropdown.Value = Selected and Value or nil
                             end
 
-                            for _, OtherButton in Buttons do
-                                OtherButton:UpdateButton()
-                            end
+                            for _, OtherButton in Buttons do OtherButton:UpdateButton() end
                         end
 
                         Table:UpdateButton()
@@ -7085,46 +5532,27 @@ do
         function Dropdown:SetValue(Value)
             if Info.Multi then
                 local Table = {}
-				
-                for Val, Active in Value or {} do
-                    if typeof(Active) ~= "boolean" then
-                        Table[Active] = true
-                    elseif Active and table.find(Dropdown.Values, Val) then
-                        Table[Val] = true
-                    end
-                end
+
+                for Val, Active in Value or {} do if typeof(Active) ~= "boolean" then Table[Active] = true elseif Active and table.find(Dropdown.Values, Val) then Table[Val] = true end end
 
                 Dropdown.Value = Table
             else
                 if table.find(Dropdown.Values, Value) then
                     Dropdown.Value = Value
-                elseif not Value then
-                    Dropdown.Value = nil
-                end
+                elseif not Value then Dropdown.Value = nil end
             end
 
             Dropdown:Display()
-            for _, Button in Buttons do
-                Button:UpdateButton()
-            end
+            for _, Button in Buttons do Button:UpdateButton() end
 
-            if not Dropdown.Disabled then
-                Library:UpdateDependencyBoxes()
-                Library:SafeCallback(Dropdown.Callback, Dropdown.Value)
-                Library:SafeCallback(Dropdown.Changed, Dropdown.Value)
-            end
+            if not Dropdown.Disabled then Library:UpdateDependencyBoxes() Library:SafeCallback(Dropdown.Callback, Dropdown.Value) Library:SafeCallback(Dropdown.Changed, Dropdown.Value) end
         end
 
-        function Dropdown:SetValues(Values)
-            Dropdown.Values = Values
-            Dropdown:BuildDropdownList()
-        end
+        function Dropdown:SetValues(Values) Dropdown.Values = Values; Dropdown:BuildDropdownList() end
 
         function Dropdown:AddValues(Values)
             if typeof(Values) == "table" then
-                for _, val in Values do
-                    table.insert(Dropdown.Values, val)
-                end
+                for _, val in Values do table.insert(Dropdown.Values, val) end
             elseif typeof(Values) == "string" then
                 table.insert(Dropdown.Values, Values)
             else
@@ -7134,16 +5562,11 @@ do
             Dropdown:BuildDropdownList()
         end
 
-        function Dropdown:SetDisabledValues(DisabledValues)
-            Dropdown.DisabledValues = DisabledValues
-            Dropdown:BuildDropdownList()
-        end
+        function Dropdown:SetDisabledValues(DisabledValues) Dropdown.DisabledValues = DisabledValues; Dropdown:BuildDropdownList() end
 
         function Dropdown:AddDisabledValues(DisabledValues)
             if typeof(DisabledValues) == "table" then
-                for _, val in DisabledValues do
-                    table.insert(Dropdown.DisabledValues, val)
-                end
+                for _, val in DisabledValues do table.insert(Dropdown.DisabledValues, val) end
             elseif typeof(DisabledValues) == "string" then
                 table.insert(Dropdown.DisabledValues, DisabledValues)
             else
@@ -7154,32 +5577,24 @@ do
         end
 
         function Dropdown:SetValueImages(ValueImages)
-            if typeof(ValueImages) ~= "table" then
-                return
-            end
-            
+            if typeof(ValueImages) ~= "table" then return end
+
             Dropdown.ValueImages = ValueImages
             Dropdown:BuildDropdownList()
         end
 
         function Dropdown:AddValueImages(ValueImages)
-            if typeof(ValueImages) ~= "table" then
-                return
-            end
-            
-            for key, val in ValueImages do
-                Dropdown.ValueImages[key] = val
-            end
-            
+            if typeof(ValueImages) ~= "table" then return end
+
+            for key, val in ValueImages do Dropdown.ValueImages[key] = val end
+
             Dropdown:BuildDropdownList()
         end
 
         function Dropdown:SetDisabled(Disabled: boolean)
             Dropdown.Disabled = Disabled
 
-            if Dropdown.TooltipTable then
-                Dropdown.TooltipTable.Disabled = Dropdown.Disabled
-            end
+            if Dropdown.TooltipTable then Dropdown.TooltipTable.Disabled = Dropdown.Disabled end
 
             MenuTable:Close()
             DisplayButton.Active = not Dropdown.Disabled
@@ -7202,9 +5617,7 @@ do
         end
 
         local ToggleDropdown = function()
-            if Dropdown.Disabled then
-                return
-            end
+            if Dropdown.Disabled then return end
 
             MenuTable:Toggle()
         end
@@ -7212,26 +5625,15 @@ do
         table.insert(Dropdown.Connections, DisplayContainer.MouseButton1Click:Connect(ToggleDropdown))
         table.insert(Dropdown.Connections, DisplayButton.MouseButton1Click:Connect(ToggleDropdown))
 
-        if SearchBox then
-            table.insert(Dropdown.Connections, SearchBox:GetPropertyChangedSignal("Text"):Connect(Dropdown.BuildDropdownList))
-        end
+        if SearchBox then table.insert(Dropdown.Connections, SearchBox:GetPropertyChangedSignal("Text"):Connect(Dropdown.BuildDropdownList)) end
 
         local Defaults = {}
         if typeof(Info.Default) == "string" then
             local Index = table.find(Dropdown.Values, Info.Default)
-            if Index then
-                table.insert(Defaults, Index)
-            end
+            if Index then table.insert(Defaults, Index) end
         elseif typeof(Info.Default) == "table" then
-            for _, Value in next, Info.Default do
-                local Index = table.find(Dropdown.Values, Value)
-                if Index then
-                    table.insert(Defaults, Index)
-                end
-            end
-        elseif Dropdown.Values[Info.Default] ~= nil then
-            table.insert(Defaults, Info.Default)
-        end
+            for _, Value in next, Info.Default do local Index = table.find(Dropdown.Values, Value); if Index then table.insert(Defaults, Index) end end
+        elseif Dropdown.Values[Info.Default] ~= nil then table.insert(Defaults, Info.Default) end
 
         if next(Defaults) then
             for i = 1, #Defaults do
@@ -7242,16 +5644,11 @@ do
                     Dropdown.Value = Dropdown.Values[Index]
                 end
 
-                if not Info.Multi then
-                    break
-                end
+                if not Info.Multi then break end
             end
         end
 
-        if typeof(Dropdown.Tooltip) == "string" or typeof(Dropdown.DisabledTooltip) == "string" then
-            Dropdown.TooltipTable = Library:AddTooltip(Dropdown.Tooltip, Dropdown.DisabledTooltip, DisplayContainer)
-            Dropdown.TooltipTable.Disabled = Dropdown.Disabled
-        end
+        if typeof(Dropdown.Tooltip) == "string" or typeof(Dropdown.DisabledTooltip) == "string" then Dropdown.TooltipTable = Library:AddTooltip(Dropdown.Tooltip, Dropdown.DisabledTooltip, DisplayContainer); Dropdown.TooltipTable.Disabled = Dropdown.Disabled end
 
         Dropdown:UpdateColors()
         Dropdown:Display()
@@ -7270,27 +5667,17 @@ do
             Dropdown.Destroyed = true
 
             if Dropdown.Connections then
-                for _, Connection in Dropdown.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Dropdown.Connections do Connection:Disconnect() end
             end
 
-            if Dropdown.TooltipTable then 
-                Dropdown.TooltipTable:Destroy() 
-            end
+            if Dropdown.TooltipTable then Dropdown.TooltipTable:Destroy() end
 
-            if MenuTable then 
-                MenuTable:Destroy() 
-            end
+            if MenuTable then MenuTable:Destroy() end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Dropdown)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -7344,9 +5731,7 @@ do
         )
 
         local function GetModelSize(model)
-            if model:IsA("BasePart") then
-                return model.Size
-            end
+            if model:IsA("BasePart") then return model.Size end
 
             return select(2, model:GetBoundingBox())
         end
@@ -7360,22 +5745,9 @@ do
             Viewport.Camera.CFrame = CFrame.new(ModelPosition + Vector3.new(0, MaxExtent / 2, CameraDistance), ModelPosition)
         end
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Height),
-            Visible = Viewport.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Info.Height), Visible = Viewport.Visible, Parent = Container, })
 
-        local Box = New("Frame", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            BorderColor3 = "OutlineColor",
-            BorderSizePixel = 1,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.fromScale(1, 1),
-            Parent = Holder,
-        })
+        local Box = New("Frame", { AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", BorderColor3 = "OutlineColor", BorderSizePixel = 1, Position = UDim2.fromScale(0, 1), Size = UDim2.fromScale(1, 1), Parent = Holder, })
 
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 3),
@@ -7385,72 +5757,43 @@ do
             Parent = Box,
         })
 
-        local ViewportFrame = New("ViewportFrame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 1),
-            Parent = Box,
-            CurrentCamera = Viewport.Camera,
-            Active = Viewport.Interactive,
-        })
+        local ViewportFrame = New("ViewportFrame", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Parent = Box, CurrentCamera = Viewport.Camera, Active = Viewport.Interactive, })
 
         table.insert(Viewport.Connections, ViewportFrame.MouseEnter:Connect(function()
-            if not Viewport.Interactive then
-                return
-            end
+            if not Viewport.Interactive then return end
 
-            for _, Side in Groupbox.Tab.Sides do
-                Side.ScrollingEnabled = false
-            end
+            for _, Side in Groupbox.Tab.Sides do Side.ScrollingEnabled = false end
         end))
 
         table.insert(Viewport.Connections, ViewportFrame.MouseLeave:Connect(function()
-            if not Viewport.Interactive then
-                return
-            end
+            if not Viewport.Interactive then return end
 
-            for _, Side in Groupbox.Tab.Sides do
-                Side.ScrollingEnabled = true
-            end
+            for _, Side in Groupbox.Tab.Sides do Side.ScrollingEnabled = true end
         end))
 
         table.insert(Viewport.Connections, ViewportFrame.InputBegan:Connect(function(input)
-            if not Viewport.Interactive then
-                return
-            end
+            if not Viewport.Interactive then return end
 
             if input.UserInputType == Enum.UserInputType.MouseButton2 then
                 Dragging = true
                 LastMousePos = input.Position
-            elseif input.UserInputType == Enum.UserInputType.Touch and not Pinching then
-                Dragging = true
-                LastMousePos = input.Position
-            end
+            elseif input.UserInputType == Enum.UserInputType.Touch and not Pinching then Dragging = true; LastMousePos = input.Position end
         end))
 
         table.insert(Viewport.Connections, UserInputService.InputEnded:Connect(function(input)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
-            if not Viewport.Interactive then
-                return
-            end
+            if not Viewport.Interactive then return end
 
             if input.UserInputType == Enum.UserInputType.MouseButton2 then
                 Dragging = false
-            elseif input.UserInputType == Enum.UserInputType.Touch then
-                Dragging = false
-            end
+            elseif input.UserInputType == Enum.UserInputType.Touch then Dragging = false end
         end))
 
         table.insert(Viewport.Connections, UserInputService.InputChanged:Connect(function(input)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
-            if not Viewport.Interactive or not Dragging or Pinching then
-                return
-            end
+            if not Viewport.Interactive or not Dragging or Pinching then return end
 
             if
                 input.UserInputType == Enum.UserInputType.MouseMovement
@@ -7468,31 +5811,20 @@ do
                 local RotationX = CFrame.fromAxisAngle(Camera.CFrame.RightVector, -MouseDelta.Y * 0.01)
                 local PitchedCFrame = CFrame.new(Position) * RotationX * CFrame.new(-Position) * Camera.CFrame
 
-                if PitchedCFrame.UpVector.Y > 0.1 then
-                    Camera.CFrame = PitchedCFrame
-                end
+                if PitchedCFrame.UpVector.Y > 0.1 then Camera.CFrame = PitchedCFrame end
             end
         end))
 
         table.insert(Viewport.Connections, ViewportFrame.InputChanged:Connect(function(input)
-            if not Viewport.Interactive then
-                return
-            end
+            if not Viewport.Interactive then return end
 
-            if input.UserInputType == Enum.UserInputType.MouseWheel then
-                local ZoomAmount = input.Position.Z * 2
-                Viewport.Camera.CFrame += Viewport.Camera.CFrame.LookVector * ZoomAmount
-            end
+            if input.UserInputType == Enum.UserInputType.MouseWheel then local ZoomAmount = input.Position.Z * 2; Viewport.Camera.CFrame += Viewport.Camera.CFrame.LookVector * ZoomAmount end
         end))
 
         table.insert(Viewport.Connections, UserInputService.TouchPinch:Connect(function(touchPositions, scale, velocity, state)
-            if Library.Unloaded then
-                return
-            end
+            if Library.Unloaded then return end
 
-            if not Viewport.Interactive or not Library:MouseIsOverFrame(ViewportFrame, touchPositions[1]) then
-                return
-            end
+            if not Viewport.Interactive or not Library:MouseIsOverFrame(ViewportFrame, touchPositions[1]) then return end
 
             if state == Enum.UserInputState.Begin then
                 Pinching = true
@@ -7503,26 +5835,18 @@ do
                 local delta = (currentDist - LastPinchDist) * 0.1
                 LastPinchDist = currentDist
                 Viewport.Camera.CFrame += Viewport.Camera.CFrame.LookVector * delta
-            elseif state == Enum.UserInputState.End or state == Enum.UserInputState.Cancel then
-                Pinching = false
-            end
+            elseif state == Enum.UserInputState.End or state == Enum.UserInputState.Cancel then Pinching = false end
         end))
 
         ;(Viewport.Object :: PVInstance).Parent = ViewportFrame
-        if Viewport.AutoFocus then
-            FocusCamera()
-        end
+        if Viewport.AutoFocus then FocusCamera() end
 
         function Viewport:SetObject(Object: Instance, Clone: boolean?)
             assert(Object, "Object cannot be nil.")
 
-            if Clone then
-                Object = Object:Clone()
-            end
+            if Clone then Object = Object:Clone() end
 
-            if Viewport.Object then
-                Viewport.Object:Destroy()
-            end
+            if Viewport.Object then Viewport.Object:Destroy() end
 
             Viewport.Object = Object
             ;(Viewport.Object :: PVInstance).Parent = ViewportFrame
@@ -7538,9 +5862,7 @@ do
         end
 
         function Viewport:Focus()
-            if not Viewport.Object then
-                return
-            end
+            if not Viewport.Object then return end
 
             FocusCamera()
         end
@@ -7555,10 +5877,7 @@ do
             ViewportFrame.CurrentCamera = Camera
         end
 
-        function Viewport:SetInteractive(Interactive: boolean)
-            Viewport.Interactive = Interactive
-            ViewportFrame.Active = Interactive
-        end
+        function Viewport:SetInteractive(Interactive: boolean) Viewport.Interactive = Interactive; ViewportFrame.Active = Interactive end
 
         function Viewport:SetVisible(Visible: boolean)
             Viewport.Visible = Visible
@@ -7578,19 +5897,13 @@ do
             Viewport.Destroyed = true
 
             if Viewport.Connections then
-                for _, Connection in Viewport.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Viewport.Connections do Connection:Disconnect() end
             end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Viewport)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -7624,23 +5937,9 @@ do
             Type = "Image",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Height),
-            Visible = Image.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Info.Height), Visible = Image.Visible, Parent = Container, })
 
-        local Box = New("Frame", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            BorderColor3 = "OutlineColor",
-            BorderSizePixel = 1,
-            BackgroundTransparency = Image.BackgroundTransparency,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.fromScale(1, 1),
-            Parent = Holder,
-        })
+        local Box = New("Frame", { AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", BorderColor3 = "OutlineColor", BorderSizePixel = 1, BackgroundTransparency = Image.BackgroundTransparency, Position = UDim2.fromScale(0, 1), Size = UDim2.fromScale(1, 1), Parent = Holder, })
 
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 3),
@@ -7650,17 +5949,7 @@ do
             Parent = Box,
         })
 
-        local ImageProperties = {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 1),
-            Image = Image.Image,
-            ImageTransparency = Image.Transparency,
-            ImageColor3 = Image.Color,
-            ImageRectOffset = Image.RectOffset,
-            ImageRectSize = Image.RectSize,
-            ScaleType = Image.ScaleType,
-            Parent = Box,
-        }
+        local ImageProperties = { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Image = Image.Image, ImageTransparency = Image.Transparency, ImageColor3 = Image.Color, ImageRectOffset = Image.RectOffset, ImageRectSize = Image.RectSize, ScaleType = Image.ScaleType, Parent = Box, }
 
         local Icon = Library:GetCustomIcon(ImageProperties.Image)
         assert(Icon, "Image must be a valid Roblox asset or a valid URL or a valid lucide icon.")
@@ -7749,14 +6038,10 @@ do
         function Image:Destroy()
             Image.Destroyed = true
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Image)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -7787,22 +6072,9 @@ do
             Type = "Video",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Height),
-            Visible = Video.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Info.Height), Visible = Video.Visible, Parent = Container, })
 
-        local Box = New("Frame", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundColor3 = "MainColor",
-            BorderColor3 = "OutlineColor",
-            BorderSizePixel = 1,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.fromScale(1, 1),
-            Parent = Holder,
-        })
+        local Box = New("Frame", { AnchorPoint = Vector2.new(0, 1), BackgroundColor3 = "MainColor", BorderColor3 = "OutlineColor", BorderSizePixel = 1, Position = UDim2.fromScale(0, 1), Size = UDim2.fromScale(1, 1), Parent = Holder, })
 
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 3),
@@ -7812,14 +6084,7 @@ do
             Parent = Box,
         })
 
-        local VideoFrameInstance = New("VideoFrame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 1),
-            Video = Video.Video,
-            Looped = Video.Looped,
-            Volume = Video.Volume,
-            Parent = Box,
-        })
+        local VideoFrameInstance = New("VideoFrame", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Video = Video.Video, Looped = Video.Looped, Volume = Video.Volume, Parent = Box, })
 
         VideoFrameInstance.Playing = Video.Playing
 
@@ -7859,15 +6124,9 @@ do
             Video.Playing = Playing
         end
 
-        function Video:Play()
-            VideoFrameInstance.Playing = true
-            Video.Playing = true
-        end
+        function Video:Play() VideoFrameInstance.Playing = true; Video.Playing = true end
 
-        function Video:Pause()
-            VideoFrameInstance.Playing = false
-            Video.Playing = false
-        end
+        function Video:Pause() VideoFrameInstance.Playing = false; Video.Playing = false end
 
         function Video:SetVisible(Visible: boolean)
             Video.Visible = Visible
@@ -7888,19 +6147,13 @@ do
             Video.Destroyed = true
 
             if Video.Connections then
-                for _, Connection in Video.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Video.Connections do Connection:Disconnect() end
             end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Video)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -7935,12 +6188,7 @@ do
             Type = "UIPassthrough",
         }
 
-        local Holder = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, Info.Height),
-            Visible = Passthrough.Visible,
-            Parent = Container,
-        })
+        local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, Info.Height), Visible = Passthrough.Visible, Parent = Container, })
 
         Passthrough.Instance.Parent = Holder
 
@@ -7961,9 +6209,7 @@ do
                 "Instance must inherit from GuiBase2d."
             )
 
-            if Passthrough.Instance then
-                Passthrough.Instance.Parent = nil
-            end
+            if Passthrough.Instance then Passthrough.Instance.Parent = nil end
 
             Passthrough.Instance = Instance
             Passthrough.Instance.Parent = Holder
@@ -7985,19 +6231,13 @@ do
             Passthrough.Destroyed = true
 
             if Passthrough.Connections then
-                for _, Connection in Passthrough.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Passthrough.Connections do Connection:Disconnect() end
             end
 
-            if Holder then 
-                Holder:Destroy() 
-            end
+            if Holder then Holder:Destroy() end
 
             local ElemIdx = table.find(Groupbox.Elements, Passthrough)
-            if ElemIdx then 
-                table.remove(Groupbox.Elements, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Groupbox.Elements, ElemIdx) end
 
             Groupbox:Resize()
             Options[Idx] = nil
@@ -8043,10 +6283,7 @@ do
             DependencyBoxes = {},
         }
 
-        function Depbox:Resize()
-            DepboxContainer.Size = UDim2.new(1, 0, 0, DepboxList.AbsoluteContentSize.Y / Library.DPIScale)
-            Groupbox:Resize()
-        end
+        function Depbox:Resize() DepboxContainer.Size = UDim2.new(1, 0, 0, DepboxList.AbsoluteContentSize.Y / Library.DPIScale); Groupbox:Resize() end
 
         function Depbox:Update(CancelSearch)
             for _, Dependency in Depbox.Dependencies do
@@ -8059,17 +6296,9 @@ do
                     return
                 elseif Element.Type == "Dropdown" then
                     if typeof(Element.Value) == "table" then
-                        if not Element.Value[Value] then
-                            DepboxContainer.Visible = false
-                            Depbox.Visible = false
-                            return
-                        end
+                        if not Element.Value[Value] then DepboxContainer.Visible = false Depbox.Visible = false return end
                     else
-                        if Element.Value ~= Value then
-                            DepboxContainer.Visible = false
-                            Depbox.Visible = false
-                            return
-                        end
+                        if Element.Value ~= Value then DepboxContainer.Visible = false Depbox.Visible = false return end
                     end
                 end
             end
@@ -8080,25 +6309,17 @@ do
                 task.defer(function()
                     Depbox:Resize()
                 end)
-            elseif not CancelSearch then
-                Library:UpdateSearch(Library.SearchText)
-            end
+            elseif not CancelSearch then Library:UpdateSearch(Library.SearchText) end
         end
 
         DepboxList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-            if not Depbox.Visible then
-                return
-            end
+            if not Depbox.Visible then return end
 
             Depbox:Resize()
         end)
 
         function Depbox:SetupDependencies(Dependencies)
-            for _, Dependency in Dependencies do
-                assert(typeof(Dependency) == "table", "Dependency should be a table.")
-                assert(Dependency[1] ~= nil, "Dependency is missing element.")
-                assert(Dependency[2] ~= nil, "Dependency is missing expected value.")
-            end
+            for _, Dependency in Dependencies do assert(typeof(Dependency) == "table", "Dependency should be a table.") assert(Dependency[1] ~= nil, "Dependency is missing element.") assert(Dependency[2] ~= nil, "Dependency is missing expected value.") end
 
             Depbox.Dependencies = Dependencies
             Depbox:Update()
@@ -8117,36 +6338,24 @@ do
             Depbox.Destroyed = true
 
             if Depbox.Connections then
-                for _, Connection in Depbox.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Depbox.Connections do Connection:Disconnect() end
             end
 
             for _, Element in Depbox.Elements do
-                if Element.Destroy then
-                    Element:Destroy()
-                end
+                if Element.Destroy then Element:Destroy() end
             end
 
             for _, SubDepbox in Depbox.DependencyBoxes do
-                if SubDepbox.Destroy then
-                    SubDepbox:Destroy()
-                end
+                if SubDepbox.Destroy then SubDepbox:Destroy() end
             end
 
-            if DepboxContainer then 
-                DepboxContainer:Destroy() 
-            end
+            if DepboxContainer then DepboxContainer:Destroy() end
 
             local ElemIdx = table.find(Groupbox.DependencyBoxes, Depbox)
-            if ElemIdx then 
-                table.remove(Groupbox.DependencyBoxes, ElemIdx)
-            end
+            if ElemIdx then table.remove(Groupbox.DependencyBoxes, ElemIdx) end
 
             local LibIdx = table.find(Library.DependencyBoxes, Depbox)
-            if LibIdx then 
-                table.remove(Library.DependencyBoxes, LibIdx) 
-            end
+            if LibIdx then table.remove(Library.DependencyBoxes, LibIdx) end
         end
 
         return Depbox
@@ -8222,17 +6431,9 @@ do
                     return
                 elseif Element.Type == "Dropdown" then
                     if typeof(Element.Value) == "table" then
-                        if not Element.Value[Value] then
-                            DepGroupboxContainer.Visible = false
-                            DepGroupbox.Visible = false
-                            return
-                        end
+                        if not Element.Value[Value] then DepGroupboxContainer.Visible = false DepGroupbox.Visible = false return end
                     else
-                        if Element.Value ~= Value then
-                            DepGroupboxContainer.Visible = false
-                            DepGroupbox.Visible = false
-                            return
-                        end
+                        if Element.Value ~= Value then DepGroupboxContainer.Visible = false DepGroupbox.Visible = false return end
                     end
                 end
             end
@@ -8241,17 +6442,11 @@ do
             if not Library.Searching then
                 DepGroupboxContainer.Visible = true
                 DepGroupbox:Resize()
-            elseif not CancelSearch then
-                Library:UpdateSearch(Library.SearchText)
-            end
+            elseif not CancelSearch then Library:UpdateSearch(Library.SearchText) end
         end
 
         function DepGroupbox:SetupDependencies(Dependencies)
-            for _, Dependency in Dependencies do
-                assert(typeof(Dependency) == "table", "Dependency should be a table.")
-                assert(Dependency[1] ~= nil, "Dependency is missing element.")
-                assert(Dependency[2] ~= nil, "Dependency is missing expected value.")
-            end
+            for _, Dependency in Dependencies do assert(typeof(Dependency) == "table", "Dependency should be a table.") assert(Dependency[1] ~= nil, "Dependency is missing element.") assert(Dependency[2] ~= nil, "Dependency is missing expected value.") end
 
             DepGroupbox.Dependencies = Dependencies
             DepGroupbox:Update()
@@ -8266,36 +6461,24 @@ do
             DepGroupbox.Destroyed = true
 
             if DepGroupbox.Connections then
-                for _, Connection in DepGroupbox.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in DepGroupbox.Connections do Connection:Disconnect() end
             end
 
             for _, Element in DepGroupbox.Elements do
-                if Element.Destroy then
-                    Element:Destroy()
-                end
+                if Element.Destroy then Element:Destroy() end
             end
 
             for _, SubDepbox in DepGroupbox.DependencyBoxes do
-                if SubDepbox.Destroy then
-                    SubDepbox:Destroy()
-                end
+                if SubDepbox.Destroy then SubDepbox:Destroy() end
             end
 
-            if DepGroupboxContainer then 
-                DepGroupboxContainer:Destroy() 
-            end
+            if DepGroupboxContainer then DepGroupboxContainer:Destroy() end
 
             local ElemIdx = table.find(Tab.DependencyGroupboxes, DepGroupbox)
-            if ElemIdx then 
-                table.remove(Tab.DependencyGroupboxes, ElemIdx) 
-            end
+            if ElemIdx then table.remove(Tab.DependencyGroupboxes, ElemIdx) end
 
             local LibIdx = table.find(Library.DependencyBoxes, DepGroupbox)
-            if LibIdx then 
-                table.remove(Library.DependencyBoxes, LibIdx) 
-            end
+            if LibIdx then table.remove(Library.DependencyBoxes, LibIdx) end
         end
 
         return DepGroupbox
@@ -8308,9 +6491,7 @@ do
 end
 
 function Library:SetFont(FontFace)
-    if typeof(FontFace) == "EnumItem" then
-        FontFace = Font.fromEnum(FontFace :: any)
-    end
+    if typeof(FontFace) == "EnumItem" then FontFace = Font.fromEnum(FontFace :: any) end
 
     Library.Scheme.Font = FontFace
     Library:UpdateColorsUsingRegistry()
@@ -8364,22 +6545,9 @@ function Library:Notify(...)
         end)
     end
 
-    local FakeBackground = New("Frame", {
-        AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundTransparency = 1,
-        Size = UDim2.fromScale(1, 0),
-        Visible = false,
-        Parent = NotificationArea,
-    })
+    local FakeBackground = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Visible = false, Parent = NotificationArea, })
 
-    local Holder = New("Frame", {
-        AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = "MainColor",
-        Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -8, 0, -2) or UDim2.new(1, 8, 0, -2),
-        Size = UDim2.fromScale(1, 1),
-        ZIndex = 5,
-        Parent = FakeBackground,
-    })
+    local Holder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundColor3 = "MainColor", Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -8, 0, -2) or UDim2.new(1, 8, 0, -2), Size = UDim2.fromScale(1, 1), ZIndex = 5, Parent = FakeBackground, })
     table.insert(
         Library.Corners,
         New("UICorner", {
@@ -8400,13 +6568,8 @@ function Library:Notify(...)
     })
     Library:AddOutline(Holder)
 
-    local ContentContainer = New("Frame", {
-        BackgroundTransparency = 1,
-        AutomaticSize = Enum.AutomaticSize.XY,
-        Size = UDim2.fromScale(1, 0),
-        Parent = Holder,
-    })
-    
+    local ContentContainer = New("Frame", { BackgroundTransparency = 1, AutomaticSize = Enum.AutomaticSize.XY, Size = UDim2.fromScale(1, 0), Parent = Holder, })
+
     if Data.BigIcon then
         New("UIListLayout", {
             Padding = UDim.new(0, 8),
@@ -8432,17 +6595,12 @@ function Library:Notify(...)
         end
     end
 
-    local TextContainer = New("Frame", {
-        BackgroundTransparency = 1,
-        AutomaticSize = Enum.AutomaticSize.XY,
-        Size = UDim2.fromScale(0, 0),
-        Parent = ContentContainer,
-    })
+    local TextContainer = New("Frame", { BackgroundTransparency = 1, AutomaticSize = Enum.AutomaticSize.XY, Size = UDim2.fromScale(0, 0), Parent = ContentContainer, })
     New("UIListLayout", {
         Padding = UDim.new(0, 4),
         Parent = TextContainer,
     })
-    
+
     local TitleContainer
     if Data.Title then
         TitleContainer = New("Frame", {
@@ -8529,38 +6687,23 @@ function Library:Notify(...)
     end
 
     function Data:ChangeTitle(Text)
-        if Title then
-            Data.Title = tostring(Text)
-            Title.Text = Data.Title
-            Data:Resize()
-        end
+        if Title then Data.Title = tostring(Text) Title.Text = Data.Title Data:Resize() end
     end
 
     function Data:ChangeDescription(Text)
-        if Desc then
-            Data.Description = tostring(Text)
-            Desc.Text = Data.Description
-            Data:Resize()
-        end
+        if Desc then Data.Description = tostring(Text) Desc.Text = Data.Description Data:Resize() end
     end
 
     function Data:ChangeStep(NewStep)
-        if TimerFill and Data.Steps then
-            NewStep = math.clamp(NewStep or 0, 0, Data.Steps)
-            TimerFill.Size = UDim2.fromScale(NewStep / Data.Steps, 1)
-        end
+        if TimerFill and Data.Steps then NewStep = math.clamp(NewStep or 0, 0, Data.Steps); TimerFill.Size = UDim2.fromScale(NewStep / Data.Steps, 1) end
     end
 
     function Data:Destroy()
         Data.Destroyed = true
 
-        if typeof(Data.Time) == "Instance" then
-            pcall(Data.Time.Destroy, Data.Time)
-        end
+        if typeof(Data.Time) == "Instance" then pcall(Data.Time.Destroy, Data.Time) end
 
-        if DeleteConnection then
-            DeleteConnection:Disconnect()
-        end
+        if DeleteConnection then DeleteConnection:Disconnect() end
 
         TweenService
             :Create(Holder, Library.NotifyTweenInfo, {
@@ -8576,34 +6719,18 @@ function Library:Notify(...)
 
     Data:Resize()
 
-    local TimerHolder = New("Frame", {
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 7),
-        Visible = (Data.Persist ~= true and typeof(Data.Time) ~= "Instance") or typeof(Data.Steps) == "number",
-        Parent = Holder,
-    })
-    local TimerBar = New("Frame", {
-        BackgroundColor3 = "BackgroundColor",
-        BorderColor3 = "OutlineColor",
-        BorderSizePixel = 1,
-        Position = UDim2.fromOffset(0, 3),
-        Size = UDim2.new(1, 0, 0, 2),
-        Parent = TimerHolder,
-    })
+    local TimerHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 7), Visible = (Data.Persist ~= true and typeof(Data.Time) ~= "Instance") or typeof(Data.Steps) == "number", Parent = Holder, })
+    local TimerBar = New("Frame", { BackgroundColor3 = "BackgroundColor", BorderColor3 = "OutlineColor", BorderSizePixel = 1, Position = UDim2.fromOffset(0, 3), Size = UDim2.new(1, 0, 0, 2), Parent = TimerHolder, })
     TimerFill = New("Frame", {
         BackgroundColor3 = "AccentColor",
         Size = UDim2.fromScale(1, 1),
         Parent = TimerBar,
     })
 
-    if typeof(Data.Time) == "Instance" then
-        TimerFill.Size = UDim2.fromScale(0, 1)
-    end
+    if typeof(Data.Time) == "Instance" then TimerFill.Size = UDim2.fromScale(0, 1) end
     if Data.SoundId then
         local SoundId = Data.SoundId
-        if typeof(SoundId) == "number" then
-            SoundId = string.format("rbxassetid://%d", SoundId)
-        end
+        if typeof(SoundId) == "number" then SoundId = string.format("rbxassetid://%d", SoundId) end
 
         New("Sound", {
             SoundId = SoundId,
@@ -8636,9 +6763,7 @@ function Library:Notify(...)
             task.wait(Data.Time)
         end
 
-        if not Data.Destroyed then
-            Data:Destroy()
-        end
+        if not Data.Destroyed then Data:Destroy() end
     end)
 
     return Data
@@ -8665,18 +6790,11 @@ function Library:CreateWindow(WindowInfo)
         math.clamp(WindowInfo.Size.X.Offset, Library.MinSize.X, MaxX),
         math.clamp(WindowInfo.Size.Y.Offset, Library.MinSize.Y, MaxY)
     )
-    if typeof(WindowInfo.Font) == "EnumItem" then
-        WindowInfo.Font = Font.fromEnum(WindowInfo.Font :: any)
-    end
+    if typeof(WindowInfo.Font) == "EnumItem" then WindowInfo.Font = Font.fromEnum(WindowInfo.Font :: any) end
     WindowInfo.CornerRadius = math.min(WindowInfo.CornerRadius, 20)
-    
-    --// Old Naming \\--
-    if WindowInfo.Compact ~= nil then
-        WindowInfo.SidebarCompacted = WindowInfo.Compact
-    end
-    if WindowInfo.SidebarMinWidth ~= nil then
-        WindowInfo.MinSidebarWidth = WindowInfo.SidebarMinWidth
-    end
+
+    if WindowInfo.Compact ~= nil then WindowInfo.SidebarCompacted = WindowInfo.Compact end
+    if WindowInfo.SidebarMinWidth ~= nil then WindowInfo.MinSidebarWidth = WindowInfo.SidebarMinWidth end
     WindowInfo.MinSidebarWidth = math.max(64, WindowInfo.MinSidebarWidth)
     WindowInfo.SidebarCompactWidth = math.max(48, WindowInfo.SidebarCompactWidth)
     WindowInfo.SidebarCollapseThreshold = math.clamp(WindowInfo.SidebarCollapseThreshold, 0.1, 0.9)
@@ -8742,10 +6860,7 @@ function Library:CreateWindow(WindowInfo)
             })
         )
         Library:AddOutline(MainFrame)
-        Library:MakeLine(MainFrame, {
-            Position = UDim2.fromOffset(0, 48),
-            Size = UDim2.new(1, 0, 0, 1),
-        })
+        Library:MakeLine(MainFrame, { Position = UDim2.fromOffset(0, 48), Size = UDim2.new(1, 0, 0, 1), })
 
         DividerLine = New("Frame", {
             BackgroundColor3 = "OutlineColor",
@@ -8775,19 +6890,11 @@ function Library:CreateWindow(WindowInfo)
             )
         end
 
-        if WindowInfo.Center then
-            MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
-        end
+        if WindowInfo.Center then MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2) end
 
-        --// Top Bar \\-
-        local TopBar = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 48),
-            Parent = MainFrame,
-        })
+        local TopBar = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 48), Parent = MainFrame, })
         Library:MakeDraggable(MainFrame, TopBar, false, true)
 
-        --// Title \\--
         TitleHolder = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.new(0, InitialLeftWidth, 1, 0),
@@ -8835,7 +6942,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = TitleHolder,
         })
 
-        --// Top Right Bar \\--
         RightWrapper = New("Frame", {
             AnchorPoint = Vector2.new(1, 0.5),
             BackgroundTransparency = 1,
@@ -8960,7 +7066,6 @@ function Library:CreateWindow(WindowInfo)
             })
         end
 
-        --// Bottom Bar \\--
         BottomBackground = New("Frame", {
             AnchorPoint = Vector2.new(0, 1),
             BackgroundColor3 = function()
@@ -8970,19 +7075,9 @@ function Library:CreateWindow(WindowInfo)
             Size = UDim2.new(1, 0, 0, 20 + WindowInfo.CornerRadius),
             Parent = MainFrame
         })
-        Library:MakeLine(MainFrame, {
-            AnchorPoint = Vector2.new(0, 1),
-            Position = UDim2.new(0, 0, 1, -20),
-            Size = UDim2.new(1, 0, 0, 1),
-        })
+        Library:MakeLine(MainFrame, { AnchorPoint = Vector2.new(0, 1), Position = UDim2.new(0, 0, 1, -20), Size = UDim2.new(1, 0, 0, 1), })
 
-        local BottomBar = New("Frame", {
-            AnchorPoint = Vector2.new(0, 1),
-            BackgroundTransparency = 1,
-            Position = UDim2.fromScale(0, 1),
-            Size = UDim2.new(1, 0, 0, 20),
-            Parent = MainFrame,
-        })
+        local BottomBar = New("Frame", { AnchorPoint = Vector2.new(0, 1), BackgroundTransparency = 1, Position = UDim2.fromScale(0, 1), Size = UDim2.new(1, 0, 0, 20), Parent = MainFrame, })
         table.insert(
             Library.Corners,
             New("UICorner", {
@@ -8991,7 +7086,6 @@ function Library:CreateWindow(WindowInfo)
             })
         )
 
-        --// Footer \\-
         FooterLabel = New("TextLabel", {
             BackgroundTransparency = 1,
             Size = UDim2.fromScale(1, 1),
@@ -9001,7 +7095,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = BottomBar,
         })
 
-        --// Resize Button \\--
         if WindowInfo.Resizable then
             ResizeButton = New("TextButton", {
                 AnchorPoint = Vector2.new(1, 0),
@@ -9014,9 +7107,7 @@ function Library:CreateWindow(WindowInfo)
             })
 
             Library:MakeResizable(MainFrame, ResizeButton, function()
-                for _, Tab in Library.Tabs do
-                    Tab:Resize(true)
-                end
+                for _, Tab in Library.Tabs do Tab:Resize(true) end
             end)
         end
 
@@ -9031,7 +7122,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = ResizeButton,
         })
 
-        --// Tabs \\--
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             BackgroundColor3 = "BackgroundColor",
@@ -9045,7 +7135,6 @@ function Library:CreateWindow(WindowInfo)
             Parent = Tabs,
         })
 
-        --// Container \\--
         Container = New("Frame", {
             AnchorPoint = Vector2.new(1, 0),
             BackgroundColor3 = function()
@@ -9067,14 +7156,11 @@ function Library:CreateWindow(WindowInfo)
         Library.WindowContainer = Container
     end
 
-    --// Window Table \\--
     local Window = {}
 
     local function SetUICorner(UICorner, Corner, HalfCurrent, HalfValue, Value)
         local Current = UICorner[Corner]
-        if Current.Offset == 0 and Current.Scale == 0 then
-            return
-        end
+        if Current.Offset == 0 and Current.Scale == 0 then return end
 
         UICorner[Corner] = Current.Offset == HalfCurrent and HalfValue or Value
     end
@@ -9089,7 +7175,7 @@ function Library:CreateWindow(WindowInfo)
     if WindowInfo.BackgroundImage then
         function Window:SetBackgroundImage(Image: string)
             assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
-    
+
             BackgroundImage.Image = Image
             WindowInfo.BackgroundImage = Image
         end
@@ -9132,31 +7218,21 @@ function Library:CreateWindow(WindowInfo)
         BottomBackground.Size = UDim2.new(1, 0, 0, 20 + Radius)
 
         for _, Tab in Library.Tabs do
-            if Tab.IsKeyTab then
-                continue
-            end
+            if Tab.IsKeyTab then continue end
 
-            for _, Tabbox in Tab.Tabboxes do
-                Tabbox:UpdateCorners()
-            end
+            for _, Tabbox in Tab.Tabboxes do Tabbox:UpdateCorners() end
         end
     end
 
     local function ApplyCompact()
         IsCompact = Window:GetSidebarWidth() == WindowInfo.SidebarCompactWidth
-        if WindowInfo.DisableCompactingSnap then
-            IsCompact = Window:GetSidebarWidth() <= WindowInfo.CompactWidthActivation
-        end
+        if WindowInfo.DisableCompactingSnap then IsCompact = Window:GetSidebarWidth() <= WindowInfo.CompactWidthActivation end
 
         WindowTitle.Visible = not IsCompact
-        if not WindowInfo.Icon then
-            WindowIcon.Visible = IsCompact
-        end
+        if not WindowInfo.Icon then WindowIcon.Visible = IsCompact end
 
         for _, Button in Library.TabButtons do
-            if not Button.Icon then
-                continue
-            end
+            if not Button.Icon then continue end
 
             Button.Label.Visible = not IsCompact
             Button.Padding.PaddingBottom = UDim.new(0, IsCompact and 6 or 11)
@@ -9189,30 +7265,19 @@ function Library:CreateWindow(WindowInfo)
         Tabs.Size = UDim2.new(0, Width, 1, -70)
         Container.Size = UDim2.new(1, -Width - 1, 1, -70)
 
-        if WindowInfo.EnableCompacting then
-            ApplyCompact()
-        end
-        if not IsCompact then
-            LastExpandedWidth = Width
-        end
+        if WindowInfo.EnableCompacting then ApplyCompact() end
+        if not IsCompact then LastExpandedWidth = Width end
     end
 
     function Window:ShowTabInfo(Name, Description)
         CurrentTabLabel.Text = Name
         CurrentTabDescription.Text = Description
 
-        if IsDefaultSearchbarSize then
-            SearchBox.Size = UDim2.fromScale(0.5, 1)
-        end
+        if IsDefaultSearchbarSize then SearchBox.Size = UDim2.fromScale(0.5, 1) end
         CurrentTabInfo.Visible = true
     end
 
-    function Window:HideTabInfo()
-        CurrentTabInfo.Visible = false
-        if IsDefaultSearchbarSize then
-            SearchBox.Size = UDim2.fromScale(1, 1)
-        end
-    end
+    function Window:HideTabInfo() CurrentTabInfo.Visible = false; if IsDefaultSearchbarSize then SearchBox.Size = UDim2.fromScale(1, 1) end end
 
     function Window:AddTab(...)
         local Name = nil
@@ -9247,13 +7312,7 @@ function Library:CreateWindow(WindowInfo)
                 Text = "",
                 Parent = Tabs,
             })
-            local ButtonPadding = New("UIPadding", {
-                PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
-                PaddingLeft = UDim.new(0, IsCompact and 6 or 12),
-                PaddingRight = UDim.new(0, IsCompact and 6 or 12),
-                PaddingTop = UDim.new(0, IsCompact and 6 or 11),
-                Parent = TabButton,
-            })
+            local ButtonPadding = New("UIPadding", { PaddingBottom = UDim.new(0, IsCompact and 6 or 11), PaddingLeft = UDim.new(0, IsCompact and 6 or 12), PaddingRight = UDim.new(0, IsCompact and 6 or 12), PaddingTop = UDim.new(0, IsCompact and 6 or 11), Parent = TabButton, })
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
@@ -9287,7 +7346,6 @@ function Library:CreateWindow(WindowInfo)
                 Icon = TabIcon,
             })
 
-            --// Tab Container \\--
             TabContainer = New("Frame", {
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
@@ -9364,15 +7422,7 @@ function Library:CreateWindow(WindowInfo)
             end
         end
 
-        --// Warning Box \\--
-        local WarningBoxHolder = New("Frame", {
-            AutomaticSize = Enum.AutomaticSize.Y,
-            BackgroundTransparency = 1,
-            Position = UDim2.fromOffset(0, 7),
-            Size = UDim2.fromScale(1, 0),
-            Visible = false,
-            Parent = TabContainer,
-        })
+        local WarningBoxHolder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 7), Size = UDim2.fromScale(1, 0), Visible = false, Parent = TabContainer, })
 
         local WarningBox
         local WarningBoxOutline
@@ -9451,7 +7501,6 @@ function Library:CreateWindow(WindowInfo)
             })
         end
 
-        --// Tab Table \\--
         local Tab = {
             Connections = {},
             Destroyed = false,
@@ -9460,35 +7509,16 @@ function Library:CreateWindow(WindowInfo)
             Tabboxes = {},
             DependencyGroupboxes = {},
             Description = Description,
-            Sides = {
-                TabLeft,
-                TabRight,
-            },
-            WarningBox = {
-                IsNormal = false,
-                LockSize = false,
-                Visible = false,
-                Title = "WARNING",
-                Text = "",
-            },
+            Sides = { TabLeft, TabRight, },
+            WarningBox = { IsNormal = false, LockSize = false, Visible = false, Title = "WARNING", Text = "", },
         }
 
         function Tab:UpdateWarningBox(Info)
-            if typeof(Info.IsNormal) == "boolean" then
-                Tab.WarningBox.IsNormal = Info.IsNormal
-            end
-            if typeof(Info.LockSize) == "boolean" then
-                Tab.WarningBox.LockSize = Info.LockSize
-            end
-            if typeof(Info.Visible) == "boolean" then
-                Tab.WarningBox.Visible = Info.Visible
-            end
-            if typeof(Info.Title) == "string" then
-                Tab.WarningBox.Title = Info.Title
-            end
-            if typeof(Info.Text) == "string" then
-                Tab.WarningBox.Text = Info.Text
-            end
+            if typeof(Info.IsNormal) == "boolean" then Tab.WarningBox.IsNormal = Info.IsNormal end
+            if typeof(Info.LockSize) == "boolean" then Tab.WarningBox.LockSize = Info.LockSize end
+            if typeof(Info.Visible) == "boolean" then Tab.WarningBox.Visible = Info.Visible end
+            if typeof(Info.Title) == "string" then Tab.WarningBox.Title = Info.Title end
+            if typeof(Info.Text) == "string" then Tab.WarningBox.Text = Info.Text end
 
             WarningBoxHolder.Visible = Tab.WarningBox.Visible
             WarningTitle.Text = Tab.WarningBox.Title
@@ -9508,21 +7538,11 @@ function Library:CreateWindow(WindowInfo)
             WarningStroke.Color = Tab.WarningBox.IsNormal == true and Library.Scheme.OutlineColor
                 or Color3.fromRGB(169, 0, 0)
 
-            if not Library.Registry[WarningBox] then
-                Library:AddToRegistry(WarningBox, {})
-            end
-            if not Library.Registry[WarningBoxShadowOutline] then
-                Library:AddToRegistry(WarningBoxShadowOutline, {})
-            end
-            if not Library.Registry[WarningBoxOutline] then
-                Library:AddToRegistry(WarningBoxOutline, {})
-            end
-            if not Library.Registry[WarningTitle] then
-                Library:AddToRegistry(WarningTitle, {})
-            end
-            if not Library.Registry[WarningStroke] then
-                Library:AddToRegistry(WarningStroke, {})
-            end
+            if not Library.Registry[WarningBox] then Library:AddToRegistry(WarningBox, {}) end
+            if not Library.Registry[WarningBoxShadowOutline] then Library:AddToRegistry(WarningBoxShadowOutline, {}) end
+            if not Library.Registry[WarningBoxOutline] then Library:AddToRegistry(WarningBoxOutline, {}) end
+            if not Library.Registry[WarningTitle] then Library:AddToRegistry(WarningTitle, {}) end
+            if not Library.Registry[WarningStroke] then Library:AddToRegistry(WarningStroke, {}) end
 
             Library.Registry[WarningBox].BackgroundColor3 = function()
                 return Tab.WarningBox.IsNormal == true and Library.Scheme.BackgroundColor or Color3.fromRGB(127, 0, 0)
@@ -9547,10 +7567,7 @@ function Library:CreateWindow(WindowInfo)
 
         function Tab:RefreshSides()
             local Offset = WarningBoxHolder.Visible and WarningBox.Size.Y.Offset + 8 or 0
-            for _, Side in Tab.Sides do
-                Side.Position = UDim2.new(Side.Position.X.Scale, 0, 0, Offset)
-                Side.Size = UDim2.new(0.5, -3, 1, -Offset)
-            end
+            for _, Side in Tab.Sides do Side.Position = UDim2.new(Side.Position.X.Scale, 0, 0, Offset); Side.Size = UDim2.new(0.5, -3, 1, -Offset) end
         end
 
         function Tab:Resize(ResizeWarningBox: boolean?)
@@ -9579,12 +7596,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:AddGroupbox(Info)
-            local BoxHolder = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Info.Side == 1 and TabLeft or TabRight,
-            })
+            local BoxHolder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = Info.Side == 1 and TabLeft or TabRight, })
             New("UIListLayout", {
                 Padding = UDim.new(0, 6),
                 Parent = BoxHolder,
@@ -9616,10 +7628,7 @@ function Library:CreateWindow(WindowInfo)
                 )
                 Library:AddOutline(GroupboxHolder)
 
-                Library:MakeLine(GroupboxHolder, {
-                    Position = UDim2.fromOffset(0, 34),
-                    Size = UDim2.new(1, 0, 0, 1),
-                })
+                Library:MakeLine(GroupboxHolder, { Position = UDim2.fromOffset(0, 34), Size = UDim2.new(1, 0, 0, 1), })
 
                 local BoxIcon = Library:GetCustomIcon(Info.IconName)
                 if BoxIcon then
@@ -9690,32 +7699,22 @@ function Library:CreateWindow(WindowInfo)
                 Groupbox.Destroyed = true
 
                 if Groupbox.Connections then
-                    for _, Connection in Groupbox.Connections do
-                        Connection:Disconnect()
-                    end
+                    for _, Connection in Groupbox.Connections do Connection:Disconnect() end
                 end
 
                 for _, Element in Groupbox.Elements do
-                    if Element.Destroy then
-                        Element:Destroy()
-                    end
+                    if Element.Destroy then Element:Destroy() end
                 end
                 table.clear(Groupbox.Elements)
 
                 for _, SubDepbox in Groupbox.DependencyBoxes do
-                    if SubDepbox.Destroy then
-                        SubDepbox:Destroy()
-                    end
+                    if SubDepbox.Destroy then SubDepbox:Destroy() end
                 end
                 table.clear(Groupbox.DependencyBoxes)
 
-                if GroupboxHolder then 
-                    GroupboxHolder:Destroy() 
-                end
+                if GroupboxHolder then GroupboxHolder:Destroy() end
 
-                if BoxHolder then
-                    BoxHolder:Destroy()
-                end
+                if BoxHolder then BoxHolder:Destroy() end
             end
 
             setmetatable(Groupbox, BaseGroupbox)
@@ -9735,12 +7734,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:AddTabbox(Info)
-            local BoxHolder = New("Frame", {
-                AutomaticSize = Enum.AutomaticSize.Y,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 0),
-                Parent = Info.Side == 1 and TabLeft or TabRight,
-            })
+            local BoxHolder = New("Frame", { AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), Parent = Info.Side == 1 and TabLeft or TabRight, })
             New("UIListLayout", {
                 Padding = UDim.new(0, 6),
                 Parent = BoxHolder,
@@ -9794,9 +7788,7 @@ function Library:CreateWindow(WindowInfo)
             }
 
             function Tabbox:UpdateCorners()
-                for _, Tab in Tabbox.Tabs do
-                    Tab:UpdateCorners()
-                end
+                for _, Tab in Tabbox.Tabs do Tab:UpdateCorners() end
             end
 
             function Tabbox:AddTab(Name, IconName)
@@ -9807,13 +7799,7 @@ function Library:CreateWindow(WindowInfo)
 
                 local BoxIcon = Library:GetCustomIcon(IconName)
 
-                local Button = New("TextButton", {
-                    BackgroundColor3 = "MainColor",
-                    BackgroundTransparency = 0,
-                    Size = UDim2.fromOffset(0, 34),
-                    Text = "",
-                    Parent = TabboxButtons,
-                })
+                local Button = New("TextButton", { BackgroundColor3 = "MainColor", BackgroundTransparency = 0, Size = UDim2.fromOffset(0, 34), Text = "", Parent = TabboxButtons, })
 
                 local ButtonCorner = New("UICorner", {
                     TopLeftRadius = UDim.new(0, WindowInfo.CornerRadius / 2),
@@ -9823,14 +7809,7 @@ function Library:CreateWindow(WindowInfo)
                     Parent = Button,
                 }); table.insert(Library.SpecificCorners, ButtonCorner)
 
-                local ButtonContent = New("Frame", {
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    AutomaticSize = Enum.AutomaticSize.X,
-                    BackgroundTransparency = 1,
-                    Position = UDim2.fromScale(0.5, 0.5),
-                    Size = UDim2.fromOffset(0, 16),
-                    Parent = Button,
-                })
+                local ButtonContent = New("Frame", { AnchorPoint = Vector2.new(0.5, 0.5), AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromOffset(0, 16), Parent = Button, })
                 New("UIListLayout", {
                     FillDirection = Enum.FillDirection.Horizontal,
                     HorizontalAlignment = Enum.HorizontalAlignment.Center,
@@ -9852,15 +7831,7 @@ function Library:CreateWindow(WindowInfo)
                     })
                 end
 
-                local ButtonLabel = New("TextLabel", {
-                    AutomaticSize = Enum.AutomaticSize.X,
-                    BackgroundTransparency = 1,
-                    Size = UDim2.fromOffset(0, 16),
-                    Text = Name,
-                    TextSize = 15,
-                    TextTransparency = 0.5,
-                    Parent = ButtonContent,
-                })
+                local ButtonLabel = New("TextLabel", { AutomaticSize = Enum.AutomaticSize.X, BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 16), Text = Name, TextSize = 15, TextTransparency = 0.5, Parent = ButtonContent, })
 
                 local Line = Library:MakeLine(Button, {
                     AnchorPoint = Vector2.new(0, 1),
@@ -9868,17 +7839,8 @@ function Library:CreateWindow(WindowInfo)
                     Size = UDim2.new(1, 0, 0, 1),
                 })
 
-                local Container = New("Frame", {
-                    BackgroundTransparency = 1,
-                    Position = UDim2.fromOffset(0, 35),
-                    Size = UDim2.new(1, 0, 1, -35),
-                    Visible = false,
-                    Parent = TabboxHolder,
-                })
-                local List = New("UIListLayout", {
-                    Padding = UDim.new(0, 8),
-                    Parent = Container,
-                })
+                local Container = New("Frame", { BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 35), Size = UDim2.new(1, 0, 1, -35), Visible = false, Parent = TabboxHolder, })
+                local List = New("UIListLayout", { Padding = UDim.new(0, 8), Parent = Container, })
                 New("UIPadding", {
                     PaddingBottom = UDim.new(0, 7),
                     PaddingLeft = UDim.new(0, 7),
@@ -9901,16 +7863,12 @@ function Library:CreateWindow(WindowInfo)
                 }
 
                 function Tab:Show()
-                    if Tabbox.ActiveTab then
-                        Tabbox.ActiveTab:Hide()
-                    end
+                    if Tabbox.ActiveTab then Tabbox.ActiveTab:Hide() end
 
                     Button.BackgroundTransparency = 1
 
                     ButtonLabel.TextTransparency = 0
-                    if ButtonIcon then
-                        ButtonIcon.ImageTransparency = 0
-                    end
+                    if ButtonIcon then ButtonIcon.ImageTransparency = 0 end
                     Line.Visible = false
 
                     Container.Visible = true
@@ -9923,9 +7881,7 @@ function Library:CreateWindow(WindowInfo)
                     Button.BackgroundTransparency = 0
 
                     ButtonLabel.TextTransparency = 0.5
-                    if ButtonIcon then
-                        ButtonIcon.ImageTransparency = 0.5
-                    end
+                    if ButtonIcon then ButtonIcon.ImageTransparency = 0.5 end
                     Line.Visible = true
                     Container.Visible = false
 
@@ -9933,9 +7889,7 @@ function Library:CreateWindow(WindowInfo)
                 end
 
                 function Tab:Resize()
-                    if Tabbox.ActiveTab ~= Tab then
-                        return
-                    end
+                    if Tabbox.ActiveTab ~= Tab then return end
 
                     TabboxHolder.Size = UDim2.new(1, 0, 0, (List.AbsoluteContentSize.Y / Library.DPIScale) + 49)
                 end
@@ -9951,36 +7905,23 @@ function Library:CreateWindow(WindowInfo)
                     Tab.Destroyed = true
 
                     if Tab.Connections then
-                        for _, Connection in Tab.Connections do
-                            Connection:Disconnect()
-                        end
+                        for _, Connection in Tab.Connections do Connection:Disconnect() end
                     end
 
                     for _, Element in Tab.Elements do
-                        if Element.Destroy then
-                            Element:Destroy()
-                        end
+                        if Element.Destroy then Element:Destroy() end
                     end
 
                     for _, SubDepbox in Tab.DependencyBoxes do
-                        if SubDepbox.Destroy then
-                            SubDepbox:Destroy()
-                        end
+                        if SubDepbox.Destroy then SubDepbox:Destroy() end
                     end
 
-                    if Container then
-                        Container:Destroy()
-                    end
+                    if Container then Container:Destroy() end
 
-                    if Button then
-                        Button:Destroy()
-                    end
+                    if Button then Button:Destroy() end
                 end
 
-                --// Execution \\--
-                if not Tabbox.ActiveTab then
-                    Tab:Show()
-                end
+                if not Tabbox.ActiveTab then Tab:Show() end
 
                 Button.MouseButton1Click:Connect(Tab.Show)
 
@@ -9996,24 +7937,16 @@ function Library:CreateWindow(WindowInfo)
                 Tabbox.Destroyed = true
 
                 if Tabbox.Connections then
-                    for _, Connection in Tabbox.Connections do
-                        Connection:Disconnect()
-                    end
+                    for _, Connection in Tabbox.Connections do Connection:Disconnect() end
                 end
 
                 for _, Tab in Tabbox.Tabs do
-                    if Tab.Destroy then
-                        Tab:Destroy()
-                    end
+                    if Tab.Destroy then Tab:Destroy() end
                 end
 
-                if TabboxHolder then
-                    TabboxHolder:Destroy()
-                end
+                if TabboxHolder then TabboxHolder:Destroy() end
 
-                if BoxHolder then
-                    BoxHolder:Destroy()
-                end
+                if BoxHolder then BoxHolder:Destroy() end
             end
 
             if Info.Name then
@@ -10034,9 +7967,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Hover(Hovering)
-            if Library.ActiveTab == Tab then
-                return
-            end
+            if Library.ActiveTab == Tab then return end
 
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = Hovering and 0.25 or 0.5,
@@ -10049,9 +7980,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Show()
-            if Library.ActiveTab then
-                Library.ActiveTab:Hide()
-            end
+            if Library.ActiveTab then Library.ActiveTab:Hide() end
 
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 0,
@@ -10065,18 +7994,14 @@ function Library:CreateWindow(WindowInfo)
                 }):Play()
             end
 
-            if Description then
-                Window:ShowTabInfo(Name, Description)
-            end
+            if Description then Window:ShowTabInfo(Name, Description) end
 
             TabContainer.Visible = true
             Tab:RefreshSides()
 
             Library.ActiveTab = Tab
 
-            if Library.Searching then
-                Library:UpdateSearch(Library.SearchText)
-            end
+            if Library.Searching then Library:UpdateSearch(Library.SearchText) end
         end
 
         function Tab:Hide()
@@ -10101,62 +8026,44 @@ function Library:CreateWindow(WindowInfo)
         function Tab:SetVisible(Visible: boolean)
             TabButton.Visible = Visible
 
-            if not Visible and Library.ActiveTab == Tab then
-                Tab:Hide()
-            end
+            if not Visible and Library.ActiveTab == Tab then Tab:Hide() end
         end
 
         function Tab:Destroy()
             Tab.Destroyed = true
 
             if Tab.Connections then
-                for _, Connection in Tab.Connections do
-                    Connection:Disconnect()
-                end
+                for _, Connection in Tab.Connections do Connection:Disconnect() end
             end
 
             for _, Groupbox in Tab.Groupboxes do
-                if Groupbox.Destroy then
-                    Groupbox:Destroy()
-                end
+                if Groupbox.Destroy then Groupbox:Destroy() end
             end
             table.clear(Tab.Groupboxes)
 
             for _, Tabbox in Tab.Tabboxes do
-                if Tabbox.Destroy then
-                    Tabbox:Destroy()
-                end
+                if Tabbox.Destroy then Tabbox:Destroy() end
             end
             table.clear(Tab.Tabboxes)
 
             for _, DepGroupbox in Tab.DependencyGroupboxes do
-                if DepGroupbox.Destroy then
-                    DepGroupbox:Destroy()
-                end
+                if DepGroupbox.Destroy then DepGroupbox:Destroy() end
             end
 
-            if TabContainer then
-                TabContainer:Destroy()
-            end
+            if TabContainer then TabContainer:Destroy() end
 
             if TabButton then
                 for Index, Entry in Library.TabButtons do
-                    if typeof(Entry) == "table" and Entry.Button == TabButton then
-                        table.remove(Library.TabButtons, Index)
-                        break
-                    end
+                    if typeof(Entry) == "table" and Entry.Button == TabButton then table.remove(Library.TabButtons, Index); break end
                 end
-                
+
                 TabButton:Destroy()
             end
-            
+
             Library.Tabs[Name] = nil
         end
 
-        --// Execution \\--
-        if not Library.ActiveTab then
-            Tab:Show()
-        end
+        if not Library.ActiveTab then Tab:Show() end
 
         TabButton.MouseEnter:Connect(function()
             Tab:Hover(true)
@@ -10204,13 +8111,7 @@ function Library:CreateWindow(WindowInfo)
                 Text = "",
                 Parent = Tabs,
             })
-            local ButtonPadding = New("UIPadding", {
-                PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
-                PaddingLeft = UDim.new(0, IsCompact and 6 or 12),
-                PaddingRight = UDim.new(0, IsCompact and 6 or 12),
-                PaddingTop = UDim.new(0, IsCompact and 6 or 11),
-                Parent = TabButton,
-            })
+            local ButtonPadding = New("UIPadding", { PaddingBottom = UDim.new(0, IsCompact and 6 or 11), PaddingLeft = UDim.new(0, IsCompact and 6 or 12), PaddingRight = UDim.new(0, IsCompact and 6 or 12), PaddingTop = UDim.new(0, IsCompact and 6 or 11), Parent = TabButton, })
 
             TabLabel = New("TextLabel", {
                 BackgroundTransparency = 1,
@@ -10243,7 +8144,6 @@ function Library:CreateWindow(WindowInfo)
                 Icon = TabIcon,
             })
 
-            --// Tab Container \\--
             TabContainer = New("ScrollingFrame", {
                 AutomaticCanvasSize = Enum.AutomaticSize.Y,
                 BackgroundTransparency = 1,
@@ -10266,30 +8166,14 @@ function Library:CreateWindow(WindowInfo)
             })
         end
 
-        --// Tab Table \\--
-        local Tab = {
-            Elements = {},
-            Description = Description,
-            IsKeyTab = true,
-        }
+        local Tab = { Elements = {}, Description = Description, IsKeyTab = true, }
 
         function Tab:AddKeyBox(Callback)
             assert(typeof(Callback) == "function", "Callback must be a function")
 
-            local Holder = New("Frame", {
-                BackgroundTransparency = 1,
-                Size = UDim2.new(0.75, 0, 0, 21),
-                Parent = TabContainer,
-            })
+            local Holder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(0.75, 0, 0, 21), Parent = TabContainer, })
 
-            local Box = New("TextBox", {
-                BackgroundColor3 = "MainColor",
-                PlaceholderText = "Key",
-                Size = UDim2.new(1, -71, 1, 0),
-                TextSize = 14,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Parent = Holder,
-            })
+            local Box = New("TextBox", { BackgroundColor3 = "MainColor", PlaceholderText = "Key", Size = UDim2.new(1, -71, 1, 0), TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, Parent = Holder, })
             New("UIPadding", {
                 PaddingLeft = UDim.new(0, 8),
                 PaddingRight = UDim.new(0, 8),
@@ -10307,15 +8191,7 @@ function Library:CreateWindow(WindowInfo)
                 })
             )
 
-            local Button = New("TextButton", {
-                AnchorPoint = Vector2.new(1, 0),
-                BackgroundColor3 = "MainColor",
-                Position = UDim2.fromScale(1, 0),
-                Size = UDim2.new(0, 63, 1, 0),
-                Text = "Execute",
-                TextSize = 14,
-                Parent = Holder,
-            })
+            local Button = New("TextButton", { AnchorPoint = Vector2.new(1, 0), BackgroundColor3 = "MainColor", Position = UDim2.fromScale(1, 0), Size = UDim2.new(0, 63, 1, 0), Text = "Execute", TextSize = 14, Parent = Holder, })
             New("UIStroke", {
                 Color = "OutlineColor",
                 Parent = Button,
@@ -10329,34 +8205,25 @@ function Library:CreateWindow(WindowInfo)
             )
 
             Button.InputBegan:Connect(function(Input)
-                if not IsClickInput(Input) then
-                    return
-                end
+                if not IsClickInput(Input) then return end
 
-                if not Library:MouseIsOverFrame(Button, Input.Position) then
-                    return
-                end
+                if not Library:MouseIsOverFrame(Button, Input.Position) then return end
 
                 Callback(Box.Text)
             end)
         end
-        
+
         function Tab:Destroy()
-            if TabContainer then
-                TabContainer:Destroy()
-            end
+            if TabContainer then TabContainer:Destroy() end
 
             if TabButton then
                 for Index, Entry in Library.TabButtons do
-                    if typeof(Entry) == "table" and Entry.Button == TabButton then
-                        table.remove(Library.TabButtons, Index)
-                        break
-                    end
+                    if typeof(Entry) == "table" and Entry.Button == TabButton then table.remove(Library.TabButtons, Index); break end
                 end
-                
+
                 TabButton:Destroy()
             end
-            
+
             Library.Tabs[Name] = nil
         end
 
@@ -10365,9 +8232,7 @@ function Library:CreateWindow(WindowInfo)
         function Tab:UpdateCorners() end
 
         function Tab:Hover(Hovering)
-            if Library.ActiveTab == Tab then
-                return
-            end
+            if Library.ActiveTab == Tab then return end
 
             TweenService:Create(TabLabel, Library.TweenInfo, {
                 TextTransparency = Hovering and 0.25 or 0.5,
@@ -10380,9 +8245,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         function Tab:Show()
-            if Library.ActiveTab then
-                Library.ActiveTab:Hide()
-            end
+            if Library.ActiveTab then Library.ActiveTab:Hide() end
 
             TweenService:Create(TabButton, Library.TweenInfo, {
                 BackgroundTransparency = 0,
@@ -10397,17 +8260,13 @@ function Library:CreateWindow(WindowInfo)
             end
             TabContainer.Visible = true
 
-            if Description then
-                Window:ShowTabInfo(Name, Description)
-            end
+            if Description then Window:ShowTabInfo(Name, Description) end
 
             Tab:RefreshSides()
 
             Library.ActiveTab = Tab
 
-            if Library.Searching then
-                Library:UpdateSearch(Library.SearchText)
-            end
+            if Library.Searching then Library:UpdateSearch(Library.SearchText) end
         end
 
         function Tab:Hide()
@@ -10432,15 +8291,10 @@ function Library:CreateWindow(WindowInfo)
         function Tab:SetVisible(Visible: boolean)
             TabButton.Visible = Visible
 
-            if not Visible and Library.ActiveTab == Tab then
-                Tab:Hide()
-            end
+            if not Visible and Library.ActiveTab == Tab then Tab:Hide() end
         end
 
-        --// Execution \\--
-        if not Library.ActiveTab then
-            Tab:Show()
-        end
+        if not Library.ActiveTab then Tab:Show() end
 
         TabButton.MouseEnter:Connect(function()
             Tab:Hover(true)
@@ -10502,41 +8356,15 @@ function Library:CreateWindow(WindowInfo)
         )
         Library:AddOutline(DialogFrame)
 
-        local InnerContainer = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 0),
-            AutomaticSize = Enum.AutomaticSize.Y,
-            ZIndex = 9002,
-            Parent = DialogFrame,
-        })
-        local DialogScale = New("UIScale", {
-            Scale = 0.95,
-            Parent = DialogFrame,
-        })
+        local InnerContainer = New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), AutomaticSize = Enum.AutomaticSize.Y, ZIndex = 9002, Parent = DialogFrame, })
+        local DialogScale = New("UIScale", { Scale = 0.95, Parent = DialogFrame, })
         TweenService:Create(DialogScale, Library.TweenInfo, {
             Scale = 1
         }):Play()
-        local _InnerPadding = New("UIPadding", {
-            PaddingBottom = UDim.new(0, 15),
-            PaddingLeft = UDim.new(0, 15),
-            PaddingRight = UDim.new(0, 15),
-            PaddingTop = UDim.new(0, 15),
-            Parent = InnerContainer,
-        })
-        local _InnerLayout = New("UIListLayout", {
-            Padding = UDim.new(0, 10),
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Parent = InnerContainer,
-        })
+        local _InnerPadding = New("UIPadding", { PaddingBottom = UDim.new(0, 15), PaddingLeft = UDim.new(0, 15), PaddingRight = UDim.new(0, 15), PaddingTop = UDim.new(0, 15), Parent = InnerContainer, })
+        local _InnerLayout = New("UIListLayout", { Padding = UDim.new(0, 10), SortOrder = Enum.SortOrder.LayoutOrder, Parent = InnerContainer, })
 
-        local HeaderContainer = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.fromScale(1, 0),
-            AutomaticSize = Enum.AutomaticSize.Y,
-            LayoutOrder = 1,
-            ZIndex = 9002,
-            Parent = InnerContainer,
-        })
+        local HeaderContainer = New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 0), AutomaticSize = Enum.AutomaticSize.Y, LayoutOrder = 1, ZIndex = 9002, Parent = InnerContainer, })
         New("UIListLayout", {
             Padding = UDim.new(0, 6),
             SortOrder = Enum.SortOrder.LayoutOrder,
@@ -10547,14 +8375,7 @@ function Library:CreateWindow(WindowInfo)
             Parent = HeaderContainer,
         })
 
-        local TitleRow = New("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 20),
-            AutomaticSize = Enum.AutomaticSize.Y,
-            LayoutOrder = 1,
-            ZIndex = 9002,
-            Parent = HeaderContainer,
-        })
+        local TitleRow = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 20), AutomaticSize = Enum.AutomaticSize.Y, LayoutOrder = 1, ZIndex = 9002, Parent = HeaderContainer, })
         New("UIListLayout", {
             Padding = UDim.new(0, 6),
             FillDirection = Enum.FillDirection.Horizontal,
@@ -10566,54 +8387,16 @@ function Library:CreateWindow(WindowInfo)
         if Info.Icon then
             local ParsedIcon = Library:GetCustomIcon(Info.Icon)
             if ParsedIcon then
-                local IconImg = New("ImageLabel", {
-                    BackgroundTransparency = 1,
-                    Size = UDim2.fromOffset(16, 16),
-                    Image = ParsedIcon.Url,
-                    ImageColor3 = "FontColor",
-                    ImageRectOffset = ParsedIcon.ImageRectOffset,
-                    ImageRectSize = ParsedIcon.ImageRectSize,
-                    LayoutOrder = 1,
-                    ZIndex = 9002,
-                    Parent = TitleRow,
-                })
-                if Info.TitleColor then
-                    IconImg.ImageColor3 = Info.TitleColor
-                end
+                local IconImg = New("ImageLabel", { BackgroundTransparency = 1, Size = UDim2.fromOffset(16, 16), Image = ParsedIcon.Url, ImageColor3 = "FontColor", ImageRectOffset = ParsedIcon.ImageRectOffset, ImageRectSize = ParsedIcon.ImageRectSize, LayoutOrder = 1, ZIndex = 9002, Parent = TitleRow, })
+                if Info.TitleColor then IconImg.ImageColor3 = Info.TitleColor end
             end
         end
 
-        local TitleLabel = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 18),
-            AutomaticSize = Enum.AutomaticSize.Y,
-            Text = Info.Title,
-            TextSize = 18,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            LayoutOrder = 2,
-            ZIndex = 9002,
-            Parent = TitleRow,
-        })
-        if Info.TitleColor then
-            TitleLabel.TextColor3 = Info.TitleColor
-        end
+        local TitleLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 18), AutomaticSize = Enum.AutomaticSize.Y, Text = Info.Title, TextSize = 18, TextXAlignment = Enum.TextXAlignment.Left, LayoutOrder = 2, ZIndex = 9002, Parent = TitleRow, })
+        if Info.TitleColor then TitleLabel.TextColor3 = Info.TitleColor end
 
-        local DescriptionLabel = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 14),
-            AutomaticSize = Enum.AutomaticSize.Y,
-            Text = Info.Description,
-            TextSize = 14,
-            TextTransparency = Info.DescriptionColor and 0 or 0.2,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            TextWrapped = true,
-            LayoutOrder = 2,
-            ZIndex = 9002,
-            Parent = HeaderContainer,
-        })
-        if Info.DescriptionColor then
-            DescriptionLabel.TextColor3 = Info.DescriptionColor
-        end
+        local DescriptionLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 14), AutomaticSize = Enum.AutomaticSize.Y, Text = Info.Description, TextSize = 14, TextTransparency = Info.DescriptionColor and 0 or 0.2, TextXAlignment = Enum.TextXAlignment.Left, TextWrapped = true, LayoutOrder = 2, ZIndex = 9002, Parent = HeaderContainer, })
+        if Info.DescriptionColor then DescriptionLabel.TextColor3 = Info.DescriptionColor end
 
         DialogContainer = New("Frame", {
             BackgroundTransparency = 1,
@@ -10623,25 +8406,13 @@ function Library:CreateWindow(WindowInfo)
             ZIndex = 9002,
             Parent = InnerContainer,
         })
-        local _DialogContainerLayout = New("UIListLayout", {
-            Padding = UDim.new(0, 8),
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Parent = DialogContainer,
-        })
+        local _DialogContainerLayout = New("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder, Parent = DialogContainer, })
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 5),
             Parent = DialogContainer,
         })
-        
-        local _Sep2 = New("Frame", {
-            BackgroundColor3 = "OutlineColor",
-            BackgroundTransparency = 0,
-            BorderSizePixel = 0,
-            Size = UDim2.new(1, 0, 0, 1),
-            LayoutOrder = 5,
-            ZIndex = 9002,
-            Parent = InnerContainer,
-        })
+
+        local _Sep2 = New("Frame", { BackgroundColor3 = "OutlineColor", BackgroundTransparency = 0, BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 1), LayoutOrder = 5, ZIndex = 9002, Parent = InnerContainer, })
 
         ButtonsHolder = New("Frame", {
             BackgroundTransparency = 1,
@@ -10664,10 +8435,7 @@ function Library:CreateWindow(WindowInfo)
             Parent = ButtonsHolder,
         })
 
-        local Dialog = {
-            Elements = {},
-            Container = DialogContainer,
-        }
+        local Dialog = { Elements = {}, Container = DialogContainer, }
 
         function Dialog:Resize()
             local MaxWidth = MainFrame.AbsoluteSize.X * 0.75
@@ -10677,17 +8445,10 @@ function Library:CreateWindow(WindowInfo)
             local ButtonCount = 0
             local HasButtons = false
 
-            for _, BtnWrap in FooterButtonsList do
-                HasButtons = true
-                ButtonCount = ButtonCount + 1
-                TotalButtonWidth = TotalButtonWidth + BtnWrap.Container.Size.X.Offset
-            end
+            for _, BtnWrap in FooterButtonsList do HasButtons = true ButtonCount = ButtonCount + 1 TotalButtonWidth = TotalButtonWidth + BtnWrap.Container.Size.X.Offset end
 
             local TargetWidth = MinWidth
-            if HasButtons then
-                local RequiredWidth = TotalButtonWidth + ((ButtonCount - 1) * 8) + 30
-                TargetWidth = math.max(MinWidth, math.min(RequiredWidth, MaxWidth))
-            end
+            if HasButtons then local RequiredWidth = TotalButtonWidth + ((ButtonCount - 1) * 8) + 30; TargetWidth = math.max(MinWidth, math.min(RequiredWidth, MaxWidth)) end
 
             DialogFrame.Size = UDim2.fromOffset(TargetWidth, 0)
 
@@ -10696,10 +8457,7 @@ function Library:CreateWindow(WindowInfo)
 
             local HasElements = false
             for _, v in DialogContainer:GetChildren() do
-                if not v:IsA("UIListLayout") and not v:IsA("UIPadding") then
-                    HasElements = true
-                    break
-                end
+                if not v:IsA("UIListLayout") and not v:IsA("UIPadding") then HasElements = true; break end
             end
             DialogContainer.Visible = HasElements
 
@@ -10707,22 +8465,16 @@ function Library:CreateWindow(WindowInfo)
             _Sep2.Visible = HasButtons
         end
 
-        function Dialog:SetTitle(Title)
-            TitleLabel.Text = Title
-            Dialog:Resize()
-        end
+        function Dialog:SetTitle(Title) TitleLabel.Text = Title; Dialog:Resize() end
 
-        function Dialog:SetDescription(Description)
-            DescriptionLabel.Text = Description
-            Dialog:Resize()
-        end
+        function Dialog:SetDescription(Description) DescriptionLabel.Text = Description; Dialog:Resize() end
 
         function Dialog:Dismiss()
             Library.ActiveDialog = nil
             local CloseTween = TweenService:Create(DialogScale, Library.TweenInfo, { Scale = 0.95 })
             TweenService:Create(DialogOverlay, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
             CloseTween:Play()
-            
+
             task.delay(Library.TweenInfo.Time, function()
                 DialogOverlay:Destroy()
             end)
@@ -10730,28 +8482,19 @@ function Library:CreateWindow(WindowInfo)
         end
 
         DialogOverlay.MouseButton1Click:Connect(function()
-            if Info.OutsideClickDismiss then
-                Dialog:Dismiss()
-            end
+            if Info.OutsideClickDismiss then Dialog:Dismiss() end
         end)
 
         function Dialog:RemoveFooterButton(ButtonIdx)
-            if FooterButtonsList[ButtonIdx] then
-                FooterButtonsList[ButtonIdx].Container:Destroy()
-                FooterButtonsList[ButtonIdx] = nil
-            end
+            if FooterButtonsList[ButtonIdx] then FooterButtonsList[ButtonIdx].Container:Destroy(); FooterButtonsList[ButtonIdx] = nil end
         end
 
         function Dialog:SetButtonDisabled(ButtonIdx, Disabled)
-            if FooterButtonsList[ButtonIdx] and type(FooterButtonsList[ButtonIdx].SetDisabled) == "function" then
-                FooterButtonsList[ButtonIdx]:SetDisabled(Disabled)
-            end
+            if FooterButtonsList[ButtonIdx] and type(FooterButtonsList[ButtonIdx].SetDisabled) == "function" then FooterButtonsList[ButtonIdx]:SetDisabled(Disabled) end
         end
 
         function Dialog:SetButtonOrder(ButtonIdx, Order)
-            if FooterButtonsList[ButtonIdx] and FooterButtonsList[ButtonIdx].Container then
-                FooterButtonsList[ButtonIdx].Container.LayoutOrder = Order
-            end
+            if FooterButtonsList[ButtonIdx] and FooterButtonsList[ButtonIdx].Container then FooterButtonsList[ButtonIdx].Container.LayoutOrder = Order end
         end
 
         function Dialog:AddFooterButton(ButtonIdx, ButtonInfo)
@@ -10759,18 +8502,12 @@ function Library:CreateWindow(WindowInfo)
 
             local WaitTime = ButtonInfo.WaitTime or 0
 
-            local ButtonContainer = New("Frame", {
-                BackgroundTransparency = 1,
-                Size = UDim2.fromOffset(0, 26),
-                LayoutOrder = ButtonInfo.Order or 0,
-                ZIndex = 9002,
-                Parent = ButtonsHolder,
-            })
-            
+            local ButtonContainer = New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 26), LayoutOrder = ButtonInfo.Order or 0, ZIndex = 9002, Parent = ButtonsHolder, })
+
             local BtnColor = "MainColor"
             local BtnOutline = "OutlineColor"
             local Variant = ButtonInfo.Variant or "Primary"
-            
+
             if Variant == "Primary" then
                 BtnColor = "FontColor"
                 BtnOutline = "FontColor"
@@ -10780,54 +8517,27 @@ function Library:CreateWindow(WindowInfo)
             elseif Variant == "Destructive" then
                 BtnColor = "DestructiveColor"
                 BtnOutline = "DestructiveColor"
-            elseif Variant == "Ghost" then
-                BtnColor = "BackgroundColor"
-                BtnOutline = "BackgroundColor"
-            end
+            elseif Variant == "Ghost" then BtnColor = "BackgroundColor"; BtnOutline = "BackgroundColor" end
 
-            local TextBtn = New("TextButton", {
-                BackgroundColor3 = BtnColor,
-                BorderColor3 = BtnOutline,
-                BackgroundTransparency = WaitTime > 0 and 0.5 or 0,
-                Size = UDim2.fromOffset(0, 26),
-                Text = "",
-                AutoButtonColor = false,
-                ZIndex = 9002,
-                Parent = ButtonContainer,
-            })
+            local TextBtn = New("TextButton", { BackgroundColor3 = BtnColor, BorderColor3 = BtnOutline, BackgroundTransparency = WaitTime > 0 and 0.5 or 0, Size = UDim2.fromOffset(0, 26), Text = "", AutoButtonColor = false, ZIndex = 9002, Parent = ButtonContainer, })
             Library:AddOutline(TextBtn)
             table.insert(
                 Library.Corners,
-                New("UICorner", { 
-                    CornerRadius = UDim.new(0, Library.CornerRadius), 
-                    Parent = TextBtn 
+                New("UICorner", {
+                    CornerRadius = UDim.new(0, Library.CornerRadius),
+                    Parent = TextBtn
                 })
             )
 
-            local _BtnPadding = New("UIPadding", {
-                PaddingLeft = UDim.new(0, 15),
-                PaddingRight = UDim.new(0, 15),
-                Parent = TextBtn,
-            })
+            local _BtnPadding = New("UIPadding", { PaddingLeft = UDim.new(0, 15), PaddingRight = UDim.new(0, 15), Parent = TextBtn, })
 
             local TextColor = Library.Scheme.FontColor
             if Variant == "Primary" then
                 TextColor = Library.Scheme.BackgroundColor
-            elseif Variant == "Destructive" then
-                TextColor = Color3.new(1, 1, 1)
-            end
-            
-            local BtnLabel = New("TextLabel", {
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 1),
-                Text = ButtonInfo.Title or ButtonIdx,
-                TextColor3 = TextColor,
-                TextTransparency = WaitTime > 0 and 0.5 or 0,
-                TextSize = 14,
-                ZIndex = 9002,
-                Parent = TextBtn,
-            })
-            
+            elseif Variant == "Destructive" then TextColor = Color3.new(1, 1, 1) end
+
+            local BtnLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Text = ButtonInfo.Title or ButtonIdx, TextColor3 = TextColor, TextTransparency = WaitTime > 0 and 0.5 or 0, TextSize = 14, ZIndex = 9002, Parent = TextBtn, })
+
             local LabelX, _ = Library:GetTextBounds(BtnLabel.Text, Library.Scheme.Font, 14, 250)
             ButtonContainer.Size = UDim2.fromOffset(LabelX + 30, 26)
             TextBtn.Size = UDim2.fromOffset(LabelX + 30, 26)
@@ -10844,9 +8554,9 @@ function Library:CreateWindow(WindowInfo)
                 })
                 table.insert(
                     Library.Corners,
-                    New("UICorner", { 
-                        CornerRadius = UDim.new(0, Library.CornerRadius), 
-                        Parent = ProgressBar 
+                    New("UICorner", {
+                        CornerRadius = UDim.new(0, Library.CornerRadius),
+                        Parent = ProgressBar
                     })
                 )
             end
@@ -10885,19 +8595,15 @@ function Library:CreateWindow(WindowInfo)
 
             TextBtn.MouseButton1Click:Connect(function()
                 if not IsActive then return end
-                if ButtonInfo.Callback then
-                    ButtonInfo.Callback(Dialog)
-                end
-                if Info.AutoDismiss then
-                    Dialog:Dismiss()
-                end
+                if ButtonInfo.Callback then ButtonInfo.Callback(Dialog) end
+                if Info.AutoDismiss then Dialog:Dismiss() end
             end)
 
             if WaitTime > 0 then
                 TweenService:Create(ProgressBar, TweenInfo.new(WaitTime, Enum.EasingStyle.Linear), {
                     Size = UDim2.new(1, 0, 0, 2)
                 }):Play()
-                
+
                 task.delay(WaitTime, function()
                     ButtonWrap:SetDisabled(false)
                     if ProgressBar then
@@ -10911,29 +8617,22 @@ function Library:CreateWindow(WindowInfo)
             FooterButtonsList[ButtonIdx] = ButtonWrap
         end
 
-        for BIdx, BInfo in Info.FooterButtons do
-            if type(BIdx) == "number" and BInfo.Id then BIdx = BInfo.Id end
-            Dialog:AddFooterButton(BIdx, BInfo)
-        end
+        for BIdx, BInfo in Info.FooterButtons do if type(BIdx) == "number" and BInfo.Id then BIdx = BInfo.Id end; Dialog:AddFooterButton(BIdx, BInfo) end
 
         setmetatable(Dialog, BaseGroupbox)
         Library.Dialogues[Idx] = Dialog
 
         Dialog:Resize()
-        
+
         Library.ActiveDialog = Dialog
         return Dialog
     end
 
     function Window:Toggle(Value: boolean?)
         if Library.ActiveLoading then
-            if Value == true then
-                return
-            end
+            if Value == true then return end
 
-            if not Library.Toggled then
-                return
-            end
+            if not Library.Toggled then return end
         end
 
         if typeof(Value) == "boolean" then
@@ -10944,9 +8643,7 @@ function Library:CreateWindow(WindowInfo)
 
         MainFrame.Visible = Library.Toggled
 
-        if WindowInfo.UnlockMouseWhileOpen then
-            ModalElement.Modal = Library.Toggled
-        end
+        if WindowInfo.UnlockMouseWhileOpen then ModalElement.Modal = Library.Toggled end
 
         if Library.Toggled and not Library.IsMobile then
             local OldMouseIconEnabled = UserInputService.MouseIconEnabled
@@ -10960,11 +8657,7 @@ function Library:CreateWindow(WindowInfo)
                 Cursor.Position = UDim2.fromOffset(Mouse.X, Mouse.Y)
                 Cursor.Visible = Library.ShowCustomCursor
 
-                if not (Library.Toggled and ScreenGui and ScreenGui.Parent) then
-                    UserInputService.MouseIconEnabled = OldMouseIconEnabled
-                    Cursor.Visible = false
-                    RunService:UnbindFromRenderStep(ShowCursorBinding)
-                end
+                if not (Library.Toggled and ScreenGui and ScreenGui.Parent) then UserInputService.MouseIconEnabled = OldMouseIconEnabled Cursor.Visible = false RunService:UnbindFromRenderStep(ShowCursorBinding) end
             end)
         elseif not Library.Toggled then
             TooltipLabel.Visible = false
@@ -10973,9 +8666,7 @@ function Library:CreateWindow(WindowInfo)
                 if Option.Type == "ColorPicker" then
                     Option.ColorMenu:Close()
                     Option.ContextMenu:Close()
-                elseif Option.Type == "Dropdown" or Option.Type == "KeyPicker" then
-                    Option.Menu:Close()
-                end
+                elseif Option.Type == "Dropdown" or Option.Type == "KeyPicker" then Option.Menu:Close() end
             end
         end
     end
@@ -10990,32 +8681,21 @@ function Library:CreateWindow(WindowInfo)
         local Dragging = false
         local Changed
 
-        local SidebarGrabber = New("TextButton", {
-            AnchorPoint = Vector2.new(0.5, 0),
-            BackgroundTransparency = 1,
-            Position = UDim2.fromScale(0.5, 0),
-            Size = UDim2.new(0, 8, 1, 0),
-            Text = "",
-            Parent = DividerLine,
-        })
+        local SidebarGrabber = New("TextButton", { AnchorPoint = Vector2.new(0.5, 0), BackgroundTransparency = 1, Position = UDim2.fromScale(0.5, 0), Size = UDim2.new(0, 8, 1, 0), Text = "", Parent = DividerLine, })
         SidebarGrabber.MouseEnter:Connect(function()
             TweenService:Create(DividerLine, Library.TweenInfo, {
                 BackgroundColor3 = Library:GetLighterColor(Library.Scheme.OutlineColor),
             }):Play()
         end)
         SidebarGrabber.MouseLeave:Connect(function()
-            if Dragging then
-                return
-            end
+            if Dragging then return end
             TweenService:Create(DividerLine, Library.TweenInfo, {
                 BackgroundColor3 = Library.Scheme.OutlineColor,
             }):Play()
         end)
 
         SidebarGrabber.InputBegan:Connect(function(Input: InputObject)
-            if not IsClickInput(Input) then
-                return
-            end
+            if not IsClickInput(Input) then return end
 
             Library.CantDragForced = true
 
@@ -11024,9 +8704,7 @@ function Library:CreateWindow(WindowInfo)
             Dragging = true
 
             Changed = Input.Changed:Connect(function()
-                if Input.UserInputState ~= Enum.UserInputState.End then
-                    return
-                end
+                if Input.UserInputState ~= Enum.UserInputState.End then return end
 
                 Library.CantDragForced = false
                 TweenService:Create(DividerLine, Library.TweenInfo, {
@@ -11034,20 +8712,14 @@ function Library:CreateWindow(WindowInfo)
                 }):Play()
 
                 Dragging = false
-                if Changed and Changed.Connected then
-                    Changed:Disconnect()
-                    Changed = nil
-                end
+                if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
             end)
         end)
 
         Library:GiveSignal(UserInputService.InputChanged:Connect(function(Input: InputObject)
             if not Library.Toggled or not (ScreenGui and ScreenGui.Parent) then
                 Dragging = false
-                if Changed and Changed.Connected then
-                    Changed:Disconnect()
-                    Changed = nil
-                end
+                if Changed and Changed.Connected then Changed:Disconnect(); Changed = nil end
 
                 return
             end
@@ -11056,10 +8728,7 @@ function Library:CreateWindow(WindowInfo)
                 local Delta = Input.Position - StartPos
                 local Width = StartWidth + Delta.X
 
-                if WindowInfo.DisableCompactingSnap then
-                    Window:SetSidebarWidth(Width)
-                    return
-                end
+                if WindowInfo.DisableCompactingSnap then Window:SetSidebarWidth(Width); return end
 
                 if Width > Threshold then
                     Window:SetSidebarWidth(math.max(Width, WindowInfo.MinSidebarWidth))
@@ -11069,12 +8738,8 @@ function Library:CreateWindow(WindowInfo)
             end
         end))
     end
-    if WindowInfo.EnableCompacting and WindowInfo.SidebarCompacted then
-        Window:SetSidebarWidth(WindowInfo.SidebarCompactWidth)
-    end
-    if WindowInfo.AutoShow and not Library.ActiveLoading then
-        task.spawn(Library.Toggle)
-    end
+    if WindowInfo.EnableCompacting and WindowInfo.SidebarCompacted then Window:SetSidebarWidth(WindowInfo.SidebarCompactWidth) end
+    if WindowInfo.AutoShow and not Library.ActiveLoading then task.spawn(Library.Toggle) end
 
     if Library.IsMobile then
         local ToggleButton = Library:AddDraggableButton("Toggle", function()
@@ -11100,25 +8765,17 @@ function Library:CreateWindow(WindowInfo)
             LockButton.Button.Position = UDim2.fromOffset(ToggleButton.Button.Size.X.Offset + 12, 6)
         end
 
-        if WindowInfo.ShowMobileButtons == false then
-            ToggleButton.Button.Visible = false
-            LockButton.Button.Visible = false
-        end
+        if WindowInfo.ShowMobileButtons == false then ToggleButton.Button.Visible = false; LockButton.Button.Visible = false end
     end
 
-    --// Execution \\--
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
         Library:UpdateSearch(SearchBox.Text)
     end)
 
     Library:GiveSignal(UserInputService.InputBegan:Connect(function(Input: InputObject)
-        if Library.Unloaded then
-            return
-        end
+        if Library.Unloaded then return end
 
-        if UserInputService:GetFocusedTextBox() then
-            return
-        end
+        if UserInputService:GetFocusedTextBox() then return end
 
         if
             (
@@ -11142,10 +8799,7 @@ function Library:CreateWindow(WindowInfo)
 end
 
 function Library:CreateLoading(LoadingInfo)
-    if Library.ActiveLoading then
-        warn("Loading GUI already exists, you cannot create multiple Loading GUIs.")
-        return Library.ActiveLoading
-    end
+    if Library.ActiveLoading then warn("Loading GUI already exists, you cannot create multiple Loading GUIs."); return Library.ActiveLoading end
 
     LoadingInfo = Library:Validate(LoadingInfo, Templates.Loading)
 
@@ -11167,12 +8821,7 @@ function Library:CreateLoading(LoadingInfo)
         SidebarWidth = LoadingInfo.SidebarWidth,
     }
 
-    --// ScreenGui \\--
-    local ScreenGui = New("ScreenGui", {
-        Name = "ObsidianLoading",
-        DisplayOrder = 999,
-        ResetOnSpawn = false
-    })
+    local ScreenGui = New("ScreenGui", { Name = "ObsidianLoading", DisplayOrder = 999, ResetOnSpawn = false })
     ParentUI(ScreenGui)
     Loading.ScreenGui = ScreenGui
 
@@ -11180,7 +8829,6 @@ function Library:CreateLoading(LoadingInfo)
         Library:RemoveFromRegistry(Instance)
     end)
 
-    --// Main Frame \\--
     local MainFrame = New("TextButton", {
         Name = "Main",
         AnchorPoint = Vector2.new(0.5, 0.5),
@@ -11196,61 +8844,25 @@ function Library:CreateLoading(LoadingInfo)
     })
     Library:AddOutline(MainFrame)
     table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, Library.CornerRadius), Parent = MainFrame }))
-    
-	local MainScale = New("UIScale", {
-		Scale = Library.IsMobile and 0.8 or 1,
-		Parent = MainFrame
-	})
+
+	local MainScale = New("UIScale", { Scale = Library.IsMobile and 0.8 or 1, Parent = MainFrame })
 	table.insert(Library.Scales, MainScale)
 	Library.ScalesOffset[MainScale] = Library.IsMobile and 0.2 or 0
 
-    --// Layout Containers \\--
-    local Container = New("Frame", {
-        Name = "Content",
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(0, 0),
-        Size = UDim2.new(0, Loading.ContentWidth, 1, 0),
-        Parent = MainFrame,
-    })
+    local Container = New("Frame", { Name = "Content", BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 0), Size = UDim2.new(0, Loading.ContentWidth, 1, 0), Parent = MainFrame, })
 
-    local SideBar = New("Frame", {
-        Name = "SideBar",
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(Loading.ContentWidth, 0),
-        Size = UDim2.new(0, Loading.ShowSidebar and Loading.SidebarWidth or 0, 1, 0),
-        ClipsDescendants = true,
-        Visible = Loading.ShowSidebar,
-        Parent = MainFrame,
-    })
+    local SideBar = New("Frame", { Name = "SideBar", BackgroundTransparency = 1, Position = UDim2.fromOffset(Loading.ContentWidth, 0), Size = UDim2.new(0, Loading.ShowSidebar and Loading.SidebarWidth or 0, 1, 0), ClipsDescendants = true, Visible = Loading.ShowSidebar, Parent = MainFrame, })
     local SidebarCorner = New("UICorner", { CornerRadius = UDim.new(0, Library.CornerRadius), Parent = SideBar })
     table.insert(Library.Corners, SidebarCorner)
-    
-    Library:AddOutline(SideBar)
-    
-    local SidebarDivider = New("Frame", {
-        BackgroundColor3 = "OutlineColor",
-        BorderSizePixel = 0,
-        Position = UDim2.fromOffset(0, 0),
-        Size = UDim2.new(0, 1, 1, 0),
-        Visible = Loading.ShowSidebar,
-        Parent = SideBar,
-    })
 
-    --// Top Bar \\--
-    local TopBar = New("Frame", {
-        Name = "TopBar",
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 48),
-        ZIndex = 2,
-        Parent = Container,
-    })
+    Library:AddOutline(SideBar)
+
+    local SidebarDivider = New("Frame", { BackgroundColor3 = "OutlineColor", BorderSizePixel = 0, Position = UDim2.fromOffset(0, 0), Size = UDim2.new(0, 1, 1, 0), Visible = Loading.ShowSidebar, Parent = SideBar, })
+
+    local TopBar = New("Frame", { Name = "TopBar", BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 48), ZIndex = 2, Parent = Container, })
     Library:MakeDraggable(MainFrame, TopBar, true, true)
 
-    local TitleHolder = New("Frame", {
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Parent = TopBar,
-    })
+    local TitleHolder = New("Frame", { BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Parent = TopBar, })
     New("UIListLayout", {
         FillDirection = Enum.FillDirection.Horizontal,
         HorizontalAlignment = Enum.HorizontalAlignment.Left,
@@ -11265,22 +8877,9 @@ function Library:CreateLoading(LoadingInfo)
 
     if LoadingInfo.Icon then
         local Icon = Library:GetCustomIcon(LoadingInfo.Icon)
-        local _WindowIcon = New("ImageLabel", {
-            Image = Icon.Url,
-            ImageRectOffset = Icon.ImageRectOffset,
-            ImageRectSize = Icon.ImageRectSize,
-            Size = LoadingInfo.IconSize,
-            Parent = TitleHolder,
-        })
+        local _WindowIcon = New("ImageLabel", { Image = Icon.Url, ImageRectOffset = Icon.ImageRectOffset, ImageRectSize = Icon.ImageRectSize, Size = LoadingInfo.IconSize, Parent = TitleHolder, })
     else
-        local _WindowIcon = New("TextLabel", {
-            BackgroundTransparency = 1,
-            Size = LoadingInfo.IconSize,
-            Text = LoadingInfo.Title:sub(1, 1),
-            TextScaled = true,
-            Visible = false,
-            Parent = TitleHolder,
-        })
+        local _WindowIcon = New("TextLabel", { BackgroundTransparency = 1, Size = LoadingInfo.IconSize, Text = LoadingInfo.Title:sub(1, 1), TextScaled = true, Visible = false, Parent = TitleHolder, })
     end
 
     local TitleX = Library:GetTextBounds(
@@ -11289,27 +8888,11 @@ function Library:CreateLoading(LoadingInfo)
         20,
         TitleHolder.AbsoluteSize.X - (LoadingInfo.Icon and (LoadingInfo.IconSize.X.Offset + 6) or 0) - 12
     )
-    local _WindowTitle = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, TitleX, 1, 0),
-        Text = LoadingInfo.Title,
-        TextSize = 20,
-        Parent = TitleHolder,
-    })
+    local _WindowTitle = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.new(0, TitleX, 1, 0), Text = LoadingInfo.Title, TextSize = 20, Parent = TitleHolder, })
 
-    Library:MakeLine(Container, {
-        Position = UDim2.fromOffset(0, 48),
-        Size = UDim2.new(1, 0, 0, 1),
-    })
+    Library:MakeLine(Container, { Position = UDim2.fromOffset(0, 48), Size = UDim2.new(1, 0, 0, 1), })
 
-    --// Loading Content Elements \\--
-    local InnerContent = New("Frame", {
-        Name = "InnerContent",
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(0, 49),
-        Size = UDim2.new(1, 0, 1, -49),
-        Parent = Container,
-    })
+    local InnerContent = New("Frame", { Name = "InnerContent", BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 49), Size = UDim2.new(1, 0, 1, -49), Parent = Container, })
 
     New("UIListLayout", {
         FillDirection = Enum.FillDirection.Vertical,
@@ -11319,26 +8902,10 @@ function Library:CreateLoading(LoadingInfo)
         Parent = InnerContent,
     })
 
-    local IconHolder = New("Frame", {
-        Name = "IconHolder",
-        BackgroundTransparency = 1,
-        Size = UDim2.fromOffset(64, 64),
-        Parent = InnerContent,
-    })
+    local IconHolder = New("Frame", { Name = "IconHolder", BackgroundTransparency = 1, Size = UDim2.fromOffset(64, 64), Parent = InnerContent, })
 
     local LoaderIcon = Library:GetCustomIcon(LoadingInfo.LoadingIcon)
-    local LoadingIcon = New("ImageLabel", {
-        Name = "LoaderIcon",
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        BackgroundTransparency = 1,
-        Position = UDim2.fromScale(0.5, 0.5),
-        Size = UDim2.fromScale(1, 1),
-        Image = LoaderIcon.Url,
-        ImageRectOffset = LoaderIcon.ImageRectOffset,
-        ImageRectSize = LoaderIcon.ImageRectSize,
-        ImageColor3 = LoadingInfo.LoadingIconColor or ((LoadingInfo.LoadingIcon == Templates.Loading.LoadingIcon) and "AccentColor" or "WhiteColor"),
-        Parent = IconHolder,
-    })
+    local LoadingIcon = New("ImageLabel", { Name = "LoaderIcon", AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.fromScale(0.5, 0.5), Size = UDim2.fromScale(1, 1), Image = LoaderIcon.Url, ImageRectOffset = LoaderIcon.ImageRectOffset, ImageRectSize = LoaderIcon.ImageRectSize, ImageColor3 = LoadingInfo.LoadingIconColor or ((LoadingInfo.LoadingIcon == Templates.Loading.LoadingIcon) and "AccentColor" or "WhiteColor"), Parent = IconHolder, })
 
     local RotationTween
     if LoadingInfo.LoadingIconTweenTime > 0 then
@@ -11350,52 +8917,18 @@ function Library:CreateLoading(LoadingInfo)
         RotationTween:Play()
     end
 
-    local MessageLabel = New("TextLabel", {
-        BackgroundTransparency = 1,
-        AutomaticSize = Loading.AutoResizeHeight and Enum.AutomaticSize.Y or Enum.AutomaticSize.XY,
-        Size = Loading.AutoResizeHeight and UDim2.new(1, -60, 0, 0) or UDim2.fromOffset(0, 0),
-        Text = "",
-        TextSize = 18,
-        TextWrapped = Loading.AutoResizeHeight,
-        Parent = InnerContent,
-    })
+    local MessageLabel = New("TextLabel", { BackgroundTransparency = 1, AutomaticSize = Loading.AutoResizeHeight and Enum.AutomaticSize.Y or Enum.AutomaticSize.XY, Size = Loading.AutoResizeHeight and UDim2.new(1, -60, 0, 0) or UDim2.fromOffset(0, 0), Text = "", TextSize = 18, TextWrapped = Loading.AutoResizeHeight, Parent = InnerContent, })
 
-    local DescriptionLabel = New("TextLabel", {
-        BackgroundTransparency = 1,
-        AutomaticSize = Loading.AutoResizeHeight and Enum.AutomaticSize.Y or Enum.AutomaticSize.XY,
-        Size = Loading.AutoResizeHeight and UDim2.new(1, -60, 0, 0) or UDim2.fromOffset(0, 0),
-        Text = "",
-        TextSize = 14,
-        TextTransparency = 0.5,
-        TextWrapped = Loading.AutoResizeHeight,
-        Parent = InnerContent,
-    })
+    local DescriptionLabel = New("TextLabel", { BackgroundTransparency = 1, AutomaticSize = Loading.AutoResizeHeight and Enum.AutomaticSize.Y or Enum.AutomaticSize.XY, Size = Loading.AutoResizeHeight and UDim2.new(1, -60, 0, 0) or UDim2.fromOffset(0, 0), Text = "", TextSize = 14, TextTransparency = 0.5, TextWrapped = Loading.AutoResizeHeight, Parent = InnerContent, })
 
-    --// Progress Bar \\--
-    local SliderBar = New("Frame", {
-        BackgroundColor3 = "MainColor",
-        Size = UDim2.new(0.7, 0, 0, 15),
-        Parent = InnerContent,
-    })
+    local SliderBar = New("Frame", { BackgroundColor3 = "MainColor", Size = UDim2.new(0.7, 0, 0, 15), Parent = InnerContent, })
     Library:AddOutline(SliderBar)
     table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, Library.CornerRadius / 2), Parent = SliderBar }))
 
-    local SliderFill = New("Frame", {
-        BackgroundColor3 = "AccentColor",
-        BorderSizePixel = 0,
-        Size = UDim2.fromScale(0, 1),
-        Parent = SliderBar,
-    })
+    local SliderFill = New("Frame", { BackgroundColor3 = "AccentColor", BorderSizePixel = 0, Size = UDim2.fromScale(0, 1), Parent = SliderBar, })
     table.insert(Library.Corners, New("UICorner", { CornerRadius = UDim.new(0, Library.CornerRadius / 2), Parent = SliderFill }))
 
-    local ProgressLabel = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Size = UDim2.fromScale(1, 1),
-        Text = "",
-        TextSize = 14,
-        ZIndex = 2,
-        Parent = SliderBar,
-    })
+    local ProgressLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Text = "", TextSize = 14, ZIndex = 2, Parent = SliderBar, })
     New("UIStroke", {
         ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
         Color = "DarkColor",
@@ -11403,21 +8936,8 @@ function Library:CreateLoading(LoadingInfo)
         Parent = ProgressLabel,
     })
 
-    --// Sidebar Object \\--
-    local SidebarScrolling = New("ScrollingFrame", {
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-        CanvasSize = UDim2.new(0, 0, 0, 0),
-        Size = UDim2.fromScale(1, 1),
-        ScrollBarThickness = 2,
-        ScrollBarImageColor3 = "OutlineColor",
-        Parent = SideBar,
-    })
-    local SidebarList = New("UIListLayout", {
-        Padding = UDim.new(0, 8),
-        SortOrder = Enum.SortOrder.LayoutOrder,
-        Parent = SidebarScrolling,
-    })
+    local SidebarScrolling = New("ScrollingFrame", { BackgroundTransparency = 1, BorderSizePixel = 0, CanvasSize = UDim2.new(0, 0, 0, 0), Size = UDim2.fromScale(1, 1), ScrollBarThickness = 2, ScrollBarImageColor3 = "OutlineColor", Parent = SideBar, })
+    local SidebarList = New("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder, Parent = SidebarScrolling, })
     New("UIPadding", {
         PaddingBottom = UDim.new(0, 12),
         PaddingLeft = UDim.new(0, 12),
@@ -11430,19 +8950,14 @@ function Library:CreateLoading(LoadingInfo)
         Elements = {},
         DependencyBoxes = {},
         Tabboxes = {},
-        
+
         BoxHolder = SidebarScrolling,
         Container = SidebarScrolling,
-        
+
         Resize = function(self)
             SidebarScrolling.CanvasSize = UDim2.fromOffset(0, SidebarList.AbsoluteContentSize.Y + 24)
         end,
-        Tab = {
-            Elements = {},
-            DependencyBoxes = {},
-            DependencyGroupboxes = {},
-            Tabboxes = {},
-        },
+        Tab = { Elements = {}, DependencyBoxes = {}, DependencyGroupboxes = {}, Tabboxes = {}, },
     }
 
     SidebarList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
@@ -11452,60 +8967,15 @@ function Library:CreateLoading(LoadingInfo)
     setmetatable(SidebarObject, BaseGroupbox)
     Loading.Sidebar = SidebarObject
 
-    --// Error Frame \\--
-    local ErrorFrame = New("Frame", {
-        Name = "Error",
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(0, 49),
-        Size = UDim2.new(1, 0, 1, -49),
-        ClipsDescendants = true,
-        Visible = false,
-        Parent = Container,
-    })
+    local ErrorFrame = New("Frame", { Name = "Error", BackgroundTransparency = 1, Position = UDim2.fromOffset(0, 49), Size = UDim2.new(1, 0, 1, -49), ClipsDescendants = true, Visible = false, Parent = Container, })
 
-    local _ErrorTitle = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(15, 15),
-        Size = UDim2.new(1, -30, 0, 18),
-        Text = "Error",
-        TextColor3 = "RedColor",
-        TextSize = 18,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = ErrorFrame,
-    })
+    local _ErrorTitle = New("TextLabel", { BackgroundTransparency = 1, Position = UDim2.fromOffset(15, 15), Size = UDim2.new(1, -30, 0, 18), Text = "Error", TextColor3 = "RedColor", TextSize = 18, TextXAlignment = Enum.TextXAlignment.Left, Parent = ErrorFrame, })
 
-    local ErrorLabel = New("TextLabel", {
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(15, 39),
-        Size = UDim2.new(1, -30, 1, -90),
-        Text = "Error Message",
-        TextSize = 14,
-        TextTransparency = 0.2,
-        TextWrapped = true,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        TextYAlignment = Enum.TextYAlignment.Top,
-        Parent = ErrorFrame,
-    })
+    local ErrorLabel = New("TextLabel", { BackgroundTransparency = 1, Position = UDim2.fromOffset(15, 39), Size = UDim2.new(1, -30, 1, -90), Text = "Error Message", TextSize = 14, TextTransparency = 0.2, TextWrapped = true, TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top, Parent = ErrorFrame, })
 
-    local ErrorButtonsDivider = New("Frame", {
-        BackgroundColor3 = "OutlineColor",
-        BackgroundTransparency = 0,
-        BorderSizePixel = 0,
-        AnchorPoint = Vector2.new(0.5, 0),
-        Position = UDim2.new(0.5, 0, 1, -48),
-        Size = UDim2.new(1, -30, 0, 1),
-        Visible = false,
-        Parent = ErrorFrame,
-    })
+    local ErrorButtonsDivider = New("Frame", { BackgroundColor3 = "OutlineColor", BackgroundTransparency = 0, BorderSizePixel = 0, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 1, -48), Size = UDim2.new(1, -30, 0, 1), Visible = false, Parent = ErrorFrame, })
 
-    local ErrorButtonsHolder = New("Frame", {
-        AnchorPoint = Vector2.new(0.5, 1),
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0.5, 0, 1, 0),
-        Size = UDim2.new(1, 0, 0, 42),
-        Visible = false,
-        Parent = ErrorFrame,
-    })
+    local ErrorButtonsHolder = New("Frame", { AnchorPoint = Vector2.new(0.5, 1), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 1, 0), Size = UDim2.new(1, 0, 0, 42), Visible = false, Parent = ErrorFrame, })
     New("UIListLayout", {
         Padding = UDim.new(0, 8),
         FillDirection = Enum.FillDirection.Horizontal,
@@ -11522,18 +8992,13 @@ function Library:CreateLoading(LoadingInfo)
     })
 
     function Loading:UpdateLayout()
-        if Loading.IsError then
-            Loading:RecalculateErrorHeight()
-        end
+        if Loading.IsError then Loading:RecalculateErrorHeight() end
 
         local ShowSidebar = Loading.ShowSidebar
         local FinalWidth = ShowSidebar and (Loading.ContentWidth + Loading.SidebarWidth) or Loading.WindowWidth
         local FinalHeight = Loading.IsError and Loading.WindowErrorHeight or Loading.WindowHeight
-        
-        if ShowSidebar then
-            SideBar.Visible = true
-            SidebarDivider.Visible = true
-        end
+
+        if ShowSidebar then SideBar.Visible = true; SidebarDivider.Visible = true end
 
         TweenService:Create(MainFrame, Library.TweenInfo, { Size = UDim2.fromOffset(FinalWidth, FinalHeight) }):Play()
         TweenService:Create(SideBar, Library.TweenInfo, { Position = UDim2.fromOffset(Loading.ContentWidth, 0), Size = UDim2.new(0, ShowSidebar and Loading.SidebarWidth or 0, 1, 0) }):Play()
@@ -11541,21 +9006,15 @@ function Library:CreateLoading(LoadingInfo)
 
         if not ShowSidebar then
             task.delay(Library.TweenInfo.Time, function()
-                if not Loading.ShowSidebar then
-                    SideBar.Visible = false
-                    SidebarDivider.Visible = false
-                end
+                if not Loading.ShowSidebar then SideBar.Visible = false; SidebarDivider.Visible = false end
             end)
         end
     end
 
-    --// Content Page \\--
     function Loading:RecalculateLoadingHeight()
-        if not Loading.AutoResizeHeight then
-            return
-        end
+        if not Loading.AutoResizeHeight then return end
 
-        local RequiredHeight = 
+        local RequiredHeight =
               49 -- TopBar
             + 48 -- Padding
             + InnerContent.UIListLayout.AbsoluteContentSize.Y
@@ -11566,19 +9025,13 @@ function Library:CreateLoading(LoadingInfo)
     function Loading:SetMessage(Text)
         MessageLabel.Text = Text
 
-        if Loading.AutoResizeHeight then
-            Loading:RecalculateLoadingHeight()
-            Loading:UpdateLayout()
-        end
+        if Loading.AutoResizeHeight then Loading:RecalculateLoadingHeight(); Loading:UpdateLayout() end
     end
 
     function Loading:SetDescription(Text)
         DescriptionLabel.Text = Text
 
-        if Loading.AutoResizeHeight then
-            Loading:RecalculateLoadingHeight()
-            Loading:UpdateLayout()
-        end
+        if Loading.AutoResizeHeight then Loading:RecalculateLoadingHeight(); Loading:UpdateLayout() end
     end
 
     function Loading:SetLoadingIcon(Icon)
@@ -11589,10 +9042,7 @@ function Library:CreateLoading(LoadingInfo)
     end
 
     function Loading:SetLoadingIconTweenTime(TweenTime)
-        if RotationTween then
-            RotationTween:Cancel()
-            RotationTween:Destroy()
-        end
+        if RotationTween then RotationTween:Cancel(); RotationTween:Destroy() end
 
         if TweenTime > 0 then
             RotationTween = TweenService:Create(
@@ -11619,39 +9069,18 @@ function Library:CreateLoading(LoadingInfo)
         ProgressLabel.Text = string.format("%d/%d", Loading.CurrentStep, Loading.TotalSteps)
     end
 
-    function Loading:SetTotalSteps(Steps)
-        Loading.TotalSteps = Steps
-        Loading:SetCurrentStep(Loading.CurrentStep)
-    end
+    function Loading:SetTotalSteps(Steps) Loading.TotalSteps = Steps; Loading:SetCurrentStep(Loading.CurrentStep) end
 
-    --// Size \\--
-    function Loading:SetWindowHeight(Height)
-        Loading.WindowHeight = Height
-        Loading:UpdateLayout()
-    end
+    function Loading:SetWindowHeight(Height) Loading.WindowHeight = Height; Loading:UpdateLayout() end
 
-    function Loading:SetWindowWidth(Width)
-        Loading.WindowWidth = Width
-        Loading:UpdateLayout()
-    end
+    function Loading:SetWindowWidth(Width) Loading.WindowWidth = Width; Loading:UpdateLayout() end
 
-    function Loading:SetContentWidth(Width)
-        Loading.ContentWidth = Width
-        Loading:UpdateLayout()
-    end
+    function Loading:SetContentWidth(Width) Loading.ContentWidth = Width; Loading:UpdateLayout() end
 
-    function Loading:SetSidebarWidth(Width)
-        Loading.SidebarWidth = Width
-        Loading:UpdateLayout()
-    end
+    function Loading:SetSidebarWidth(Width) Loading.SidebarWidth = Width; Loading:UpdateLayout() end
 
-    --// Sidebar \\--
-    function Loading:ShowSidebarPage(Bool)
-        Loading.ShowSidebar = Bool
-        Loading:UpdateLayout()
-    end
+    function Loading:ShowSidebarPage(Bool) Loading.ShowSidebar = Bool; Loading:UpdateLayout() end
 
-    --// Error Page \\--
     function Loading:ShowErrorPage(Enabled)
         Loading.IsError = Enabled
         InnerContent.Visible = not Enabled
@@ -11683,18 +9112,13 @@ function Library:CreateLoading(LoadingInfo)
         Loading.WindowErrorHeight = RequiredHeight -- math.max(Loading.WindowHeight, RequiredHeight)
     end
 
-    function Loading:SetErrorMessage(Text)
-        ErrorLabel.Text = Text
-        Loading:UpdateLayout()
-    end
+    function Loading:SetErrorMessage(Text) ErrorLabel.Text = Text; Loading:UpdateLayout() end
 
     function Loading:SetErrorButtons(Buttons)
         assert(typeof(Buttons) == "table", "Buttons must be a table")
 
         for _, button in ErrorButtonsHolder:GetChildren() do
-            if button:IsA("Frame") then 
-                button:Destroy() 
-            end
+            if button:IsA("Frame") then button:Destroy() end
         end
 
         local HasButtons = GetTableSize(Buttons) > 0
@@ -11702,16 +9126,12 @@ function Library:CreateLoading(LoadingInfo)
         ErrorButtonsDivider.Visible = HasButtons
 
         for Idx, ButtonInfo in Buttons do
-            local ButtonContainer = New("Frame", {
-                BackgroundTransparency = 1,
-                Size = UDim2.fromOffset(0, 26),
-                Parent = ErrorButtonsHolder,
-            })
-            
+            local ButtonContainer = New("Frame", { BackgroundTransparency = 1, Size = UDim2.fromOffset(0, 26), Parent = ErrorButtonsHolder, })
+
             local BtnColor = "MainColor"
             local BtnOutline = "OutlineColor"
             local Variant = ButtonInfo.Variant or "Primary"
-            
+
             if Variant == "Primary" then
                 BtnColor = "FontColor"
                 BtnOutline = "FontColor"
@@ -11721,25 +9141,15 @@ function Library:CreateLoading(LoadingInfo)
             elseif Variant == "Destructive" then
                 BtnColor = "DestructiveColor"
                 BtnOutline = "DestructiveColor"
-            elseif Variant == "Ghost" then
-                BtnColor = "BackgroundColor"
-                BtnOutline = "BackgroundColor"
-            end
+            elseif Variant == "Ghost" then BtnColor = "BackgroundColor"; BtnOutline = "BackgroundColor" end
 
-            local TextBtn = New("TextButton", {
-                BackgroundColor3 = BtnColor,
-                BorderColor3 = BtnOutline,
-                Size = UDim2.fromOffset(0, 26),
-                Text = "",
-                AutoButtonColor = false,
-                Parent = ButtonContainer,
-            })
+            local TextBtn = New("TextButton", { BackgroundColor3 = BtnColor, BorderColor3 = BtnOutline, Size = UDim2.fromOffset(0, 26), Text = "", AutoButtonColor = false, Parent = ButtonContainer, })
             Library:AddOutline(TextBtn)
             table.insert(
                 Library.Corners,
-                New("UICorner", { 
-                    CornerRadius = UDim.new(0, Library.CornerRadius), 
-                    Parent = TextBtn 
+                New("UICorner", {
+                    CornerRadius = UDim.new(0, Library.CornerRadius),
+                    Parent = TextBtn
                 })
             )
 
@@ -11752,19 +9162,10 @@ function Library:CreateLoading(LoadingInfo)
             local TextColor = Library.Scheme.FontColor
             if Variant == "Primary" then
                 TextColor = Library.Scheme.BackgroundColor
-            elseif Variant == "Destructive" then
-                TextColor = Color3.new(1, 1, 1)
-            end
+            elseif Variant == "Destructive" then TextColor = Color3.new(1, 1, 1) end
 
-            local BtnLabel = New("TextLabel", {
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 1),
-                Text = ButtonInfo.Title or Idx,
-                TextColor3 = TextColor,
-                TextSize = 14,
-                Parent = TextBtn,
-            })
-            
+            local BtnLabel = New("TextLabel", { BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Text = ButtonInfo.Title or Idx, TextColor3 = TextColor, TextSize = 14, Parent = TextBtn, })
+
             local LabelX, _ = Library:GetTextBounds(BtnLabel.Text, Library.Scheme.Font, 14, 250)
             ButtonContainer.Size = UDim2.fromOffset(LabelX + 30, 26)
             TextBtn.Size = UDim2.fromOffset(LabelX + 30, 26)
@@ -11784,35 +9185,26 @@ function Library:CreateLoading(LoadingInfo)
             end)
 
             TextBtn.MouseButton1Click:Connect(function()
-                if ButtonInfo.Callback then
-                    ButtonInfo.Callback(Loading)
-                end
+                if ButtonInfo.Callback then ButtonInfo.Callback(Loading) end
             end)
         end
 
         Loading:UpdateLayout()
     end
 
-    --// Destroy/Continue \\--
     function Loading:Destroy()
-        if RotationTween then
-            RotationTween:Cancel()
-        end
+        if RotationTween then RotationTween:Cancel() end
 
         ScreenGui:Destroy()
         Loading.Destroyed = true
         Library.ActiveLoading = nil
 
-        if Library.Toggle and Library.Toggled == false and Library.Unloaded ~= true then
-            Library:Toggle(true)
-        end
+        if Library.Toggle and Library.Toggled == false and Library.Unloaded ~= true then Library:Toggle(true) end
     end
 
     Loading.Continue = Loading.Destroy;
 
-    if Library.Toggle and Library.Toggled and Library.Unloaded ~= true then
-        Library:Toggle(false)
-    end
+    if Library.Toggle and Library.Toggled and Library.Unloaded ~= true then Library:Toggle(false) end
 
     Loading:SetCurrentStep(Loading.CurrentStep)
 
@@ -11821,28 +9213,20 @@ function Library:CreateLoading(LoadingInfo)
 end
 
 local function OnPlayerChange()
-    if Library.Unloaded then
-        return
-    end
+    if Library.Unloaded then return end
 
     local PlayerList, ExcludedPlayerList = GetPlayers(), GetPlayers(true)
     for _, Dropdown in Options do
-        if Dropdown.Type == "Dropdown" and Dropdown.SpecialType == "Player" then
-            Dropdown:SetValues(Dropdown.ExcludeLocalPlayer and ExcludedPlayerList or PlayerList)
-        end
+        if Dropdown.Type == "Dropdown" and Dropdown.SpecialType == "Player" then Dropdown:SetValues(Dropdown.ExcludeLocalPlayer and ExcludedPlayerList or PlayerList) end
     end
 end
 
 local function OnTeamChange()
-    if Library.Unloaded then
-        return
-    end
+    if Library.Unloaded then return end
 
     local TeamList = GetTeams()
     for _, Dropdown in Options do
-        if Dropdown.Type == "Dropdown" and Dropdown.SpecialType == "Team" then
-            Dropdown:SetValues(TeamList)
-        end
+        if Dropdown.Type == "Dropdown" and Dropdown.SpecialType == "Team" then Dropdown:SetValues(TeamList) end
     end
 end
 
@@ -11855,50 +9239,34 @@ Library:GiveSignal(Teams.ChildRemoved:Connect(OnTeamChange))
 function Library:Unload()
     Library.Unloaded = true
 
-    --// Disconnect connections
     for Index = #Library.Signals, 1, -1 do
         local Connection = table.remove(Library.Signals, Index)
 
-        if Connection and Connection.Connected then
-            Connection:Disconnect()
-        end
+        if Connection and Connection.Connected then Connection:Disconnect() end
     end
 
-    --// Run Unload Callbacks
     for Index = #Library.UnloadSignals, 1, -1 do
         local Callback = table.remove(Library.UnloadSignals, Index)
 
-        if Callback then
-            Library:SafeCallback(Callback)
-        end
+        if Callback then Library:SafeCallback(Callback) end
     end
 
-    --// Destroy elements
     for Index = #Library.Tabs, 1, -1 do
         local Tab = table.remove(Library.Tabs, Index)
 
-        if Tab and Tab.Destroy then
-            Library:SafeCallback(Tab.Destroy, Tab)
-        end
+        if Tab and Tab.Destroy then Library:SafeCallback(Tab.Destroy, Tab) end
     end
 
     for Index = #Tooltips, 1, -1 do
         local Tooltip = table.remove(Tooltips, Index)
 
-        if Tooltip and Tooltip.Destroy then
-            Library:SafeCallback(Tooltip.Destroy, Tooltip)
-        end
+        if Tooltip and Tooltip.Destroy then Library:SafeCallback(Tooltip.Destroy, Tooltip) end
     end
 
-    if Library.ActiveLoading then
-        Library.ActiveLoading:Destroy()
-    end
+    if Library.ActiveLoading then Library.ActiveLoading:Destroy() end
 
-    if ScreenGui then
-        ScreenGui:Destroy()
-    end
+    if ScreenGui then ScreenGui:Destroy() end
 
-    --// Clear tables
     table.clear(Library.Registry)
 
     table.clear(Options)
@@ -11921,7 +9289,7 @@ function Library:Unload()
     table.clear(Library.DraggableElements)
     table.clear(Library.KeybindToggles)
     table.clear(Library.DependencyBoxes)
-    
+
     Library.Toggle = function(...) end
     Library.ScreenGui = nil
     Library.WindowContainer = nil
@@ -11940,13 +9308,12 @@ return Library
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
-local clonefunction = (clonefunction or copyfunction or function(func) 
-    return func 
+local clonefunction = (clonefunction or copyfunction or function(func)
+    return func
 end)
 
 local HttpService: HttpService = cloneref(game:GetService("HttpService"))
 
---// Fix is_____ functions for shitsploits, those functions should never error, only return a boolean. (why is this still a problem in the big 2026)
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles
 local isfolder_copy, isfile_copy, listfiles_copy = clonefunction(isfolder), clonefunction(isfile), clonefunction(listfiles)
 local isfolder_success, isfolder_error = pcall(function() return isfolder_copy("test" .. tostring(math.random(1000000, 9999999))) end)
@@ -11968,7 +9335,6 @@ if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
     end
 end
 
---// Theme Manager
 local SchemeIndexes = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
 local ThemeManager = {
     Library = nil,
@@ -12058,7 +9424,6 @@ function ThemeManager:SetLibrary(Library)
     ThemeManager.Library = Library
 end
 
---// Helpers \\--
 local function Trim(Text: string)
     return Text:match("^%s*(.-)%s*$")
 end
@@ -12069,45 +9434,36 @@ end
 
 local function IsValidFolderPath(Name: string): boolean
     return typeof(Name) == "string" and (
-        Trim(Name) ~= "" and 
-        not Name:match("^%s*$") and 
+        Trim(Name) ~= "" and
+        not Name:match("^%s*$") and
         not Name:find('[<>:"|%?%*%z]')
     )
 end
 
---// Folder helper \\--
 local function SplitPath(Path: string): {string}
 	local Result = {}
 	local Current = ""
 
-	for Part in string.gmatch(Path, "[^/]+") do
-		Current = if Current == "" then Part else (Current .. "/" .. Part)
-		table.insert(Result, Current)
-	end
+	for Part in string.gmatch(Path, "[^/]+") do Current = if Current == "" then Part else (Current .. "/" .. Part); table.insert(Result, Current) end
 
 	return Result
 end
 
 local function GetFolderPath(): false | string
-    if IsStringEmpty(ThemeManager.Folder) then
-        return false
-    end
+    if IsStringEmpty(ThemeManager.Folder) then return false end
 
     return string.format("%s/themes", ThemeManager.Folder)
 end
 
 local GetCurrentThemesPath = GetFolderPath
 
---// Files helper \\--
 local function GetThemePath(ThemeName: string): false | string
     local CurrentThemesPath = GetCurrentThemesPath()
     return if CurrentThemesPath == false then false else string.format("%s/%s.json", CurrentThemesPath, ThemeName)
 end
 
 local function DoesThemeExist(ThemeName: string, IncludeBuiltIn: boolean): boolean
-    if ThemeManager.BuiltInThemes[ThemeName] then
-        return true
-    end
+    if ThemeManager.BuiltInThemes[ThemeName] then return true end
 
     local ThemePath = GetThemePath(ThemeName)
     return if ThemePath == false then false else isfile(ThemePath)
@@ -12118,7 +9474,6 @@ local function GetDefaultThemePath(): false | string
     return if CurrentThemesPath == false then false else string.format("%s/default.txt", CurrentThemesPath)
 end
 
---// Folders \\--
 function ThemeManager:GetPaths(): {string}
     local FolderPath = GetFolderPath()
     return if FolderPath == false then {} else SplitPath(FolderPath)
@@ -12126,19 +9481,15 @@ end
 
 function ThemeManager:BuildFolderTree(SkipWhenCreated: boolean?)
     local Paths = ThemeManager:GetPaths()
-    if #Paths == 0 then
-        return false
-    end
+    if #Paths == 0 then return false end
 
     if SkipWhenCreated == true then
-        if isfolder(Paths[1]) then
-            return true
-        end
+        if isfolder(Paths[1]) then return true end
     end
 
     for _, Path in Paths do
         if isfolder(Path) then continue end
-        
+
         makefolder(Path)
     end
 
@@ -12156,18 +9507,12 @@ function ThemeManager:SetFolder(Folder: string)
     ThemeManager:BuildFolderTree()
 end
 
---// Theme Management \\--
 function ThemeManager:ReloadCustomThemes()
     local SettingsPath = GetCurrentThemesPath()
-    if SettingsPath == false then
-        return {}
-    end
+    if SettingsPath == false then return {} end
 
     local SuccessList, Files = pcall(listfiles, SettingsPath)
-    if not (SuccessList and typeof(Files) == "table") then
-        ThemeManager.Library:Notify(string.format("Failed to load theme list: %s", tostring(Files)))
-        return {}
-    end
+    if not (SuccessList and typeof(Files) == "table") then ThemeManager.Library:Notify(string.format("Failed to load theme list: %s", tostring(Files))); return {} end
 
     local FileNames = {}
     for _, FilePath in Files do
@@ -12185,111 +9530,71 @@ function ThemeManager:ReloadCustomThemes()
 end
 
 function ThemeManager:GetCustomTheme(ThemeName: string): any
-    if IsStringEmpty(ThemeName) then
-        return nil
-    end
+    if IsStringEmpty(ThemeName) then return nil end
 
     local ThemePath = GetThemePath(ThemeName)
-    if ThemePath == false or not isfile(ThemePath) then
-        return nil
-    end
+    if ThemePath == false or not isfile(ThemePath) then return nil end
 
     local SuccessRead, Content = pcall(readfile, ThemePath)
-    if not SuccessRead then
-        return nil
-    end
+    if not SuccessRead then return nil end
 
     local SuccessDecode, Decoded = pcall(HttpService.JSONDecode, HttpService, Content)
-    if not SuccessDecode or typeof(Decoded) ~= "table" then
-        return nil
-    end
+    if not SuccessDecode or typeof(Decoded) ~= "table" then return nil end
 
     return Decoded
 end
 
 function ThemeManager:SaveCustomTheme(ThemeName: string): any
-    if IsStringEmpty(ThemeName) then
-        return false, "Invalid theme name provided"
-    end
+    if IsStringEmpty(ThemeName) then return false, "Invalid theme name provided" end
 
-    if string.lower(ThemeName) == "default" then
-        return false, "Invalid theme name provided"
-    end
+    if string.lower(ThemeName) == "default" then return false, "Invalid theme name provided" end
 
     local ThemePath = GetThemePath(ThemeName)
-    if ThemePath == false then
-        return false, "Invalid theme name provided"
-    end
+    if ThemePath == false then return false, "Invalid theme name provided" end
 
     ThemeManager:CheckFolderTree()
 
     local Library = ThemeManager.Library
-    local ThemeData = {
-        FontFace = Library.Options.FontFace.Value,
-        BackgroundImage = Library.Options.BackgroundImage.Value
-    }
+    local ThemeData = { FontFace = Library.Options.FontFace.Value, BackgroundImage = Library.Options.BackgroundImage.Value }
 
-    for _, SchemeIndex in SchemeIndexes do
-        ThemeData[SchemeIndex] = Library.Options[SchemeIndex].Value:ToHex()
-    end
+    for _, SchemeIndex in SchemeIndexes do ThemeData[SchemeIndex] = Library.Options[SchemeIndex].Value:ToHex() end
 
     local SuccessEncode, EncodedData = pcall(HttpService.JSONEncode, HttpService, ThemeData)
-    if not SuccessEncode then
-        return false, "Failed to encode data"
-    end
+    if not SuccessEncode then return false, "Failed to encode data" end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, ThemePath, EncodedData)
-    if not SuccessWrite then
-        return false, "Failed to write theme file: " .. tostring(ErrorMessage)
-    end
+    if not SuccessWrite then return false, "Failed to write theme file: " .. tostring(ErrorMessage) end
 
     return true
 end
 
 function ThemeManager:Delete(ThemeName: string): (boolean | string?)
-    if IsStringEmpty(ThemeName) then
-        return false, "No theme is selected"
-    end
+    if IsStringEmpty(ThemeName) then return false, "No theme is selected" end
 
     local ThemePath = GetThemePath(ThemeName)
-    if ThemePath == false or not isfile(ThemePath) then
-        return false, "Theme file does not exist"
-    end
+    if ThemePath == false or not isfile(ThemePath) then return false, "Theme file does not exist" end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, ThemePath)
-    if not SuccessDelete then
-        return false, "Failed to delete theme file: " .. tostring(ErrorMessage)
-    end
+    if not SuccessDelete then return false, "Failed to delete theme file: " .. tostring(ErrorMessage) end
 
-    if ThemeName == ThemeManager.DefaultThemeName then
-        ThemeManager:DeleteDefaultTheme()
-    end
+    if ThemeName == ThemeManager.DefaultThemeName then ThemeManager:DeleteDefaultTheme() end
 
     return true
 end
 
---// Default Theme \\--
 function ThemeManager:GetDefaultTheme(): (string, boolean, string?)
     ThemeManager:CheckFolderTree()
 
     local DefaultThemePath = GetDefaultThemePath()
-    if DefaultThemePath == false then
-        return "none", false, "Invalid path provided"
-    end
+    if DefaultThemePath == false then return "none", false, "Invalid path provided" end
 
-    if not isfile(DefaultThemePath) then
-        return "none", false, "Default theme is not set"
-    end
+    if not isfile(DefaultThemePath) then return "none", false, "Default theme is not set" end
 
     local SuccessRead, DefaultThemeName = pcall(readfile, DefaultThemePath)
-    if not (SuccessRead and typeof(DefaultThemeName) == "string") then
-        return "none", false, DefaultThemeName
-    end
+    if not (SuccessRead and typeof(DefaultThemeName) == "string") then return "none", false, DefaultThemeName end
 
     local ConfigExists = DoesThemeExist(DefaultThemeName, true)
-    if not ConfigExists then
-        return "none", false, "Theme file not found"
-    end
+    if not ConfigExists then return "none", false, "Theme file not found" end
 
     ThemeManager.DefaultThemeName = DefaultThemeName
     return DefaultThemeName, true
@@ -12308,7 +9613,7 @@ function ThemeManager:SetDefaultTheme(Theme: any)
     for _, SchemeIndex in SchemeIndexes do
         local IndexData = Theme[SchemeIndex]
         local IndexType = typeof(IndexData)
-        
+
         if IndexType == "Color3" then
             LibraryScheme[SchemeIndex] = IndexData
             FinalTheme[SchemeIndex] = string.format("#%s", IndexData:ToHex())
@@ -12316,7 +9621,7 @@ function ThemeManager:SetDefaultTheme(Theme: any)
         elseif IndexType == "string" then
             LibraryScheme[SchemeIndex] = Color3.fromHex(IndexData)
             FinalTheme[SchemeIndex] = if IndexData:sub(1, 1) == "#" then IndexData else string.format("#%s", IndexData)
-        
+
         else
             local Value = DefaultThemeData[SchemeIndex]
             LibraryScheme[SchemeIndex] = Color3.fromHex(Value)
@@ -12324,10 +9629,9 @@ function ThemeManager:SetDefaultTheme(Theme: any)
         end
     end
 
-    --// Font
     local FontFace = Theme["FontFace"]
     local FontFaceType = typeof(FontFace)
-    
+
     if FontFaceType == "EnumItem" then
         LibraryScheme.Font = Font.fromEnum(FontFace)
         FinalTheme.FontFace = FontFace.Name
@@ -12335,18 +9639,14 @@ function ThemeManager:SetDefaultTheme(Theme: any)
     elseif FontFaceType == "string" then
         LibraryScheme.Font = Font.fromEnum(Enum.Font[FontFace] :: Enum.Font)
         FinalTheme.FontFace = FontFace
-    
+
     else
         LibraryScheme.Font = Font.fromEnum(Enum.Font.Code)
         FinalTheme.FontFace = "Code"
     end
 
-    --// Default Scheme Colors
-    for _, DefaultSchemeColor in { "RedColor", "DestructiveColor", "DarkColor", "WhiteColor" } do
-        LibraryScheme[DefaultSchemeColor] = Library.Scheme[DefaultSchemeColor]
-    end
+    for _, DefaultSchemeColor in { "RedColor", "DestructiveColor", "DarkColor", "WhiteColor" } do LibraryScheme[DefaultSchemeColor] = Library.Scheme[DefaultSchemeColor] end
 
-    --// Apply
     Library.Scheme = LibraryScheme
     ThemeManager.BuiltInThemes["Default"] = { 1, FinalTheme }
 
@@ -12354,25 +9654,17 @@ function ThemeManager:SetDefaultTheme(Theme: any)
 end
 
 function ThemeManager:SaveDefault(ThemeName: string): (boolean, string?)
-    if IsStringEmpty(ThemeName) then
-        return false, "No theme is selected"
-    end
+    if IsStringEmpty(ThemeName) then return false, "No theme is selected" end
 
     ThemeManager:CheckFolderTree()
 
     local DefaultThemePath = GetDefaultThemePath()
-    if DefaultThemePath == false then
-        return false, "Invalid path provided"
-    end
+    if DefaultThemePath == false then return false, "Invalid path provided" end
 
-    if not DoesThemeExist(ThemeName, true) then
-        return false, "Theme does not exist"
-    end
+    if not DoesThemeExist(ThemeName, true) then return false, "Theme does not exist" end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, DefaultThemePath, ThemeName)
-    if not SuccessWrite then
-        return false, ErrorMessage
-    end
+    if not SuccessWrite then return false, ErrorMessage end
 
     ThemeManager.DefaultThemeName = ThemeName
     return true
@@ -12381,23 +9673,15 @@ end
 function ThemeManager:LoadDefault()
     local ThemeName, Success, FetchErrorMessage = ThemeManager:GetDefaultTheme()
     if not Success or FetchErrorMessage then
-        if FetchErrorMessage ~= "Default theme is not set" then
-            ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", FetchErrorMessage))
-        end
+        if FetchErrorMessage ~= "Default theme is not set" then ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", FetchErrorMessage)) end
 
         return
     end
 
-    if not ThemeManager:GetCustomTheme(ThemeName) then
-        ThemeManager.Library.Options.ThemeManager_ThemeList:SetValue(ThemeName)
-        return
-    end
+    if not ThemeManager:GetCustomTheme(ThemeName) then ThemeManager.Library.Options.ThemeManager_ThemeList:SetValue(ThemeName); return end
 
     local SuccessLoad, LoadErrorMessage = ThemeManager:ApplyTheme(ThemeName)
-    if not SuccessLoad then
-        ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", LoadErrorMessage))
-        return
-    end
+    if not SuccessLoad then ThemeManager.Library:Notify(string.format("Failed to apply default theme: %s", LoadErrorMessage)); return end
 
     ThemeManager.Library:Notify(string.format("Successfully applied default theme %q", ThemeName))
 end
@@ -12406,24 +9690,17 @@ function ThemeManager:DeleteDefaultTheme(): (boolean, string?)
     ThemeManager:CheckFolderTree()
 
     local DefaultThemePath = GetDefaultThemePath()
-    if DefaultThemePath == false then
-        return false, "Invalid path provided"
-    end
+    if DefaultThemePath == false then return false, "Invalid path provided" end
 
-    if not isfile(DefaultThemePath) then
-        return false, "Default theme is not set"
-    end
+    if not isfile(DefaultThemePath) then return false, "Default theme is not set" end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, DefaultThemePath)
-    if not SuccessDelete then
-        return false, ErrorMessage
-    end
+    if not SuccessDelete then return false, ErrorMessage end
 
     ThemeManager.DefaultThemeName = nil
     return true
 end
 
---// Apply Theme \\--
 function ThemeManager:ThemeUpdate()
     local Library = ThemeManager.Library
 
@@ -12438,25 +9715,19 @@ function ThemeManager:ThemeUpdate()
 end
 
 function ThemeManager:ApplyTheme(ThemeName: string)
-    if IsStringEmpty(ThemeName) then
-        return false, "No theme is selected"
-    end
+    if IsStringEmpty(ThemeName) then return false, "No theme is selected" end
 
     local CustomThemeData = ThemeManager:GetCustomTheme(ThemeName)
     local Data = CustomThemeData or ThemeManager.BuiltInThemes[ThemeName]
-    
-    if not Data then
-        return false, "Theme not found"
-    end
-    
+
+    if not Data then return false, "Theme not found" end
+
     local Library = ThemeManager.Library
     local SchemeData = Data[2]
     local ThemeData = CustomThemeData or SchemeData
 
     for Index, Value in ThemeData do
-        if Index == "VideoLink" then
-            continue
-        end
+        if Index == "VideoLink" then continue end
 
         local Element = Library.Options[Index]
         local FinalValue = Value
@@ -12472,29 +9743,24 @@ function ThemeManager:ApplyTheme(ThemeName: string)
             Library.Scheme[Index] = FinalValue
         end
 
-        if Element then
-            Element:SetValue(FinalValue)
-        end
+        if Element then Element:SetValue(FinalValue) end
     end
 
     ThemeManager:ThemeUpdate()
     return true
 end
 
---// GUI \\--
 local function ShowDialog(
     Condition: () -> boolean,
 
-    Index: string, 
-    Title: string, 
+    Index: string,
+    Title: string,
     Description: string,
 
     DestructiveText: string,
     DestructiveAction: () -> nil
 )
-    if Condition() == false then
-        return DestructiveAction()
-    end
+    if Condition() == false then return DestructiveAction() end
 
     return ThemeManager.Library.Window:AddDialog(Index, {
         Title = Title,
@@ -12528,9 +9794,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     assert(ThemeManager.Library, "Library is not set, call ThemeManager:SetLibrary(Library) first.")
 
     local BuiltInThemesNames = {}
-    for Name, _ThemeData in ThemeManager.BuiltInThemes do
-        table.insert(BuiltInThemesNames, Name)
-    end
+    for Name, _ThemeData in ThemeManager.BuiltInThemes do table.insert(BuiltInThemesNames, Name) end
 
     local CustomThemeList, CustomThemeName, ThemeList, FontFace, BackgroundImage, DefaultThemeLabel
     local function RefreshList()
@@ -12552,9 +9816,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     end)
 
     local function CreateColorOption(Text, SchemeIndex)
-        Themesbox:AddLabel(Text):AddColorPicker(SchemeIndex, {
-            Default = ThemeManager.Library.Scheme[SchemeIndex]
-        })
+        Themesbox:AddLabel(Text):AddColorPicker(SchemeIndex, { Default = ThemeManager.Library.Scheme[SchemeIndex] })
 
         return ThemeManager.Library.Options[SchemeIndex]
     end
@@ -12564,17 +9826,17 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     local AccentColor = CreateColorOption("Accent color", "AccentColor")
     local OutlineColor = CreateColorOption("Outline color", "OutlineColor")
     local FontColor = CreateColorOption("Font color", "FontColor")
-    
+
     Themesbox:AddDropdown("FontFace", {
         Text = "Font Face",
         Default = "Code",
-        
+
         Values = { "BuilderSans", "Code", "Fantasy", "Gotham", "Jura", "Roboto", "RobotoMono", "SourceSans" },
         AllowNull = false,
         Multi = false
     })
-    
-    Themesbox:AddInput("BackgroundImage", { 
+
+    Themesbox:AddInput("BackgroundImage", {
         Text = "Background Image",
 
         Default = "",
@@ -12585,24 +9847,20 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddDivider()
 
-    Themesbox:AddDropdown("ThemeManager_ThemeList", { 
-        Text = "Theme list", 
+    Themesbox:AddDropdown("ThemeManager_ThemeList", {
+        Text = "Theme list",
 
         Values = BuiltInThemesNames,
         AllowNull = true,
         Multi = false,
 
         FormatDisplayValue = function(Value: any)
-            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (default)", Value)
-            end
+            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then return string.format("%s (default)", Value) end
 
             return Value
         end,
         FormatListValue = function(Value: any)
-            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (default)", Value)
-            end
+            if Value ~= "Default" and Value == ThemeManager.DefaultThemeName then return string.format("%s (default)", Value) end
 
             return Value
         end
@@ -12618,21 +9876,15 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddDivider()
 
-    CustomThemeName = Themesbox:AddInput("ThemeManager_CustomThemeName", { 
-        Text = "Custom theme name" 
+    CustomThemeName = Themesbox:AddInput("ThemeManager_CustomThemeName", {
+        Text = "Custom theme name"
     })
 
     Themesbox:AddButton("Create theme", function()
         local Name = CustomThemeName.Value
-        if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("Theme name cannot be empty.")
-            return
-        end
+        if IsStringEmpty(Name) then ThemeManager.Library:Notify("Theme name cannot be empty."); return end
 
-        if string.lower(Name) == "default" then
-            ThemeManager.Library:Notify("Invalid theme name provided.")
-            return
-        end
+        if string.lower(Name) == "default" then ThemeManager.Library:Notify("Invalid theme name provided."); return end
 
         ShowDialog(
             function(): boolean
@@ -12646,10 +9898,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             "Overwrite",
             function()
                 local Success, ErrorMessage = ThemeManager:SaveCustomTheme(Name)
-                if not Success then
-                    ThemeManager.Library:Notify(string.format("Failed to create theme %q: %s", Name, ErrorMessage))
-                    return
-                end
+                if not Success then ThemeManager.Library:Notify(string.format("Failed to create theme %q: %s", Name, ErrorMessage)); return end
 
                 ThemeManager.Library:Notify(string.format("Successfully created theme %q", Name))
                 RefreshList()
@@ -12659,24 +9908,20 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddDivider()
 
-    CustomThemeList = Themesbox:AddDropdown("ThemeManager_CustomThemeList", { 
+    CustomThemeList = Themesbox:AddDropdown("ThemeManager_CustomThemeList", {
         Text = "Custom themes",
 
-        Values = ThemeManager:ReloadCustomThemes(), 
+        Values = ThemeManager:ReloadCustomThemes(),
         AllowNull = true,
         Multi = false,
 
         FormatDisplayValue = function(Value: any)
-            if Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (default)", Value)
-            end
+            if Value == ThemeManager.DefaultThemeName then return string.format("%s (default)", Value) end
 
             return Value
         end,
         FormatListValue = function(Value: any)
-            if Value == ThemeManager.DefaultThemeName then
-                return string.format("%s (default)", Value)
-            end
+            if Value == ThemeManager.DefaultThemeName then return string.format("%s (default)", Value) end
 
             return Value
         end
@@ -12684,10 +9929,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddButton("Load theme", function()
         local Name = CustomThemeList.Value
-        if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("Please select a theme first.")
-            return
-        end
+        if IsStringEmpty(Name) then ThemeManager.Library:Notify("Please select a theme first."); return end
 
         ThemeManager:ApplyTheme(Name)
         ThemeManager.Library:Notify(string.format("Successfully loaded theme %q", Name))
@@ -12695,10 +9937,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddButton("Overwrite theme", function()
         local Name = CustomThemeList.Value
-        if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("Please select a theme first.")
-            return
-        end
+        if IsStringEmpty(Name) then ThemeManager.Library:Notify("Please select a theme first."); return end
 
         ShowDialog(
             function(): boolean
@@ -12719,10 +9958,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddButton("Delete theme", function()
         local Name = CustomThemeList.Value
-        if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("Please select a theme first.")
-            return
-        end
+        if IsStringEmpty(Name) then ThemeManager.Library:Notify("Please select a theme first."); return end
 
         ShowDialog(
             function(): boolean
@@ -12732,14 +9968,11 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             "ThemeManager_DeleteTheme",
             "Delete theme",
             string.format("Are you sure you want to delete %q? This cannot be undone.", Name),
-            
+
             "Delete",
             function()
                 local Success, ErrorMessage = ThemeManager:Delete(Name)
-                if not Success then
-                    ThemeManager.Library:Notify(string.format("Failed to delete theme: %s", ErrorMessage))
-                    return
-                end
+                if not Success then ThemeManager.Library:Notify(string.format("Failed to delete theme: %s", ErrorMessage)); return end
 
                 ThemeManager.Library:Notify(string.format("Successfully deleted theme %q", Name))
                 RefreshDefaultThemeLabel()
@@ -12751,10 +9984,7 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     Themesbox:AddButton("Set as default", function()
         local Name = CustomThemeList.Value
-        if IsStringEmpty(Name) then
-            ThemeManager.Library:Notify("Please select a theme first.")
-            return
-        end
+        if IsStringEmpty(Name) then ThemeManager.Library:Notify("Please select a theme first."); return end
 
         ThemeManager:SaveDefault(Name)
         ThemeManager.Library:Notify(string.format("Successfully set default theme to %q", Name))
@@ -12770,14 +10000,11 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
             "ThemeManager_ResetDefault",
             "Reset default theme",
             "Are you sure you want to clear the default theme? The library will revert to its built-in default on next load.",
-            
+
             "Reset",
             function()
                 local Success, ErrorMessage = ThemeManager:DeleteDefaultTheme()
-                if not Success then
-                    ThemeManager.Library:Notify(string.format("Failed to reset default theme: %s", ErrorMessage))
-                    return
-                end
+                if not Success then ThemeManager.Library:Notify(string.format("Failed to reset default theme: %s", ErrorMessage)); return end
 
                 ThemeManager.Library:Notify("Successfully reset default theme.")
                 RefreshDefaultThemeLabel()
@@ -12787,7 +10014,6 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
 
     DefaultThemeLabel = Themesbox:AddLabel("Current default theme: ...", true);
 
-    --// Set Variables
     CustomThemeList, CustomThemeName, ThemeList, FontFace, BackgroundImage =
         ThemeManager.Library.Options.ThemeManager_CustomThemeList,
         ThemeManager.Library.Options.ThemeManager_CustomThemeName,
@@ -12795,7 +10021,6 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
         ThemeManager.Library.Options.FontFace,
         ThemeManager.Library.Options.BackgroundImage;
 
-    --// Handlers
     ThemeList:OnChanged(function()
         ThemeManager:ApplyTheme(ThemeList.Value)
     end)
@@ -12812,7 +10037,6 @@ function ThemeManager:CreateThemeManager(Themesbox: any)
     FontFace:OnChanged(function(Value) ThemeManager.Library:SetFont(Enum.Font[Value]) end)
     BackgroundImage:OnChanged(function(Value) ThemeManager.Library:SetBackgroundImage(Value) end)
 
-    --// Load default
     ThemeManager:LoadDefault()
     ThemeManager.AppliedToTab = true
     RefreshDefaultThemeLabel()
@@ -12824,10 +10048,7 @@ function ThemeManager:CreateGroupBox(Tab: any, IconName: string)
     return Tab:AddLeftGroupbox("Themes", IconName or "paintbrush")
 end
 
-function ThemeManager:ApplyToTab(Tab: any, IconName: string)
-    local Groupbox = ThemeManager:CreateGroupBox(Tab, IconName)
-    return ThemeManager:CreateThemeManager(Groupbox)
-end
+function ThemeManager:ApplyToTab(Tab: any, IconName: string) local Groupbox = ThemeManager:CreateGroupBox(Tab, IconName); return ThemeManager:CreateThemeManager(Groupbox) end
 
 function ThemeManager:ApplyToGroupbox(Groupbox: any)
     return ThemeManager:CreateThemeManager(Groupbox)
@@ -12841,13 +10062,12 @@ return ThemeManager
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
-local clonefunction = (clonefunction or copyfunction or function(func) 
-    return func 
+local clonefunction = (clonefunction or copyfunction or function(func)
+    return func
 end)
 
 local HttpService: HttpService = cloneref(game:GetService("HttpService"))
 
---// Fix is_____ functions for shitsploits, those functions should never error, only return a boolean. (why is this still a problem in the big 2026)
 local isfolder, isfile, listfiles = isfolder, isfile, listfiles
 local isfolder_copy, isfile_copy, listfiles_copy = clonefunction(isfolder), clonefunction(isfile), clonefunction(listfiles)
 local isfolder_success, isfolder_error = pcall(function() return isfolder_copy("test" .. tostring(math.random(1000000, 9999999))) end)
@@ -12869,7 +10089,6 @@ if isfolder_success == false or typeof(isfolder_error) ~= "boolean" then
     end
 end
 
---// Save Manager
 local SaveManager = {
     Library = nil,
 
@@ -12887,7 +10106,6 @@ function SaveManager:SetLibrary(Library)
     SaveManager.Library = Library
 end
 
---// Element Parser \\--
 local SpecialValueParser = {
     UDim2 = {
         Encode = function(Value: UDim2)
@@ -12901,9 +10119,7 @@ local SpecialValueParser = {
             local DataType = typeof(Data)
             if DataType == "table" then
                 return UDim2.new(Data.X.Scale, Data.X.Offset, Data.Y.Scale, Data.Y.Offset)
-            elseif DataType == "UDim2" then
-                return Data
-            end
+            elseif DataType == "UDim2" then return Data end
 
             return nil
         end
@@ -12912,26 +10128,24 @@ local SpecialValueParser = {
 
 local ElementParser = {}; do
     local function CreateParser(
-        ElementType: string, 
-        LibaryIndex: string, 
-        
-        Save: (string, any, ...any) -> any, 
+        ElementType: string,
+        LibaryIndex: string,
+
+        Save: (string, any, ...any) -> any,
         Load: (any?, any) -> any,
         CustomElementFetcher: boolean?
     )
-        ElementParser[ElementType] = { 
+        ElementParser[ElementType] = {
             Save = function(Index: string, Element: any, ...)
                 local Data = Save(Index, Element, ...)
                 Data.type = ElementType
                 Data.idx = Index
 
                 return Data
-            end, 
+            end,
 
             Load = function(Index: string?, Data: any)
-                if CustomElementFetcher == true then
-                    return Load(nil, Data)
-                end
+                if CustomElementFetcher == true then return Load(nil, Data) end
 
                 local Elements = SaveManager.Library and SaveManager.Library[LibaryIndex]
                 local Element = Elements and Elements[Index]
@@ -12947,11 +10161,8 @@ local ElementParser = {}; do
         end,
         function(Element: any?, Data: any)
             if not Element then return end
-            if Element.Value == Data.value then
-                Element:RunChanged()
-                return
-            end
-            
+            if Element.Value == Data.value then Element:RunChanged(); return end
+
             Element:SetValue(Data.value)
         end
     )
@@ -12963,10 +10174,7 @@ local ElementParser = {}; do
         end,
         function(Element: any?, Data: any)
             if not Element then return end
-            if Element.Value == Data.value then
-                Element:RunChanged()
-                return
-            end
+            if Element.Value == Data.value then Element:RunChanged(); return end
 
             Element:SetValue(Data.value)
         end
@@ -12979,11 +10187,8 @@ local ElementParser = {}; do
         end,
         function(Element: any?, Data: any)
             if not Element then return end
-            if Element.Value == Data.value then
-                Element:RunChanged()
-                return
-            end
-            
+            if Element.Value == Data.value then Element:RunChanged(); return end
+
             Element:SetValue(Data.value)
         end
     )
@@ -12995,7 +10200,7 @@ local ElementParser = {}; do
         end,
         function(Element: any?, Data: any)
             if not Element then return end
-            
+
             Element:SetValueRGB(Color3.fromHex(Data.value), Data.transparency)
         end
     )
@@ -13007,12 +10212,9 @@ local ElementParser = {}; do
         end,
         function(Element: any?, Data: any)
             if not Element then return end
-            
+
             Element:SetValue({ Data.key, Data.mode, Data.modifiers })
-            if Data.mode == "Toggle" and Data.toggled ~= nil then
-                Element.Toggled = Data.toggled
-                Element:Update()
-            end
+            if Data.mode == "Toggle" and Data.toggled ~= nil then Element.Toggled = Data.toggled; Element:Update() end
         end
     )
 
@@ -13025,10 +10227,7 @@ local ElementParser = {}; do
             if not Element then return end
             if typeof(Data.text) ~= "string" then return end
 
-            if Element.Value == Data.text then
-                Element:RunChanged()
-                return
-            end
+            if Element.Value == Data.text then Element:RunChanged(); return end
 
             Element:SetValue(Data.text)
         end
@@ -13056,7 +10255,6 @@ local ElementParser = {}; do
     )
 end
 
---// Helpers \\--
 local function Trim(Text: string)
     return Text:match("^%s*(.-)%s*$")
 end
@@ -13067,37 +10265,29 @@ end
 
 local function IsValidFolderPath(Name: string): boolean
     return typeof(Name) == "string" and (
-        Trim(Name) ~= "" and 
-        not Name:match("^%s*$") and 
+        Trim(Name) ~= "" and
+        not Name:match("^%s*$") and
         not Name:find('[<>:"|%?%*%z]')
     )
 end
 
---// Folder helper \\--
 local function SplitPath(Path: string): {string}
     local Result = {}
     local Current = ""
 
-    for Part in string.gmatch(Path, "[^/]+") do
-        Current = if Current == "" then Part else (Current .. "/" .. Part)
-        table.insert(Result, Current)
-    end
+    for Part in string.gmatch(Path, "[^/]+") do Current = if Current == "" then Part else (Current .. "/" .. Part); table.insert(Result, Current) end
 
     return Result
 end
 
 local function GetFolderPath(): false | string
-    if IsStringEmpty(SaveManager.Folder) then
-        return false
-    end
+    if IsStringEmpty(SaveManager.Folder) then return false end
 
     return string.format("%s/settings", SaveManager.Folder)
 end
 
 local function GetSubFolderPath(): false | string
-    if IsStringEmpty(SaveManager.Folder) or IsStringEmpty(SaveManager.SubFolder) then
-        return false
-    end
+    if IsStringEmpty(SaveManager.Folder) or IsStringEmpty(SaveManager.SubFolder) then return false end
 
     return string.format("%s/settings/%s", SaveManager.Folder, SaveManager.SubFolder)
 end
@@ -13107,7 +10297,6 @@ local function GetCurrentSettingsPath(): false | string
     return if SubFolderPath == false then GetFolderPath() else SubFolderPath
 end
 
---// Files helper \\--
 local function GetConfigPath(ConfigName: string): false | string
     local CurrentSettingsPath = GetCurrentSettingsPath()
     return if CurrentSettingsPath == false then false else string.format("%s/%s.json", CurrentSettingsPath, ConfigName)
@@ -13123,53 +10312,36 @@ local function GetAutoloadPath(): false | string
     return if CurrentSettingsPath == false then false else string.format("%s/autoload.txt", CurrentSettingsPath)
 end
 
---// Indexes \\--
-function SaveManager:SetLoadingOrder(Enabled: boolean, Order: {string}?)
-    SaveManager.UseLoadingOrder = Enabled == true
-    SaveManager.LoadingOrder = typeof(Order) == "table" and Order or SaveManager.LoadingOrder
-end
+function SaveManager:SetLoadingOrder(Enabled: boolean, Order: {string}?) SaveManager.UseLoadingOrder = Enabled == true; SaveManager.LoadingOrder = typeof(Order) == "table" and Order or SaveManager.LoadingOrder end
 
 function SaveManager:SetIgnoreIndexes(Indexes: {string}?)
     assert(typeof(Indexes) == "table", "Expected table, got " .. typeof(Indexes))
 
-    for _, Index in Indexes do
-        SaveManager.Ignore[Index] = true
-    end
+    for _, Index in Indexes do SaveManager.Ignore[Index] = true end
 end
 
 function SaveManager:IgnoreThemeSettings()
-    SaveManager:SetIgnoreIndexes({
-        "BackgroundColor", "MainColor", "AccentColor", "OutlineColor", "FontColor", "FontFace", "BackgroundImage",
-        "ThemeManager_ThemeList", "ThemeManager_CustomThemeList", "ThemeManager_CustomThemeName"
-    })
+    SaveManager:SetIgnoreIndexes({ "BackgroundColor", "MainColor", "AccentColor", "OutlineColor", "FontColor", "FontFace", "BackgroundImage", "ThemeManager_ThemeList", "ThemeManager_CustomThemeList", "ThemeManager_CustomThemeName" })
 end
 
---// Folders \\--
 function SaveManager:GetPaths(): {string}
     local SubFolderPath = GetSubFolderPath()
-    if SubFolderPath == false then
-        local FolderPath = GetFolderPath()
-        return if FolderPath == false then {} else SplitPath(FolderPath)
-    end
+    if SubFolderPath == false then local FolderPath = GetFolderPath(); return if FolderPath == false then {} else SplitPath(FolderPath) end
 
     return SplitPath(SubFolderPath)
 end
 
 function SaveManager:BuildFolderTree(SkipWhenCreated: boolean?)
     local Paths = SaveManager:GetPaths()
-    if #Paths == 0 then
-        return false
-    end
+    if #Paths == 0 then return false end
 
     if SkipWhenCreated == true then
-        if isfolder(Paths[1]) then
-            return true
-        end
+        if isfolder(Paths[1]) then return true end
     end
 
     for _, Path in Paths do
         if isfolder(Path) then continue end
-        
+
         makefolder(Path)
     end
 
@@ -13182,14 +10354,10 @@ end
 
 function SaveManager:CheckSubFolder(CreateFolder: boolean)
     local SubFolderPath = GetSubFolderPath()
-    if SubFolderPath == false then
-        return false
-    end
+    if SubFolderPath == false then return false end
 
     local FolderExists = isfolder(SubFolderPath)
-    if not CreateFolder then
-        return FolderExists
-    end
+    if not CreateFolder then return FolderExists end
 
     makefolder(SubFolderPath)
     return true
@@ -13209,18 +10377,12 @@ function SaveManager:SetSubFolder(SubFolder: string)
     SaveManager:BuildFolderTree()
 end
 
---// Config Management \\--
 function SaveManager:RefreshConfigList()
     local SettingsPath = GetCurrentSettingsPath()
-    if SettingsPath == false then
-        return {}
-    end
+    if SettingsPath == false then return {} end
 
     local SuccessList, Files = pcall(listfiles, SettingsPath)
-    if not (SuccessList and typeof(Files) == "table") then
-        SaveManager.Library:Notify(string.format("Failed to load config list: %s", tostring(Files)))
-        return {}
-    end
+    if not (SuccessList and typeof(Files) == "table") then SaveManager.Library:Notify(string.format("Failed to load config list: %s", tostring(Files))); return {} end
 
     local FileNames = {}
     for _, FilePath in Files do
@@ -13251,7 +10413,6 @@ function SaveManager:SaveJSON(ConfigName)
         } else nil
     }
 
-    --// Toggles
     for Index, Toggle in Library.Toggles do
         if not Toggle.Type then continue end
         if IgnoreIndexes[Index] then continue end
@@ -13262,7 +10423,6 @@ function SaveManager:SaveJSON(ConfigName)
         table.insert(CurrentData.objects, Parser.Save(Index, Toggle))
     end
 
-    --// Options
     for Index, Option in Library.Options do
         if not Option.Type then continue end
         if IgnoreIndexes[Index] then continue end
@@ -13273,7 +10433,6 @@ function SaveManager:SaveJSON(ConfigName)
         table.insert(CurrentData.objects, Parser.Save(Index, Option))
     end
 
-    --// Groupboxes
     for TabIndex, Tab in Library.Tabs do
         if not Tab.Groupboxes then continue end
 
@@ -13288,51 +10447,35 @@ function SaveManager:SaveJSON(ConfigName)
     end
 
     local SuccessEncode, EncodedData = pcall(HttpService.JSONEncode, HttpService, CurrentData)
-    if not SuccessEncode then
-        return "", false, "Failed to encode data"
-    end
+    if not SuccessEncode then return "", false, "Failed to encode data" end
 
     return EncodedData, true
 end
 
 function SaveManager:Save(ConfigName: string): (boolean, string?)
-    if IsStringEmpty(ConfigName) then
-        return false, "Invalid config name provided"
-    end
+    if IsStringEmpty(ConfigName) then return false, "Invalid config name provided" end
 
-    if string.lower(ConfigName) == "autoload" then
-        return false, "Invalid config name provided"
-    end
+    if string.lower(ConfigName) == "autoload" then return false, "Invalid config name provided" end
 
     local ConfigPath = GetConfigPath(ConfigName)
-    if ConfigPath == false then
-        return false, "Invalid config name provided"
-    end
+    if ConfigPath == false then return false, "Invalid config name provided" end
 
     SaveManager:CheckFolderTree()
 
     local EncodedData, SuccessEncode, EncodeErrorMessage = SaveManager:SaveJSON(ConfigName)
-    if not SuccessEncode then
-        return false, EncodeErrorMessage
-    end
+    if not SuccessEncode then return false, EncodeErrorMessage end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, ConfigPath, EncodedData)
-    if not SuccessWrite then
-        return false, "Failed to write config file: " .. tostring(ErrorMessage)
-    end
+    if not SuccessWrite then return false, "Failed to write config file: " .. tostring(ErrorMessage) end
 
     return true
 end
 
 function SaveManager:LoadJSON(Content: string)
-    if IsStringEmpty(Content) then
-        return false, "No JSON provided"
-    end
+    if IsStringEmpty(Content) then return false, "No JSON provided" end
 
     local SuccessDecode, Decoded = pcall(HttpService.JSONDecode, HttpService, Content)
-    if not SuccessDecode or typeof(Decoded) ~= "table" or typeof(Decoded.objects) ~= "table" then
-        return false, "Failed to decode config data"
-    end
+    if not SuccessDecode or typeof(Decoded) ~= "table" or typeof(Decoded.objects) ~= "table" then return false, "Failed to decode config data" end
 
     local Library = SaveManager.Library
     local LoadingOrder = SaveManager.LoadingOrder
@@ -13346,7 +10489,6 @@ function SaveManager:LoadJSON(Content: string)
         end)
     end
 
-    --// Keybind Menu
     if Library.KeybindFrame and typeof(Decoded.keybindMenu) == "table" then
         local KeybindFrameData = Decoded.keybindMenu
         local IsVisible = KeybindFrameData.visible == true
@@ -13354,14 +10496,11 @@ function SaveManager:LoadJSON(Content: string)
 
         Library.KeybindFrame.Visible = IsVisible
         Library.KeybindFrame.Position = Position or Library.KeybindFrame.Position
-        
+
         local KeybindMenuToggle = Library.Options and Library.Options.KeybindMenuOpen
-        if KeybindMenuToggle then
-            KeybindMenuToggle:SetValue(IsVisible)
-        end
+        if KeybindMenuToggle then KeybindMenuToggle:SetValue(IsVisible) end
     end
 
-    --// Elements
     for _, Option in Decoded.objects do
         if not Option.type then continue end
         if IgnoreIndexes[Option.idx] then continue end
@@ -13376,92 +10515,61 @@ function SaveManager:LoadJSON(Content: string)
 end
 
 function SaveManager:Load(ConfigName: string): (boolean, string?)
-    if IsStringEmpty(ConfigName) then
-        return false, "No config is selected"
-    end
+    if IsStringEmpty(ConfigName) then return false, "No config is selected" end
 
     local ConfigPath = GetConfigPath(ConfigName)
-    if ConfigPath == false or not isfile(ConfigPath) then
-        return false, "Config file does not exist"
-    end
+    if ConfigPath == false or not isfile(ConfigPath) then return false, "Config file does not exist" end
 
     local SuccessRead, Content = pcall(readfile, ConfigPath)
-    if not SuccessRead then
-        return false, "Failed to read config file"
-    end
+    if not SuccessRead then return false, "Failed to read config file" end
 
     return SaveManager:LoadJSON(Content)
 end
 
 function SaveManager:Delete(ConfigName: string): (boolean | string?)
-    if IsStringEmpty(ConfigName) then
-        return false, "No config is selected"
-    end
+    if IsStringEmpty(ConfigName) then return false, "No config is selected" end
 
     local ConfigPath = GetConfigPath(ConfigName)
-    if ConfigPath == false or not isfile(ConfigPath) then
-        return false, "Config file does not exist"
-    end
+    if ConfigPath == false or not isfile(ConfigPath) then return false, "Config file does not exist" end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, ConfigPath)
-    if not SuccessDelete then
-        return false, "Failed to delete config file: " .. tostring(ErrorMessage)
-    end
+    if not SuccessDelete then return false, "Failed to delete config file: " .. tostring(ErrorMessage) end
 
-    if ConfigName == SaveManager.AutoloadConfig then
-        SaveManager:DeleteAutoLoadConfig()
-    end
+    if ConfigName == SaveManager.AutoloadConfig then SaveManager:DeleteAutoLoadConfig() end
 
     return true
 end
 
---// Auto Load Config \\--
 function SaveManager:GetAutoloadConfig(): (string, boolean, string?)
     SaveManager:CheckFolderTree()
 
     local AutoloadPath = GetAutoloadPath()
-    if AutoloadPath == false then
-        return "none", false, "Invalid path provided"
-    end
+    if AutoloadPath == false then return "none", false, "Invalid path provided" end
 
-    if not isfile(AutoloadPath) then
-        return "none", false, "Autoload config is not set"
-    end
+    if not isfile(AutoloadPath) then return "none", false, "Autoload config is not set" end
 
     local SuccessRead, AutoloadConfigName = pcall(readfile, AutoloadPath)
-    if not (SuccessRead and typeof(AutoloadConfigName) == "string") then
-        return "none", false, AutoloadConfigName
-    end
+    if not (SuccessRead and typeof(AutoloadConfigName) == "string") then return "none", false, AutoloadConfigName end
 
     local ConfigExists = DoesConfigExist(AutoloadConfigName)
-    if not ConfigExists then
-        return "none", false, "Config file not found"
-    end
+    if not ConfigExists then return "none", false, "Config file not found" end
 
     SaveManager.AutoloadConfig = AutoloadConfigName
     return AutoloadConfigName, true
 end
 
 function SaveManager:SaveAutoloadConfig(ConfigName: string): (boolean, string?)
-    if IsStringEmpty(ConfigName) then
-        return false, "No config is selected"
-    end
+    if IsStringEmpty(ConfigName) then return false, "No config is selected" end
 
     SaveManager:CheckFolderTree()
 
     local AutoloadPath = GetAutoloadPath()
-    if AutoloadPath == false then
-        return false, "Invalid path provided"
-    end
+    if AutoloadPath == false then return false, "Invalid path provided" end
 
-    if not DoesConfigExist(ConfigName) then
-        return false, "Config does not exist"
-    end
+    if not DoesConfigExist(ConfigName) then return false, "Config does not exist" end
 
     local SuccessWrite, ErrorMessage = pcall(writefile, AutoloadPath, ConfigName)
-    if not SuccessWrite then
-        return false, ErrorMessage
-    end
+    if not SuccessWrite then return false, ErrorMessage end
 
     SaveManager.AutoloadConfig = ConfigName
     return true
@@ -13470,18 +10578,13 @@ end
 function SaveManager:LoadAutoloadConfig()
     local ConfigName, Success, FetchErrorMessage = SaveManager:GetAutoloadConfig()
     if not Success or FetchErrorMessage then
-        if FetchErrorMessage ~= "Autoload config is not set" then
-            SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", FetchErrorMessage))
-        end
+        if FetchErrorMessage ~= "Autoload config is not set" then SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", FetchErrorMessage)) end
 
         return
     end
 
     local SuccessLoad, LoadErrorMessage = SaveManager:Load(ConfigName)
-    if not SuccessLoad then
-        SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", LoadErrorMessage))
-        return
-    end
+    if not SuccessLoad then SaveManager.Library:Notify(string.format("Failed to load autoload config: %s", LoadErrorMessage)); return end
 
     SaveManager.Library:Notify(string.format("Successfully loaded autoload config %q", ConfigName))
 end
@@ -13490,37 +10593,28 @@ function SaveManager:DeleteAutoLoadConfig(): (boolean, string?)
     SaveManager:CheckFolderTree()
 
     local AutoloadPath = GetAutoloadPath()
-    if AutoloadPath == false then
-        return false, "Invalid path provided"
-    end
+    if AutoloadPath == false then return false, "Invalid path provided" end
 
-    if not isfile(AutoloadPath) then
-        return false, "Autoload config is not set"
-    end
+    if not isfile(AutoloadPath) then return false, "Autoload config is not set" end
 
     local SuccessDelete, ErrorMessage = pcall(delfile, AutoloadPath)
-    if not SuccessDelete then
-        return false, ErrorMessage
-    end
+    if not SuccessDelete then return false, ErrorMessage end
 
     SaveManager.AutoloadConfig = nil
     return true
 end
 
---// GUI \\--
 local function ShowDialog(
     Condition: () -> boolean,
 
-    Index: string, 
-    Title: string, 
+    Index: string,
+    Title: string,
     Description: string,
 
     DestructiveText: string,
     DestructiveAction: () -> nil
 )
-    if Condition() == false then
-        return DestructiveAction()
-    end
+    if Condition() == false then return DestructiveAction() end
 
     return SaveManager.Library.Window:AddDialog(Index, {
         Title = Title,
@@ -13553,12 +10647,9 @@ end
 function SaveManager:BuildConfigSection(Tab: any, IconName: string)
     assert(SaveManager.Library, "Library is not set, call SaveManager:SetLibrary(Library) first.")
     local ConfigurationBox = Tab:AddRightGroupbox("Configuration", IconName or "folder-cog")
-    
+
     local ConfigNameInput, ConfigList, ConfigJSONInput, AutoloadConfigLabel
-    local function RefreshList()
-        ConfigList:SetValues(SaveManager:RefreshConfigList())
-        ConfigList:SetValue(nil)
-    end
+    local function RefreshList() ConfigList:SetValues(SaveManager:RefreshConfigList()); ConfigList:SetValue(nil) end
 
     local function RefreshAutoloadConfigLabel()
         local AutoloadConfigName, _Success, _ErrorMessage = SaveManager:GetAutoloadConfig()
@@ -13567,23 +10658,14 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
         if ConfigList then RefreshList() end
     end
 
-    --// Create
-    ConfigurationBox:AddInput("SaveManager_ConfigName", {
-        Text = "Config name"
-    })
+    ConfigurationBox:AddInput("SaveManager_ConfigName", { Text = "Config name" })
 
     ConfigurationBox:AddButton("Create config", function()
         local ConfigName = ConfigNameInput.Value
-        if IsStringEmpty(ConfigName) then
-            SaveManager.Library:Notify("Configuration name cannot be empty.")
-            return
-        end
+        if IsStringEmpty(ConfigName) then SaveManager.Library:Notify("Configuration name cannot be empty."); return end
 
-        if string.lower(ConfigName) == "autoload" then
-            SaveManager.Library:Notify("Invalid config name provided.")
-            return
-        end
-        
+        if string.lower(ConfigName) == "autoload" then SaveManager.Library:Notify("Invalid config name provided."); return end
+
         ShowDialog(
             function(): boolean
                 return DoesConfigExist(ConfigName)
@@ -13596,10 +10678,7 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
             "Overwrite",
             function()
                 local Success, ErrorMessage = SaveManager:Save(ConfigName)
-                if not Success then
-                    SaveManager.Library:Notify(string.format("Failed to create config %q: %s", ConfigName, ErrorMessage))
-                    return
-                end
+                if not Success then SaveManager.Library:Notify(string.format("Failed to create config %q: %s", ConfigName, ErrorMessage)); return end
 
                 SaveManager.Library:Notify(string.format("Successfully created config %q", ConfigName))
                 RefreshList()
@@ -13609,7 +10688,6 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
     ConfigurationBox:AddDivider()
 
-    --// Manage
     ConfigurationBox:AddDropdown("SaveManager_ConfigList", {
         Text = "Config list",
 
@@ -13618,16 +10696,12 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
         Multi = false,
 
         FormatDisplayValue = function(Value: any)
-            if Value == SaveManager.AutoloadConfig then
-                return string.format("%s (autoload)", Value)
-            end
+            if Value == SaveManager.AutoloadConfig then return string.format("%s (autoload)", Value) end
 
             return Value
         end,
         FormatListValue = function(Value: any)
-            if Value == SaveManager.AutoloadConfig then
-                return string.format("%s (autoload)", Value)
-            end
+            if Value == SaveManager.AutoloadConfig then return string.format("%s (autoload)", Value) end
 
             return Value
         end
@@ -13639,10 +10713,7 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
         Func = function()
             local ConfigName = ConfigList.Value
-            if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("Please select a config first.")
-                return
-            end
+            if IsStringEmpty(ConfigName) then SaveManager.Library:Notify("Please select a config first."); return end
 
             ShowDialog(
                 function(): boolean
@@ -13656,27 +10727,21 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
                 "Load",
                 function()
                     local Success, ErrorMessage = SaveManager:Load(ConfigName)
-                    if not Success then
-                        SaveManager.Library:Notify(string.format("Failed to load config %q: %s", ConfigName, ErrorMessage))
-                        return
-                    end
+                    if not Success then SaveManager.Library:Notify(string.format("Failed to load config %q: %s", ConfigName, ErrorMessage)); return end
 
                     SaveManager.Library:Notify(string.format("Successfully loaded config %q", ConfigName))
                 end
             )
         end
     })
-    
+
     ConfigurationBox:AddButton({
         Text = "Overwrite config",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
-            if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("Please select a config first.")
-                return
-            end
+            if IsStringEmpty(ConfigName) then SaveManager.Library:Notify("Please select a config first."); return end
 
             ShowDialog(
                 function(): boolean
@@ -13690,10 +10755,7 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
                 "Overwrite",
                 function()
                     local Success, ErrorMessage = SaveManager:Save(ConfigName)
-                    if not Success then
-                        SaveManager.Library:Notify(string.format("Failed to overwrite config %q: %s", ConfigName, ErrorMessage))
-                        return
-                    end
+                    if not Success then SaveManager.Library:Notify(string.format("Failed to overwrite config %q: %s", ConfigName, ErrorMessage)); return end
 
                     SaveManager.Library:Notify(string.format("Successfully overwrote config %q", ConfigName))
                 end
@@ -13707,10 +10769,7 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
         Func = function()
             local ConfigName = ConfigList.Value
-            if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("Please select a config first.")
-                return
-            end
+            if IsStringEmpty(ConfigName) then SaveManager.Library:Notify("Please select a config first."); return end
 
             ShowDialog(
                 function(): boolean
@@ -13720,14 +10779,11 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
                 "SaveManager_DeleteConfig",
                 "Delete config",
                 string.format("Are you sure you want to delete %q? This cannot be undone.", ConfigName),
-                
+
                 "Delete",
                 function()
                     local Success, ErrorMessage = SaveManager:Delete(ConfigName)
-                    if not Success then
-                        SaveManager.Library:Notify(string.format("Failed to delete config %q: %s", ConfigName, ErrorMessage))
-                        return
-                    end
+                    if not Success then SaveManager.Library:Notify(string.format("Failed to delete config %q: %s", ConfigName, ErrorMessage)); return end
 
                     SaveManager.Library:Notify(string.format("Successfully deleted config %q", ConfigName))
                     RefreshAutoloadConfigLabel()
@@ -13738,23 +10794,16 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
     ConfigurationBox:AddButton("Refresh list", RefreshList)
 
-    --// Autoload Config
     ConfigurationBox:AddButton({
         Text = "Set as autoload",
         DoubleClick = false,
 
         Func = function()
             local ConfigName = ConfigList.Value
-            if IsStringEmpty(ConfigName) then
-                SaveManager.Library:Notify("Please select a config first.")
-                return
-            end
+            if IsStringEmpty(ConfigName) then SaveManager.Library:Notify("Please select a config first."); return end
 
             local Success, ErrorMessage = SaveManager:SaveAutoloadConfig(ConfigName)
-            if not Success then
-                SaveManager.Library:Notify(string.format("Failed to set autoload config %q: %s", ConfigName, ErrorMessage))
-                return
-            end
+            if not Success then SaveManager.Library:Notify(string.format("Failed to set autoload config %q: %s", ConfigName, ErrorMessage)); return end
 
             SaveManager.Library:Notify(string.format("Successfully set autoload config to %q", ConfigName))
             RefreshAutoloadConfigLabel()
@@ -13774,14 +10823,11 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
                 "SaveManager_ResetAutoload",
                 "Reset autoload config",
                 "Are you sure you want to clear the autoload config? No config will be loaded automatically on next launch.",
-                
+
                 "Reset",
                 function()
                     local Success, ErrorMessage = SaveManager:DeleteAutoLoadConfig()
-                    if not Success then
-                        SaveManager.Library:Notify(string.format("Failed to reset autoload config: %s", ErrorMessage))
-                        return
-                    end
+                    if not Success then SaveManager.Library:Notify(string.format("Failed to reset autoload config: %s", ErrorMessage)); return end
 
                     SaveManager.Library:Notify("Successfully reset autoload config.")
                     RefreshAutoloadConfigLabel()
@@ -13794,17 +10840,11 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
     ConfigurationBox:AddDivider()
 
-    --// Import & Export
-    ConfigurationBox:AddInput("SaveManager_JSON", {
-        Text = "Config JSON"
-    })
+    ConfigurationBox:AddInput("SaveManager_JSON", { Text = "Config JSON" })
 
     ConfigurationBox:AddButton("Import config", function()
         local ConfigJSON = ConfigJSONInput.Value
-        if IsStringEmpty(ConfigJSON) then
-            SaveManager.Library:Notify("Configuration JSON cannot be empty")
-            return
-        end
+        if IsStringEmpty(ConfigJSON) then SaveManager.Library:Notify("Configuration JSON cannot be empty"); return end
 
         ShowDialog(
             function(): boolean
@@ -13818,10 +10858,7 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
             "Import",
             function()
                 local Success, ErrorMessage = SaveManager:LoadJSON(ConfigJSON)
-                if not Success then
-                    SaveManager.Library:Notify(string.format("Failed to import config: %s", ErrorMessage))
-                    return
-                end
+                if not Success then SaveManager.Library:Notify(string.format("Failed to import config: %s", ErrorMessage)); return end
 
                 SaveManager.Library:Notify("Successfully imported config")
             end
@@ -13830,25 +10867,17 @@ function SaveManager:BuildConfigSection(Tab: any, IconName: string)
 
     ConfigurationBox:AddButton("Export current config", function()
         local EncodedData, Success, ErrorMessage = SaveManager:SaveJSON()
-        if not Success  then
-            SaveManager.Library:Notify(ErrorMessage)
-            return
-        end
+        if not Success  then SaveManager.Library:Notify(ErrorMessage); return end
 
         ConfigJSONInput:SetValue(EncodedData)
-        if setclipboard then
-            setclipboard(EncodedData)
-            SaveManager.Library:Notify("Copied config to your clipboard")
-        end
+        if setclipboard then setclipboard(EncodedData); SaveManager.Library:Notify("Copied config to your clipboard") end
     end)
 
-    --// Set variables
     ConfigNameInput, ConfigList, ConfigJSONInput =
-        SaveManager.Library.Options.SaveManager_ConfigName, 
+        SaveManager.Library.Options.SaveManager_ConfigName,
         SaveManager.Library.Options.SaveManager_ConfigList,
         SaveManager.Library.Options.SaveManager_JSON;
 
-    --// Refresh
     RefreshAutoloadConfigLabel()
     SaveManager:SetIgnoreIndexes({ "SaveManager_ConfigList", "SaveManager_ConfigName", "SaveManager_JSON" })
 
@@ -13861,2305 +10890,213 @@ return SaveManager
 ]=]
 
     _JWAttackSrc = [=[
+
+
 local Remotes = game:GetService("ReplicatedStorage"):WaitForChild("Remotes")
-local Class_Skill_Leap = {
-	1,
-	"Leap",
-	8.1,
-	"Melee",
-	20,
-	SkipFirst = true
-}
-local Class_Profile_Swordmaster = {
-	DisplayName = "Swordmaster",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			6,
-			"Swordmaster",
-			0.34,
-			"Melee",
-			15
-		},
-		{
-			5,
-			"CrescentStrike",
-			5.1,
-			"Ranged",
-			40
-		},
-		Class_Skill_Leap,
-		{
-			20,
-			"SwordCyclone",
-			30.1,
-			"Melee",
-			40
-		}
-	}
-}
-local Class_Skill_Groundbreaker = {
-	1,
-	"Groundbreaker",
-	5.1,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
-local Class_Skill_DefenderShield = {
-	1,
-	"DefenderShield",
-	30.1,
-	"Melee",
-	15,
-	SkipFirst = true
-}
+local Class_Skill_Leap = { 1, "Leap", 8.1, "Melee", 20, SkipFirst = true }
+local Class_Profile_Swordmaster = { DisplayName = "Swordmaster", Distance = "Melee", 	SkillInfo = { 		{ 6, "Swordmaster", 0.34, "Melee", 15 }, 		{ 5, "CrescentStrike", 5.1, "Ranged", 40 }, Class_Skill_Leap, 		{ 20, "SwordCyclone", 30.1, "Melee", 40 } } }
+local Class_Skill_Groundbreaker = { 1, "Groundbreaker", 5.1, "Ranged", 20, SkipFirst = true }
+local Class_Skill_DefenderShield = { 1, "DefenderShield", 30.1, "Melee", 15, SkipFirst = true }
 local Skillset_Defender_Ultimate = Remotes:WaitForChild("Skillset_Defender_Ultimate")
-local Class_Profile_Defender = {
-	DisplayName = "Defender",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			5,
-			"Defender",
-			0.66,
-			"Melee",
-			15
-		},
-		Class_Skill_Groundbreaker,
-		{
-			8,
-			"Spin",
-			8.1,
-			"Melee",
-			15
-		},
-		Class_Skill_DefenderShield,
-		{
-			1,
-			Skillset_Defender_Ultimate,
-			1,
-			"CFrameRemote",
-			20,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_ArcaneWave = {
-	12,
-	"ArcaneWave",
-	8.1,
-	"Ranged",
-	40,
-	IncrementD = {
-		6,
-		5
-	}
-}
-local Class_Profile_ArcaneMage = {
-	DisplayName = "Arcane Mage",
-	Distance = "Ranged",
-	SkillInfo = {
-		{
-			3,
-			"Mage",
-			0.33,
-			"Ranged",
-			65
-		},
-		{
-			1,
-			{
-				"ArcaneBlast",
-				"ArcaneBlastAOE"
-			},
-			5.1,
-			"Ranged",
-			45
-		},
-		Class_Skill_ArcaneWave,
-		{
-			1,
-			"ArcaneAscension",
-			30.1,
-			"Ranged",
-			75
-		}
-	}
-}
-local Class_Skill_DualWield = {
-	10,
-	"DualWield",
-	0.55,
-	"Melee",
-	15,
-	AddCd = {
-		5,
-		0.2
-	}
-}
-local Class_Skill_DashStrike = {
-	1,
-	"DashStrike",
-	6.1,
-	"Melee",
-	15,
-	SkipFirst = true
-}
-local Class_Skill_DualWieldUltimateSlam = {
-	1,
-	"DualWieldUltimateSlam",
-	30.1,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
+local Class_Profile_Defender = { DisplayName = "Defender", Distance = "Melee", 	SkillInfo = { 		{ 5, "Defender", 0.66, "Melee", 15 }, Class_Skill_Groundbreaker, 		{ 8, "Spin", 8.1, "Melee", 15 }, Class_Skill_DefenderShield, 		{ 1, Skillset_Defender_Ultimate, 1, "CFrameRemote", 20, SkipFirst = true } } }
+local Class_Skill_ArcaneWave = { 12, "ArcaneWave", 8.1, "Ranged", 40, 	IncrementD = { 6, 5 } }
+local Class_Profile_ArcaneMage = { DisplayName = "Arcane Mage", Distance = "Ranged", 	SkillInfo = { 		{ 3, "Mage", 0.33, "Ranged", 65 }, 		{ 1, 			{ "ArcaneBlast", "ArcaneBlastAOE" }, 5.1, "Ranged", 45 }, Class_Skill_ArcaneWave, 		{ 1, "ArcaneAscension", 30.1, "Ranged", 75 } } }
+local Class_Skill_DualWield = { 10, "DualWield", 0.55, "Melee", 15, 	AddCd = { 5, 0.2 } }
+local Class_Skill_DashStrike = { 1, "DashStrike", 6.1, "Melee", 15, SkipFirst = true }
+local Class_Skill_DualWieldUltimateSlam = { 1, "DualWieldUltimateSlam", 30.1, "Ranged", 20, SkipFirst = true }
 local Skillset_DualWielder_AttackBuff = Remotes:WaitForChild("Skillset_DualWielder_AttackBuff")
-local Class_Profile_DualWielder = {
-	DisplayName = "Dual Wielder",
-	Distance = "Melee",
-	SkillInfo = {
-		Class_Skill_DualWield,
-		Class_Skill_DashStrike,
-		{
-			10,
-			"CrossSlash",
-			8.1,
-			"Ranged",
-			50
-		},
-		{
-			8,
-			"DualWieldUltimateHit",
-			30.1,
-			"Ranged",
-			20
-		},
-		Class_Skill_DualWieldUltimateSlam,
-		{
-			3,
-			"DualWieldUltimateSlam",
-			30.1,
-			"Ranged",
-			20
-		},
-		{
-			16,
-			"DualWieldUltimateSword1",
-			30.1,
-			"Ranged",
-			20
-		},
-		{
-			1,
-			Skillset_DualWielder_AttackBuff,
-			1,
-			"Remote",
-			50,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_IcefireMageFireball = {
-	1,
-	{
-		"IcefireMageFireball",
-		"IcefireMageFireballBlast"
-	},
-	7.1,
-	"Ranged",
-	100,
-	SkipFirst = true
-}
-local Class_Skill_IcefireMageUltimateFrost = {
-	1,
-	"IcefireMageUltimateFrost",
-	30.1,
-	"Ranged",
-	100,
-	SkipFirst = true
-}
-local Class_Profile_Elementalist = {
-	DisplayName = "Elementalist",
-	Distance = "Ranged",
-	SkillInfo = {
-		{
-			3,
-			"IcefireMage",
-			0.55,
-			"Ranged",
-			100
-		},
-		{
-			1,
-			"IcySpikes",
-			6.1,
-			"Ranged",
-			40
-		},
-		Class_Skill_IcefireMageFireball,
-		{
-			5,
-			"LightningStrike",
-			10.1,
-			"Ranged",
-			100
-		},
-		Class_Skill_IcefireMageUltimateFrost,
-		{
-			10,
-			"IcefireMageUltimateMeteor",
-			30.1,
-			"Ranged",
-			100
-		}
-	}
-}
-local Class_Skill_RockSpikes = {
-	3,
-	"RockSpikes",
-	6.1,
-	"Ranged",
-	30,
-	IncrementD = {
-		2,
-		2.5
-	}
-}
-local Class_Skill_SwordPrison = {
-	12,
-	"SwordPrison",
-	30.1,
-	"Ranged",
-	120,
-	IncrementD = {
-		7,
-		10
-	}
-}
-local Class_Remote_Skillset_Guardian_AggroDraw = {
-	1,
-	Remotes:WaitForChild("Skillset_Guardian_AggroDraw"),
-	1,
-	"Remote",
-	180,
-	SkipFirst = true
-}
+local Class_Profile_DualWielder = { DisplayName = "Dual Wielder", Distance = "Melee", 	SkillInfo = { Class_Skill_DualWield, Class_Skill_DashStrike, 		{ 10, "CrossSlash", 8.1, "Ranged", 50 }, 		{ 8, "DualWieldUltimateHit", 30.1, "Ranged", 20 }, Class_Skill_DualWieldUltimateSlam, 		{ 3, "DualWieldUltimateSlam", 30.1, "Ranged", 20 }, 		{ 16, "DualWieldUltimateSword1", 30.1, "Ranged", 20 }, 		{ 1, Skillset_DualWielder_AttackBuff, 1, "Remote", 50, SkipFirst = true } } }
+local Class_Skill_IcefireMageFireball = { 1, 	{ "IcefireMageFireball", "IcefireMageFireballBlast" }, 7.1, "Ranged", 100, SkipFirst = true }
+local Class_Skill_IcefireMageUltimateFrost = { 1, "IcefireMageUltimateFrost", 30.1, "Ranged", 100, SkipFirst = true }
+local Class_Profile_Elementalist = { DisplayName = "Elementalist", Distance = "Ranged", 	SkillInfo = { 		{ 3, "IcefireMage", 0.55, "Ranged", 100 }, 		{ 1, "IcySpikes", 6.1, "Ranged", 40 }, Class_Skill_IcefireMageFireball, 		{ 5, "LightningStrike", 10.1, "Ranged", 100 }, Class_Skill_IcefireMageUltimateFrost, 		{ 10, "IcefireMageUltimateMeteor", 30.1, "Ranged", 100 } } }
+local Class_Skill_RockSpikes = { 3, "RockSpikes", 6.1, "Ranged", 30, 	IncrementD = { 2, 2.5 } }
+local Class_Skill_SwordPrison = { 12, "SwordPrison", 30.1, "Ranged", 120, 	IncrementD = { 7, 10 } }
+local Class_Remote_Skillset_Guardian_AggroDraw = { 1, Remotes:WaitForChild("Skillset_Guardian_AggroDraw"), 1, "Remote", 180, SkipFirst = true }
 local Skillset_Guardian_Ultimate = Remotes:WaitForChild("Skillset_Guardian_Ultimate")
-local Class_Profile_Guardian = {
-	DisplayName = "Guardian",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			4,
-			"Guardian",
-			0.6,
-			"Melee",
-			15
-		},
-		Class_Skill_RockSpikes,
-		{
-			8,
-			"SlashFury",
-			8.1,
-			"Ranged",
-			30
-		},
-		Class_Skill_SwordPrison,
-		Class_Remote_Skillset_Guardian_AggroDraw,
-		{
-			1,
-			Skillset_Guardian_Ultimate,
-			1,
-			"GuardianRemote",
-			180,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_MageOfLight = {
-	1,
-	{
-		"MageOfLight",
-		"MageOfLightBlast"
-	},
-	0.25,
-	"Ranged",
-	100,
-	AddCd = {
-		2,
-		0.05
-	},
-	SkipFirst = true
-}
-local Class_Skill_MageOfLightCharged = {
-	1,
-	{
-		"MageOfLightCharged",
-		"MageOfLightBlastCharged"
-	},
-	0.33,
-	"Ranged",
-	100,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_MageOfLight_HealCircle = {
-	1,
-	{
-		Remotes:WaitForChild("Skillset_MageOfLight_HealCircle"),
-		Remotes:WaitForChild("Skillset_MageOfLight_Ultimate")
-	},
-	1,
-	"Remote",
-	100,
-	SkipFirst = true
-}
+local Class_Profile_Guardian = { DisplayName = "Guardian", Distance = "Melee", 	SkillInfo = { 		{ 4, "Guardian", 0.6, "Melee", 15 }, Class_Skill_RockSpikes, 		{ 8, "SlashFury", 8.1, "Ranged", 30 }, Class_Skill_SwordPrison, Class_Remote_Skillset_Guardian_AggroDraw, 		{ 1, Skillset_Guardian_Ultimate, 1, "GuardianRemote", 180, SkipFirst = true } } }
+local Class_Skill_MageOfLight = { 1, 	{ "MageOfLight", "MageOfLightBlast" }, 0.25, "Ranged", 100, 	AddCd = { 2, 0.05 }, SkipFirst = true }
+local Class_Skill_MageOfLightCharged = { 1, 	{ "MageOfLightCharged", "MageOfLightBlastCharged" }, 0.33, "Ranged", 100, SkipFirst = true }
+local Class_Remote_Skillset_MageOfLight_HealCircle = { 1, 	{ Remotes:WaitForChild("Skillset_MageOfLight_HealCircle"), Remotes:WaitForChild("Skillset_MageOfLight_Ultimate") }, 1, "Remote", 100, SkipFirst = true }
 local Skillset_MageOfLight_Barrier = Remotes:WaitForChild("Skillset_MageOfLight_Barrier")
-local Class_Profile_MageofLight = {
-	DisplayName = "Mage of Light",
-	Distance = "Ranged",
-	SkillInfo = {
-		Class_Skill_MageOfLight,
-		Class_Skill_MageOfLightCharged,
-		Class_Remote_Skillset_MageOfLight_HealCircle,
-		{
-			1,
-			Skillset_MageOfLight_Barrier,
-			1,
-			"PlayerRemote",
-			180,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_BlockingPaladin = {
-	1,
-	"BlockingPaladin",
-	0.37,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Paladin_Block = {
-	1,
-	{
-		Remotes:WaitForChild("Skillset_Paladin_Block"),
-		Remotes:WaitForChild("Skillset_Paladin_GuildedLight"),
-		Remotes:WaitForChild("Skillset_Paladin_LightThrust")
-	},
-	1,
-	"Remote",
-	80,
-	SkipFirst = true
-}
+local Class_Profile_MageofLight = { DisplayName = "Mage of Light", Distance = "Ranged", 	SkillInfo = { Class_Skill_MageOfLight, Class_Skill_MageOfLightCharged, Class_Remote_Skillset_MageOfLight_HealCircle, 		{ 1, Skillset_MageOfLight_Barrier, 1, "PlayerRemote", 180, SkipFirst = true } } }
+local Class_Skill_BlockingPaladin = { 1, "BlockingPaladin", 0.37, "Ranged", 20, SkipFirst = true }
+local Class_Remote_Skillset_Paladin_Block = { 1, 	{ Remotes:WaitForChild("Skillset_Paladin_Block"), Remotes:WaitForChild("Skillset_Paladin_GuildedLight"), Remotes:WaitForChild("Skillset_Paladin_LightThrust") }, 1, "Remote", 80, SkipFirst = true }
 local Skillset_Paladin_Ultimate = Remotes:WaitForChild("Skillset_Paladin_Ultimate")
-local Class_Profile_Paladin = {
-	DisplayName = "Paladin",
-	Distance = "Melee",
-	SkillInfo = {
-		Class_Skill_BlockingPaladin,
-		{
-			4,
-			"Paladin",
-			0.52,
-			"Melee",
-			15
-		},
-		{
-			4,
-			"LightPaladin",
-			0.52,
-			"Melee",
-			20
-		},
-		Class_Remote_Skillset_Paladin_Block,
-		{
-			1,
-			Skillset_Paladin_Ultimate,
-			1,
-			"PlayerPositionRemote",
-			80,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_AggroSlam = {
-	1,
-	"AggroSlam",
-	5.1,
-	"Ranged",
-	40,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Berserker_AggroSlam = {
-	Remotes:WaitForChild("Skillset_Berserker_AggroSlam"),
-	Remotes:WaitForChild("Skillset_Berserker_Ultimate")
-}
-local Class_Profile_Berserker = {
-	DisplayName = "Berserker",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			6,
-			"Berserker",
-			0.51,
-			"Melee",
-			15
-		},
-		Class_Skill_AggroSlam,
-		{
-			8,
-			"GigaSpin",
-			7.1,
-			"Ranged",
-			40
-		},
-		{
-			2,
-			"Fissure",
-			10.1,
-			"Ranged",
-			40
-		},
-		{
-			8,
-			"FissureErrupt",
-			10.1,
-			"Ranged",
-			60
-		},
-		{
-			1,
-			Class_Remote_Skillset_Berserker_AggroSlam,
-			1,
-			"Remote",
-			60,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_Archer = {
-	1,
-	"Archer",
-	0.47,
-	"Ranged",
-	80,
-	SkipFirst = true
-}
-local Class_Skill_MortarStrike = {
-	8,
-	"MortarStrike",
-	12.1,
-	"Ranged",
-	60,
-	IncrementD = {
-		2,
-		17
-	}
-}
-local Class_Profile_SpiritArcher = {
-	DisplayName = "Spirit Archer",
-	Distance = "Ranged",
-	SkillInfo = {
-		Class_Skill_Archer,
-		{
-			9,
-			"PiercingArrow",
-			5.1,
-			"Ranged",
-			100
-		},
-		{
-			1,
-			"SpiritBomb",
-			10.1,
-			"Ranged",
-			210
-		},
-		Class_Skill_MortarStrike,
-		{
-			6,
-			"HeavenlySword",
-			30.1,
-			"Ranged",
-			145
-		},
-		{
-			1,
-			"BackstepAttack",
-			3.1,
-			"Ranged",
-			200,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_DragoonDash = {
-	1,
-	"DragoonDash",
-	6.1,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
-local Class_Skill_DragoonFall = {
-	1,
-	"DragoonFall",
-	8.1,
-	"Melee",
-	19,
-	SkipFirst = true
-}
-local Class_Skill_DragoonUltimate = {
-	1,
-	"DragoonUltimate",
-	30.1,
-	"Ranged",
-	50,
-	SkipFirst = true
-}
+local Class_Profile_Paladin = { DisplayName = "Paladin", Distance = "Melee", 	SkillInfo = { Class_Skill_BlockingPaladin, 		{ 4, "Paladin", 0.52, "Melee", 15 }, 		{ 4, "LightPaladin", 0.52, "Melee", 20 }, Class_Remote_Skillset_Paladin_Block, 		{ 1, Skillset_Paladin_Ultimate, 1, "PlayerPositionRemote", 80, SkipFirst = true } } }
+local Class_Skill_AggroSlam = { 1, "AggroSlam", 5.1, "Ranged", 40, SkipFirst = true }
+local Class_Remote_Skillset_Berserker_AggroSlam = { Remotes:WaitForChild("Skillset_Berserker_AggroSlam"), Remotes:WaitForChild("Skillset_Berserker_Ultimate") }
+local Class_Profile_Berserker = { DisplayName = "Berserker", Distance = "Melee", 	SkillInfo = { 		{ 6, "Berserker", 0.51, "Melee", 15 }, Class_Skill_AggroSlam, 		{ 8, "GigaSpin", 7.1, "Ranged", 40 }, 		{ 2, "Fissure", 10.1, "Ranged", 40 }, 		{ 8, "FissureErrupt", 10.1, "Ranged", 60 }, 		{ 1, Class_Remote_Skillset_Berserker_AggroSlam, 1, "Remote", 60, SkipFirst = true } } }
+local Class_Skill_Archer = { 1, "Archer", 0.47, "Ranged", 80, SkipFirst = true }
+local Class_Skill_MortarStrike = { 8, "MortarStrike", 12.1, "Ranged", 60, 	IncrementD = { 2, 17 } }
+local Class_Profile_SpiritArcher = { DisplayName = "Spirit Archer", Distance = "Ranged", 	SkillInfo = { Class_Skill_Archer, 		{ 9, "PiercingArrow", 5.1, "Ranged", 100 }, 		{ 1, "SpiritBomb", 10.1, "Ranged", 210 }, Class_Skill_MortarStrike, 		{ 6, "HeavenlySword", 30.1, "Ranged", 145 }, 		{ 1, "BackstepAttack", 3.1, "Ranged", 200, SkipFirst = true } } }
+local Class_Skill_DragoonDash = { 1, "DragoonDash", 6.1, "Ranged", 20, SkipFirst = true }
+local Class_Skill_DragoonFall = { 1, "DragoonFall", 8.1, "Melee", 19, SkipFirst = true }
+local Class_Skill_DragoonUltimate = { 1, "DragoonUltimate", 30.1, "Ranged", 50, SkipFirst = true }
 local Class_Remote_Skillset_Dragoon_Ultimate = { Remotes:WaitForChild("Skillset_Dragoon_Ultimate") }
-local Class_Profile_Dragoon = {
-	DisplayName = "Dragoon",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			6,
-			"Dragoon",
-			0.45,
-			"Melee",
-			17
-		},
-		Class_Skill_DragoonDash,
-		{
-			10,
-			"DragoonCross",
-			6.1,
-			"Ranged",
-			20
-		},
-		{
-			5,
-			"MultiStrike",
-			6.1,
-			"Melee",
-			19
-		},
-		Class_Skill_DragoonFall,
-		Class_Skill_DragoonUltimate,
-		{
-			18,
-			"UltimateDragon",
-			30.1,
-			"Ranged",
-			100
-		},
-		{
-			1,
-			Class_Remote_Skillset_Dragoon_Ultimate,
-			1,
-			"Remote",
-			100,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_DemonDPS = {
-	9,
-	"DemonDPS",
-	0.85,
-	"Melee",
-	16,
-	IncrementC = {
-		2,
-		0.35
-	}
-}
-local Class_Skill_DemonLifeStealDPS = {
-	1,
-	"DemonLifeStealDPS",
-	8.1,
-	"Ranged",
-	60,
-	SkipFirst = true
-}
+local Class_Profile_Dragoon = { DisplayName = "Dragoon", Distance = "Melee", 	SkillInfo = { 		{ 6, "Dragoon", 0.45, "Melee", 17 }, Class_Skill_DragoonDash, 		{ 10, "DragoonCross", 6.1, "Ranged", 20 }, 		{ 5, "MultiStrike", 6.1, "Melee", 19 }, Class_Skill_DragoonFall, Class_Skill_DragoonUltimate, 		{ 18, "UltimateDragon", 30.1, "Ranged", 100 }, 		{ 1, Class_Remote_Skillset_Dragoon_Ultimate, 1, "Remote", 100, SkipFirst = true } } }
+local Class_Skill_DemonDPS = { 9, "DemonDPS", 0.85, "Melee", 16, 	IncrementC = { 2, 0.35 } }
+local Class_Skill_DemonLifeStealDPS = { 1, "DemonLifeStealDPS", 8.1, "Ranged", 60, SkipFirst = true }
 local Skillset_Demon_Ultimate = Remotes:WaitForChild("Skillset_Demon_Ultimate")
-local Class_Profile_Demon = {
-	DisplayName = "Demon",
-	Distance = "Melee",
-	SkillInfo = {
-		Class_Skill_DemonDPS,
-		{
-			3,
-			"ScytheThrowDPS",
-			5.1,
-			"Ranged",
-			150
-		},
-		{
-			8,
-			"ScytheThrow",
-			5.1,
-			"Ranged",
-			150
-		},
-		Class_Skill_DemonLifeStealDPS,
-		{
-			3,
-			"DemonSoulDPS",
-			30.1,
-			"Ranged",
-			30
-		},
-		{
-			1,
-			Skillset_Demon_Ultimate,
-			1,
-			"Remote",
-			150,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_ChainsOfWar = {
-	1,
-	"ChainsOfWar",
-	8.1,
-	"Ranged",
-	75,
-	SkipFirst = true
-}
-local Class_Skill_BlockingWarlord = {
-	1,
-	"BlockingWarlord",
-	2.5,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
-local Class_Skill_Piledriver = {
-	3,
-	"Piledriver",
-	5.1,
-	"Ranged",
-	13,
-	IncrementC = {
-		2,
-		1
-	}
-}
+local Class_Profile_Demon = { DisplayName = "Demon", Distance = "Melee", 	SkillInfo = { Class_Skill_DemonDPS, 		{ 3, "ScytheThrowDPS", 5.1, "Ranged", 150 }, 		{ 8, "ScytheThrow", 5.1, "Ranged", 150 }, Class_Skill_DemonLifeStealDPS, 		{ 3, "DemonSoulDPS", 30.1, "Ranged", 30 }, 		{ 1, Skillset_Demon_Ultimate, 1, "Remote", 150, SkipFirst = true } } }
+local Class_Skill_ChainsOfWar = { 1, "ChainsOfWar", 8.1, "Ranged", 75, SkipFirst = true }
+local Class_Skill_BlockingWarlord = { 1, "BlockingWarlord", 2.5, "Ranged", 20, SkipFirst = true }
+local Class_Skill_Piledriver = { 3, "Piledriver", 5.1, "Ranged", 13, 	IncrementC = { 2, 1 } }
 local Skillset_Warlord_Block = Remotes:WaitForChild("Skillset_Warlord_Block")
-local Class_Profile_Warlord = {
-	DisplayName = "Warlord",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			4,
-			"Warlord",
-			0.42,
-			"Melee",
-			15
-		},
-		Class_Skill_ChainsOfWar,
-		Class_Skill_BlockingWarlord,
-		Class_Skill_Piledriver,
-		{
-			5,
-			"WarlordUltimate",
-			30.1,
-			"Ranged",
-			55
-		},
-		{
-			1,
-			Skillset_Warlord_Block,
-			1,
-			"Remote",
-			75,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_Summoner = {
-	4,
-	"Summoner",
-	0.55,
-	"Ranged",
-	80,
-	IncrementC = {
-		2,
-		0.25
-	}
-}
-local Class_Remote_Skillset_Summoner_Summon = {
-	Remotes:WaitForChild("Skillset_Summoner_Summon"),
-	Remotes:WaitForChild("Skillset_Summoner_Ultimate")
-}
-local Class_Profile_Summoner = {
-	DisplayName = "Summoner",
-	Distance = "Ranged",
-	SkillInfo = {
-		Class_Skill_Summoner,
-		{
-			5,
-			"SoulHarvest",
-			1.1,
-			"Ranged",
-			75
-		},
-		{
-			1,
-			Class_Remote_Skillset_Summoner_Summon,
-			1,
-			"Remote",
-			80,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_ShadowLeap = {
-	1,
-	"ShadowLeap",
-	3.1,
-	"Ranged",
-	50,
-	SkipFirst = true
-}
-local Class_Skill_RealmOfShadows = {
-	1,
-	"RealmOfShadows",
-	30.1,
-	"Ranged",
-	80,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Assassin_EventStealthWalk = {
-	Remotes:WaitForChild("Skillset_Assassin_EventStealthWalk"),
-	Remotes:WaitForChild("Skillset_Assassin_Ultimate")
-}
-local Class_Profile_Shadowblade = {
-	DisplayName = "Shadowblade",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			8,
-			"Assassin",
-			0.26,
-			"Melee",
-			15
-		},
-		Class_Skill_ShadowLeap,
-		{
-			2,
-			"ShadowSlash",
-			6.1,
-			"Ranged",
-			60
-		},
-		Class_Skill_RealmOfShadows,
-		{
-			5,
-			"ShadowMulti",
-			30.1,
-			"Ranged",
-			60
-		},
-		{
-			1,
-			Class_Remote_Skillset_Assassin_EventStealthWalk,
-			1,
-			"Remote",
-			60,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_StormSurgeInit = {
-	1,
-	{
-		"StormSurgeInit",
-		"StormSurge"
-	},
-	10.1,
-	"Ranged",
-	0,
-	IncrementD = {
-		1,
-		20
-	},
-	SkipFirst = true
-}
-local Class_Skill_UltimateDischarge = {
-	1,
-	"UltimateDischarge",
-	1.5,
-	"Ranged",
-	35,
-	SkipFirst = true
-}
-local Class_Skill_StormcallerUltBlast = {
-	1,
-	"StormcallerUltBlast",
-	30.1,
-	"Melee",
-	44,
-	SkipFirst = true
-}
-local Class_Skill_StormcallerThunderGod = {
-	8,
-	"StormcallerThunderGod",
-	0.3,
-	"Melee",
-	15,
-	IncrementC = {
-		2,
-		0.286
-	}
-}
-local Class_Skill_ShockDashBall = {
-	1,
-	"ShockDashBall",
-	3.1,
-	"Ranged",
-	40,
-	SkipFirst = true
-}
+local Class_Profile_Warlord = { DisplayName = "Warlord", Distance = "Melee", 	SkillInfo = { 		{ 4, "Warlord", 0.42, "Melee", 15 }, Class_Skill_ChainsOfWar, Class_Skill_BlockingWarlord, Class_Skill_Piledriver, 		{ 5, "WarlordUltimate", 30.1, "Ranged", 55 }, 		{ 1, Skillset_Warlord_Block, 1, "Remote", 75, SkipFirst = true } } }
+local Class_Skill_Summoner = { 4, "Summoner", 0.55, "Ranged", 80, 	IncrementC = { 2, 0.25 } }
+local Class_Remote_Skillset_Summoner_Summon = { Remotes:WaitForChild("Skillset_Summoner_Summon"), Remotes:WaitForChild("Skillset_Summoner_Ultimate") }
+local Class_Profile_Summoner = { DisplayName = "Summoner", Distance = "Ranged", 	SkillInfo = { Class_Skill_Summoner, 		{ 5, "SoulHarvest", 1.1, "Ranged", 75 }, 		{ 1, Class_Remote_Skillset_Summoner_Summon, 1, "Remote", 80, SkipFirst = true } } }
+local Class_Skill_ShadowLeap = { 1, "ShadowLeap", 3.1, "Ranged", 50, SkipFirst = true }
+local Class_Skill_RealmOfShadows = { 1, "RealmOfShadows", 30.1, "Ranged", 80, SkipFirst = true }
+local Class_Remote_Skillset_Assassin_EventStealthWalk = { Remotes:WaitForChild("Skillset_Assassin_EventStealthWalk"), Remotes:WaitForChild("Skillset_Assassin_Ultimate") }
+local Class_Profile_Shadowblade = { DisplayName = "Shadowblade", Distance = "Melee", 	SkillInfo = { 		{ 8, "Assassin", 0.26, "Melee", 15 }, Class_Skill_ShadowLeap, 		{ 2, "ShadowSlash", 6.1, "Ranged", 60 }, Class_Skill_RealmOfShadows, 		{ 5, "ShadowMulti", 30.1, "Ranged", 60 }, 		{ 1, Class_Remote_Skillset_Assassin_EventStealthWalk, 1, "Remote", 60, SkipFirst = true } } }
+local Class_Skill_StormSurgeInit = { 1, 	{ "StormSurgeInit", "StormSurge" }, 10.1, "Ranged", 0, 	IncrementD = { 1, 20 }, SkipFirst = true }
+local Class_Skill_UltimateDischarge = { 1, "UltimateDischarge", 1.5, "Ranged", 35, SkipFirst = true }
+local Class_Skill_StormcallerUltBlast = { 1, "StormcallerUltBlast", 30.1, "Melee", 44, SkipFirst = true }
+local Class_Skill_StormcallerThunderGod = { 8, "StormcallerThunderGod", 0.3, "Melee", 15, 	IncrementC = { 2, 0.286 } }
+local Class_Skill_ShockDashBall = { 1, "ShockDashBall", 3.1, "Ranged", 40, SkipFirst = true }
 local Skillset_Stormcaller_Ultimate = Remotes:WaitForChild("Skillset_Stormcaller_Ultimate")
-local Class_Profile_Stormcaller = {
-	DisplayName = "Stormcaller",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			1,
-			"Stormcaller",
-			0.4,
-			"Ranged",
-			100
-		},
-		{
-			8,
-			"ChainLightning",
-			7.1,
-			"Ranged",
-			120
-		},
-		Class_Skill_StormSurgeInit,
-		Class_Skill_UltimateDischarge,
-		Class_Skill_StormcallerUltBlast,
-		Class_Skill_StormcallerThunderGod,
-		Class_Skill_ShockDashBall,
-		{
-			3,
-			"ShockDash",
-			3.1,
-			"Ranged",
-			40
-		},
-		{
-			1,
-			Skillset_Stormcaller_Ultimate,
-			1,
-			"Remote",
-			120,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_MageOfShadows = {
-	1,
-	{
-		"MageOfShadows",
-		"MageOfShadowsBlast",
-		"MageOfShadowsCharged",
-		"MageOfShadowsBlastCharged"
-	},
-	0.25,
-	"Ranged",
-	100,
-	AddCd = {
-		2,
-		0.25
-	},
-	SkipFirst = true
-}
-local Class_Skill_BighShadowOrb = {
-	1,
-	{
-		"BighShadowOrb",
-		"MageOfShadowsDamageCircle"
-	},
-	0.5,
-	"Ranged",
-	75,
-	IncrementD = {
-		1,
-		25
-	},
-	SkipFirst = true
-}
+local Class_Profile_Stormcaller = { DisplayName = "Stormcaller", Distance = "Melee", 	SkillInfo = { 		{ 1, "Stormcaller", 0.4, "Ranged", 100 }, 		{ 8, "ChainLightning", 7.1, "Ranged", 120 }, Class_Skill_StormSurgeInit, Class_Skill_UltimateDischarge, Class_Skill_StormcallerUltBlast, Class_Skill_StormcallerThunderGod, Class_Skill_ShockDashBall, 		{ 3, "ShockDash", 3.1, "Ranged", 40 }, 		{ 1, Skillset_Stormcaller_Ultimate, 1, "Remote", 120, SkipFirst = true } } }
+local Class_Skill_MageOfShadows = { 1, 	{ "MageOfShadows", "MageOfShadowsBlast", "MageOfShadowsCharged", "MageOfShadowsBlastCharged" }, 0.25, "Ranged", 100, 	AddCd = { 2, 0.25 }, SkipFirst = true }
+local Class_Skill_BighShadowOrb = { 1, 	{ "BighShadowOrb", "MageOfShadowsDamageCircle" }, 0.5, "Ranged", 75, 	IncrementD = { 1, 25 }, SkipFirst = true }
 local Skillset_MageOfShadows_ShadowChains = Remotes:WaitForChild("Skillset_MageOfShadows_ShadowChains")
-local Class_Profile_MageofShadows = {
-	DisplayName = "Mage of Shadows",
-	Distance = "Ranged",
-	SkillInfo = {
-		Class_Skill_MageOfShadows,
-		Class_Skill_BighShadowOrb,
-		{
-			1,
-			Skillset_MageOfShadows_ShadowChains,
-			6,
-			"ShadowChain",
-			125,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_Hunter = {
-	3,
-	"Hunter",
-	0.47,
-	"Ranged",
-	80,
-	SkipFirst = true
-}
-local Class_Skill_HunterExplosiveArrow = {
-	5,
-	"HunterExplosiveArrow",
-	4.1,
-	"Ranged",
-	150,
-	SkipFirst = true
-}
-local Class_Skill_BearTrap = {
-	1,
-	{
-		"BearTrap",
-		"BearTrapAOE"
-	},
-	1.1,
-	"Ranged",
-	150,
-	SkipFirst = true
-}
-local Class_Skill_FamiliarBurst = {
-	1,
-	"FamiliarBurst",
-	5.1,
-	"Ranged",
-	150,
-	SkipFirst = true
-}
-local Class_Skill_BackstepAttackHunter = {
-	1,
-	"BackstepAttackHunter",
-	3.1,
-	"Ranged",
-	150,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Hunter_Frenzy = {
-	1,
-	{
-		Remotes:WaitForChild("Skillset_Hunter_Frenzy"),
-		Remotes:WaitForChild("Skillset_Hunter_Summon")
-	},
-	1,
-	"Remote",
-	150,
-	AddCd = {
-		2,
-		15
-	},
-	SkipFirst = true
-}
+local Class_Profile_MageofShadows = { DisplayName = "Mage of Shadows", Distance = "Ranged", 	SkillInfo = { Class_Skill_MageOfShadows, Class_Skill_BighShadowOrb, 		{ 1, Skillset_MageOfShadows_ShadowChains, 6, "ShadowChain", 125, SkipFirst = true } } }
+local Class_Skill_Hunter = { 3, "Hunter", 0.47, "Ranged", 80, SkipFirst = true }
+local Class_Skill_HunterExplosiveArrow = { 5, "HunterExplosiveArrow", 4.1, "Ranged", 150, SkipFirst = true }
+local Class_Skill_BearTrap = { 1, 	{ "BearTrap", "BearTrapAOE" }, 1.1, "Ranged", 150, SkipFirst = true }
+local Class_Skill_FamiliarBurst = { 1, "FamiliarBurst", 5.1, "Ranged", 150, SkipFirst = true }
+local Class_Skill_BackstepAttackHunter = { 1, "BackstepAttackHunter", 3.1, "Ranged", 150, SkipFirst = true }
+local Class_Remote_Skillset_Hunter_Frenzy = { 1, 	{ Remotes:WaitForChild("Skillset_Hunter_Frenzy"), Remotes:WaitForChild("Skillset_Hunter_Summon") }, 1, "Remote", 150, 	AddCd = { 2, 15 }, SkipFirst = true }
 local Skillset_Hunter_DivineArrowHeal = Remotes:WaitForChild("Skillset_Hunter_DivineArrowHeal")
-local Class_Profile_Hunter = {
-	DisplayName = "Hunter",
-	Distance = "Ranged",
-	SkillInfo = {
-		Class_Skill_Hunter,
-		Class_Skill_HunterExplosiveArrow,
-		Class_Skill_BearTrap,
-		Class_Skill_FamiliarBurst,
-		{
-			10,
-			"DivineArrow",
-			30.1,
-			"Ranged",
-			150
-		},
-		Class_Skill_BackstepAttackHunter,
-		Class_Remote_Skillset_Hunter_Frenzy,
-		{
-			1,
-			Skillset_Hunter_DivineArrowHeal,
-			2.5,
-			"HunterRemote",
-			150,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_WaterCyclone = {
-	1,
-	{
-		"WaterCyclone",
-		"Mealstrom"
-	},
-	0.25,
-	"Ranged",
-	100,
-	AddCd = {
-		2,
-		0.2
-	},
-	SkipFirst = true
-}
-local Class_Skill_Hydrosurge = {
-	1,
-	"Hydrosurge",
-	3.1,
-	"Melee",
-	44,
-	SkipFirst = true
-}
-local Class_Skill_MaelstromBubblePop = {
-	1,
-	"MaelstromBubblePop",
-	8.1,
-	"Ranged",
-	100,
-	SkipFirst = true
-}
+local Class_Profile_Hunter = { DisplayName = "Hunter", Distance = "Ranged", 	SkillInfo = { Class_Skill_Hunter, Class_Skill_HunterExplosiveArrow, Class_Skill_BearTrap, Class_Skill_FamiliarBurst, 		{ 10, "DivineArrow", 30.1, "Ranged", 150 }, Class_Skill_BackstepAttackHunter, Class_Remote_Skillset_Hunter_Frenzy, 		{ 1, Skillset_Hunter_DivineArrowHeal, 2.5, "HunterRemote", 150, SkipFirst = true } } }
+local Class_Skill_WaterCyclone = { 1, 	{ "WaterCyclone", "Mealstrom" }, 0.25, "Ranged", 100, 	AddCd = { 2, 0.2 }, SkipFirst = true }
+local Class_Skill_Hydrosurge = { 1, "Hydrosurge", 3.1, "Melee", 44, SkipFirst = true }
+local Class_Skill_MaelstromBubblePop = { 1, "MaelstromBubblePop", 8.1, "Ranged", 100, SkipFirst = true }
 local Skillset_Leviathan_PoppingBubbleDamage = Remotes:WaitForChild("Skillset_Leviathan_PoppingBubbleDamage")
-local Class_Profile_Leviathan = {
-	DisplayName = "Leviathan",
-	Distance = "Melee",
-	SkillInfo = {
-		{
-			6,
-			"Leviathan",
-			0.45,
-			"Melee",
-			17
-		},
-		Class_Skill_WaterCyclone,
-		Class_Skill_Hydrosurge,
-		Class_Skill_MaelstromBubblePop,
-		{
-			8,
-			"LeviathanUltimate",
-			30.1,
-			"Ranged",
-			40
-		},
-		{
-			1,
-			Skillset_Leviathan_PoppingBubbleDamage,
-			1,
-			"TableRemote",
-			95,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_StarbreakerUltimateHitInit = {
-	1,
-	"StarbreakerUltimateHitInit",
-	30.1,
-	"Ranged",
-	20,
-	SkipFirst = true
-}
-local Class_Skill_StarbreakerUltimateHit = {
-	1,
-	"StarbreakerUltimateHit",
-	1.51,
-	"Ranged",
-	115,
-	SkipFirst = true
-}
-local Class_Skill_StarbreakerWaves = {
-	1,
-	"",
-	1.1,
-	"StarbreakerWaves",
-	20,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Starbreaker_Starforge = {
-	1,
-	Remotes:WaitForChild("Skillset_Starbreaker_Starforge"),
-	1,
-	"MobPositionRemote",
-	115,
-	SkipFirst = true
-}
+local Class_Profile_Leviathan = { DisplayName = "Leviathan", Distance = "Melee", 	SkillInfo = { 		{ 6, "Leviathan", 0.45, "Melee", 17 }, Class_Skill_WaterCyclone, Class_Skill_Hydrosurge, Class_Skill_MaelstromBubblePop, 		{ 8, "LeviathanUltimate", 30.1, "Ranged", 40 }, 		{ 1, Skillset_Leviathan_PoppingBubbleDamage, 1, "TableRemote", 95, SkipFirst = true } } }
+local Class_Skill_StarbreakerUltimateHitInit = { 1, "StarbreakerUltimateHitInit", 30.1, "Ranged", 20, SkipFirst = true }
+local Class_Skill_StarbreakerUltimateHit = { 1, "StarbreakerUltimateHit", 1.51, "Ranged", 115, SkipFirst = true }
+local Class_Skill_StarbreakerWaves = { 1, "", 1.1, "StarbreakerWaves", 20, SkipFirst = true }
+local Class_Remote_Skillset_Starbreaker_Starforge = { 1, Remotes:WaitForChild("Skillset_Starbreaker_Starforge"), 1, "MobPositionRemote", 115, SkipFirst = true }
 local Skillset_Starbreaker_Ultimate = Remotes:WaitForChild("Skillset_Starbreaker_Ultimate")
-local Class_Profile_Starbreaker = {
-	DisplayName = "Starbreaker",
-	Distance = "Melee",
-	SkillInfo = {
-		Class_Skill_StarbreakerUltimateHitInit,
-		{
-			2,
-			"StarforgeExplosion",
-			25.1,
-			"Ranged",
-			20
-		},
-		{
-			10,
-			"StarbreakerFlare",
-			10.1,
-			"Ranged",
-			110
-		},
-		{
-			4,
-			"Nova",
-			7.1,
-			"Ranged",
-			60
-		},
-		Class_Skill_StarbreakerUltimateHit,
-		Class_Skill_StarbreakerWaves,
-		{
-			8,
-			{
-				"Starbreaker",
-				"StarbreakerBoosted"
-			},
-			0.61,
-			"Melee",
-			15
-		},
-		Class_Remote_Skillset_Starbreaker_Starforge,
-		{
-			1,
-			Skillset_Starbreaker_Ultimate,
-			1,
-			"Remote",
-			115,
-			SkipFirst = true
-		}
-	}
-}
-local Class_Skill_NecroDPS = {
-	9,
-	"NecroDPS",
-	0.85,
-	"Melee",
-	16,
-	IncrementC = {
-		2,
-		0.35
-	}
-}
-local Class_Skill_SpiritExplosion0 = {
-	1,
-	"SpiritExplosion0",
-	2.25,
-	"Melee",
-	12,
-	SkipFirst = true
-}
-local Class_Skill_SpiritExplosion1 = {
-	1,
-	"SpiritExplosion1",
-	2.25,
-	"Melee",
-	13,
-	SkipFirst = true
-}
-local Class_Skill_SpiritExplosion2 = {
-	1,
-	"SpiritExplosion2",
-	3,
-	"Melee",
-	15,
-	SkipFirst = true
-}
-local Class_Skill_SpiritExplosion3 = {
-	1,
-	"SpiritExplosion3",
-	3.25,
-	"Melee",
-	17,
-	SkipFirst = true
-}
-local Class_Skill_SpiritExplosion4 = {
-	1,
-	"SpiritExplosion4",
-	4,
-	"Melee",
-	20,
-	SkipFirst = true
-}
-local Class_Skill_UltScytheDrop = {
-	1,
-	"UltScytheDrop",
-	30.1,
-	"Ranged",
-	150,
-	SkipFirst = true
-}
-local Class_Remote_Skillset_Necromancer_Ultimate = {
-	1,
-	Remotes:WaitForChild("Skillset_Necromancer_Ultimate"),
-	1,
-	"Remote",
-	150,
-	SkipFirst = true
-}
-local Class_Profile_Necromancer = {
-	DisplayName = "Necromancer",
-	Distance = "Melee",
-	SkillInfo = {
-		Class_Skill_NecroDPS,
-		Class_Skill_SpiritExplosion0,
-		Class_Skill_SpiritExplosion1,
-		Class_Skill_SpiritExplosion2,
-		Class_Skill_SpiritExplosion3,
-		Class_Skill_SpiritExplosion4,
-		{
-			5,
-			"TombstoneRise",
-			4.2,
-			"Melee",
-			25
-		},
-		{
-			6,
-			"SpiritCavern",
-			10.2,
-			"Ranged",
-			150
-		},
-		Class_Skill_UltScytheDrop,
-		Class_Remote_Skillset_Necromancer_Ultimate
-	}
-}
-ClassTable = {
-	Swordmaster = Class_Profile_Swordmaster,
-	Defender = Class_Profile_Defender,
-	Mage = Class_Profile_ArcaneMage,
-	DualWielder = Class_Profile_DualWielder,
-	IcefireMage = Class_Profile_Elementalist,
-	Guardian = Class_Profile_Guardian,
-	MageOfLight = Class_Profile_MageofLight,
-	Paladin = Class_Profile_Paladin,
-	Berserker = Class_Profile_Berserker,
-	Archer = Class_Profile_SpiritArcher,
-	Dragoon = Class_Profile_Dragoon,
-	Demon = Class_Profile_Demon,
-	Warlord = Class_Profile_Warlord,
-	Summoner = Class_Profile_Summoner,
-	Assassin = Class_Profile_Shadowblade,
-	Stormcaller = Class_Profile_Stormcaller,
-	MageOfShadows = Class_Profile_MageofShadows,
-	Hunter = Class_Profile_Hunter,
-	Leviathan = Class_Profile_Leviathan,
-	Starbreaker = Class_Profile_Starbreaker,
-	Necromancer = Class_Profile_Necromancer
-}
+local Class_Profile_Starbreaker = { DisplayName = "Starbreaker", Distance = "Melee", 	SkillInfo = { Class_Skill_StarbreakerUltimateHitInit, 		{ 2, "StarforgeExplosion", 25.1, "Ranged", 20 }, 		{ 10, "StarbreakerFlare", 10.1, "Ranged", 110 }, 		{ 4, "Nova", 7.1, "Ranged", 60 }, Class_Skill_StarbreakerUltimateHit, Class_Skill_StarbreakerWaves, 		{ 8, 			{ "Starbreaker", "StarbreakerBoosted" }, 0.61, "Melee", 15 }, Class_Remote_Skillset_Starbreaker_Starforge, 		{ 1, Skillset_Starbreaker_Ultimate, 1, "Remote", 115, SkipFirst = true } } }
+local Class_Skill_NecroDPS = { 9, "NecroDPS", 0.85, "Melee", 16, 	IncrementC = { 2, 0.35 } }
+local Class_Skill_SpiritExplosion0 = { 1, "SpiritExplosion0", 2.25, "Melee", 12, SkipFirst = true }
+local Class_Skill_SpiritExplosion1 = { 1, "SpiritExplosion1", 2.25, "Melee", 13, SkipFirst = true }
+local Class_Skill_SpiritExplosion2 = { 1, "SpiritExplosion2", 3, "Melee", 15, SkipFirst = true }
+local Class_Skill_SpiritExplosion3 = { 1, "SpiritExplosion3", 3.25, "Melee", 17, SkipFirst = true }
+local Class_Skill_SpiritExplosion4 = { 1, "SpiritExplosion4", 4, "Melee", 20, SkipFirst = true }
+local Class_Skill_UltScytheDrop = { 1, "UltScytheDrop", 30.1, "Ranged", 150, SkipFirst = true }
+local Class_Remote_Skillset_Necromancer_Ultimate = { 1, Remotes:WaitForChild("Skillset_Necromancer_Ultimate"), 1, "Remote", 150, SkipFirst = true }
+local Class_Profile_Necromancer = { DisplayName = "Necromancer", Distance = "Melee", 	SkillInfo = { Class_Skill_NecroDPS, Class_Skill_SpiritExplosion0, Class_Skill_SpiritExplosion1, Class_Skill_SpiritExplosion2, Class_Skill_SpiritExplosion3, Class_Skill_SpiritExplosion4, 		{ 5, "TombstoneRise", 4.2, "Melee", 25 }, 		{ 6, "SpiritCavern", 10.2, "Ranged", 150 }, Class_Skill_UltScytheDrop, Class_Remote_Skillset_Necromancer_Ultimate } }
+ClassTable = { Swordmaster = Class_Profile_Swordmaster, Defender = Class_Profile_Defender, Mage = Class_Profile_ArcaneMage, DualWielder = Class_Profile_DualWielder, IcefireMage = Class_Profile_Elementalist, Guardian = Class_Profile_Guardian, MageOfLight = Class_Profile_MageofLight, Paladin = Class_Profile_Paladin, Berserker = Class_Profile_Berserker, Archer = Class_Profile_SpiritArcher, Dragoon = Class_Profile_Dragoon, Demon = Class_Profile_Demon, Warlord = Class_Profile_Warlord, Summoner = Class_Profile_Summoner, Assassin = Class_Profile_Shadowblade, Stormcaller = Class_Profile_Stormcaller, MageOfShadows = Class_Profile_MageofShadows, Hunter = Class_Profile_Hunter, Leviathan = Class_Profile_Leviathan, Starbreaker = Class_Profile_Starbreaker, Necromancer = Class_Profile_Necromancer }
 return ClassTable
 
 ]=]
 
     _JWPetSrc = [=[
-local PetSkill_Bite = {
-	R = {
-		1,
-		"Bite",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_Scratch = {
-	R = {
-		1,
-		"Scratch",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_Fireball = {
-	R = {
-		1,
-		{
-			"PetFireball",
-			"PetFireballBlast"
-		},
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_FireballGreen = {
-	R = {
-		1,
-		{
-			"PetFireballGreen",
-			"PetFireballBlastGreen"
-		},
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_Iceball = {
-	R = {
-		1,
-		{
-			"PetIceball",
-			"PetIceballBlast"
-		},
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_PoisonSplash = {
-	R = {
-		1,
-		"PetPoisonSplash",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_HealPulse = {
-	R = {
-		1,
-		"PlayerPosition",
-		30.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_IcySpikes = {
-	R = {
-		1,
-		"PetIcySpikes",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_BlackFlame = {
-	R = {
-		6,
-		"PetBlackFlame",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_LightningStrike = {
-	R = {
-		5,
-		"PetLightningStrike",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_DireBlast = {
-	R = {
-		1,
-		"PetDireBlast",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_DragonBlast = {
-	R = {
-		3,
-		"PetAlphaDragon",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_FrontalFire = {
-	R = {
-		5,
-		"AetherPet",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_MiseryFire = {
-	R = {
-		5,
-		"MiseryPet",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_Unknown = {
-	R = {
-		5,
-		"MiseryPet",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_CerberusFire = {
-	R = {
-		5,
-		"CerberusFire",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_Wildfire = {
-	R = {
-		5,
-		"WildfirePet",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_SkeletalSlash = {
-	R = {
-		6,
-		"SkeletalSlash",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_DeathSlash = {
-	R = {
-		6,
-		"DeathSlash",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_HoodedSlash = {
-	R = {
-		1,
-		"HoodedSlash",
-		30.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_HoodedSlashPoison = {
-	R = {
-		1,
-		"HoodedSlashPoison",
-		25.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_PoisonBreath = {
-	R = {
-		3,
-		"PetPoisonBreath",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_TetheredHeal = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_Barrier = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_CrystalBarrier = {
-	R = {
-		1,
-		"PlayerPosition",
-		30.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_BlackHole = {
-	R = {
-		10,
-		"PetBlackHole",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_BlackHolePumpkin = {
-	R = {
-		10,
-		"PetBlackHolePumpkin",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_BlackHoleBlazing = {
-	R = {
-		10,
-		"PetBlackHoleBlazing",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_BlackHoleCabbage = {
-	R = {
-		10,
-		"PetBlackHoleCabbage",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_MeteorStrike = {
-	R = {
-		8,
-		"PetMeteorStrike",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_AlienStrike = {
-	R = {
-		8,
-		"PetAlienStrike",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_UltRing = {
-	R = {
-		1,
-		"PlayerPosition",
-		35.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_UltRingGalactic = {
-	R = {
-		6,
-		"PetGalactic",
-		35.1,
-		"Ranged"
-	}
-}
-local PetSkill_EquinoxMist = {
-	R = {
-		1,
-		"PlayerPosition",
-		40.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_RollingJimothy = {
-	R = {
-		4,
-		"Jimothy",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_BlackSheepAttack = {
-	R = {
-		4,
-		"BlackSheep",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_PinkSheepAttack = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_PurpleDragonAttack = {
-	R = {
-		2,
-		"PurpleDragon",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_CyberBeamAttack = {
-	R = {
-		2,
-		"CyberBeam",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_RedDragonAttack = {
-	R = {
-		7,
-		"RedDragon",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_HellhoundAttack = {
-	R = {
-		2,
-		"HellhoundAttack",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_PumpkinAttack = {
-	R = {
-		1,
-		"PumpkinAttack",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_CupidPetShockwave = {
-	R = {
-		1,
-		"CupidPetShockwave",
-		25.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_SkeledileAttack = {
-	R = {
-		9,
-		"SkeledileAttack",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_Whirlpool = {
-	R = {
-		8,
-		"WhirlpoolSmall",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_WhirlpoolIce = {
-	R = {
-		8,
-		"WhirlpoolSmallIce",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_HealReach = {
-	R = {
-		1,
-		"PlayerPosition",
-		30.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_HealReachPro = {
-	R = {
-		1,
-		"PlayerPosition",
-		30.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_RockAttack = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_BeeAttack = {
-	R = {
-		1,
-		"BeeAttack",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_BeeAttackPro = {
-	R = {
-		4,
-		"BeeAttack",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_CatAttack = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_CatAttackPro = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_GoldenRoad = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_GlyphAttack = {
-	R = {
-		1,
-		{
-			"Bite",
-			"PetFireball",
-			"PetFireballBlast",
-			"PetIcySpikes"
-		},
-		25.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_GlyphAttackPro = {
-	R = {
-		10,
-		"PetBlackHole",
-		20.1,
-		"Ranged"
-	},
-	EA = {
-		1,
-		{
-			"PetFireball",
-			"PetFireballBlast",
-			"PetIcySpikes"
-		},
-		20,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_FlameProtection = {
-	R = {
-		6,
-		"FlameProtection",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_FlameProtectionPurple = {
-	R = {
-		3,
-		"FlameProtectionPurple",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_AvatarFlameProtection = {
-	R = {
-		3,
-		"AvatarProtection",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_PurpleSheepAttack = {
-	R = {
-		4,
-		"PurpleSheep",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_MegaBite = {
-	R = {
-		1,
-		"MegaBite",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_MegaBitePro = {
-	R = {
-		1,
-		"MegaBitePro",
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_ChocolateSplash = {
-	R = {
-		5,
-		"ChocolateSplash",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_SlimeSplash = {
-	R = {
-		5,
-		"SlimeSplash",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_SlimeSplashFire = {
-	R = {
-		5,
-		"SlimeSplashFire",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_SlimeSplashPoison = {
-	R = {
-		5,
-		"SlimeSplashPoison",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_SlimeSplashIce = {
-	R = {
-		5,
-		"SlimeSplashIce",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_Cure = {
-	R = {
-		1,
-		"PlayerPosition",
-		15.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_CurePro = {
-	R = {
-		1,
-		"PlayerPosition",
-		15.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_Snowstorm = {
-	R = {
-		16,
-		"PetSnowstorm",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_CarrotStorm = {
-	R = {
-		20,
-		"PetCarrotStorm",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_ShadowEssence = {
-	R = {
-		20,
-		"ShadowEssence",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_ShiningCrystal = {
-	R = {
-		1,
-		"ShiningCrystal",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_ShiningCrystalPro = {
-	R = {
-		1,
-		"ShiningCrystalPro",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_CharmingHeart = {
-	R = {
-		4,
-		"CharmingHeart",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_CharmingBrokenHeart = {
-	R = {
-		4,
-		"CharmingBrokenHeart",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_CharmingHeartHeal = {
-	R = {
-		4,
-		"CharmingHeartHeal",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_CharmingSnowflake = {
-	R = {
-		4,
-		"CharmingSnowflake",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_SpiritBeam = {
-	R = {
-		5,
-		"SpiritBeam",
-		20.1,
-		"Ranged"
-	}
-}
-local PetSkill_SpiritBeamFire = {
-	R = {
-		5,
-		"SpiritBeamFire",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_SpiritBeamAether = {
-	R = {
-		5,
-		"SpiritBeamAether",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_SpiritBeamPoison = {
-	R = {
-		5,
-		"SpiritBeamPoison",
-		20.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_NaughtyOrNice = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_TurkeyFoodDrop = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_PenguinSlide = {
-	R = {
-		8,
-		"PenguinSlide",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_PenguinSlide_Aether = {
-	R = {
-		8,
-		"PenguinSlide_Aether",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_PenguinSlide_Frozen = {
-	R = {
-		8,
-		"PenguinSlide_Frozen",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_PenguinSlide_Burn = {
-	R = {
-		8,
-		"PenguinSlide_Burn",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_PenguinSlide_Poison = {
-	R = {
-		8,
-		"PenguinSlide_Poison",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_GMMoAttack = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_GMRodAttack = {
-	R = {
-		1,
-		"PlayerPosition",
-		25.1,
-		"Self",
-		SkipFirst = true
-	}
-}
-local PetSkill_GMKnoxAttack = {
-	R = {
-		1,
-		"KnoxAttack",
-		25.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_FireballDH = {
-	R = {
-		8,
-		"PetFireballDH",
-		15.1,
-		"Ranged"
-	},
-	EA = {
-		1,
-		{
-			"PetFireball",
-			"PetFireballBlast"
-		},
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_GargoyleSkill = {
-	R = {
-		5,
-		"GargoyleSkill",
-		30.1,
-		"Ranged"
-	}
-}
-local PetSkill_MoltenGolemAttack = {
-	R = {
-		4,
-		"MoltenGolemAttack",
-		25.1,
-		"Ranged"
-	}
-}
-local PetSkill_EvilClownSkill = {
-	R = {
-		1,
-		"PlayerPosition",
-		30.1,
-		"MobPosition",
-		SkipFirst = true
-	}
-}
-local PetSkill_TrippleFireball = {
-	R = {
-		3,
-		{
-			"PetFireball",
-			"PetFireballBlast"
-		},
-		15.1,
-		"Ranged",
-		SkipFirst = true
-	}
-}
-local PetSkill_IceShards = {
-	R = {
-		5,
-		"PetIceShards",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_ToxicThorns = {
-	R = {
-		4,
-		"PetToxicThorns",
-		20,
-		"Ranged"
-	}
-}
-local PetSkill_IgnisDragonPetAttack = {
-	R = {
-		8,
-		"IgnisDragonPetAttack",
-		15.1,
-		"Ranged"
-	}
-}
-local PetSkill_PinataParty = {
-	R = {
-		10,
-		"PetPinataParty",
-		20.1,
-		"Ranged"
-	}
-}
-PetSkills = {
-	Bite = PetSkill_Bite,
-	Scratch = PetSkill_Scratch,
-	Fireball = PetSkill_Fireball,
-	FireballGreen = PetSkill_FireballGreen,
-	Iceball = PetSkill_Iceball,
-	PoisonSplash = PetSkill_PoisonSplash,
-	HealPulse = PetSkill_HealPulse,
-	IcySpikes = PetSkill_IcySpikes,
-	BlackFlame = PetSkill_BlackFlame,
-	LightningStrike = PetSkill_LightningStrike,
-	DireBlast = PetSkill_DireBlast,
-	DragonBlast = PetSkill_DragonBlast,
-	FrontalFire = PetSkill_FrontalFire,
-	MiseryFire = PetSkill_MiseryFire,
-	Unknown = PetSkill_Unknown,
-	CerberusFire = PetSkill_CerberusFire,
-	Wildfire = PetSkill_Wildfire,
-	SkeletalSlash = PetSkill_SkeletalSlash,
-	DeathSlash = PetSkill_DeathSlash,
-	HoodedSlash = PetSkill_HoodedSlash,
-	HoodedSlashPoison = PetSkill_HoodedSlashPoison,
-	PoisonBreath = PetSkill_PoisonBreath,
-	TetheredHeal = PetSkill_TetheredHeal,
-	Barrier = PetSkill_Barrier,
-	CrystalBarrier = PetSkill_CrystalBarrier,
-	BlackHole = PetSkill_BlackHole,
-	BlackHolePumpkin = PetSkill_BlackHolePumpkin,
-	BlackHoleBlazing = PetSkill_BlackHoleBlazing,
-	BlackHoleCabbage = PetSkill_BlackHoleCabbage,
-	MeteorStrike = PetSkill_MeteorStrike,
-	AlienStrike = PetSkill_AlienStrike,
-	UltRing = PetSkill_UltRing,
-	UltRingGalactic = PetSkill_UltRingGalactic,
-	EquinoxMist = PetSkill_EquinoxMist,
-	RollingJimothy = PetSkill_RollingJimothy,
-	BlackSheepAttack = PetSkill_BlackSheepAttack,
-	PinkSheepAttack = PetSkill_PinkSheepAttack,
-	PurpleDragonAttack = PetSkill_PurpleDragonAttack,
-	CyberBeamAttack = PetSkill_CyberBeamAttack,
-	RedDragonAttack = PetSkill_RedDragonAttack,
-	HellhoundAttack = PetSkill_HellhoundAttack,
-	PumpkinAttack = PetSkill_PumpkinAttack,
-	CupidPetShockwave = PetSkill_CupidPetShockwave,
-	SkeledileAttack = PetSkill_SkeledileAttack,
-	Whirlpool = PetSkill_Whirlpool,
-	WhirlpoolIce = PetSkill_WhirlpoolIce,
-	HealReach = PetSkill_HealReach,
-	HealReachPro = PetSkill_HealReachPro,
-	RockAttack = PetSkill_RockAttack,
-	BeeAttack = PetSkill_BeeAttack,
-	BeeAttackPro = PetSkill_BeeAttackPro,
-	CatAttack = PetSkill_CatAttack,
-	CatAttackPro = PetSkill_CatAttackPro,
-	GoldenRoad = PetSkill_GoldenRoad,
-	GlyphAttack = PetSkill_GlyphAttack,
-	GlyphAttackPro = PetSkill_GlyphAttackPro,
-	FlameProtection = PetSkill_FlameProtection,
-	FlameProtectionPurple = PetSkill_FlameProtectionPurple,
-	AvatarFlameProtection = PetSkill_AvatarFlameProtection,
-	PurpleSheepAttack = PetSkill_PurpleSheepAttack,
-	MegaBite = PetSkill_MegaBite,
-	MegaBitePro = PetSkill_MegaBitePro,
-	ChocolateSplash = PetSkill_ChocolateSplash,
-	SlimeSplash = PetSkill_SlimeSplash,
-	SlimeSplashFire = PetSkill_SlimeSplashFire,
-	SlimeSplashPoison = PetSkill_SlimeSplashPoison,
-	SlimeSplashIce = PetSkill_SlimeSplashIce,
-	Cure = PetSkill_Cure,
-	CurePro = PetSkill_CurePro,
-	Snowstorm = PetSkill_Snowstorm,
-	CarrotStorm = PetSkill_CarrotStorm,
-	ShadowEssence = PetSkill_ShadowEssence,
-	ShiningCrystal = PetSkill_ShiningCrystal,
-	ShiningCrystalPro = PetSkill_ShiningCrystalPro,
-	CharmingHeart = PetSkill_CharmingHeart,
-	CharmingBrokenHeart = PetSkill_CharmingBrokenHeart,
-	CharmingHeartHeal = PetSkill_CharmingHeartHeal,
-	CharmingSnowflake = PetSkill_CharmingSnowflake,
-	SpiritBeam = PetSkill_SpiritBeam,
-	SpiritBeamFire = PetSkill_SpiritBeamFire,
-	SpiritBeamAether = PetSkill_SpiritBeamAether,
-	SpiritBeamPoison = PetSkill_SpiritBeamPoison,
-	NaughtyOrNice = PetSkill_NaughtyOrNice,
-	TurkeyFoodDrop = PetSkill_TurkeyFoodDrop,
-	PenguinSlide = PetSkill_PenguinSlide,
-	PenguinSlide_Aether = PetSkill_PenguinSlide_Aether,
-	PenguinSlide_Frozen = PetSkill_PenguinSlide_Frozen,
-	PenguinSlide_Burn = PetSkill_PenguinSlide_Burn,
-	PenguinSlide_Poison = PetSkill_PenguinSlide_Poison,
-	GMMoAttack = PetSkill_GMMoAttack,
-	GMRodAttack = PetSkill_GMRodAttack,
-	GMKnoxAttack = PetSkill_GMKnoxAttack,
-	FireballDH = PetSkill_FireballDH,
-	GargoyleSkill = PetSkill_GargoyleSkill,
-	MoltenGolemAttack = PetSkill_MoltenGolemAttack,
-	EvilClownSkill = PetSkill_EvilClownSkill,
-	TrippleFireball = PetSkill_TrippleFireball,
-	IceShards = PetSkill_IceShards,
-	ToxicThorns = PetSkill_ToxicThorns,
-	IgnisDragonPetAttack = PetSkill_IgnisDragonPetAttack,
-	PinataParty = PetSkill_PinataParty
-}
+local PetSkill_Bite = { 	R = { 1, "Bite", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_Scratch = { 	R = { 1, "Scratch", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_Fireball = { 	R = { 1, 		{ "PetFireball", "PetFireballBlast" }, 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_FireballGreen = { 	R = { 1, 		{ "PetFireballGreen", "PetFireballBlastGreen" }, 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_Iceball = { 	R = { 1, 		{ "PetIceball", "PetIceballBlast" }, 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_PoisonSplash = { 	R = { 1, "PetPoisonSplash", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_HealPulse = { 	R = { 1, "PlayerPosition", 30.1, "Self", SkipFirst = true } }
+local PetSkill_IcySpikes = { 	R = { 1, "PetIcySpikes", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_BlackFlame = { 	R = { 6, "PetBlackFlame", 20.1, "Ranged" } }
+local PetSkill_LightningStrike = { 	R = { 5, "PetLightningStrike", 25.1, "Ranged" } }
+local PetSkill_DireBlast = { 	R = { 1, "PetDireBlast", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_DragonBlast = { 	R = { 3, "PetAlphaDragon", 20.1, "Ranged" } }
+local PetSkill_FrontalFire = { 	R = { 5, "AetherPet", 30.1, "Ranged" } }
+local PetSkill_MiseryFire = { 	R = { 5, "MiseryPet", 30.1, "Ranged" } }
+local PetSkill_Unknown = { 	R = { 5, "MiseryPet", 30.1, "Ranged" } }
+local PetSkill_CerberusFire = { 	R = { 5, "CerberusFire", 30.1, "Ranged" } }
+local PetSkill_Wildfire = { 	R = { 5, "WildfirePet", 30.1, "Ranged" } }
+local PetSkill_SkeletalSlash = { 	R = { 6, "SkeletalSlash", 30.1, "Ranged" } }
+local PetSkill_DeathSlash = { 	R = { 6, "DeathSlash", 30.1, "Ranged" } }
+local PetSkill_HoodedSlash = { 	R = { 1, "HoodedSlash", 30.1, "Ranged", SkipFirst = true } }
+local PetSkill_HoodedSlashPoison = { 	R = { 1, "HoodedSlashPoison", 25.1, "Ranged", SkipFirst = true } }
+local PetSkill_PoisonBreath = { 	R = { 3, "PetPoisonBreath", 20.1, "Ranged" } }
+local PetSkill_TetheredHeal = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_Barrier = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_CrystalBarrier = { 	R = { 1, "PlayerPosition", 30.1, "Self", SkipFirst = true } }
+local PetSkill_BlackHole = { 	R = { 10, "PetBlackHole", 30.1, "Ranged" } }
+local PetSkill_BlackHolePumpkin = { 	R = { 10, "PetBlackHolePumpkin", 30.1, "Ranged" } }
+local PetSkill_BlackHoleBlazing = { 	R = { 10, "PetBlackHoleBlazing", 30.1, "Ranged" } }
+local PetSkill_BlackHoleCabbage = { 	R = { 10, "PetBlackHoleCabbage", 30.1, "Ranged" } }
+local PetSkill_MeteorStrike = { 	R = { 8, "PetMeteorStrike", 25.1, "Ranged" } }
+local PetSkill_AlienStrike = { 	R = { 8, "PetAlienStrike", 25.1, "Ranged" } }
+local PetSkill_UltRing = { 	R = { 1, "PlayerPosition", 35.1, "Self", SkipFirst = true } }
+local PetSkill_UltRingGalactic = { 	R = { 6, "PetGalactic", 35.1, "Ranged" } }
+local PetSkill_EquinoxMist = { 	R = { 1, "PlayerPosition", 40.1, "Self", SkipFirst = true } }
+local PetSkill_RollingJimothy = { 	R = { 4, "Jimothy", 20.1, "Ranged" } }
+local PetSkill_BlackSheepAttack = { 	R = { 4, "BlackSheep", 20.1, "Ranged" } }
+local PetSkill_PinkSheepAttack = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_PurpleDragonAttack = { 	R = { 2, "PurpleDragon", 15.1, "Ranged" } }
+local PetSkill_CyberBeamAttack = { 	R = { 2, "CyberBeam", 15.1, "Ranged" } }
+local PetSkill_RedDragonAttack = { 	R = { 7, "RedDragon", 25.1, "Ranged" } }
+local PetSkill_HellhoundAttack = { 	R = { 2, "HellhoundAttack", 15.1, "Ranged" } }
+local PetSkill_PumpkinAttack = { 	R = { 1, "PumpkinAttack", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_CupidPetShockwave = { 	R = { 1, "CupidPetShockwave", 25.1, "Ranged", SkipFirst = true } }
+local PetSkill_SkeledileAttack = { 	R = { 9, "SkeledileAttack", 20.1, "Ranged" } }
+local PetSkill_Whirlpool = { 	R = { 8, "WhirlpoolSmall", 25.1, "Ranged" } }
+local PetSkill_WhirlpoolIce = { 	R = { 8, "WhirlpoolSmallIce", 20.1, "Ranged" } }
+local PetSkill_HealReach = { 	R = { 1, "PlayerPosition", 30.1, "Self", SkipFirst = true } }
+local PetSkill_HealReachPro = { 	R = { 1, "PlayerPosition", 30.1, "Self", SkipFirst = true } }
+local PetSkill_RockAttack = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_BeeAttack = { 	R = { 1, "BeeAttack", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_BeeAttackPro = { 	R = { 4, "BeeAttack", 15.1, "Ranged" } }
+local PetSkill_CatAttack = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_CatAttackPro = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_GoldenRoad = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_GlyphAttack = { 	R = { 1, 		{ "Bite", "PetFireball", "PetFireballBlast", "PetIcySpikes" }, 25.1, "Ranged", SkipFirst = true } }
+local PetSkill_GlyphAttackPro = { 	R = { 10, "PetBlackHole", 20.1, "Ranged" }, 	EA = { 1, 		{ "PetFireball", "PetFireballBlast", "PetIcySpikes" }, 20, "Ranged", SkipFirst = true } }
+local PetSkill_FlameProtection = { 	R = { 6, "FlameProtection", 20.1, "Ranged" } }
+local PetSkill_FlameProtectionPurple = { 	R = { 3, "FlameProtectionPurple", 20.1, "Ranged" } }
+local PetSkill_AvatarFlameProtection = { 	R = { 3, "AvatarProtection", 20.1, "Ranged" } }
+local PetSkill_PurpleSheepAttack = { 	R = { 4, "PurpleSheep", 20.1, "Ranged" } }
+local PetSkill_MegaBite = { 	R = { 1, "MegaBite", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_MegaBitePro = { 	R = { 1, "MegaBitePro", 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_ChocolateSplash = { 	R = { 5, "ChocolateSplash", 30.1, "Ranged" } }
+local PetSkill_SlimeSplash = { 	R = { 5, "SlimeSplash", 30.1, "Ranged" } }
+local PetSkill_SlimeSplashFire = { 	R = { 5, "SlimeSplashFire", 30.1, "Ranged" } }
+local PetSkill_SlimeSplashPoison = { 	R = { 5, "SlimeSplashPoison", 30.1, "Ranged" } }
+local PetSkill_SlimeSplashIce = { 	R = { 5, "SlimeSplashIce", 30.1, "Ranged" } }
+local PetSkill_Cure = { 	R = { 1, "PlayerPosition", 15.1, "Self", SkipFirst = true } }
+local PetSkill_CurePro = { 	R = { 1, "PlayerPosition", 15.1, "Self", SkipFirst = true } }
+local PetSkill_Snowstorm = { 	R = { 16, "PetSnowstorm", 30.1, "Ranged" } }
+local PetSkill_CarrotStorm = { 	R = { 20, "PetCarrotStorm", 30.1, "Ranged" } }
+local PetSkill_ShadowEssence = { 	R = { 20, "ShadowEssence", 30.1, "Ranged" } }
+local PetSkill_ShiningCrystal = { 	R = { 1, "ShiningCrystal", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_ShiningCrystalPro = { 	R = { 1, "ShiningCrystalPro", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_CharmingHeart = { 	R = { 4, "CharmingHeart", 25.1, "Ranged" } }
+local PetSkill_CharmingBrokenHeart = { 	R = { 4, "CharmingBrokenHeart", 25.1, "Ranged" } }
+local PetSkill_CharmingHeartHeal = { 	R = { 4, "CharmingHeartHeal", 25.1, "Ranged" } }
+local PetSkill_CharmingSnowflake = { 	R = { 4, "CharmingSnowflake", 25.1, "Ranged" } }
+local PetSkill_SpiritBeam = { 	R = { 5, "SpiritBeam", 20.1, "Ranged" } }
+local PetSkill_SpiritBeamFire = { 	R = { 5, "SpiritBeamFire", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_SpiritBeamAether = { 	R = { 5, "SpiritBeamAether", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_SpiritBeamPoison = { 	R = { 5, "SpiritBeamPoison", 20.1, "Ranged", SkipFirst = true } }
+local PetSkill_NaughtyOrNice = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_TurkeyFoodDrop = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_PenguinSlide = { 	R = { 8, "PenguinSlide", 30.1, "Ranged" } }
+local PetSkill_PenguinSlide_Aether = { 	R = { 8, "PenguinSlide_Aether", 30.1, "Ranged" } }
+local PetSkill_PenguinSlide_Frozen = { 	R = { 8, "PenguinSlide_Frozen", 30.1, "Ranged" } }
+local PetSkill_PenguinSlide_Burn = { 	R = { 8, "PenguinSlide_Burn", 30.1, "Ranged" } }
+local PetSkill_PenguinSlide_Poison = { 	R = { 8, "PenguinSlide_Poison", 30.1, "Ranged" } }
+local PetSkill_GMMoAttack = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_GMRodAttack = { 	R = { 1, "PlayerPosition", 25.1, "Self", SkipFirst = true } }
+local PetSkill_GMKnoxAttack = { 	R = { 1, "KnoxAttack", 25.1, "Ranged", SkipFirst = true } }
+local PetSkill_FireballDH = { 	R = { 8, "PetFireballDH", 15.1, "Ranged" }, 	EA = { 1, 		{ "PetFireball", "PetFireballBlast" }, 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_GargoyleSkill = { 	R = { 5, "GargoyleSkill", 30.1, "Ranged" } }
+local PetSkill_MoltenGolemAttack = { 	R = { 4, "MoltenGolemAttack", 25.1, "Ranged" } }
+local PetSkill_EvilClownSkill = { 	R = { 1, "PlayerPosition", 30.1, "MobPosition", SkipFirst = true } }
+local PetSkill_TrippleFireball = { 	R = { 3, 		{ "PetFireball", "PetFireballBlast" }, 15.1, "Ranged", SkipFirst = true } }
+local PetSkill_IceShards = { 	R = { 5, "PetIceShards", 15.1, "Ranged" } }
+local PetSkill_ToxicThorns = { 	R = { 4, "PetToxicThorns", 20, "Ranged" } }
+local PetSkill_IgnisDragonPetAttack = { 	R = { 8, "IgnisDragonPetAttack", 15.1, "Ranged" } }
+local PetSkill_PinataParty = { 	R = { 10, "PetPinataParty", 20.1, "Ranged" } }
+PetSkills = { Bite = PetSkill_Bite, Scratch = PetSkill_Scratch, Fireball = PetSkill_Fireball, FireballGreen = PetSkill_FireballGreen, Iceball = PetSkill_Iceball, PoisonSplash = PetSkill_PoisonSplash, HealPulse = PetSkill_HealPulse, IcySpikes = PetSkill_IcySpikes, BlackFlame = PetSkill_BlackFlame, LightningStrike = PetSkill_LightningStrike, DireBlast = PetSkill_DireBlast, DragonBlast = PetSkill_DragonBlast, FrontalFire = PetSkill_FrontalFire, MiseryFire = PetSkill_MiseryFire, Unknown = PetSkill_Unknown, CerberusFire = PetSkill_CerberusFire, Wildfire = PetSkill_Wildfire, SkeletalSlash = PetSkill_SkeletalSlash, DeathSlash = PetSkill_DeathSlash, HoodedSlash = PetSkill_HoodedSlash, HoodedSlashPoison = PetSkill_HoodedSlashPoison, PoisonBreath = PetSkill_PoisonBreath, TetheredHeal = PetSkill_TetheredHeal, Barrier = PetSkill_Barrier, CrystalBarrier = PetSkill_CrystalBarrier, BlackHole = PetSkill_BlackHole, BlackHolePumpkin = PetSkill_BlackHolePumpkin, BlackHoleBlazing = PetSkill_BlackHoleBlazing, BlackHoleCabbage = PetSkill_BlackHoleCabbage, MeteorStrike = PetSkill_MeteorStrike, AlienStrike = PetSkill_AlienStrike, UltRing = PetSkill_UltRing, UltRingGalactic = PetSkill_UltRingGalactic, EquinoxMist = PetSkill_EquinoxMist, RollingJimothy = PetSkill_RollingJimothy, BlackSheepAttack = PetSkill_BlackSheepAttack, PinkSheepAttack = PetSkill_PinkSheepAttack, PurpleDragonAttack = PetSkill_PurpleDragonAttack, CyberBeamAttack = PetSkill_CyberBeamAttack, RedDragonAttack = PetSkill_RedDragonAttack, HellhoundAttack = PetSkill_HellhoundAttack, PumpkinAttack = PetSkill_PumpkinAttack, CupidPetShockwave = PetSkill_CupidPetShockwave, SkeledileAttack = PetSkill_SkeledileAttack, Whirlpool = PetSkill_Whirlpool, WhirlpoolIce = PetSkill_WhirlpoolIce, HealReach = PetSkill_HealReach, HealReachPro = PetSkill_HealReachPro, RockAttack = PetSkill_RockAttack, BeeAttack = PetSkill_BeeAttack, BeeAttackPro = PetSkill_BeeAttackPro, CatAttack = PetSkill_CatAttack, CatAttackPro = PetSkill_CatAttackPro, GoldenRoad = PetSkill_GoldenRoad, GlyphAttack = PetSkill_GlyphAttack, GlyphAttackPro = PetSkill_GlyphAttackPro, FlameProtection = PetSkill_FlameProtection, FlameProtectionPurple = PetSkill_FlameProtectionPurple, AvatarFlameProtection = PetSkill_AvatarFlameProtection, PurpleSheepAttack = PetSkill_PurpleSheepAttack, MegaBite = PetSkill_MegaBite, MegaBitePro = PetSkill_MegaBitePro, ChocolateSplash = PetSkill_ChocolateSplash, SlimeSplash = PetSkill_SlimeSplash, SlimeSplashFire = PetSkill_SlimeSplashFire, SlimeSplashPoison = PetSkill_SlimeSplashPoison, SlimeSplashIce = PetSkill_SlimeSplashIce, Cure = PetSkill_Cure, CurePro = PetSkill_CurePro, Snowstorm = PetSkill_Snowstorm, CarrotStorm = PetSkill_CarrotStorm, ShadowEssence = PetSkill_ShadowEssence, ShiningCrystal = PetSkill_ShiningCrystal, ShiningCrystalPro = PetSkill_ShiningCrystalPro, CharmingHeart = PetSkill_CharmingHeart, CharmingBrokenHeart = PetSkill_CharmingBrokenHeart, CharmingHeartHeal = PetSkill_CharmingHeartHeal, CharmingSnowflake = PetSkill_CharmingSnowflake, SpiritBeam = PetSkill_SpiritBeam, SpiritBeamFire = PetSkill_SpiritBeamFire, SpiritBeamAether = PetSkill_SpiritBeamAether, SpiritBeamPoison = PetSkill_SpiritBeamPoison, NaughtyOrNice = PetSkill_NaughtyOrNice, TurkeyFoodDrop = PetSkill_TurkeyFoodDrop, PenguinSlide = PetSkill_PenguinSlide, PenguinSlide_Aether = PetSkill_PenguinSlide_Aether, PenguinSlide_Frozen = PetSkill_PenguinSlide_Frozen, PenguinSlide_Burn = PetSkill_PenguinSlide_Burn, PenguinSlide_Poison = PetSkill_PenguinSlide_Poison, GMMoAttack = PetSkill_GMMoAttack, GMRodAttack = PetSkill_GMRodAttack, GMKnoxAttack = PetSkill_GMKnoxAttack, FireballDH = PetSkill_FireballDH, GargoyleSkill = PetSkill_GargoyleSkill, MoltenGolemAttack = PetSkill_MoltenGolemAttack, EvilClownSkill = PetSkill_EvilClownSkill, TrippleFireball = PetSkill_TrippleFireball, IceShards = PetSkill_IceShards, ToxicThorns = PetSkill_ToxicThorns, IgnisDragonPetAttack = PetSkill_IgnisDragonPetAttack, PinataParty = PetSkill_PinataParty }
 return PetSkills
 
 ]=]
@@ -16221,9 +11158,7 @@ return PetSkills
             scheme.FontColor = scheme.FontColor or Color3.fromRGB(246, 246, 252)
 
             pcall(function()
-                if Library and Library.UpdateColorsUsingRegistry then
-                    Library:UpdateColorsUsingRegistry()
-                end
+                if Library and Library.UpdateColorsUsingRegistry then Library:UpdateColorsUsingRegistry() end
             end)
         end
     end
@@ -16246,9 +11181,7 @@ return PetSkills
         local TweenServiceLocal = game:GetService("TweenService")
         local LoadingScreen = Loading and Loading.ScreenGui
 
-        if not LoadingScreen then
-            return
-        end
+        if not LoadingScreen then return end
 
         local MainFrame = LoadingScreen:FindFirstChild("Main")
 
@@ -16272,15 +11205,11 @@ return PetSkills
 
             local ProgressFill = ProgressBar:FindFirstChild("SliderFill")
 
-            if ProgressFill then
-                ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            end
+            if ProgressFill then ProgressFill.BackgroundColor3 = Color3.fromRGB(255, 255, 255) end
 
             local ProgressLabel = ProgressBar:FindFirstChildOfClass("TextLabel")
 
-            if ProgressLabel then
-                ProgressLabel.Visible = false
-            end
+            if ProgressLabel then ProgressLabel.Visible = false end
         end
     end)
     local DamageIncrease = 0
@@ -16301,342 +11230,54 @@ return PetSkills
     UpdateLoadProgress()
     task.wait()
     _G.ScriptStep = "creating important tables"
-    local MissionStartConfig = {
-		"MissionStart",
-		DescendantCheck = true
-	}
+    local MissionStartConfig = { "MissionStart", DescendantCheck = true }
     local MissionScriptList = { MissionStartConfig }
     task.wait()
-    local CosmeticItemNames = {
-		"ChakraWings",
-		"EclipseHalo",
-		"SlayerUniformM",
-		"SlayerUniformF",
-		"AcademyBackpack",
-		"GemstoneHeadband",
-		"PsychicGlasses",
-		"FlameEars"
-	}
+    local CosmeticItemNames = { "ChakraWings", "EclipseHalo", "SlayerUniformM", "SlayerUniformF", "AcademyBackpack", "GemstoneHeadband", "PsychicGlasses", "FlameEars" }
     task.wait()
-    local HexColorList = {
-		"ffffff",
-		"000000",
-		"e6e6e6",
-		"1e1e1e",
-		"d4af37",
-		"11ccee",
-		"ffaabb",
-		"ddeadd",
-		"dec0de",
-		"b00000",
-		"bbaadd",
-		"c0aa11",
-		"00bdae",
-		"55eeaa",
-		"ffaded",
-		"beeeee",
-		"ffaaee",
-		"ac11dd",
-		"acce55",
-		"ff0011",
-		"decade",
-		"deeeed",
-		"deeee1"
-	}
+    local HexColorList = { "ffffff", "000000", "e6e6e6", "1e1e1e", "d4af37", "11ccee", "ffaabb", "ddeadd", "dec0de", "b00000", "bbaadd", "c0aa11", "00bdae", "55eeaa", "ffaded", "beeeee", "ffaaee", "ac11dd", "acce55", "ff0011", "decade", "deeeed", "deeee1" }
     task.wait()
-    local EggNameList = {
-		"StarEgg",
-		"JungleEgg",
-		"CrystalEgg",
-		"ChristmasEgg",
-		"DesertEgg",
-		"MoltenEgg",
-		"OceanEgg",
-		"SkyEgg",
-		"CatEgg",
-		"CatEggHalloween",
-		"AlligatorEgg",
-		"FairyEgg",
-		"AetherEgg",
-		"CabbageEgg",
-		"SkeletonEgg",
-		"CupidEgg",
-		"SlimeEgg",
-		"TeddyEgg",
-		"SantaEgg",
-		"ArcaneEgg",
-		"GhostEgg",
-		"PenguinEgg",
-		"RobloxEventEggHatchable",
-		"GoldenEgg",
-		"MiseryEgg",
-		"BunnyEgg",
-		"RheaEgg"
-	}
+    local EggNameList = { "StarEgg", "JungleEgg", "CrystalEgg", "ChristmasEgg", "DesertEgg", "MoltenEgg", "OceanEgg", "SkyEgg", "CatEgg", "CatEggHalloween", "AlligatorEgg", "FairyEgg", "AetherEgg", "CabbageEgg", "SkeletonEgg", "CupidEgg", "SlimeEgg", "TeddyEgg", "SantaEgg", "ArcaneEgg", "GhostEgg", "PenguinEgg", "RobloxEventEggHatchable", "GoldenEgg", "MiseryEgg", "BunnyEgg", "RheaEgg" }
     task.wait()
-    local SpecialEggMap = {
-		MoltenEgg = true,
-		OceanEgg = true,
-		SkyEgg = true,
-		AlligatorEgg = true,
-		FairyEgg = true,
-		ArcaneEgg = true
-	}
+    local SpecialEggMap = { MoltenEgg = true, OceanEgg = true, SkyEgg = true, AlligatorEgg = true, FairyEgg = true, ArcaneEgg = true }
     task.wait()
-    local NightmarePortalConfig = {
-		Level = 150,
-		DungeonName = "Nightmare Portal",
-		DungeonDelay = 60,
-		DungeonID = 1005
-	}
-    local AstralAcademyConfig = {
-		Level = 135,
-		DungeonName = "Astral Academy",
-		DungeonDelay = 135,
-		DungeonID = 42
-	}
-    local CrystalChaosConfig = {
-		Level = 130,
-		DungeonName = "Crystal Chaos",
-		DungeonDelay = 115,
-		DungeonID = 41
-	}
-    local AetherFortressConfig = {
-		Level = 120,
-		DungeonName = "Aether Fortress",
-		DungeonDelay = 45,
-		DungeonID = 33
-	}
-    local TreetopTroubleConfig = {
-		Level = 115,
-		DungeonName = "Treetop Trouble",
-		DungeonDelay = 90,
-		DungeonID = 32
-	}
-    local RuinRushConfig = {
-		Level = 105,
-		DungeonName = "Ruin Rush",
-		DungeonDelay = 65,
-		DungeonID = 31
-	}
-    local RescueInTheRuinsConfig = {
-		Level = 100,
-		DungeonName = "Rescue in the Ruins",
-		DungeonDelay = 78,
-		DungeonID = 30
-	}
-    local TheLabyrinthConfig = {
-		Level = 95,
-		DungeonName = "The Labyrinth",
-		DungeonDelay = 20,
-		DungeonID = 37
-	}
-    local TheUnderworldConfig = {
-		Level = 90,
-		DungeonName = "The Underworld",
-		DungeonDelay = 85,
-		DungeonID = 26
-	}
-    local TreasureHuntConfig = {
-		Level = 80,
-		DungeonName = "Treasure Hunt",
-		DungeonDelay = 36,
-		DungeonID = 36
-	}
-    local RoughWatersConfig = {
-		Level = 75,
-		DungeonName = "Rough Waters",
-		DungeonDelay = 55,
-		DungeonID = 25
-	}
-    local KonohInfernoConfig = {
-		Level = 65,
-		DungeonName = "Konoh Inferno",
-		DungeonDelay = 40,
-		DungeonID = 35
-	}
-    local KonohHeartlandsConfig = {
-		Level = 60,
-		DungeonName = "Konoh Heartlands",
-		DungeonDelay = 45,
-		DungeonID = 24
-	}
-    local PyramidDungeonConfig = {
-		Level = 55,
-		DungeonName = "Pyramid Dungeon",
-		DungeonDelay = 40,
-		DungeonID = 18
-	}
-    local DesertedBurrowmineConfig = {
-		Level = 50,
-		DungeonName = "Deserted Burrowmine",
-		DungeonDelay = 40,
-		DungeonID = 19
-	}
-    local ScrapCanyonConfig = {
-		Level = 45,
-		DungeonName = "Scrap Canyon",
-		DungeonDelay = 50,
-		DungeonID = 20
-	}
-    local WinterDungeonConfig = {
-		Level = 40,
-		DungeonName = "Winter Dungeon",
-		DungeonDelay = 60,
-		DungeonID = 16
-	}
-    local WinterCavernConfig = {
-		Level = 35,
-		DungeonName = "Winter Cavern",
-		DungeonDelay = 20,
-		DungeonID = 15
-	}
-    local MountainPassConfig = {
-		Level = 30,
-		DungeonName = "Mountain Pass",
-		DungeonDelay = 35,
-		DungeonID = 14
-	}
-    local VolcanoDungeonConfig = {
-		Level = 26,
-		DungeonName = "Volcano Dungeon",
-		DungeonDelay = 40,
-		DungeonID = 7
-	}
-    local VolcanoShadowConfig = {
-		Level = 22,
-		DungeonName = "Volcano's Shadow",
-		DungeonDelay = 59,
-		DungeonID = 13
-	}
-    local MamaTraumaConfig = {
-		Level = 18,
-		DungeonName = "Mama Trauma",
-		DungeonDelay = 35,
-		DungeonID = 12
-	}
-    local TempleOfRuinConfig = {
-		Level = 15,
-		DungeonName = "Temble of Ruin",
-		DungeonDelay = 33,
-		DungeonID = 11
-	}
-    local GravetowerDungeonConfig = {
-		Level = 12,
-		DungeonName = "Gravetower Dungeon",
-		DungeonDelay = 45,
-		DungeonID = 6
-	}
-    local KingslayerConfig = {
-		Level = 10,
-		DungeonName = "Kingslayer",
-		DungeonDelay = 32,
-		DungeonID = 4
-	}
-    local DireProblemConfig = {
-		Level = 7,
-		DungeonName = "Dire Problem",
-		DungeonDelay = 15,
-		DungeonID = 2
-	}
-    local ScarecrowDefenseConfig = {
-		Level = 4,
-		DungeonName = "Scarecrow Defense",
-		DungeonDelay = 20,
-		DungeonID = 3
-	}
-    local CrabbyCrusadeConfig = {
-		Level = 1,
-		DungeonName = "Crabby Crusade",
-		DungeonDelay = 20,
-		DungeonID = 1
-	}
-    local CelestialTowerConfig = {
-		Level = 0,
-		DungeonName = "Celestial Tower",
-		DungeonDelay = 580,
-		DungeonID = 39
-	}
-    local ArcaneTowerConfig = {
-		Level = 0,
-		DungeonName = "Arcane Tower",
-		DungeonDelay = 320,
-		DungeonID = 43
-	}
-    local AetherTowerConfig = {
-		Level = 0,
-		DungeonName = "Aether Tower",
-		DungeonDelay = 270,
-		DungeonID = 34
-	}
-    local OasisTowerConfig = {
-		Level = 0,
-		DungeonName = "Oasis Tower",
-		DungeonDelay = 280,
-		DungeonID = 29
-	}
-    local MezuvianTowerConfig = {
-		Level = 0,
-		DungeonName = "Mezuvian Tower",
-		DungeonDelay = 270,
-		DungeonID = 27
-	}
-    local AtlantisTowerConfig = {
-		Level = 0,
-		DungeonName = "Atlantis Tower",
-		DungeonDelay = 279,
-		DungeonID = 23
-	}
-    local PrisonTowerConfig = {
-		Level = 0,
-		DungeonName = "Prison Tower",
-		DungeonDelay = 240,
-		DungeonID = 21
-	}
-    local InfiniteTowerConfig = {
-		Level = 0,
-		DungeonName = "Infinite Tower",
-		DungeonDelay = 0,
-		DungeonID = 38
-	}
-    local DungeonConfigList = {
-		NightmarePortalConfig,
-		AstralAcademyConfig,
-		CrystalChaosConfig,
-		AetherFortressConfig,
-		TreetopTroubleConfig,
-		RuinRushConfig,
-		RescueInTheRuinsConfig,
-		TheLabyrinthConfig,
-		TheUnderworldConfig,
-		TreasureHuntConfig,
-		RoughWatersConfig,
-		KonohInfernoConfig,
-		KonohHeartlandsConfig,
-		PyramidDungeonConfig,
-		DesertedBurrowmineConfig,
-		ScrapCanyonConfig,
-		WinterDungeonConfig,
-		WinterCavernConfig,
-		MountainPassConfig,
-		VolcanoDungeonConfig,
-		VolcanoShadowConfig,
-		MamaTraumaConfig,
-		TempleOfRuinConfig,
-		GravetowerDungeonConfig,
-		KingslayerConfig,
-		DireProblemConfig,
-		ScarecrowDefenseConfig,
-		CrabbyCrusadeConfig,
-		CelestialTowerConfig,
-		ArcaneTowerConfig,
-		AetherTowerConfig,
-		OasisTowerConfig,
-		MezuvianTowerConfig,
-		AtlantisTowerConfig,
-		PrisonTowerConfig,
-		InfiniteTowerConfig
-	}
+    local NightmarePortalConfig = { Level = 150, DungeonName = "Nightmare Portal", DungeonDelay = 60, DungeonID = 1005 }
+    local AstralAcademyConfig = { Level = 135, DungeonName = "Astral Academy", DungeonDelay = 135, DungeonID = 42 }
+    local CrystalChaosConfig = { Level = 130, DungeonName = "Crystal Chaos", DungeonDelay = 115, DungeonID = 41 }
+    local AetherFortressConfig = { Level = 120, DungeonName = "Aether Fortress", DungeonDelay = 45, DungeonID = 33 }
+    local TreetopTroubleConfig = { Level = 115, DungeonName = "Treetop Trouble", DungeonDelay = 90, DungeonID = 32 }
+    local RuinRushConfig = { Level = 105, DungeonName = "Ruin Rush", DungeonDelay = 65, DungeonID = 31 }
+    local RescueInTheRuinsConfig = { Level = 100, DungeonName = "Rescue in the Ruins", DungeonDelay = 78, DungeonID = 30 }
+    local TheLabyrinthConfig = { Level = 95, DungeonName = "The Labyrinth", DungeonDelay = 20, DungeonID = 37 }
+    local TheUnderworldConfig = { Level = 90, DungeonName = "The Underworld", DungeonDelay = 85, DungeonID = 26 }
+    local TreasureHuntConfig = { Level = 80, DungeonName = "Treasure Hunt", DungeonDelay = 36, DungeonID = 36 }
+    local RoughWatersConfig = { Level = 75, DungeonName = "Rough Waters", DungeonDelay = 55, DungeonID = 25 }
+    local KonohInfernoConfig = { Level = 65, DungeonName = "Konoh Inferno", DungeonDelay = 40, DungeonID = 35 }
+    local KonohHeartlandsConfig = { Level = 60, DungeonName = "Konoh Heartlands", DungeonDelay = 45, DungeonID = 24 }
+    local PyramidDungeonConfig = { Level = 55, DungeonName = "Pyramid Dungeon", DungeonDelay = 40, DungeonID = 18 }
+    local DesertedBurrowmineConfig = { Level = 50, DungeonName = "Deserted Burrowmine", DungeonDelay = 40, DungeonID = 19 }
+    local ScrapCanyonConfig = { Level = 45, DungeonName = "Scrap Canyon", DungeonDelay = 50, DungeonID = 20 }
+    local WinterDungeonConfig = { Level = 40, DungeonName = "Winter Dungeon", DungeonDelay = 60, DungeonID = 16 }
+    local WinterCavernConfig = { Level = 35, DungeonName = "Winter Cavern", DungeonDelay = 20, DungeonID = 15 }
+    local MountainPassConfig = { Level = 30, DungeonName = "Mountain Pass", DungeonDelay = 35, DungeonID = 14 }
+    local VolcanoDungeonConfig = { Level = 26, DungeonName = "Volcano Dungeon", DungeonDelay = 40, DungeonID = 7 }
+    local VolcanoShadowConfig = { Level = 22, DungeonName = "Volcano's Shadow", DungeonDelay = 59, DungeonID = 13 }
+    local MamaTraumaConfig = { Level = 18, DungeonName = "Mama Trauma", DungeonDelay = 35, DungeonID = 12 }
+    local TempleOfRuinConfig = { Level = 15, DungeonName = "Temble of Ruin", DungeonDelay = 33, DungeonID = 11 }
+    local GravetowerDungeonConfig = { Level = 12, DungeonName = "Gravetower Dungeon", DungeonDelay = 45, DungeonID = 6 }
+    local KingslayerConfig = { Level = 10, DungeonName = "Kingslayer", DungeonDelay = 32, DungeonID = 4 }
+    local DireProblemConfig = { Level = 7, DungeonName = "Dire Problem", DungeonDelay = 15, DungeonID = 2 }
+    local ScarecrowDefenseConfig = { Level = 4, DungeonName = "Scarecrow Defense", DungeonDelay = 20, DungeonID = 3 }
+    local CrabbyCrusadeConfig = { Level = 1, DungeonName = "Crabby Crusade", DungeonDelay = 20, DungeonID = 1 }
+    local CelestialTowerConfig = { Level = 0, DungeonName = "Celestial Tower", DungeonDelay = 580, DungeonID = 39 }
+    local ArcaneTowerConfig = { Level = 0, DungeonName = "Arcane Tower", DungeonDelay = 320, DungeonID = 43 }
+    local AetherTowerConfig = { Level = 0, DungeonName = "Aether Tower", DungeonDelay = 270, DungeonID = 34 }
+    local OasisTowerConfig = { Level = 0, DungeonName = "Oasis Tower", DungeonDelay = 280, DungeonID = 29 }
+    local MezuvianTowerConfig = { Level = 0, DungeonName = "Mezuvian Tower", DungeonDelay = 270, DungeonID = 27 }
+    local AtlantisTowerConfig = { Level = 0, DungeonName = "Atlantis Tower", DungeonDelay = 279, DungeonID = 23 }
+    local PrisonTowerConfig = { Level = 0, DungeonName = "Prison Tower", DungeonDelay = 240, DungeonID = 21 }
+    local InfiniteTowerConfig = { Level = 0, DungeonName = "Infinite Tower", DungeonDelay = 0, DungeonID = 38 }
+    local DungeonConfigList = { NightmarePortalConfig, AstralAcademyConfig, CrystalChaosConfig, AetherFortressConfig, TreetopTroubleConfig, RuinRushConfig, RescueInTheRuinsConfig, TheLabyrinthConfig, TheUnderworldConfig, TreasureHuntConfig, RoughWatersConfig, KonohInfernoConfig, KonohHeartlandsConfig, PyramidDungeonConfig, DesertedBurrowmineConfig, ScrapCanyonConfig, WinterDungeonConfig, WinterCavernConfig, MountainPassConfig, VolcanoDungeonConfig, VolcanoShadowConfig, MamaTraumaConfig, TempleOfRuinConfig, GravetowerDungeonConfig, KingslayerConfig, DireProblemConfig, ScarecrowDefenseConfig, CrabbyCrusadeConfig, CelestialTowerConfig, ArcaneTowerConfig, AetherTowerConfig, OasisTowerConfig, MezuvianTowerConfig, AtlantisTowerConfig, PrisonTowerConfig, InfiniteTowerConfig }
     task.wait()
     local MissionScriptRef = {}
     _G.ScriptStep = "loading script functions"
@@ -16655,17 +11296,11 @@ return PetSkills
         local minutes = math.floor(totalSeconds % 3600 / 60)
         local seconds = math.floor(totalSeconds % 60)
 
-        if totalSeconds < 60 then
-            return tostring((math.floor(totalSeconds))) .. "s"
-        end
+        if totalSeconds < 60 then return tostring((math.floor(totalSeconds))) .. "s" end
 
-        if totalSeconds < 3600 then
-            return string.format("%d:%02d", minutes, seconds)
-        end
+        if totalSeconds < 3600 then return string.format("%d:%02d", minutes, seconds) end
 
-        if totalSeconds < 86400 then
-            return string.format("%d:%02d:%02d", hours, minutes, seconds)
-        end
+        if totalSeconds < 86400 then return string.format("%d:%02d:%02d", hours, minutes, seconds) end
 
         return string.format("%d:%02d:%02d:%02d", days, hours, minutes, seconds)
     end
@@ -16690,9 +11325,7 @@ return PetSkills
     local ConnectMissionCleared = function()
         if InDungeon then
             Workspace:GetAttributeChangedSignal("MissionCleared"):Once(function()
-                if IsMissionCleared() then
-                    print("Mission is finished")
-                end
+                if IsMissionCleared() then print("Mission is finished") end
             end)
         end
     end
@@ -16708,23 +11341,13 @@ return PetSkills
                         Settings.PartyRaidID = RaidID.Value
 
                         if not Settings.CanRequire then
-                            if Settings.PartyRaidID == 1 then
-                                MissionScriptRef.BOSSDireBoarwolf = true
-                                MissionScriptRef.BOSSTreeEnt = true
-                            end
+                            if Settings.PartyRaidID == 1 then MissionScriptRef.BOSSDireBoarwolf = true; MissionScriptRef.BOSSTreeEnt = true end
 
-                            if Settings.PartyRaidID == 20 then
-                                MissionScriptRef.BOSSAnubis = true
-                                MissionScriptRef.BOSSHogRider = true
-                            end
+                            if Settings.PartyRaidID == 20 then MissionScriptRef.BOSSAnubis = true; MissionScriptRef.BOSSHogRider = true end
 
-                            if Settings.PartyRaidID == 22 then
-                                MissionScriptRef.BOSSFallenKing = true
-                            end
+                            if Settings.PartyRaidID == 22 then MissionScriptRef.BOSSFallenKing = true end
 
-                            if Settings.PartyRaidID == 24 then
-                                MissionScriptRef.CorruptedGreaterTree = true
-                            end
+                            if Settings.PartyRaidID == 24 then MissionScriptRef.CorruptedGreaterTree = true end
 
                             if Settings.PartyRaidID == 25 then
                                 MissionScriptRef.BOSSKrakenMain = true
@@ -16733,48 +11356,25 @@ return PetSkills
                                 MissionScriptRef.PirateCrab = true
                             end
 
-                            if Settings.PartyRaidID == 26 then
-                                MissionScriptRef.HadesCerberus = true
-                                MissionScriptRef.SentryOfCerberus = true
-                                MissionScriptRef.MinotaurDungeonBoss = true
-                            end
+                            if Settings.PartyRaidID == 26 then MissionScriptRef.HadesCerberus = true MissionScriptRef.SentryOfCerberus = true MissionScriptRef.MinotaurDungeonBoss = true end
 
-                            if Settings.PartyRaidID == 28 then
-                                MissionScriptRef.BOSSEvilSanta = true
-                            end
+                            if Settings.PartyRaidID == 28 then MissionScriptRef.BOSSEvilSanta = true end
 
-                            if Settings.PartyRaidID == 32 then
-                                MissionScriptRef.RustyCommander = true
-                                MissionScriptRef.AetherKing = true
-                            end
+                            if Settings.PartyRaidID == 32 then MissionScriptRef.RustyCommander = true; MissionScriptRef.AetherKing = true end
 
-                            if Settings.PartyRaidID == 41 then
-                                MissionScriptRef.MiniBossCrystalWeaver = true
-                                MissionScriptRef.DungeonBOSSCrystalWolf = true
-                                MissionScriptRef.BOSSKandrix = true
-                            end
+                            if Settings.PartyRaidID == 41 then MissionScriptRef.MiniBossCrystalWeaver = true MissionScriptRef.DungeonBOSSCrystalWolf = true MissionScriptRef.BOSSKandrix = true end
 
-                            if Settings.PartyRaidID == 44 then
-                                MissionScriptRef.EVENTBOSSVane = true
-                                MissionScriptRef.BOSSDarkriseDarkDragon = true
-                            end
+                            if Settings.PartyRaidID == 44 then MissionScriptRef.EVENTBOSSVane = true; MissionScriptRef.BOSSDarkriseDarkDragon = true end
 
-                            if Settings.PartyRaidID == 45 then
-                                MissionScriptRef.EVENTBOSSKraken = true
-                                MissionScriptRef.EVENTBOSSDavyJones = true
-                            end
+                            if Settings.PartyRaidID == 45 then MissionScriptRef.EVENTBOSSKraken = true; MissionScriptRef.EVENTBOSSDavyJones = true end
 
-                            if Settings.PartyRaidID == 46 then
-                                MissionScriptRef.EVENTBOSSCupid = true
-                            end
+                            if Settings.PartyRaidID == 46 then MissionScriptRef.EVENTBOSSCupid = true end
                         end
                     end
                 end
             end)
 
-            if not ok then
-                HandleError("BOSS MOBS", (tostring(result)))
-            end
+            if not ok then HandleError("BOSS MOBS", (tostring(result))) end
         end
     end
     task.wait()
@@ -16792,9 +11392,7 @@ return PetSkills
             end
         end)
 
-        if not ok then
-            HandleError("PLAYER PING", (tostring(result)))
-        end
+        if not ok then HandleError("PLAYER PING", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "mob scanner"
@@ -16805,68 +11403,22 @@ return PetSkills
             HookFunction(PlayerRemover.AddMobToSearch, NewCClosure(function()
             end))
 
-            for _, child in pairs(MobsFolder:GetChildren()) do
-                PlayerRemover:RemoveMobFromSearch(child)
-            end
+            for _, child in pairs(MobsFolder:GetChildren()) do PlayerRemover:RemoveMobFromSearch(child) end
         end
 
         if InDungeon then
             local success, result = pcall(function()
-                local FakeSpawnMobs = {
-					DireBridgeSpawn = true,
-					DireBoulderSpawn = true,
-					DireCaveSpawn = true,
-					FakeKingSpawn = true,
-					BridgeMama = true,
-					CerberusSpawn1 = true,
-					CerberusSpawn2 = true,
-					FakeBoss = true,
-					FakeBossSpawn = true
-				}
-                local PriorityMobs = {
-					EVENTBOSSEasterBunny = true,
-					EVENTBOSSEasterBunnyEnraged = true,
-					BabyWinterfall = true,
-					BabyIgnis = true
-				}
+                local FakeSpawnMobs = { DireBridgeSpawn = true, DireBoulderSpawn = true, DireCaveSpawn = true, FakeKingSpawn = true, BridgeMama = true, CerberusSpawn1 = true, CerberusSpawn2 = true, FakeBoss = true, FakeBossSpawn = true }
+                local PriorityMobs = { EVENTBOSSEasterBunny = true, EVENTBOSSEasterBunnyEnraged = true, BabyWinterfall = true, BabyIgnis = true }
                 local UnitScale = Vector3.new(1, 1, 1)
                 local GolemScale = Vector3.new(52, 30, 52)
                 local GuardScale = Vector3.new(52, 30, 52)
                 local CrystalScale = Vector3.new(25, 20, 25)
-                local ResizedColliderMobs = {
-					CorruptedGreaterTree = UnitScale,
-					BOSSCrystalGolem = GolemScale,
-					EVENTBOSSZeroGuardian = GuardScale,
-					Crystal = CrystalScale
-				}
-                local PreventStuckMobs = {
-					BOSSTreeEnt = true,
-					HadesCerberus = true,
-					EVENTBOSSEasterBunny = true
-				}
-                local BadBosses = {
-					BOSSKrakenMain = true,
-					AlienMothership = true,
-					AlienUFO = true
-				}
-                local SummonMobs = {
-					SummonerSummonWeak = true,
-					SummonerSUmmonStrong = true,
-					NecromancerSummon = true,
-					EvilClown = true
-				}
-                local BlockerNames = {
-					Pillar1 = true,
-					Pillar2 = true,
-					Pillar3 = true,
-					IceBarricade = true,
-					Blocker1 = true,
-					Blocker2 = true,
-					Blocker3 = true,
-					Model = true,
-					Crystal = true,
-					EasterGiantEgg = true
-				}
+                local ResizedColliderMobs = { CorruptedGreaterTree = UnitScale, BOSSCrystalGolem = GolemScale, EVENTBOSSZeroGuardian = GuardScale, Crystal = CrystalScale }
+                local PreventStuckMobs = { BOSSTreeEnt = true, HadesCerberus = true, EVENTBOSSEasterBunny = true }
+                local BadBosses = { BOSSKrakenMain = true, AlienMothership = true, AlienUFO = true }
+                local SummonMobs = { SummonerSummonWeak = true, SummonerSUmmonStrong = true, NecromancerSummon = true, EvilClown = true }
+                local BlockerNames = { Pillar1 = true, Pillar2 = true, Pillar3 = true, IceBarricade = true, Blocker1 = true, Blocker2 = true, Blocker3 = true, Model = true, Crystal = true, EasterGiantEgg = true }
                 local OnClientEvent = Remotes:WaitForChild("Mobs_InvincibilityUpdated", 1e999).OnClientEvent
 
                 OnClientEvent:Connect(function(mobHealthInstance, invincible)
@@ -16894,17 +11446,11 @@ return PetSkills
                             if Model then
                                 local HumanoidRootPart2 = Model:WaitForChild("HumanoidRootPart", 2)
 
-                                if HumanoidRootPart2 then
-                                    HumanoidRootPart2.Anchored = true
-                                    HumanoidRootPart2.CanCollide = false
-                                    HumanoidRootPart2.Transparency = 1
-                                end
+                                if HumanoidRootPart2 then HumanoidRootPart2.Anchored = true HumanoidRootPart2.CanCollide = false HumanoidRootPart2.Transparency = 1 end
                             end
                         end)
 
-                        if not mobName then
-                            mobName = mobHealthInstance.Name
-                        end
+                        if not mobName then mobName = mobHealthInstance.Name end
 
                         if BlockerNames[mobName] then
                             local Part = mobHealthInstance:FindFirstChild("Part")
@@ -16912,27 +11458,19 @@ return PetSkills
                             if not Part then
                                 Part = mobHealthInstance:FindFirstChild("Base")
 
-                                if not Part then
-                                    Part = mobHealthInstance:FindFirstChild("hitbox") or (mobHealthInstance:FindFirstChild("EasterGiantEgg") or mobHealthInstance:FindFirstChild("Collider"))
-                                end
+                                if not Part then Part = mobHealthInstance:FindFirstChild("hitbox") or (mobHealthInstance:FindFirstChild("EasterGiantEgg") or mobHealthInstance:FindFirstChild("Collider")) end
                             end
 
                             if not Part then
-                                if MobDebug then
-                                    warn("JEW:", mobName, "(blocker has no target part)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(blocker has no target part)") end
 
                                 return
                             end
 
                             Part.Name = "Collider"
-                            Tracking.MobTable[mobHealthInstance] = {
-								IsBlocker = true
-							}
+                            Tracking.MobTable[mobHealthInstance] = { IsBlocker = true }
 
-                            if MobDebug then
-                                print("JEW:", mobName, "(added, blocker)")
-                            end
+                            if MobDebug then print("JEW:", mobName, "(added, blocker)") end
 
                             return
                         end
@@ -16942,9 +11480,7 @@ return PetSkills
                             local loadDeadline = time() + 5
                             repeat
                                 if loadDeadline < time() then
-                                    if Tracking.MobDebug then
-                                        warn("PORN:", mobName, "(exceeded load time)")
-                                    end
+                                    if Tracking.MobDebug then warn("JEW:", mobName, "(exceeded load time)") end
 
                                     break
                                 end
@@ -16953,9 +11489,7 @@ return PetSkills
                                 task.wait()
                             until MobData
                             if MobData and MobData.IsHunterPet or MobData.CanAttackMobs then
-                                if MobDebug then
-                                    warn("PORN:", mobName, "(familiar or summon)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(familiar or summon)") end
 
                                 return
                             end
@@ -16966,26 +11500,18 @@ return PetSkills
                                 else
                                     local Collider2 = mobHealthInstance:WaitForChild("Collider", 5)
 
-                                    if Collider2 then
-                                        Collider2.Size = newSize
-                                    end
+                                    if Collider2 then Collider2.Size = newSize end
                                 end
                             end
                             if PreventStuckMobs[mobName] then
-                                if MobDebug then
-                                    print("PORN:", mobName, "(prevent stuck)")
-                                end
+                                if MobDebug then print("JEW:", mobName, "(prevent stuck)") end
 
                                 task.wait(1)
                             end
                             if PriorityMobs[mobName] then
-                                Tracking.MobTable[mobHealthInstance] = {
-									Priority = true
-								}
+                                Tracking.MobTable[mobHealthInstance] = { Priority = true }
 
-                                if MobDebug then
-                                    print("PORN:", mobName, "(added, priority)")
-                                end
+                                if MobDebug then print("JEW:", mobName, "(added, priority)") end
 
                                 return
                             end
@@ -16993,26 +11519,20 @@ return PetSkills
                                 Tracking.MobTable[mobHealthInstance] = {}
 
                                 if MobDebug then
-                                    print("PORN:", mobName, "(added)")
+                                    print("JEW:", mobName, "(added)")
 
                                     return
                                 end
                             else
-                                Tracking.MobTable[mobHealthInstance] = {
-									NoData = true
-								}
+                                Tracking.MobTable[mobHealthInstance] = { NoData = true }
 
-                                if MobDebug then
-                                    print("PORN:", mobName, "(added, no mob data)")
-                                end
+                                if MobDebug then print("JEW:", mobName, "(added, no mob data)") end
                             end
 
                             return
                         end
 
-                        if MobDebug then
-                            warn("PORN:", mobName, "(didn't add, no parent)")
-                        end
+                        if MobDebug then warn("JEW:", mobName, "(didn't add, no parent)") end
                     end
                     Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(mobHealthInstance)
                         if mobHealthInstance.Parent == ReplicatedStorage then
@@ -17028,14 +11548,10 @@ return PetSkills
                         if Tracking.MobTable[mobHealthInstance] then
                             Tracking.MobTable[mobHealthInstance] = nil
 
-                            if Tracking.MobDebug then
-                                warn("PORN:", mobInstance, "(died)")
-                            end
+                            if Tracking.MobDebug then warn("JEW:", mobInstance, "(died)") end
                         end
                     end)
-                    for _, mobHealthInstance in pairs(MobsFolder:GetChildren()) do
-                        AddMobToTracking(mobHealthInstance)
-                    end
+                    for _, mobHealthInstance in pairs(MobsFolder:GetChildren()) do AddMobToTracking(mobHealthInstance) end
                     while not MissionDone do
                         if not SkillActive then
                             CurrentTargetMob = nil
@@ -17050,14 +11566,10 @@ return PetSkills
                             for mobHealthInstance, mobEntry in pairs(MobTable) do
                                 local PlayerHealthInstance = mobHealthInstance
 
-                                if not PlayerHealthInstance then
-                                    continue
-                                end
+                                if not PlayerHealthInstance then continue end
 
                                 if not PlayerHealthInstance.Parent then
-                                    if Tracking.MobDebug then
-                                        warn("PORN:", PlayerHealthInstance.Name, "(no parent)")
-                                    end
+                                    if Tracking.MobDebug then warn("JEW:", PlayerHealthInstance.Name, "(no parent)") end
 
                                     MobTable[PlayerHealthInstance] = nil
 
@@ -17066,18 +11578,12 @@ return PetSkills
 
                                 local HealthProperties = PlayerHealthInstance:FindFirstChild("HealthProperties")
 
-                                if HealthProperties then
-                                    HealthProperties = HealthProperties:FindFirstChild("Health")
-                                end
+                                if HealthProperties then HealthProperties = HealthProperties:FindFirstChild("Health") end
+
+                                if HealthProperties then HealthProperties = HealthProperties.Value == 0 end
 
                                 if HealthProperties then
-                                    HealthProperties = HealthProperties.Value == 0
-                                end
-
-                                if HealthProperties then
-                                    if Tracking.MobDebug then
-                                        warn("PORN:", PlayerHealthInstance.Name, "(zero health)")
-                                    end
+                                    if Tracking.MobDebug then warn("JEW:", PlayerHealthInstance.Name, "(zero health)") end
 
                                     MobTable[PlayerHealthInstance] = nil
 
@@ -17092,36 +11598,24 @@ return PetSkills
 
                                 local MobData = lib:GetMobData(PlayerHealthInstance)
 
-                                if mobEntry.NoData and MobData then
-                                    mobEntry.NoData = nil
-                                end
+                                if mobEntry.NoData and MobData then mobEntry.NoData = nil end
 
                                 if not MobData then
                                     local Collider3 = PlayerHealthInstance:FindFirstChild("Collider")
 
-                                    if not Collider3 then
-                                        continue
-                                    end
+                                    if not Collider3 then continue end
 
-                                    MobData = {
-										Collider = Collider3
-									}
+                                    MobData = { Collider = Collider3 }
                                 end
 
                                 if not MobData.Invincible then
                                     local Magnitude = (MobData.Collider.Position - HumanoidRootPart.Position).Magnitude
 
                                     if not MobData.BossTag then
-                                        if Magnitude < closestMobDistance then
-                                            closestBlocker = PlayerHealthInstance
-                                            closestMobDistance = Magnitude
-                                        end
+                                        if Magnitude < closestMobDistance then closestBlocker = PlayerHealthInstance; closestMobDistance = Magnitude end
                                     elseif mobEntry.NoData then
                                         bossNoData = PlayerHealthInstance
-                                    elseif Magnitude < closestBossDistance then
-                                        closestBoss = PlayerHealthInstance
-                                        closestBossDistance = Magnitude
-                                    end
+                                    elseif Magnitude < closestBossDistance then closestBoss = PlayerHealthInstance; closestBossDistance = Magnitude end
                                 end
                             end
                             IsMobAlive = closestBlocker or closestBoss
@@ -17144,53 +11638,37 @@ return PetSkills
                     end
                 else
                     for _, child in ipairs(Settings.Parties:GetChildren()) do
-                        if child:WaitForChild("RaidID").Value == 30 then
-                            FakeSpawnMobs.Part = true
-                        end
+                        if child:WaitForChild("RaidID").Value == 30 then FakeSpawnMobs.Part = true end
                     end
                     local function AddMobToTrackingFallback(mobHealthInstance, mobName)
                         local MobDebug = Tracking.MobDebug
 
-                        if not mobName then
-                            mobName = mobHealthInstance.Name
-                        end
+                        if not mobName then mobName = mobHealthInstance.Name end
 
                         if BlockerNames[mobName] then
                             local Part = mobHealthInstance:FindFirstChild("Part")
 
-                            if not Part then
-                                Part = mobHealthInstance:FindFirstChild("Base") or (mobHealthInstance:FindFirstChild("hitbox") or mobHealthInstance:FindFirstChild("EasterGiantEgg"))
-                            end
+                            if not Part then Part = mobHealthInstance:FindFirstChild("Base") or (mobHealthInstance:FindFirstChild("hitbox") or mobHealthInstance:FindFirstChild("EasterGiantEgg")) end
 
-                            if not Part then
-                                return
-                            end
+                            if not Part then return end
 
                             Part.Name = "Collider"
-                            Tracking.MobTable[mobHealthInstance] = {
-								IsBlocker = true
-							}
+                            Tracking.MobTable[mobHealthInstance] = { IsBlocker = true }
 
-                            if MobDebug then
-                                print("PORN:", mobName, "(added, blocker)")
-                            end
+                            if MobDebug then print("JEW:", mobName, "(added, blocker)") end
 
                             return
                         end
 
                         if mobHealthInstance.Parent then
                             if SummonMobs[mobName] then
-                                if MobDebug then
-                                    warn("PORN:", mobName, "(summon)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(summon)") end
 
                                 return
                             end
 
                             if BadBosses[mobName] then
-                                if MobDebug then
-                                    warn("PORN:", mobName, "(bad boss)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(bad boss)") end
 
                                 return
                             end
@@ -17198,9 +11676,7 @@ return PetSkills
                             local FromSpawnPart = mobHealthInstance:WaitForChild("FromSpawnPart", 2)
 
                             if FromSpawnPart and (FromSpawnPart.Value and FakeSpawnMobs[tostring(FromSpawnPart.Value)]) then
-                                if MobDebug then
-                                    warn("PORN:", mobName, "(fake mob)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(fake mob)") end
 
                                 return
                             end
@@ -17209,9 +11685,7 @@ return PetSkills
                             local ownerValue = MobProperties and MobProperties:WaitForChild("Owner", 2)
 
                             if ownerValue and ownerValue.Value then
-                                if MobDebug then
-                                    warn("PORN:", mobName, "(familiar)")
-                                end
+                                if MobDebug then warn("JEW:", mobName, "(familiar)") end
 
                                 return
                             end
@@ -17221,32 +11695,22 @@ return PetSkills
                             if newSize2 then
                                 local Collider4 = mobHealthInstance:WaitForChild("Collider", 2)
 
-                                if Collider4 then
-                                    Collider4.Size = newSize2
-                                end
+                                if Collider4 then Collider4.Size = newSize2 end
                             end
 
-                            if PreventStuckMobs[mobName] then
-                                task.wait(1)
-                            end
+                            if PreventStuckMobs[mobName] then task.wait(1) end
 
                             if PriorityMobs[mobName] then
-                                Tracking.MobTable[mobHealthInstance] = {
-									Priority = true
-								}
+                                Tracking.MobTable[mobHealthInstance] = { Priority = true }
 
-                                if MobDebug then
-                                    print("PORN:", mobName, "(priority)")
-                                end
+                                if MobDebug then print("JEW:", mobName, "(priority)") end
 
                                 return
                             end
 
                             Tracking.MobTable[mobHealthInstance] = {}
 
-                            if MobDebug then
-                                print("PORN:", mobName, "(added)")
-                            end
+                            if MobDebug then print("JEW:", mobName, "(added)") end
                         end
                     end
                     Connections.ConnectMobCreated = Remotes:WaitForChild("Health_InstanceAdded").OnClientEvent:Connect(function(mobHealthInstance)
@@ -17263,9 +11727,7 @@ return PetSkills
                         if Tracking.MobTable[mobHealthInstance] then
                             Tracking.MobTable[mobHealthInstance] = nil
 
-                            if Tracking.MobDebug then
-                                warn("PORN:", mobInstance, "(died)")
-                            end
+                            if Tracking.MobDebug then warn("JEW:", mobInstance, "(died)") end
                         end
                     end)
                     for _, mobHealthInstance in pairs(MobsFolder:GetChildren()) do
@@ -17290,33 +11752,23 @@ return PetSkills
                                 if mobHealthInstance.Parent then
                                     local HealthProperties = mobHealthInstance:FindFirstChild("HealthProperties")
 
-                                    if HealthProperties then
-                                        HealthProperties = HealthProperties:FindFirstChild("Health")
-                                    end
+                                    if HealthProperties then HealthProperties = HealthProperties:FindFirstChild("Health") end
 
-                                    if HealthProperties then
-                                        HealthProperties = HealthProperties.Value == 0
-                                    end
+                                    if HealthProperties then HealthProperties = HealthProperties.Value == 0 end
 
                                     if HealthProperties then
                                         MobTable[mobHealthInstance] = nil
 
-                                        if Tracking.MobDebug then
-                                            warn("PORN:", mobHealthInstance.Name, "(zero health)")
-                                        end
+                                        if Tracking.MobDebug then warn("JEW:", mobHealthInstance.Name, "(zero health)") end
 
                                         continue
                                     end
 
-                                    if mobEntry.Invincible then
-                                        continue
-                                    end
+                                    if mobEntry.Invincible then continue end
 
                                     local Collider5 = mobHealthInstance:FindFirstChild("Collider")
 
-                                    if not Collider5 then
-                                        continue
-                                    end
+                                    if not Collider5 then continue end
 
                                     if mobEntry.Priority then
                                         closestNormal = mobHealthInstance
@@ -17327,23 +11779,15 @@ return PetSkills
                                     local Magnitude = (Collider.Position - Collider5.Position).Magnitude
 
                                     if MissionScriptRef[mobHealthInstance.Name] then
-                                        if Magnitude < closestBossDistance then
-                                            closestBoss = mobHealthInstance
-                                            closestBossDistance = Magnitude
-                                        end
-                                    elseif Magnitude < closestNormalDistance then
-                                        closestNormal = mobHealthInstance
-                                        closestNormalDistance = Magnitude
-                                    end
+                                        if Magnitude < closestBossDistance then closestBoss = mobHealthInstance; closestBossDistance = Magnitude end
+                                    elseif Magnitude < closestNormalDistance then closestNormal = mobHealthInstance; closestNormalDistance = Magnitude end
 
                                     continue
                                 end
 
                                 MobTable[mobHealthInstance] = nil
 
-                                if Tracking.MobDebug then
-                                    warn("PORN:", mobHealthInstance.Name, "(no parent)")
-                                end
+                                if Tracking.MobDebug then warn("JEW:", mobHealthInstance.Name, "(no parent)") end
                             end
                             IsMobAlive = closestNormal or closestBoss
                             if closestNormal and closestNormalDistance then
@@ -17363,30 +11807,20 @@ return PetSkills
                     end
                 end
             end)
-            if not success then
-                HandleError("MOB SCANNER", (tostring(result)))
-            end
+            if not success then HandleError("MOB SCANNER", (tostring(result))) end
         end
     end
     _G.ScriptStep = "destroy mission scripts"
     local DestroyMissionScripts = function()
         if InDungeon then
-            local HazardScripts = {
-				FireDart = true,
-				HammerHit = true,
-				CreateBolder = true,
-				ToxinTrigger = true,
-				RollingBoulder = true
-			}
+            local HazardScripts = { FireDart = true, HammerHit = true, CreateBolder = true, ToxinTrigger = true, RollingBoulder = true }
             local ModuleScript = ReplicatedStorage:WaitForChild("MissionScripts", math.huge):FindFirstChildWhichIsA("ModuleScript")
 
             if ModuleScript then
                 local GetChildren = ModuleScript.GetChildren
 
                 for _, v in pairs(GetChildren(ModuleScript)) do
-                    if v and v.Parent and HazardScripts[v.Name] then
-                        v:Destroy()
-                    end
+                    if v and v.Parent and HazardScripts[v.Name] then v:Destroy() end
                 end
             end
         end
@@ -17395,10 +11829,7 @@ return PetSkills
     local PingMasteryTracker = function(unlockName)
         local _, _ = pcall(function()
             local str = tostring(PlayerName)
-            local masteryPayload = {
-				username = "Mastery tracker",
-				content = unlockName .. " unlocked on account: " .. str .. "\n-# " .. WebhookMention
-			}
+            local masteryPayload = { username = "Mastery tracker", content = unlockName .. " unlocked on account: " .. str .. "\n-# " .. WebhookMention }
             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
             if not DiscordWebhookLink and true then
@@ -17409,62 +11840,6 @@ return PetSkills
 
             local hookCheckEnabled = false
             local _, _ = pcall(function()
-                if hookCheckEnabled and HookFunction or hookmetamethod then
-                    local scriptCount = 0
-                    local ok, _ = pcall(function()
-                        for _, v in pairs(getreg()) do
-                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                scriptCount += 1
-                            end
-                        end
-                    end)
-                    if scriptCount > 2 or scriptCount == 0 then
-                        return
-                    end
-                    if not ok then
-                        return
-                    end
-                    local hooksDetected = false
-                    local success = pcall(function()
-                        local requestHooked = ishooked and ishooked(request)
-
-                        if not requestHooked then
-                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                        end
-
-                        if requestHooked then
-                            hooksDetected = true
-
-                            return
-                        end
-                    end)
-                    if not success then
-                        return
-                    end
-                    local pcallOk, _ = pcall(function()
-                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                        if not httpGetHooked then
-                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                            if not httpGetHooked then
-                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                            end
-                        end
-
-                        if httpGetHooked then
-                            hooksDetected = true
-
-                            return
-                        end
-                    end)
-                    if hooksDetected then
-                        return
-                    end
-                    if not pcallOk then
-                        return
-                    end
-                end
 
                 if not HttpRequest then
                     return
@@ -17472,9 +11847,7 @@ return PetSkills
 
                 local httpRequestRef = HttpRequest
                 local webhookUrl = DiscordWebhookLink
-                local webhookHeaders = {
-					["Content-Type"] = "application/json"
-				}
+                local webhookHeaders = { ["Content-Type"] = "application/json" }
                 local json = HttpService:JSONEncode(masteryPayload)
 
                 httpRequestRef({
@@ -17491,9 +11864,7 @@ return PetSkills
         return Remotes:WaitForChild("Missions_GetDifficulty", 1e999):InvokeServer()
     end
     task.spawn(function()
-        if InDungeon then
-            Tracking.LoggedDifficulty = GetDifficulty()
-        end
+        if InDungeon then Tracking.LoggedDifficulty = GetDifficulty() end
     end)
     task.wait()
     _G.ScriptStep = "get lives"
@@ -17505,32 +11876,21 @@ return PetSkills
     _G.ScriptStep = "replay dungeon loop"
     local ReplayDungeon = function(dungeonId, difficulty)
         local ok, result = pcall(function()
-            if dungeonId == 49 then
-                dungeonId = 1
-            end
+            if dungeonId == 49 then dungeonId = 1 end
 
-            while true do
-                Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(dungeonId, difficulty)
-                task.wait(10)
-            end
+            while true do Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(dungeonId, difficulty); task.wait(10) end
         end)
 
-        if not ok then
-            HandleError("REPLAY DUNGEON", (tostring(result)))
-        end
+        if not ok then HandleError("REPLAY DUNGEON", (tostring(result))) end
     end
     _G.ScriptStep = "rejoin last dungeon"
     local RejoinLastDungeon = function(dungeonId)
         local DungeonId = dungeonId
         local ok, result = pcall(function()
-            local rejoinFilePath = "PORN/" .. PlayerName .. "_Rejoin"
+            local rejoinFilePath = "JEW/" .. PlayerName .. "_Rejoin"
 
             if isfile(rejoinFilePath) then
-                if Loading then
-                    DamageIncrease += 1
-                    Loading:SetCurrentStep(5)
-                    Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>")
-                end
+                if Loading then DamageIncrease += 1 Loading:SetCurrentStep(5) Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>") end
                 local CombatState
                 pcall(function()
                     CombatState = HttpService:JSONDecode(readfile(rejoinFilePath))
@@ -17542,10 +11902,7 @@ return PetSkills
 
                     delfile(rejoinFilePath)
 
-                    if DisconnectedTime + 300 > os.time() then
-                        MissionDone = true
-                        ReplayDungeon(Dungeon, RejoinDifficulty)
-                    end
+                    if DisconnectedTime + 300 > os.time() then MissionDone = true; ReplayDungeon(Dungeon, RejoinDifficulty) end
                 else
                     delfile(rejoinFilePath)
 
@@ -17553,50 +11910,32 @@ return PetSkills
                         ReplayDungeon(Tracking.CurrentDungeonID, 1)
                     elseif InDungeon then
                         ReplayDungeon(Tracking.CurrentDungeonID, 5)
-                    elseif InTower then
-                        ReplayDungeon(Tracking.CurrentDungeonID, false)
-                    end
+                    elseif InTower then ReplayDungeon(Tracking.CurrentDungeonID, false) end
                 end
             end
 
             if DungeonId then
-                if Loading then
-                    DamageIncrease += 1
-                    Loading:SetCurrentStep(5)
-                    Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>")
-                end
+                if Loading then DamageIncrease += 1 Loading:SetCurrentStep(5) Loading.Sidebar:AddLabel("<font color='#FF3333'>LOADING EXCEPTION FOUND.\nFORCING DUNGEON RESTART.</font>") end
 
                 local LoggedDifficulty = Tracking.LoggedDifficulty
 
-                if InTower then
-                    LoggedDifficulty = nil
-                end
+                if InTower then LoggedDifficulty = nil end
 
                 local MissionId = Tracking.MissionId
                 local timestamp = os.time()
 
-                DungeonData = {
-					Dungeon = MissionId,
-					RejoinDifficulty = LoggedDifficulty,
-					DisconnectedTime = timestamp
-				}
+                DungeonData = { Dungeon = MissionId, RejoinDifficulty = LoggedDifficulty, DisconnectedTime = timestamp }
                 writefile(rejoinFilePath, HttpService:JSONEncode(DungeonData))
                 TeleportService:Teleport(tonumber("4310463616"), LocalPlayer)
             end
         end)
-        if not ok then
-            HandleError("REJOIN LAST DUNGEON", (tostring(result)))
-        end
+        if not ok then HandleError("REJOIN LAST DUNGEON", (tostring(result))) end
     end
     _G.ScriptStep = "restart dungeon"
     local RestartDungeon = function(forceRestart)
-        if not Settings.ReplayMission and (not Settings.DoingGuildDungeon and not forceRestart) then
-            return
-        end
+        if not Settings.ReplayMission and (not Settings.DoingGuildDungeon and not forceRestart) then return end
 
-        if Settings.TowerChestDelay then
-            task.wait(6)
-        end
+        if Settings.TowerChestDelay then task.wait(6) end
 
         local difficulty = GetDifficulty()
         local isPartyLeader
@@ -17620,13 +11959,9 @@ return PetSkills
         MissionDone = true
         task.wait(Settings.RestartDungeonDelay)
 
-        if InTower then
-            difficulty = nil
-        end
+        if InTower then difficulty = nil end
 
-        if Remotes:WaitForChild("Missions_GetCurrentLives", 1e999):InvokeServer() == 0 then
-            ReplayDungeon(Tracking.MissionId, difficulty)
-        end
+        if Remotes:WaitForChild("Missions_GetCurrentLives", 1e999):InvokeServer() == 0 then ReplayDungeon(Tracking.MissionId, difficulty) end
 
         if Settings.DoingGuildDungeon and not Settings.IsNightmareDungeon then
             if Tracking.MissionId ~= 42 or difficulty ~= 5 then
@@ -17665,9 +12000,7 @@ return PetSkills
                     ReplayDungeon(21, nil)
                 elseif DoAllDropdownValue == "Loop w/o towers" then
                     ReplayDungeon(1, 1)
-                elseif DoAllDropdownValue == "Play nightmare dungeons" then
-                    ReplayDungeon(1005, 5)
-                end
+                elseif DoAllDropdownValue == "Play nightmare dungeons" then ReplayDungeon(1005, 5) end
             end
         end
 
@@ -17676,9 +12009,7 @@ return PetSkills
         if playNightmareDungeons then
             playNightmareDungeons = Settings.PrioNmDCount
 
-            if playNightmareDungeons then
-                playNightmareDungeons = Tracking.PlayerLevel == 150
-            end
+            if playNightmareDungeons then playNightmareDungeons = Tracking.PlayerLevel == 150 end
         end
 
         if playNightmareDungeons then
@@ -17688,9 +12019,7 @@ return PetSkills
                 local InternalID = v.InternalID
 
                 for k, _ in pairs(Options.PrioNmDropdown.Value) do
-                    if InternalID == Settings.PrioritizedNightmareDungeons[k] then
-                        ReplayDungeon(v.ID, difficulty)
-                    end
+                    if InternalID == Settings.PrioritizedNightmareDungeons[k] then ReplayDungeon(v.ID, difficulty) end
                 end
             end
         end
@@ -17703,9 +12032,7 @@ return PetSkills
                 for _, v in pairs(children) do
                     local Level = v:GetAttribute("Level")
 
-                    if Level and Level < lowestLevel then
-                        lowestLevel = Level
-                    end
+                    if Level and Level < lowestLevel then lowestLevel = Level end
                 end
             else
                 lowestLevel = LocalPlayer:GetAttribute("Level")
@@ -17724,19 +12051,14 @@ return PetSkills
             end
         end
 
-        if Settings.RandomNightmareDungeon and Settings.IsNightmareDungeon then
-            Tracking.MissionId = Settings.RandomNightmareDungeon
-        end
+        if Settings.RandomNightmareDungeon and Settings.IsNightmareDungeon then Tracking.MissionId = Settings.RandomNightmareDungeon end
 
         ReplayDungeon(Tracking.MissionId, difficulty)
     end
     task.wait()
     _G.ScriptStep = "wait for game crash"
     task.spawn(function()
-        if InDungeon then
-            CoreGui:WaitForChild("RobloxPromptGui", 1e999):WaitForChild("promptOverlay", 1e999):WaitForChild("ErrorPrompt", math.huge)
-            RejoinLastDungeon(true)
-        end
+        if InDungeon then CoreGui:WaitForChild("RobloxPromptGui", 1e999):WaitForChild("promptOverlay", 1e999):WaitForChild("ErrorPrompt", math.huge); RejoinLastDungeon(true) end
     end)
     if InLobby or InDungeon then
         local characterCheck = LocalPlayer.Character
@@ -17752,33 +12074,25 @@ return PetSkills
         local collectedRewards = {}
         local itemsLib = false
         local success, result = pcall(function()
-            if Settings.CanRequire then
-                itemsLib = require(Items)
-            end
+            if Settings.CanRequire then itemsLib = require(Items) end
 
             local ok, _ = pcall(function()
                 ownsExtraChestPass = MarketplaceService:UserOwnsGamePassAsync(UserId, 8136250)
             end)
 
-            if not ok then
-                warn("unable to check if user owns extra chest gamepass")
-            end
+            if not ok then warn("unable to check if user owns extra chest gamepass") end
 
             local Missions_GetMissionPrize = Remotes:WaitForChild("Missions_GetMissionPrize", 1e999)
 
             for i = 1, 3 do
-                if i == 3 and not ownsExtraChestPass then
-                    return
-                end
+                if i == 3 and not ownsExtraChestPass then return end
 
                 task.wait(Settings.CollectChestsDelay)
 
                 local reward = Missions_GetMissionPrize:InvokeServer()
 
                 if reward then
-                    if itemsLib then
-                        reward = itemsLib[tostring(reward)].DisplayKey
-                    end
+                    if itemsLib then reward = itemsLib[tostring(reward)].DisplayKey end
 
                     Library:Notify("Chest reward: " .. tostring(reward), 1)
                     table.insert(collectedRewards, reward)
@@ -17787,9 +12101,7 @@ return PetSkills
                 task.wait(0.1)
             end
         end)
-        if not success then
-            HandleError("COLLECT DUNGEON CHESTS", (tostring(result)))
-        end
+        if not success then HandleError("COLLECT DUNGEON CHESTS", (tostring(result))) end
 
         return collectedRewards
     end
@@ -17803,9 +12115,7 @@ return PetSkills
             Remotes:WaitForChild("Missions_MissionFinished", 1e999).OnClientEvent:Once(function(completionTime, _, isFailed)
                 Settings.DungeonCompletionTime = FormatSecondsToString(completionTime)
 
-                if Settings.ShowTime then
-                    Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 })
-                end
+                if Settings.ShowTime then Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 }) end
 
                 if Settings.AutoLeveling then
                     local ok, result = pcall(function()
@@ -17818,9 +12128,7 @@ return PetSkills
                                 local ID = v.ID
 
                                 if not Remotes:WaitForChild("Quests_GuildDailyIsClaimed", 1e999):InvokeServer(ID) and Active:FindFirstChild(ID) then
-                                    for _ = 1, 2 do
-                                        Remotes:WaitForChild("Quests_ClaimDailyGuildQuest", math.huge):FireServer(ID)
-                                    end
+                                    for _ = 1, 2 do Remotes:WaitForChild("Quests_ClaimDailyGuildQuest", math.huge):FireServer(ID) end
 
                                     task.wait(1.5)
                                 end
@@ -17832,31 +12140,23 @@ return PetSkills
                         if Quests_ClaimQuest then
                             local GetChildren = Active.GetChildren
 
-                            for _, v in ipairs(GetChildren(Active)) do
-                                Quests_ClaimQuest:FireServer(tonumber(v.Name))
-                            end
+                            for _, v in ipairs(GetChildren(Active)) do Quests_ClaimQuest:FireServer(tonumber(v.Name)) end
                         end
                     end)
 
-                    if not ok then
-                        HandleError("CLAIM QUESTS", (tostring(result)))
-                    end
+                    if not ok then HandleError("CLAIM QUESTS", (tostring(result))) end
                 end
 
                 local chestRewards = { "none" }
 
-                if Settings.CollectDungeonChest then
-                    chestRewards = CollectChests()
-                end
+                if Settings.CollectDungeonChest then chestRewards = CollectChests() end
 
                 if Settings.LogDungeon then
                     local embedColor = 65280
                     local dungeonName = "unknown"
                     local children = Players:GetChildren()
 
-                    if isFailed then
-                        embedColor = 16711680
-                    end
+                    if isFailed then embedColor = 16711680 end
 
                     if Settings.CanRequire then
                         dungeonName = require(Missions):GetCurrentMissionData().NameTag
@@ -17869,9 +12169,7 @@ return PetSkills
                     if Toggles.ShowPlayersToggle.Value then
                         local playerNames = {}
 
-                        for _, v in pairs(children) do
-                            table.insert(playerNames, v.Name)
-                        end
+                        for _, v in pairs(children) do table.insert(playerNames, v.Name) end
 
                         partyInfo = table.concat(playerNames, "`, `")
                     else
@@ -17889,14 +12187,12 @@ return PetSkills
                             local CurrentMissionData = require(Missions):GetCurrentMissionData()
                             local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
-                            if Tracking.MissionId == 43 then
-                                assetId = 15046578670
-                            end
+                            if Tracking.MissionId == 43 then assetId = 15046578670 end
 
-                            local imageFilePath = "PORN/DungeonImages"
+                            local imageFilePath = "JEW/DungeonImages"
                             local imageUrl
 
-                            if not isfile("PORN/DungeonImages") then
+                            if not isfile("JEW/DungeonImages") then
                                 local thumbnailResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                 local thumbnailData = HttpService:JSONDecode(thumbnailResponse).data[1]
 
@@ -17916,9 +12212,7 @@ return PetSkills
                                 if not cachedEntry or (cachedEntry[2] <= os.time() or string.find(tostring(cachedEntry[1]), "token")) then
                                     local updatedImages = {}
 
-                                    for k, v in pairs(Images) do
-                                        updatedImages[k] = { table.unpack(v) }
-                                    end
+                                    for k, v in pairs(Images) do updatedImages[k] = { table.unpack(v) } end
 
                                     local thumbnailResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                     local thumbnailData = HttpService:JSONDecode(thumbnailResponse).data[1]
@@ -17936,22 +12230,16 @@ return PetSkills
                                 end
                             end
 
-                            if string.find(tostring(imageUrl), "token") then
-                                imageUrl = ""
-                            end
+                            if string.find(tostring(imageUrl), "token") then imageUrl = "" end
 
                             Tracking.DungeonImage = imageUrl
                         end)
 
-                        if not ok then
-                            Tracking.DungeonImage = ""
-                        end
+                        if not ok then Tracking.DungeonImage = "" end
                     end
 
                     local description = "**Dungeon:** `" .. dungeonName .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. partyInfo .. "`\n" .. "**Chest drops:** `" .. table.concat(chestRewards, "`, `") .. "`"
-                    local thumbnailObj = {
-						url = Tracking.DungeonImage
-					}
+                    local thumbnailObj = { url = Tracking.DungeonImage }
                     local webhookPayload = {
 						username = "Dungeon logger",
 						embeds = {{
@@ -17971,24 +12259,16 @@ return PetSkills
                                 local scriptCount = 0
                                 local ok, _ = pcall(function()
                                     for _, v in pairs(getreg()) do
-                                        if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                            scriptCount += 1
-                                        end
+                                        if typeof(v) == "Instance" and v.ClassName == "LocalScript" then scriptCount += 1 end
                                     end
                                 end)
-                                if scriptCount > 2 or scriptCount == 0 then
-                                    return
-                                end
-                                if not ok then
-                                    return
-                                end
+                                if scriptCount > 2 or scriptCount == 0 then return end
+                                if not ok then return end
                                 local hooksDetected = false
                                 local success = pcall(function()
                                     local requestHooked = ishooked and ishooked(request)
 
-                                    if not requestHooked then
-                                        requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                    end
+                                    if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                                     if requestHooked then
                                         hooksDetected = true
@@ -17996,18 +12276,14 @@ return PetSkills
                                         return
                                     end
                                 end)
-                                if not success then
-                                    return
-                                end
+                                if not success then return end
                                 local pcallOk, _ = pcall(function()
                                     local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                                     if not httpGetHooked then
                                         httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                        if not httpGetHooked then
-                                            httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                        end
+                                        if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                                     end
 
                                     if httpGetHooked then
@@ -18016,23 +12292,15 @@ return PetSkills
                                         return
                                     end
                                 end)
-                                if hooksDetected then
-                                    return
-                                end
-                                if not pcallOk then
-                                    return
-                                end
+                                if hooksDetected then return end
+                                if not pcallOk then return end
                             end
 
-                            if not HttpRequest then
-                                return
-                            end
+                            if not HttpRequest then return end
 
                             local httpRequestRef = HttpRequest
                             local webhookUrl = DiscordWebhookLink
-                            local webhookHeaders = {
-								["Content-Type"] = "application/json"
-							}
+                            local webhookHeaders = { ["Content-Type"] = "application/json" }
                             local json = HttpService:JSONEncode(webhookPayload)
 
                             httpRequestRef({
@@ -18045,10 +12313,7 @@ return PetSkills
                     end
                 end
 
-                if ActiveSellCount == 0 then
-                    if BuySellLock ~= 0 then
-                    end
-                end
+                if ActiveSellCount == 0 then if BuySellLock ~= 0 then end end
 
                 repeat
                     task.wait(1)
@@ -18064,25 +12329,15 @@ return PetSkills
     local function GetRarity(equipmentPart)
         local UpgradeLimit = equipmentPart:FindFirstChild("UpgradeLimit")
 
-        if UpgradeLimit and UpgradeLimit.Value == 20 then
-            return 7
-        end
+        if UpgradeLimit and UpgradeLimit.Value == 20 then return 7 end
 
-        if equipmentPart:FindFirstChild("Perk3") then
-            return 5
-        end
+        if equipmentPart:FindFirstChild("Perk3") then return 5 end
 
-        if equipmentPart:FindFirstChild("Perk2") then
-            return 4
-        end
+        if equipmentPart:FindFirstChild("Perk2") then return 4 end
 
-        if equipmentPart:FindFirstChild("Perk1") then
-            return 3
-        end
+        if equipmentPart:FindFirstChild("Perk1") then return 3 end
 
-        if Uograde then
-            return 2
-        end
+        if Uograde then return 2 end
 
         return "NotEquipment"
     end
@@ -18090,12 +12345,10 @@ return PetSkills
     _G.ScriptStep = "equip new item added"
     local EquipNewItem = function()
         local ok, result = pcall(function()
+
+
 local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
-            local EquipmentSlots = {
-				"Armor",
-				"Primary",
-				"Offhand"
-			}
+            local EquipmentSlots = { "Armor", "Primary", "Offhand" }
             local playerEquips = ReplicatedStorage.PlayerEquips[LocalPlayer.Name]
             local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
 
@@ -18111,9 +12364,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                     end
 
                     for _, slot in pairs(EquipmentSlots) do
-                        if child and (child.Parent and child.Parent.Name ~= "Items") then
-                            return
-                        end
+                        if child and (child.Parent and child.Parent.Name ~= "Items") then return end
 
                         local equipFolder = playerEquips[slot]
                         local Level = child:FindFirstChild("Level")
@@ -18127,9 +12378,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                                     local childRarity = GetRarity(child)
                                     local folderRarity = GetRarity(Folder)
 
-                                    if typeof(childRarity) == "number" and (typeof(folderRarity) == "number" and folderRarity < childRarity) then
-                                        Inventory_EquipItem:FireServer(child, equipFolder)
-                                    end
+                                    if typeof(childRarity) == "number" and (typeof(folderRarity) == "number" and folderRarity < childRarity) then Inventory_EquipItem:FireServer(child, equipFolder) end
                                 else
                                     Inventory_EquipItem:FireServer(child, equipFolder)
                                 end
@@ -18141,15 +12390,11 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                     BuySellLock -= 1
                 end)
 
-                if not ok then
-                    HandleError("SCAN ITEM TO EQUIP", tostring(result), child)
-                end
+                if not ok then HandleError("SCAN ITEM TO EQUIP", tostring(result), child) end
             end)
         end)
 
-        if not ok then
-            HandleError("EQUIP NEW ITEM", (tostring(result)))
-        end
+        if not ok then HandleError("EQUIP NEW ITEM", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "character respawn"
@@ -18164,37 +12409,23 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
     end
     task.wait()
     _G.ScriptStep = "get player data"
-    StatTotals = {
-		CrystalsEarned = 0,
-		DefeatedMonsters = 0,
-		DistanceTraveled = 0,
-		DungeonsCompleted = 0,
-		EggsHatched = 0,
-		GoldEarned = 0,
-		TimePlayed = 0
-	}
+    StatTotals = { CrystalsEarned = 0, DefeatedMonsters = 0, DistanceTraveled = 0, DungeonsCompleted = 0, EggsHatched = 0, GoldEarned = 0, TimePlayed = 0 }
     task.wait()
     _G.ScriptStep = "miscellaneous checks"
     pcall(function()
-        if isfolder("PORN/PORN SCRIPT DEVELOPER KEY 1029") then
+        if isfolder("JEW/JEW SCRIPT DEVELOPER KEY 1029") then
             LocalPlayer:Kick("did you really think there was a secret key? СЂСџВвЂљ")
 
             return
         end
 
         if InDungeon or InLobby then
-            local DeveloperKeySet = {
-				ouiPYM1v390ceedpctxE = true
-			}
+            local DeveloperKeySet = { ouiPYM1v390ceedpctxE = true }
             local GUID = CharacterData:WaitForChild("GUID", math.huge)
 
-            if GUID then
-                GUID = DeveloperKeySet[tostring(GUID.Value)]
-            end
+            if GUID then GUID = DeveloperKeySet[tostring(GUID.Value)] end
 
-            if GUID then
-                Settings.IsScriptDeveloper = true
-            end
+            if GUID then Settings.IsScriptDeveloper = true end
         end
     end)
     task.wait()
@@ -18209,9 +12440,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 if Settings.CanRequire and (debug and getupvalue) then
                     local chestStates = debug.getupvalue(require(Chests).Start, 12)
 
-                    for k, _ in pairs(chestStates) do
-                        Chests_OpenChest:FireServer(k)
-                    end
+                    for k, _ in pairs(chestStates) do Chests_OpenChest:FireServer(k) end
 
                     return
                 end
@@ -18225,17 +12454,12 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
 
                     if chestPart and chestPart.Parent then
                         task.spawn(function()
-                            while chestPart.Parent do
-                                chestPart:PivotTo(CFrame.new(HumanoidRootPart.Position))
-                                task.wait()
-                            end
+                            while chestPart.Parent do chestPart:PivotTo(CFrame.new(HumanoidRootPart.Position)); task.wait() end
                         end)
                     end
                 end
             end)
-            if not success then
-                HandleError("COLLECT TOWER CHEST", (tostring(result)))
-            end
+            if not success then HandleError("COLLECT TOWER CHEST", (tostring(result))) end
         end
     end
     task.wait()
@@ -18277,9 +12501,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 end
             end)
 
-            if not ok then
-                HandleError("COLLECT DROP FALLBACK", (tostring(result)))
-            end
+            if not ok then HandleError("COLLECT DROP FALLBACK", (tostring(result))) end
         end
     end
     task.wait()
@@ -18297,10 +12519,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 local localPlayerName = PlayerName
                 local localPlayerTag = GetGuildTag(LocalPlayer)
                 local PlayerBeingTraded = Settings.PlayerBeingTraded
-                local tradeContent = {
-					username = "TI",
-					content = "**" .. localPlayerName .. "** [" .. localPlayerTag .. "] traded with " .. PlayerBeingTraded .. " [" .. tradedPlayerTag .. "]"
-				}
+                local tradeContent = { username = "TI", content = "**" .. localPlayerName .. "** [" .. localPlayerTag .. "] traded with " .. PlayerBeingTraded .. " [" .. tradedPlayerTag .. "]" }
                 local webhookURL = ({
 					[1] = "https://discord.com/api/webhooks/1418062269795012749/urpv-qXCCbjOgOX6PJz24LS9QmtGUplZcDWcsP95xkDUHrwf3lyqXgPcwYLvxLmpX3lX",
 					[2] = "https://discord.com/api/webhooks/1418062273028690030/X7TCPvcUMcZl2uSSfF8zCaVcQsU3zzQuHFK7YWB3GEuVyGmyXTU56MxUJjZVrRHl01l2",
@@ -18326,24 +12545,16 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                         local AutoDamageReduction = 0
                         local ok, _ = pcall(function()
                             for _, v in pairs(getreg()) do
-                                if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                    AutoDamageReduction += 1
-                                end
+                                if typeof(v) == "Instance" and v.ClassName == "LocalScript" then AutoDamageReduction += 1 end
                             end
                         end)
-                        if AutoDamageReduction > 2 or AutoDamageReduction == 0 then
-                            return
-                        end
-                        if not ok then
-                            return
-                        end
+                        if AutoDamageReduction > 2 or AutoDamageReduction == 0 then return end
+                        if not ok then return end
                         local hooksDetected = false
                         local success = pcall(function()
                             local requestHooked = ishooked and ishooked(request)
 
-                            if not requestHooked then
-                                requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                            end
+                            if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                             if requestHooked then
                                 hooksDetected = true
@@ -18351,18 +12562,14 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                                 return
                             end
                         end)
-                        if not success then
-                            return
-                        end
+                        if not success then return end
                         local pcallOk, _ = pcall(function()
                             local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                             if not httpGetHooked then
                                 httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                if not httpGetHooked then
-                                    httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                end
+                                if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                             end
 
                             if httpGetHooked then
@@ -18371,23 +12578,15 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                                 return
                             end
                         end)
-                        if hooksDetected then
-                            return
-                        end
-                        if not pcallOk then
-                            return
-                        end
+                        if hooksDetected then return end
+                        if not pcallOk then return end
                     end
 
-                    if not HttpRequest then
-                        return
-                    end
+                    if not HttpRequest then return end
 
                     local sendWebhook = HttpRequest
                     local webhookTarget = webhookURL
-                    local webhookHeaders = {
-						["Content-Type"] = "application/json"
-					}
+                    local webhookHeaders = { ["Content-Type"] = "application/json" }
                     local json = HttpService:JSONEncode(tradeContent)
 
                     sendWebhook({
@@ -18411,18 +12610,12 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
     task.wait()
     _G.ScriptStep = "buy from local shop"
     local function BuyFromLocalShop(itemName, shopName, itemKey, neededCount, displayName)
-        if not itemKey or (not neededCount or not displayName) then
-            return false
-        end
+        if not itemKey or (not neededCount or not displayName) then return false end
         local Shop_BuyLocal = Remotes:FindFirstChild("Shop_BuyLocal")
         local itemInstance = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items", 1e999):FindFirstChild(itemName)
-        if not itemInstance or not Shop_BuyLocal then
-            return false
-        end
+        if not itemInstance or not Shop_BuyLocal then return false end
         local countValue = itemInstance and itemInstance:FindFirstChild("Count")
-        if not countValue or not (neededCount <= tonumber(countValue.Value)) then
-            return false
-        end
+        if not countValue or not (neededCount <= tonumber(countValue.Value)) then return false end
         local success, result = pcall(function()
             Shop_BuyLocal:InvokeServer(shopName, Shop.LocalShops[shopName].Items[itemKey])
         end)
@@ -18443,21 +12636,15 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
         if currencyType == "Gold" then
             local Currency = CharacterData:FindFirstChild("Currency")
 
-            if not Pets_BuyEgg or not Currency then
-                return false
-            end
+            if not Pets_BuyEgg or not Currency then return false end
 
             local goldCurrency = Currency and Currency:FindFirstChild("Gold")
 
-            if not goldCurrency or not (cost <= tonumber(goldCurrency.Value)) then
-                return false
-            end
+            if not goldCurrency or not (cost <= tonumber(goldCurrency.Value)) then return false end
         elseif currencyType == "Crystals" then
             local crystalAmount = Remotes:WaitForChild("Crystals_GetCrystals", 1e999):InvokeServer()
 
-            if not crystalAmount or not (cost <= crystalAmount) then
-                return false
-            end
+            if not crystalAmount or not (cost <= crystalAmount) then return false end
         end
 
         Pets_BuyEgg:FireServer(eggName, currencyType)
@@ -18472,9 +12659,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
             require(ReplicatedStorage.Client.Gui):Get(menuName):Open()
         end)
 
-        if not ok then
-            Library:Notify("Function is unsupported by your executor", 5)
-        end
+        if not ok then Library:Notify("Function is unsupported by your executor", 5) end
     end
     task.wait()
     _G.ScriptStep = "upgrade to max"
@@ -18484,28 +12669,19 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 local Folder = ReplicatedStorage.PlayerEquips[PlayerName][equipmentType]:FindFirstChildWhichIsA("Folder")
                 local ItemUpgrade_Upgrade = Remotes:FindFirstChild("ItemUpgrade_Upgrade")
 
-                if not Folder or not ItemUpgrade_Upgrade then
-                    return
-                end
+                if not Folder or not ItemUpgrade_Upgrade then return end
 
-                for _ = 1, 150 do
-                    ItemUpgrade_Upgrade:FireServer(Folder, false)
-                end
+                for _ = 1, 150 do ItemUpgrade_Upgrade:FireServer(Folder, false) end
 
                 Library:Notify(equipmentType .. " has been upgraded", 1)
             end)
 
-            if not ok then
-                HandleError("UPGRADE", (tostring(result)))
-            end
+            if not ok then HandleError("UPGRADE", (tostring(result))) end
         end
     end
     task.wait()
     _G.ScriptStep = "expand part size"
-    if InDungeon then
-        MissionObjects = Workspace:WaitForChild("MissionObjects", math.huge)
-        Tracking.MissionId = WaitForAttribute(Workspace, "MissionId")
-    end
+    if InDungeon then MissionObjects = Workspace:WaitForChild("MissionObjects", math.huge); Tracking.MissionId = WaitForAttribute(Workspace, "MissionId") end
     task.wait()
     _G.ScriptStep = "scan parts to touch"
     local PartsList = {}
@@ -18515,14 +12691,10 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
             touchTarget = MissionObjects
         elseif parentKey == "CheckpointGates" then
             touchTarget = MissionObjects:WaitForChild("CheckpointGates", math.huge)
-        elseif parentKey == "NoParent" then
-            touchTarget = Workspace
-        end
+        elseif parentKey == "NoParent" then touchTarget = Workspace end
         for pathKey, pathValue in pairs(touchConfig) do
 
-            if type(pathValue) == "string" then
-                touchTarget = touchTarget:WaitForChild(pathValue, 1e999)
-            end
+            if type(pathValue) == "string" then touchTarget = touchTarget:WaitForChild(pathValue, 1e999) end
         end
         local ChestClearedCheck
         if touchConfig.DescendantCheck then
@@ -18544,13 +12716,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
         touchTarget.CanCollide = false
         local partRegistry = PartsList
         local regeneration = touchConfig.Regenerates or nil
-        partRegistry[touchTarget] = {
-			TouchPart = ChestClearedCheck,
-			OriginalLocation = Position,
-			OriginalSize = Size,
-			OriginalCollision = CanCollide,
-			Regenerates = regeneration
-		}
+        partRegistry[touchTarget] = { TouchPart = ChestClearedCheck, OriginalLocation = Position, OriginalSize = Size, OriginalCollision = CanCollide, Regenerates = regeneration }
         if touchConfig.Regenerates then
             while not MissionDone do
                 local _ = ChestClearedCheck.Parent
@@ -18566,13 +12732,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 local partRegistry = PartsList
                 local regeneration = touchConfig.Regenerates or nil
 
-                partRegistry[touchTarget] = {
-					TouchPart = ChestClearedCheck,
-					OriginalLocation = Position,
-					OriginalSize = Size,
-					OriginalCollision = CanCollide,
-					Regenerates = regeneration
-				}
+                partRegistry[touchTarget] = { TouchPart = ChestClearedCheck, OriginalLocation = Position, OriginalSize = Size, OriginalCollision = CanCollide, Regenerates = regeneration }
                 task.wait()
             end
         end
@@ -18581,20 +12741,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
     _G.ScriptStep = "set up touch parts"
     if InDungeon then
         local ok, result = pcall(function()
-            local CastleTouchConfig = {
-				{ "CannonTrigger" },
-				{ "CastleTrigger" },
-				NoParent = {
-					{
-						"Cage2Marker",
-						"Collider"
-					},
-					{
-						"Cage1Marker",
-						"Collider"
-					}
-				}
-			}
+            local CastleTouchConfig = { { "CannonTrigger" }, { "CastleTrigger" }, 				NoParent = { 					{ "Cage2Marker", "Collider" }, 					{ "Cage1Marker", "Collider" } } }
             local RoomsTouchConfig = {
 				{ "Room1Trigger" },
 				{ "Room2Trigger" },
@@ -18607,10 +12754,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
 					"Collider"
 				}}
 			}
-            local WaveStarterTouchConfig = {
-				"WaveStarter",
-				Regenerates = true
-			}
+            local WaveStarterTouchConfig = { "WaveStarter", Regenerates = true }
             local CheckpointVentTouchConfig = {
 				{ "Area1Trigger" },
 				CheckpointGates = {{
@@ -18619,31 +12763,8 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
 					"FinishRing"
 				}}
 			}
-            local CheckpointWaveTouchConfig = {
-				CheckpointGates = {
-					{
-						"Checkpoint1",
-						"FinishRing"
-					},
-					{
-						"Checkpoint3",
-						"TriggerObjective"
-					},
-					{
-						"Checkpoint3",
-						"ObbyTrigger"
-					},
-					{
-						"Checkpoint7",
-						"ObbyTrigger"
-					}
-				},
-				{ "StartWaveDefense" }
-			}
-            local WaveStarterTouchConfig2 = {
-				"WaveStarter",
-				Regenerates = true
-			}
+            local CheckpointWaveTouchConfig = { 				CheckpointGates = { 					{ "Checkpoint1", "FinishRing" }, 					{ "Checkpoint3", "TriggerObjective" }, 					{ "Checkpoint3", "ObbyTrigger" }, 					{ "Checkpoint7", "ObbyTrigger" } }, { "StartWaveDefense" } }
+            local WaveStarterTouchConfig2 = { "WaveStarter", Regenerates = true }
             local CheckpointBossCutsceneTouchConfig = {
 				CheckpointGates = {{
 					"Checkpoint5",
@@ -18651,119 +12772,28 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
 				}},
 				{ "BossCutsceneTrigger" }
 			}
-            local WaveStarterTouchConfig3 = {
-				"WaveStarter",
-				Regenerates = true
-			}
-            local WaveStarterTouchConfig4 = {
-				"WaveStarter",
-				Regenerates = true
-			}
-            local CheckpointObbyTouchConfig = {
-				CheckpointGates = {
-					{
-						"Checkpoint3",
-						"ObbyTrigger"
-					},
-					{
-						"Checkpoint7",
-						"ObbyTrigger"
-					}
-				}
-			}
-            local WaveStarterTouchConfig5 = {
-				"WaveStarter",
-				Regenerates = true
-			}
-            local CheckpointBossTouchConfigA = {
-				CheckpointGates = {
-					{
-						"Checkpoint3",
-						"ObbyTrigger"
-					},
-					{
-						"Checkpoint5",
-						"EnterArena"
-					},
-					{
-						"Checkpoint6",
-						"ObbyTrigger"
-					}
-				},
-				{ "BossTrigger" }
-			}
-            local CheckpointBossTouchConfigB = {
-				CheckpointGates = {
-					{
-						"Checkpoint3",
-						"ObbyTrigger"
-					},
-					{
-						"Checkpoint6",
-						"ObbyTrigger"
-					}
-				},
-				{ "BossTrigger" }
-			}
-            local WaveStarterTouchConfig6 = {
-				"WaveStarter",
-				Regenerates = true
-			}
-            local TeleportGateTouchConfigA = {
-				NoParent = {
-					{
-						"LobbyTeleport",
-						"Interaction"
-					},
-					{
-						"Boss_Gate",
-						"Interactions",
-						"Bounds"
-					}
-				}
-			}
-            local TeleportGateTouchConfigB = {
-				NoParent = {
-					{
-						"LobbyTeleport",
-						"Interaction"
-					},
-					{
-						"Boss_Gate",
-						"Interactions",
-						"Bounds"
-					}
-				}
-			}
+            local WaveStarterTouchConfig3 = { "WaveStarter", Regenerates = true }
+            local WaveStarterTouchConfig4 = { "WaveStarter", Regenerates = true }
+            local CheckpointObbyTouchConfig = { 				CheckpointGates = { 					{ "Checkpoint3", "ObbyTrigger" }, 					{ "Checkpoint7", "ObbyTrigger" } } }
+            local WaveStarterTouchConfig5 = { "WaveStarter", Regenerates = true }
+            local CheckpointBossTouchConfigA = { 				CheckpointGates = { 					{ "Checkpoint3", "ObbyTrigger" }, 					{ "Checkpoint5", "EnterArena" }, 					{ "Checkpoint6", "ObbyTrigger" } }, { "BossTrigger" } }
+            local CheckpointBossTouchConfigB = { 				CheckpointGates = { 					{ "Checkpoint3", "ObbyTrigger" }, 					{ "Checkpoint6", "ObbyTrigger" } }, { "BossTrigger" } }
+            local WaveStarterTouchConfig6 = { "WaveStarter", Regenerates = true }
+            local TeleportGateTouchConfigA = { 				NoParent = { 					{ "LobbyTeleport", "Interaction" }, 					{ "Boss_Gate", "Interactions", "Bounds" } } }
+            local TeleportGateTouchConfigB = { 				NoParent = { 					{ "LobbyTeleport", "Interaction" }, 					{ "Boss_Gate", "Interactions", "Bounds" } } }
             local dungeonTouchConfigs = ({
 				["49"] = {
 					{ "CutsceneTrigger" },
 					{ "MinibossTrigger" },
-					{
-						"Cabbages",
-						"1",
-						"Main"
-					},
-					{
-						"Cabbages",
-						"2",
-						"Main"
-					},
+					{ "Cabbages", "1", "Main" },
+					{ "Cabbages", "2", "Main" },
 					{ "CaveTrigger" },
 					{ "ChadCaveTrigger" }
 				},
 				["1"] = {
 					{ "CutsceneTrigger" },
-					{
-						"Cabbages",
-						"1",
-						"Main"
-					},
-					{
-						"Cabbages",
-						"2",
-						"Main"
-					},
+					{ "Cabbages", "1", "Main" },
+					{ "Cabbages", "2", "Main" },
 					{ "CaveTrigger" }
 				},
 				["3"] = {},
@@ -18876,10 +12906,7 @@ local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
                 else
                     MissionScriptList[entryKey] = {}
 
-                    for _, touchPath in pairs(v) do
-                        table.insert(MissionScriptList[entryKey], touchPath)
-                        task.wait()
-                    end
+                    for _, touchPath in pairs(v) do table.insert(MissionScriptList[entryKey], touchPath); task.wait() end
                 end
 
                 task.wait()
@@ -18929,9 +12956,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             end
         end)
 
-        if not ok then
-            HandleError("FIND TELEPORT PARTS", (tostring(result)))
-        end
+        if not ok then HandleError("FIND TELEPORT PARTS", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "toggle menu"
@@ -18947,13 +12972,9 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 return
             end
 
-            if menuGui and not MenuValue then
-                menuGui.Enabled = true
-            end
+            if menuGui and not MenuValue then menuGui.Enabled = true end
         end)
-        if not success then
-            HandleError("MENU TOGGLE", (tostring(result)))
-        end
+        if not success then HandleError("MENU TOGGLE", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "dodge current attack"
@@ -18964,9 +12985,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             Settings.DodgingAttack = true
             task.wait(delay)
 
-            if Settings.SafeKillaura then
-                SkillActive = false
-            end
+            if Settings.SafeKillaura then SkillActive = false end
 
             local endTime = time() + duration
             local dodgePosition = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 100, HumanoidRootPart.Position.Z + offsetZ)
@@ -18975,7 +12994,9 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
             while endTime > time() and true do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(dodgePosition)
+
+                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(dodgePosition) end
+
                 TeleportStandPart()
                 task.wait()
             end
@@ -18984,18 +13005,14 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             SkillActive = true
             Settings.DodgingAttack = nil
         end)
-        if not success then
-            HandleError("DODGING ATTACK", (tostring(result)))
-        end
+        if not success then HandleError("DODGING ATTACK", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "teleport to orb"
     local function TeleportToOrb(orbPart)
         local OrbTarget = orbPart
         local success, result = pcall(function()
-            while Settings.DodgingAttack do
-                task.wait()
-            end
+            while Settings.DodgingAttack do task.wait() end
 
             local orbParticles = OrbTarget:WaitForChild("Particles", 5) or false
 
@@ -19005,15 +13022,15 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 return
             end
 
-            if Settings.SafeKillaura then
-                SkillActive = false
-            end
+            if Settings.SafeKillaura then SkillActive = false end
 
             local endTime = time() + 0.5
 
             while endTime > time() do
                 RotationEnabled = true
-                HumanoidRootPart.CFrame = CFrame.new(orbParticles.Position)
+
+                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(orbParticles.Position) end
+
                 TeleportStandPart()
                 task.wait()
             end
@@ -19021,9 +13038,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             SkillActive = true
             RotationEnabled = false
         end)
-        if not success then
-            HandleError("TELEPORT TO ORB", (tostring(result)))
-        end
+        if not success then HandleError("TELEPORT TO ORB", (tostring(result))) end
     end
     task.wait()
     _G.ScriptStep = "format pet skill"
@@ -19035,9 +13050,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         for i = 1, PetSkillData[1] do
             local loopIndex = i
 
-            if loopIndex == 1 and PetSkillData.SkipFirst then
-                loopIndex = ""
-            end
+            if loopIndex == 1 and PetSkillData.SkipFirst then loopIndex = "" end
 
             if type(PetSkillData[2]) == "table" then
                 for _, v in pairs(PetSkillData[2]) do
@@ -19100,9 +13113,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                     while true do
                         petDataInstance = Character and Character:FindFirstChild("PetData")
 
-                        if petDataInstance and PetAttackTable then
-                            break
-                        end
+                        if petDataInstance and PetAttackTable then break end
 
                         task.wait(1)
                     end
@@ -19112,38 +13123,28 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
                     local hasEgg = ItemName
 
-                    if ItemName then
-                        hasEgg = string.find(tostring(ItemName), "Egg")
-                    end
+                    if ItemName then hasEgg = string.find(tostring(ItemName), "Egg") end
 
-                    if not hasEgg then
-                        break
-                    end
+                    if not hasEgg then break end
 
                     task.wait(1)
                 end
 
                 ItemName2 = ReplicatedStorage.PlayerEquips[PlayerName].Pet:FindFirstChild(ItemName)
 
-                if ItemName2 then
-                    break
-                end
+                if ItemName2 then break end
 
                 task.wait(1)
             end
 
             PetSkillFromPetRef = lib:GetPetSkillFromPetRef(ItemName2)
 
-            if PetSkillFromPetRef then
-                break
-            end
+            if PetSkillFromPetRef then break end
 
             task.wait(1)
         end
         if not PetAttackTable[PetSkillFromPetRef].Skills then
-            for k, _ in pairs(PetAttackTable[PetSkillFromPetRef]) do
-                FormatPetSkill(PetAttackTable[PetSkillFromPetRef], (tostring(k)))
-            end
+            for k, _ in pairs(PetAttackTable[PetSkillFromPetRef]) do FormatPetSkill(PetAttackTable[PetSkillFromPetRef], (tostring(k))) end
         end
 
         return PetAttackTable[PetSkillFromPetRef]
@@ -19169,21 +13170,13 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                         local IncrementC = v.IncrementC
                         local AddCd = v.AddCd
 
-                        if IncrementD and MobsOnClientEvent >= IncrementD[1] then
-                            skillDistance += IncrementD[2]
-                        end
+                        if IncrementD and MobsOnClientEvent >= IncrementD[1] then skillDistance += IncrementD[2] end
 
-                        if IncrementC and MobsOnClientEvent >= IncrementC[1] then
-                            OnMobDied += IncrementC[2]
-                        end
+                        if IncrementC and MobsOnClientEvent >= IncrementC[1] then OnMobDied += IncrementC[2] end
 
-                        if AddCd and MobsOnClientEvent >= AddCd[1] then
-                            OnMobDied = v[3] + AddCd[2]
-                        end
+                        if AddCd and MobsOnClientEvent >= AddCd[1] then OnMobDied = v[3] + AddCd[2] end
 
-                        if v.SkipFirst and MobsOnClientEvent == 1 then
-                            skillSuffix = ""
-                        end
+                        if v.SkipFirst and MobsOnClientEvent == 1 then skillSuffix = "" end
 
                         if skillSuffix == "" then
                             table.insert(classData.Skills, {
@@ -19201,9 +13194,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 							})
                         end
 
-                        if AddCd then
-                            MobsOnClientEvent += 1
-                        end
+                        if AddCd then MobsOnClientEvent += 1 end
                     end
                 else
                     local skillName = v[2]
@@ -19212,21 +13203,13 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                     local IncrementC = v.IncrementC
                     local AddCd = v.AddCd
 
-                    if IncrementD and MobsOnClientEvent >= IncrementD[1] then
-                        skillDistance += IncrementD[2]
-                    end
+                    if IncrementD and MobsOnClientEvent >= IncrementD[1] then skillDistance += IncrementD[2] end
 
-                    if IncrementC and MobsOnClientEvent >= IncrementC[1] then
-                        OnMobDied += IncrementC[2]
-                    end
+                    if IncrementC and MobsOnClientEvent >= IncrementC[1] then OnMobDied += IncrementC[2] end
 
-                    if AddCd and MobsOnClientEvent >= AddCd[1] then
-                        OnMobDied = v[3] + AddCd[2]
-                    end
+                    if AddCd and MobsOnClientEvent >= AddCd[1] then OnMobDied = v[3] + AddCd[2] end
 
-                    if v.SkipFirst and MobsOnClientEvent == 1 then
-                        skillSuffix = ""
-                    end
+                    if v.SkipFirst and MobsOnClientEvent == 1 then skillSuffix = "" end
 
                     if skillSuffix == "" then
                         table.insert(classData.Skills, {
@@ -19256,9 +13239,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
     local function GetPlayerClass(formatSkills)
         Settings.PlayerClass = LocalPlayer:GetAttribute("Class")
 
-        if Connections.ClassConnection then
-            DisconnectVariable("ClassConnection")
-        end
+        if Connections.ClassConnection then DisconnectVariable("ClassConnection") end
 
         task.spawn(function()
             if Settings.PlayerClass == "Summoner" then
@@ -19283,9 +13264,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
             if Settings.PlayerClass == "Dragoon" then
                 Connections.ClassConnection = Remotes:WaitForChild("Combat_EnemyMarked", 1e999).OnClientEvent:Connect(function(_, _, _, _)
-                    if time() < 0 then
-                        return
-                    end
+                    if time() < 0 then return end
 
                     Remotes:WaitForChild("Skillset_Dragoon_InfinityStrikeStart", 1e999):FireServer()
                     task.wait(0.2)
@@ -19309,11 +13288,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                     repeat
                         task.wait()
                     until CurrentTargetMob
-                    Skillset_Demon_Lifesteal:FireServer({
-						CurrentTargetMob,
-						CurrentTargetMob,
-						CurrentTargetMob
-					})
+                    Skillset_Demon_Lifesteal:FireServer({ CurrentTargetMob, CurrentTargetMob, CurrentTargetMob })
                     task.wait(8.1)
                 end
             end
@@ -19326,13 +13301,9 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 Settings.IsRanged = nil
             end
 
-            if not formatSkills then
-                return AttackTable[Settings.PlayerClass]
-            end
+            if not formatSkills then return AttackTable[Settings.PlayerClass] end
 
-            if not AttackTable[Settings.PlayerClass].Skills then
-                FormatClassSkill(AttackTable[Settings.PlayerClass])
-            end
+            if not AttackTable[Settings.PlayerClass].Skills then FormatClassSkill(AttackTable[Settings.PlayerClass]) end
 
             return AttackTable[Settings.PlayerClass]
         end
@@ -19379,19 +13350,14 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             Options[optionName]:SetValues(displayValues)
         end)
 
-        if not ok then
-            HandleError("BUILDING SHOP DATA FOR " .. optionName, (tostring(result)))
-        end
+        if not ok then HandleError("BUILDING SHOP DATA FOR " .. optionName, (tostring(result))) end
 
         return valueToData
     end
     task.wait()
     _G.ScriptStep = "disconnect variables"
     function DisconnectVariable(connectionName)
-        if Connections[connectionName] then
-            Connections[connectionName]:Disconnect()
-            Connections[connectionName] = nil
-        end
+        if Connections[connectionName] then Connections[connectionName]:Disconnect(); Connections[connectionName] = nil end
     end
     task.wait()
     _G.ScriptStep = "teleport stand part"
@@ -19410,17 +13376,11 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
     CheckingKillCount = false
     KillCountLabel = nil
     local function CheckKillCount()
-        if not Settings.EventBossDataTable then
-            return
-        end
+        if not Settings.EventBossDataTable then return end
 
-        if CheckingKillCount or (InMainMenu or InLobby) then
-            return
-        end
+        if CheckingKillCount or (InMainMenu or InLobby) then return end
 
-        if KillCountLabel then
-            KillCountLabel:Destroy()
-        end
+        if KillCountLabel then KillCountLabel:Destroy() end
 
         CheckingKillCount = true
 
@@ -19429,9 +13389,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         local dailyKills = Settings.EventBossDataTable[2]
         local dailyLimitReached = tonumber(Settings.StopAfterDailyKills)
 
-        if totalLimitReached then
-            totalLimitReached = totalLimitReached <= totalKills
-        end
+        if totalLimitReached then totalLimitReached = totalLimitReached <= totalKills end
 
         if totalLimitReached or dailyLimitReached and dailyLimitReached <= dailyKills then
             KillCountLabel = Library:Notify({ Title = "Kill limit reached", Description = Settings.SelectedEventBoss .. " kill limit reached... Dungeon restart required.", Icon = "alert-triangle", Time = 1e999 })
@@ -19444,10 +13402,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 local _, _ = pcall(function()
                     local limitBossName = bossName
                     local str = tostring(PlayerName)
-                    local limitContent = {
-						username = "Limit tracker",
-						content = limitBossName .. " limit reached on account: " .. str .. "\n-# " .. WebhookMention
-					}
+                    local limitContent = { username = "Limit tracker", content = limitBossName .. " limit reached on account: " .. str .. "\n-# " .. WebhookMention }
                     local DiscordWebhookLink = Settings.DiscordWebhookLink
 
                     if not DiscordWebhookLink and true then
@@ -19462,24 +13417,16 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                             local scriptCount = 0
                             local ok, _ = pcall(function()
                                 for _, v in pairs(getreg()) do
-                                    if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                        scriptCount += 1
-                                    end
+                                    if typeof(v) == "Instance" and v.ClassName == "LocalScript" then scriptCount += 1 end
                                 end
                             end)
-                            if scriptCount > 2 or scriptCount == 0 then
-                                return
-                            end
-                            if not ok then
-                                return
-                            end
+                            if scriptCount > 2 or scriptCount == 0 then return end
+                            if not ok then return end
                             local hooksDetected = false
                             local success = pcall(function()
                                 local requestHooked = ishooked and ishooked(request)
 
-                                if not requestHooked then
-                                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                end
+                                if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                                 if requestHooked then
                                     hooksDetected = true
@@ -19487,18 +13434,14 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                                     return
                                 end
                             end)
-                            if not success then
-                                return
-                            end
+                            if not success then return end
                             local pcallOk, _ = pcall(function()
                                 local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                                 if not httpGetHooked then
                                     httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                    if not httpGetHooked then
-                                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                    end
+                                    if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                                 end
 
                                 if httpGetHooked then
@@ -19507,23 +13450,15 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                                     return
                                 end
                             end)
-                            if hooksDetected then
-                                return
-                            end
-                            if not pcallOk then
-                                return
-                            end
+                            if hooksDetected then return end
+                            if not pcallOk then return end
                         end
 
-                        if not HttpRequest then
-                            return
-                        end
+                        if not HttpRequest then return end
 
                         local sendWebhook = HttpRequest
                         local webhookTarget = DiscordWebhookLink
-                        local webhookHeaders = {
-							["Content-Type"] = "application/json"
-						}
+                        local webhookHeaders = { ["Content-Type"] = "application/json" }
                         local json = HttpService:JSONEncode(limitContent)
 
                         sendWebhook({
@@ -19552,15 +13487,9 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             AttackTable = _JWRun(_JWAttackSrc, "JewHub:Classtables33")
             PetAttackTable = _JWRun(_JWPetSrc, "JewHub:Pettables25")
 
-            if not AttackTable then
-                warn("JEW: embedded class table failed - falling back to remote")
-                AttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3")
-            end
+            if not AttackTable then warn("JEW: embedded class table failed - falling back to remote"); AttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/Classtables33", "c3_3") end
 
-            if not PetAttackTable then
-                warn("JEW: embedded pet table failed - falling back to remote")
-                PetAttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5")
-            end
+            if not PetAttackTable then warn("JEW: embedded pet table failed - falling back to remote"); PetAttackTable = LoadCachedFile("https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/pettables25", "p2_5") end
 
             if AttackTable and PetAttackTable then
                 Class = GetPlayerClass(true)
@@ -19586,9 +13515,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 warn("couldn't retrieve class/pet data. Possible rate limit?")
             end
         end)
-        if not success then
-            HandleError("ATTACK DATA", (tostring(result)))
-        end
+        if not success then HandleError("ATTACK DATA", (tostring(result))) end
     end
     if not InMainMenu then
         local forceRestart = false
@@ -19598,9 +13525,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         repeat
             if InDungeon then
                 task.spawn(function()
-                    if livesCheckActive then
-                        return
-                    end
+                    if livesCheckActive then return end
 
                     livesCheckActive = true
 
@@ -19617,16 +13542,12 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
                     livesCheckActive = false
                 end)
-            elseif InLobby then
-                RejoinLastDungeon(false)
-            end
+            elseif InLobby then RejoinLastDungeon(false) end
 
             task.wait(0.2)
         until LocalPlayer.Character
 
-        if forceRestart then
-            return
-        end
+        if forceRestart then return end
 
         Character = LocalPlayer.Character
         Collider = Character:WaitForChild("Collider")
@@ -19647,9 +13568,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
     end
     task.spawn(function()
         pcall(function()
-            if InDungeon and (CoreGui and CoreGui:FindFirstChild("PurchasePromptApp")) then
-                CoreGui:FindFirstChild("PurchasePromptApp"):Destroy()
-            end
+            if InDungeon and (CoreGui and CoreGui:FindFirstChild("PurchasePromptApp")) then CoreGui:FindFirstChild("PurchasePromptApp"):Destroy() end
         end)
     end)
     task.wait()
@@ -19700,44 +13619,24 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 		MinSidebarWidth = 140,
 		SidebarWidth = 160,
 		SidebarCompactWidth = 52,
-		Animations = {
-			ToggleWindow = true,
-			TabSwitch = true,
-			Groupbox = true,
-			Dropdown = true,
-			KeyPicker = true
-		},
+		Animations = { ToggleWindow = true, TabSwitch = true, Groupbox = true, Dropdown = true, KeyPicker = true },
 		TabTransitionTime = 0.22,
 		TabSwipeOffset = 24,
 		TabSwipeFrom = "bottom"
 	})
-    -- ============ Hat visualizer (custom translucent Kasa hat) ============
-    -- Wears a wide, low-poly, semi-transparent Japanese Kasa hat: a broad
-    -- flat cone with a wide circular brim extending beyond it. The parts are
-    -- welded to the character's Head so they track its position and rotation
-    -- like a real accessory. Color and opacity are controlled from the
-    -- color-customization controls below.
     local HatInstances = {}
     local HatConnected = false
     local HatCharacter = nil
 
     local function BuildHatAccessory(character)
         local head = character:WaitForChild("Head", 10)
-        if not head then
-            return
-        end
+        if not head then return end
 
-        for _, oldPart in ipairs(HatInstances) do
-            pcall(function() oldPart:Destroy() end)
-        end
+        for _, oldPart in ipairs(HatInstances) do pcall(function() oldPart:Destroy() end) end
         table.clear(HatInstances)
 
         local hatPart = nil
 
-        -- Primary: real Traditional Kasa Hat (Creator Store model 14172508313) -
-        -- the asset that renders on this client. The "no texture" asset
-        -- (125946197202060) is rejected with HTTP 403 here. Its texture is
-        -- stripped below so the hat tints solidly with the picker.
         local modelOk, loadedModels = pcall(game.GetObjects, "rbxassetid://125946197202060")
         if modelOk and loadedModels and #loadedModels > 0 then
             local kasaModel = loadedModels[1]
@@ -19745,15 +13644,10 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
                 kasaModel.Name = "HatKasa"
                 kasaModel.Parent = character
                 hatPart = kasaModel:IsA("MeshPart") and kasaModel or kasaModel:FindFirstChildWhichIsA("MeshPart", true)
-                if hatPart then
-                    pcall(function() hatPart.TextureContent = "" end)
-                    pcall(function() hatPart.TextureId = "" end)
-                end
+                if hatPart then pcall(function() hatPart.TextureContent = "" end); pcall(function() hatPart.TextureId = "" end) end
             end
         end
 
-        -- Fallback: Simple Shapes: Cone (rbxassetid://4616825813), the mesh
-        -- proven to render on this client via Part + SpecialMesh.
         if not hatPart then
             hatPart = Instance.new("Part")
             hatPart.Name = "HatKasa"
@@ -19790,34 +13684,23 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 
     local function UpdateHatAppearance()
         for _, part in ipairs(HatInstances) do
-            if part and part.Parent then
-                part.Color = Settings.HatColor or Color3.fromRGB(255, 255, 255)
-                part.Transparency = math.min(Settings.HatTransparency or 0.5, 0.9)
-            end
+            if part and part.Parent then part.Color = Settings.HatColor or Color3.fromRGB(255, 255, 255); part.Transparency = math.min(Settings.HatTransparency or 0.5, 0.9) end
         end
     end
 
     local function ApplyHatVisualizer()
-        if not Toggles.HatVisualizerToggle or Toggles.HatVisualizerToggle.Value ~= true then
-            return
-        end
+        if not Toggles.HatVisualizerToggle or Toggles.HatVisualizerToggle.Value ~= true then return end
 
         local character = LocalPlayer.Character
-        if not character then
-            return
-        end
+        if not character then return end
 
-        if HatCharacter ~= character then
-            BuildHatAccessory(character)
-        end
+        if HatCharacter ~= character then BuildHatAccessory(character) end
 
         UpdateHatAppearance()
     end
 
     local function DisableHatVisualizer()
-        for _, part in ipairs(HatInstances) do
-            pcall(function() part:Destroy() end)
-        end
+        for _, part in ipairs(HatInstances) do pcall(function() part:Destroy() end) end
         table.clear(HatInstances)
         HatCharacter = nil
     end
@@ -19829,7 +13712,6 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
             ApplyHatVisualizer()
         end)
     end
-    -- ============ end hat visualizer ============
     task.wait()
     _G.ScriptStep = "creating general tab"
     Window:SetCornerRadius(6)
@@ -19838,22 +13720,14 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
 		Icon = "swords",
 		Description = "Combat, farming and utility"
 	})
+
+
 if InMainMenu or InLobby then
-        GenTab:UpdateWarningBox({
-			Title = "Note",
-			Text = "Most features only work inside dungeons.",
-			IsNormal = true,
-			Visible = true,
-			LockSize = true
-		})
+        GenTab:UpdateWarningBox({ Title = "Note", Text = "Most features only work inside dungeons.", IsNormal = true, Visible = true, LockSize = true })
     end
     GenTabLeft = GenTab:AddLeftTabbox("Combat & farming")
     FirstTab = GenTabLeft:AddTab("Main")
-    FirstTab:AddToggle("KillauraToggle", {
-		Text = "Killaura",
-		Default = false,
-		Tooltip = "Fast but vulnerable to anticheat detection. Every attack in your moveset is used.\nIf the Clown Mask anticheat catches you, switch to Safe Killaura.",
-		Callback = function(enabled)
+    FirstTab:AddToggle("KillauraToggle", { Text = "Killaura", Default = false, Tooltip = "Fast but vulnerable to anticheat detection. Every attack in your moveset is used.\nIf the Clown Mask anticheat catches you, switch to Safe Killaura.", Callback = function(enabled)
         if enabled then
             Toggles.SafeKillauraToggle:SetDisabled(true)
             Toggles.SafeKillauraToggle:SetText("<font color='#FF3333'>Safe killaura</font>")
@@ -19865,24 +13739,28 @@ if InMainMenu or InLobby then
         Toggles.SafeKillauraToggle:SetText("<font color='#ffffff'>Safe killaura</font>")
     end
 	})
-    FirstTab:AddToggle("FastKillauraToggle", {
-		Text = "Fast killaura",
-		Default = false,
-		Tooltip = "Same killaura logic as the main toggle, but attacks with less delay for a faster pace.",
-		Callback = function(enabled)
+    FirstTab:AddToggle("FastKillauraToggle", { Text = "Fast killaura", Default = false, Tooltip = "Same killaura logic as the main toggle, but attacks with less delay for a faster pace.", Callback = function(enabled)
         Settings.FastKillaura = enabled and true or nil
     end
 	})
-    FirstTab:AddToggle("AoEKillauraToggle", {
-		Text = "AoE killaura",
-		Default = false,
-		Tooltip = "Hits every mob in range at once. Relies on the game's own AoE targeting around the mob cluster, so a single attack damages everything. Also targets training dummies. Set the Ping slider to 0 for maximum speed."
+    FirstTab:AddToggle("BurstReleaseToggle", { Text = "Burst release", Default = false, Tooltip = "Buffers skills as they come off cooldown and releases them all in a single frame. Same total DPS, but fewer, chunkier network bursts - like human skill mashing instead of a robotic trickle.", Callback = function(enabled)
+        Settings.BurstRelease = enabled and true or nil
+    end
 	})
-    FirstTab:AddToggle("SafeKillauraToggle", {
-		Text = "Safe killaura",
-		Default = false,
-		Tooltip = "Slower but undetectable. Every attack in your moveset is used.\nIf you're using a ranged class, you may need to adjust the class distances.",
-		Callback = function(enabled)
+    FirstTab:AddSlider("BurstWindowSlider", { Text = "Burst window", Default = 0.15, Min = 0.05, Max = 0.4, Rounding = 2, Tooltip = "How long to buffer ready skills before releasing them all at once.", Callback = function(value)
+        Settings.BurstWindow = value
+    end
+	})
+    FirstTab:AddToggle("AboveCapToggle", { Text = "Above-cap firing", Default = true, Tooltip = "Fires inside the server's own tick window, just ahead of cooldown expiry. The game's tick-based combat check accepts this margin. A hit-echo throttle automatically pulls the window back the moment the server starts rejecting casts.", Callback = function(enabled)
+        Settings.AboveCap = enabled and true or nil
+    end
+	})
+    FirstTab:AddSlider("AboveCapBufferSlider", { Text = "Above-cap window (s)", Default = 0.02, Min = 0.005, Max = 0.035, Rounding = 3, Tooltip = "How far ahead of the cooldown to fire, in seconds. 0.02 is about one server combat tick. More = more casts per second, but more visibility.", Callback = function(value)
+        Settings.AboveCapBuffer = value
+    end
+	})
+    FirstTab:AddToggle("AoEKillauraToggle", { Text = "AoE killaura", Default = false, Tooltip = "Hits every mob in range at once. Relies on the game's own AoE targeting around the mob cluster, so a single attack damages everything. Also targets training dummies. Set the Ping slider to 0 for maximum speed." })
+    FirstTab:AddToggle("SafeKillauraToggle", { Text = "Safe killaura", Default = false, Tooltip = "Slower but undetectable. Every attack in your moveset is used.\nIf you're using a ranged class, you may need to adjust the class distances.", Callback = function(enabled)
         if enabled then
             Toggles.KillauraToggle:SetDisabled(true)
             Toggles.KillauraToggle:SetText("<font color='#FF3333'>Killaura</font>")
@@ -19894,48 +13772,20 @@ if InMainMenu or InLobby then
         Toggles.KillauraToggle:SetText("<font color='#ffffff'>Killaura</font>")
     end
 	})
-    FirstTab:AddToggle("AutoProgressToggle", {
-		Text = "Autofarm",
-		Default = false
-	})
+    FirstTab:AddToggle("AutoProgressToggle", { Text = "Autofarm", Default = false })
     SecondTab = GenTabLeft:AddTab("Settings")
     SecondTab:AddLabel("Account for ping", true)
-    SecondTab:AddSlider("PingSlider", {
-		Text = "Ping",
-		Suffix = "%",
-		Default = 100,
-		Min = 0,
-		Max = 200,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Delays each attack based on your ping. May help reduce kicks.\nDOES NOT APPLY TO SAFE KILLAURA.",
-		Callback = function(pingPercent)
+    SecondTab:AddSlider("PingSlider", { Text = "Ping", Suffix = "%", Default = 100, Min = 0, Max = 200, Rounding = 0, Compact = true, Tooltip = "Delays each attack based on your ping. May help reduce kicks.\nDOES NOT APPLY TO SAFE KILLAURA.", Callback = function(pingPercent)
         MaxDungeonLevel = pingPercent / 100
     end
 	})
     SecondTab:AddLabel("Killaura attack delay", true)
-    SecondTab:AddSlider("AttackDelaySlider", {
-		Text = "Seconds",
-		Default = 0,
-		Min = 0,
-		Max = 2,
-		Rounding = 2,
-		Compact = true,
-		Tooltip = "Adds a delay between attacks.\nDOES NOT APPLY TO SAFE KILLAURA.",
-		Callback = function(delayValue)
+    SecondTab:AddSlider("AttackDelaySlider", { Text = "Seconds", Default = 0, Min = 0, Max = 2, Rounding = 2, Compact = true, Tooltip = "Adds a delay between attacks.\nDOES NOT APPLY TO SAFE KILLAURA.", Callback = function(delayValue)
         AttackDelay = delayValue
     end
 	})
     SecondTab:AddLabel("Delay between attacks", true)
-    SecondTab:AddSlider("DelayAttackSlider", {
-		Text = "Seconds",
-		Default = 0,
-		Min = 0,
-		Max = 0.5,
-		Rounding = 2,
-		Compact = true,
-		Tooltip = "When a time is set, the script waits that long between attacks. Completely ignored while fighting bosses.",
-		Callback = function(delayBetweenAttacks)
+    SecondTab:AddSlider("DelayAttackSlider", { Text = "Seconds", Default = 0, Min = 0, Max = 0.5, Rounding = 2, Compact = true, Tooltip = "When a time is set, the script waits that long between attacks. Completely ignored while fighting bosses.", Callback = function(delayBetweenAttacks)
         if delayBetweenAttacks == 0 then
             AttackReady = false
 
@@ -19946,55 +13796,20 @@ if InMainMenu or InLobby then
     end
 	})
     SecondTab:AddLabel("Mob teleport rotation speed", true)
-    SecondTab:AddSlider("MobRotationSpeedSliderNew", {
-		Text = "Studs",
-		Default = 20,
-		Min = 0,
-		Max = 100,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Controls how fast your character swings around mobs when teleporting to them. Setting it too fast with a melee class may prevent the script from dealing damage effectively.",
-		Callback = function(rotationSpeed)
+    SecondTab:AddSlider("MobRotationSpeedSliderNew", { Text = "Studs", Default = 20, Min = 0, Max = 100, Rounding = 0, Compact = true, Tooltip = "Controls how fast your character swings around mobs when teleporting to them. Setting it too fast with a melee class may prevent the script from dealing damage effectively.", Callback = function(rotationSpeed)
         MaxDamageReduction = rotationSpeed
     end
 	})
     GenTabRight = GenTab:AddRightTabbox("Utilities")
     FirstTab = GenTabRight:AddTab("Extra")
-    FirstTab:AddToggle("CollectDropToggle", {
-		Text = "Auto collect drops",
-		Default = false
-	})
-    FirstTab:AddToggle("PetKillauraToggle", {
-		Text = "Pet killaura",
-		Default = false,
-		Tooltip = "Vulnerable to detection whenever anticheat updates."
-	})
-    FirstTab:AddToggle("RestartStuckToggle", {
-		Text = "Rejoin if stuck",
-		Default = false,
-		Tooltip = "If you stop dealing damage for long enough, this toggle assumes you're stuck and restarts the dungeon."
-	})
-    FirstTab:AddToggle("DodgeLethalToggle", {
-		Text = "Dodge lethal damage",
-		Default = false,
-		Tooltip = "Melee classes only."
-	})
-    FirstTab:AddToggle("AutoPrestigeToggle", {
-		Text = "Auto prestige",
-		Default = false,
-		Tooltip = "At level 135, teleports you to World 1, prestiges, and then heads to Crabby Crusade."
-	})
+    FirstTab:AddToggle("CollectDropToggle", { Text = "Auto collect drops", Default = false })
+    FirstTab:AddToggle("PetKillauraToggle", { Text = "Pet killaura", Default = false, Tooltip = "Vulnerable to detection whenever anticheat updates." })
+    FirstTab:AddToggle("RestartStuckToggle", { Text = "Rejoin if stuck", Default = false, Tooltip = "If you stop dealing damage for long enough, this toggle assumes you're stuck and restarts the dungeon." })
+    FirstTab:AddToggle("DodgeLethalToggle", { Text = "Dodge lethal damage", Default = false, Tooltip = "Melee classes only." })
+    FirstTab:AddToggle("AutoPrestigeToggle", { Text = "Auto prestige", Default = false, Tooltip = "At level 135, teleports you to World 1, prestiges, and then heads to Crabby Crusade." })
     SecondTab = GenTabRight:AddTab("Settings")
     SecondTab:AddLabel("Pet killaura attack delay", true)
-    SecondTab:AddSlider("DelayPetAttackSlider", {
-		Text = "Seconds",
-		Default = 0,
-		Min = 0,
-		Max = 2,
-		Rounding = 2,
-		Compact = true,
-		Tooltip = "Controls the delay between pet attacks when using the 'Pet Killaura' toggle.",
-		Callback = function(petAttackDelay)
+    SecondTab:AddSlider("DelayPetAttackSlider", { Text = "Seconds", Default = 0, Min = 0, Max = 2, Rounding = 2, Compact = true, Tooltip = "Controls the delay between pet attacks when using the 'Pet Killaura' toggle.", Callback = function(petAttackDelay)
         if petAttackDelay == 0 then
             CombatActive = false
 
@@ -20007,35 +13822,14 @@ if InMainMenu or InLobby then
     SecondTab:AddLabel("Rejoin on error delay", true)
     local _SecondTab = SecondTab
     local defaultRestartSeconds = MaxPingTolerance
-    _SecondTab:AddSlider("RestartStuckSlider", {
-		Text = "Seconds",
-		Default = defaultRestartSeconds,
-		Min = 30,
-		Max = 120,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Controls how long the script waits before rejoining a dungeon when a bug leaves you unable to finish it.",
-		Callback = function(restartDelay)
+    _SecondTab:AddSlider("RestartStuckSlider", { Text = "Seconds", Default = defaultRestartSeconds, Min = 30, Max = 120, Rounding = 0, Compact = true, Tooltip = "Controls how long the script waits before rejoining a dungeon when a bug leaves you unable to finish it.", Callback = function(restartDelay)
         MaxPingTolerance = restartDelay
     end
 	})
     task.wait()
     task.wait()
     _G.ScriptStep = "creating event tab"
-    EventTabIconTable = {
-		[1] = "rbxassetid://8202463897",
-		[2] = "rbxassetid://8723477744",
-		[3] = "rbxassetid://8723477744",
-		[4] = "rbxassetid://9299343400",
-		[5] = "rbxassetid://9299343400",
-		[6] = "rbxassetid://11582306327",
-		[7] = "rbxassetid://11582306327",
-		[8] = "rbxassetid://124707423544340",
-		[9] = "rbxassetid://124707423544340",
-		[10] = "rbxassetid://5763863934",
-		[11] = "rbxassetid://81638085579862",
-		[12] = "rbxassetid://8202463897"
-	}
+    EventTabIconTable = { [1] = "rbxassetid://8202463897", [2] = "rbxassetid://8723477744", [3] = "rbxassetid://8723477744", [4] = "rbxassetid://9299343400", [5] = "rbxassetid://9299343400", [6] = "rbxassetid://11582306327", [7] = "rbxassetid://11582306327", [8] = "rbxassetid://124707423544340", [9] = "rbxassetid://124707423544340", [10] = "rbxassetid://5763863934", [11] = "rbxassetid://81638085579862", [12] = "rbxassetid://8202463897" }
     _G.ScriptStep = "event tab"
     local _Window = Window
     local _EventTabIconTable = EventTabIconTable
@@ -20050,41 +13844,14 @@ if InMainMenu or InLobby then
     EventTabLeft = EventTab:AddLeftTabbox("Events")
     FirstTab = EventTabLeft:AddTab("Boss fight")
     FirstTab:AddLabel("<font color='#ff3333'>If you use instakill on insane mode you need to kill regular vane first before the instakill can work!</font>", true)
-    FirstTab:AddToggle("InstakillToggle", {
-		Text = "Instakill Vane",
-		Default = false,
-		Tooltip = "Make sure 'Auto Farm' is turned on when using this toggle!\n<font color='#FF3333'>THIS MAY NOT WORK FOR EVERYONE AND IS NOT GUARANTEED TO ALWAYS WORK</font>"
-	})
-    FirstTab:AddToggle("CollectBuffToggle", {
-		Text = "Collect selected buffs",
-		Default = false,
-		Tooltip = "Pick the buffs from the dropdown below that the script will pick up."
-	})
-    Settings.BuffOrbList = {
-		["Damage Boost"] = "DamageBuffOrb",
-		Ultimate = "UltChargeBuffOrb",
-		Healing = "HealthBuffOrb",
-		Shield = "DefenseBuffOrb"
-	}
-    FirstTab:AddDropdown("OrbBuffDropdown", {
-		Values = {
-			"Damage Boost",
-			"Ultimate",
-			"Healing",
-			"Shield"
-		},
-		Multi = true,
-		AllowNull = true,
-		Default = "",
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(selectedBuffs)
+    FirstTab:AddToggle("InstakillToggle", { Text = "Instakill Vane", Default = false, Tooltip = "Make sure 'Auto Farm' is turned on when using this toggle!\n<font color='#FF3333'>THIS MAY NOT WORK FOR EVERYONE AND IS NOT GUARANTEED TO ALWAYS WORK</font>" })
+    FirstTab:AddToggle("CollectBuffToggle", { Text = "Collect selected buffs", Default = false, Tooltip = "Pick the buffs from the dropdown below that the script will pick up." })
+    Settings.BuffOrbList = { ["Damage Boost"] = "DamageBuffOrb", Ultimate = "UltChargeBuffOrb", Healing = "HealthBuffOrb", Shield = "DefenseBuffOrb" }
+    FirstTab:AddDropdown("OrbBuffDropdown", { 		Values = { "Damage Boost", "Ultimate", "Healing", "Shield" }, Multi = true, AllowNull = true, Default = "", MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(selectedBuffs)
         if InDungeon and Options.OrbBuffDropdown:GetActiveValues(true) > 0 then
             Settings.SelectedOrbs = {}
 
-            for k, _ in pairs(selectedBuffs) do
-                table.insert(Settings.SelectedOrbs, Settings.BuffOrbList[k])
-            end
+            for k, _ in pairs(selectedBuffs) do table.insert(Settings.SelectedOrbs, Settings.BuffOrbList[k]) end
 
             return
         end
@@ -20093,33 +13860,13 @@ if InMainMenu or InLobby then
     end
 	})
     FirstTab = EventTabLeft:AddTab("Advanced")
-    FirstTab:AddDropdown("InstakillDropdown", {
-		Values = {
-			"Normal method",
-			"Alternative method"
-		},
-		Multi = false,
-		AllowNull = false,
-		Default = "Normal method",
-		Text = "Select instakill method",
-		Searchable = true
-	})
+    FirstTab:AddDropdown("InstakillDropdown", { 		Values = { "Normal method", "Alternative method" }, Multi = false, AllowNull = false, Default = "Normal method", Text = "Select instakill method", Searchable = true })
     local settingsRef = Settings
-    local cupidConfig = {
-		EventTag = "CUPID_KILLS_"
-	}
-    local easterBunnyConfig = {
-		EventTag = "EASTERBUNNY_KILLS_"
-	}
-    local krakenConfig = {
-		EventTag = "KRAKEN_KILLS_"
-	}
-    local vaneConfig = {
-		EventTag = "VANE_KILLS_"
-	}
-    local fallenKingConfig = {
-		EventTag = "FALLENKING_KILLS_"
-	}
+    local cupidConfig = { EventTag = "CUPID_KILLS_" }
+    local easterBunnyConfig = { EventTag = "EASTERBUNNY_KILLS_" }
+    local krakenConfig = { EventTag = "KRAKEN_KILLS_" }
+    local vaneConfig = { EventTag = "VANE_KILLS_" }
+    local fallenKingConfig = { EventTag = "FALLENKING_KILLS_" }
     settingsRef.EventBossList = {
 		Cupid = cupidConfig,
 		["Easter Bunny"] = easterBunnyConfig,
@@ -20130,44 +13877,24 @@ if InMainMenu or InLobby then
 			EventTag = "SANTA_KILLS_"
 		}
 	}
-    FirstTab:AddDropdown("EventBossDropdown", {
-		Values = {
-			"Cupid",
-			"Easter Bunny",
-			"Kraken",
-			"Vane",
-			"Fallen King",
-			"Korrupted Klaus"
-		},
-		Multi = false,
-		AllowNull = false,
-		Default = "",
-		Text = "Select event boss",
-		Searchable = true
-	})
+    FirstTab:AddDropdown("EventBossDropdown", { 		Values = { "Cupid", "Easter Bunny", "Kraken", "Vane", "Fallen King", "Korrupted Klaus" }, Multi = false, AllowNull = false, Default = "", Text = "Select event boss", Searchable = true })
     Settings.TotalKillLabel = FirstTab:AddLabel("Total Kills: ?", false)
     FirstTab:AddInput("TotalEventInput", {
 		Text = "Stop after X total kills",
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(totalKillsValue)
-        if InDungeon then
-            Settings.StopAfterTotalKills = totalKillsValue
-        end
+        if InDungeon then Settings.StopAfterTotalKills = totalKillsValue end
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddDivider({ Margin = -5 })
     Settings.DailyKillLabel = FirstTab:AddLabel("Daily Kills: ?", false)
     FirstTab:AddInput("DailyEventInput", {
 		Text = "Stop after X daily kills",
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(dailyKillsValue)
-        if InDungeon then
-            Settings.StopAfterDailyKills = dailyKillsValue
-        end
+        if InDungeon then Settings.StopAfterDailyKills = dailyKillsValue end
     end
 	})
     EventTabRight = EventTab:AddRightTabbox("Extras")
@@ -20197,9 +13924,7 @@ if InMainMenu or InLobby then
 
             Settings.CoinSpinLabel:SetText("Coin cost: " .. formattedCost)
         end)
-        if not success then
-            Library:Notify("WHEEL SPIN INPUT ERROR OCCURRED:\n" .. result .. "\nSEND THIS TO SUPPORT", 10000000000000000)
-        end
+        if not success then Library:Notify("WHEEL SPIN INPUT ERROR OCCURRED:\n" .. result .. "\nSEND THIS TO SUPPORT", 10000000000000000) end
     end
 	})
     FirstTab:AddButton({
@@ -20224,22 +13949,16 @@ if InMainMenu or InLobby then
             while true do
                 ServerTick += 1
 
-                if not (ServerTick <= spinAmount) then
-                    break
-                end
+                if not (ServerTick <= spinAmount) then break end
 
                 EventSpinner_JoinQueue:FireServer(LocalPlayer)
                 task.wait()
             end
         end)
-        if not success then
-            Library:Notify("WHEEL SPIN BUTTON ERROR OCCURRED:\n" .. result .. "\nSEND THIS TO SUPPORT", 10000000000000000)
-        end
+        if not success then Library:Notify("WHEEL SPIN BUTTON ERROR OCCURRED:\n" .. result .. "\nSEND THIS TO SUPPORT", 10000000000000000) end
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddDivider({ Margin = -5 })
     RecyclingItems = false
     FirstTab:AddButton({
 		Text = "Recycle wheel items",
@@ -20260,15 +13979,11 @@ if InMainMenu or InLobby then
                 local parts = string.split(hexNoHash, ",")
 
                 for _, v in pairs(parts) do
-                    if v ~= "" and v ~= " " then
-                        table.insert(protectedHexes, string.lower(v))
-                    end
+                    if v ~= "" and v ~= " " then table.insert(protectedHexes, string.lower(v)) end
                 end
             end
 
-            for _, v in pairs(HexColorList) do
-                table.insert(protectedHexes, v)
-            end
+            for _, v in pairs(HexColorList) do table.insert(protectedHexes, v) end
         end
         local itemsToRecycle = {}
         local Cosmetics = PlayerBackpack:FindFirstChild("Cosmetics")
@@ -20291,9 +14006,7 @@ if InMainMenu or InLobby then
                         end
                     end
 
-                    if not hexProtected then
-                        table.insert(itemsToRecycle, v)
-                    end
+                    if not hexProtected then table.insert(itemsToRecycle, v) end
                 end
             end
         end
@@ -20304,11 +14017,7 @@ if InMainMenu or InLobby then
     end
 	})
     SecondTab = EventTabRight:AddTab("Battlepass")
-    SecondTab:AddToggle("AutoClaimBattlepass", {
-		Text = "Auto claim battlepass",
-		Default = false,
-		Tooltip = "Only works the first time it's enabled. If you gain a rank, wait for the next teleport or toggle this off and on before it retries claiming rewards."
-	})
+    SecondTab:AddToggle("AutoClaimBattlepass", { Text = "Auto claim battlepass", Default = false, Tooltip = "Only works the first time it's enabled. If you gain a rank, wait for the next teleport or toggle this off and on before it retries claiming rewards." })
     ThirdTab = EventTabRight:AddTab("Extra")
     IsFindingHidden = false
     ChangingHiddenESP = false
@@ -20321,23 +14030,15 @@ if InMainMenu or InLobby then
 
         ThirdTab:AddLabel("Can invisibly teleport: <font color='#FF3333'>no</font>", false)
     end)
-    ThirdTab:AddDivider({
-		Margin = -5
-	})
-    ThirdTab:AddToggle("EventBossPingToggle", {
-		Text = "Event boss ping",
-		Default = false,
-		Tooltip = "Pings whenever the event boss is available."
-	})
+    ThirdTab:AddDivider({ Margin = -5 })
+    ThirdTab:AddToggle("EventBossPingToggle", { Text = "Event boss ping", Default = false, Tooltip = "Pings whenever the event boss is available." })
     ThirdTab:AddLabel("Daily rewards", false)
     ThirdTab:AddButton({
 		Text = "Teleport",
 		Tooltip = "Teleports you to all event-hub daily rewards, such as the Obby end, the daily reward, and 3 hidden objects.\nIf you can't teleport invisibly, you'll be teleported blatantly to each of them.",
 		Func = function()
         local ok, result = pcall(function()
-            if IsFindingHidden or InMainMenu then
-                return
-            end
+            if IsFindingHidden or InMainMenu then return end
 
             local EventFinderReward = Workspace:FindFirstChild("EventFinderReward", true)
 
@@ -20352,22 +14053,16 @@ if InMainMenu or InLobby then
             local rewardTargets = {}
 
             if EventFinderReward then
-                for _, child in pairs(EventFinderReward.Models:GetChildren()) do
-                    table.insert(rewardTargets, child:FindFirstChild("Part"))
-                end
+                for _, child in pairs(EventFinderReward.Models:GetChildren()) do table.insert(rewardTargets, child:FindFirstChild("Part")) end
             end
 
             local EventObbyReward = Workspace:FindFirstChild("EventObbyReward", true)
 
-            if EventObbyReward then
-                table.insert(rewardTargets, EventObbyReward.Base)
-            end
+            if EventObbyReward then table.insert(rewardTargets, EventObbyReward.Base) end
 
             local EventDailyReward = Workspace:FindFirstChild("EventDailyReward", true)
 
-            if EventDailyReward then
-                table.insert(rewardTargets, EventDailyReward.Base)
-            end
+            if EventDailyReward then table.insert(rewardTargets, EventDailyReward.Base) end
 
             if NetDesync then
                 NetDesync(true)
@@ -20382,7 +14077,8 @@ if InMainMenu or InLobby then
             task.wait(1)
 
             for _, v in pairs(rewardTargets) do
-                HumanoidRootPart.CFrame = CFrame.new(Vector3.new(v.Position.X, v.Position.Y + v.Size.Y / 2, v.Position.Z))
+                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(Vector3.new(v.Position.X, v.Position.Y + v.Size.Y / 2, v.Position.Z)) end
+
                 task.wait(0.5)
             end
 
@@ -20390,36 +14086,27 @@ if InMainMenu or InLobby then
             local spawnHalfSize = Spawn.Size.Y / 2
             local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
 
-            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+            if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(spawnPosition) end
+
             task.wait(1)
             Remotes:WaitForChild("SetMounted", 1e999):FireServer(false)
 
-            if NetDesync then
-                NetDesync(false)
-            end
+            if NetDesync then NetDesync(false) end
 
             for _, child in pairs(Workspace.Coins:GetChildren()) do
-                if child.Parent and child:IsA("Part") then
-                    child.CanCollide = false
-                    child.Anchored = true
-                    child.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - GetPlayerSize(), HumanoidRootPart.Position.Z)
-                end
+                if child.Parent and child:IsA("Part") then child.CanCollide = false child.Anchored = true child.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - GetPlayerSize(), HumanoidRootPart.Position.Z) end
             end
 
             IsFindingHidden = false
         end)
 
-        if not ok then
-            HandleError("TELEPORT DAILY REWARDS", (tostring(result)))
-        end
+        if not ok then HandleError("TELEPORT DAILY REWARDS", (tostring(result))) end
     end
 	}):AddButton({
 		Text = "ESP",
 		Tooltip = "Highlights all hidden daily rewards on an event-hub map when available.",
 		Func = function()
-        if ChangingHiddenESP then
-            return
-        end
+        if ChangingHiddenESP then return end
 
         local EventFinderReward = Workspace:FindFirstChild("EventFinderReward", true)
 
@@ -20434,31 +14121,23 @@ if InMainMenu or InLobby then
         local rewardModels = {}
 
         if EventFinderReward then
-            for _, child in pairs(EventFinderReward.Models:GetChildren()) do
-                table.insert(rewardModels, child)
-            end
+            for _, child in pairs(EventFinderReward.Models:GetChildren()) do table.insert(rewardModels, child) end
         end
 
         local EventObbyReward = Workspace:FindFirstChild("EventObbyReward", true)
 
-        if EventObbyReward then
-            table.insert(rewardModels, EventObbyReward.Base)
-        end
+        if EventObbyReward then table.insert(rewardModels, EventObbyReward.Base) end
 
         local EventDailyReward = Workspace:FindFirstChild("EventDailyReward", true)
 
-        if EventDailyReward then
-            table.insert(rewardModels, EventDailyReward.Base)
-        end
+        if EventDailyReward then table.insert(rewardModels, EventDailyReward.Base) end
 
         for _, v in pairs(rewardModels) do
             if v.ClassName == "Model" then
                 local GetDescendants = v.GetDescendants
 
                 for _, espDescendant in pairs(GetDescendants(v)) do
-                    if espDescendant.ClassName == "Highlight" and espDescendant.Name ~= "ESP" then
-                        espDescendant:Destroy()
-                    end
+                    if espDescendant.ClassName == "Highlight" and espDescendant.Name ~= "ESP" then espDescendant:Destroy() end
                 end
             end
 
@@ -20484,9 +14163,7 @@ if InMainMenu or InLobby then
 		Text = "Teleport hoops",
 		Tooltip = "Pulls all flying hoops to your character, then returns them to their original spots in an event hub when available.",
 		Func = function()
-        if TeleportingHoops > 0 or InMainMenu then
-            return
-        end
+        if TeleportingHoops > 0 or InMainMenu then return end
 
         local Hoops = Workspace:FindFirstChild("Hoops")
 
@@ -20520,21 +14197,13 @@ if InMainMenu or InLobby then
 If available to your executor the script will reset your character and then invisibly teleport you to all of the hidden objects.]],
 		Func = function()
         local success, result = pcall(function()
-            if not InLobby or IsFindingEggs then
-                return
-            end
+            if not InLobby or IsFindingEggs then return end
             local ScavengerHunts = Workspace:FindFirstChild("ScavengerHunts")
-            if not ScavengerHunts then
-                return
-            end
+            if not ScavengerHunts then return end
             local EggHunt = ScavengerHunts:FindFirstChild("EggHunt")
-            if not EggHunt then
-                return
-            end
+            if not EggHunt then return end
             local Spawns = EggHunt:FindFirstChild("Spawns")
-            if not Spawns then
-                return
-            end
+            if not Spawns then return end
             IsFindingEggs = true
             if NetDesync then
                 NetDesync(true)
@@ -20552,60 +14221,45 @@ If available to your executor the script will reset your character and then invi
 
                 local eggPosition = Vector3.new(eggSpawn.Position.X, eggSpawn.Position.Y + GetPlayerSize(), eggSpawn.Position.Z)
 
-                HumanoidRootPart.CFrame = CFrame.new(eggPosition)
+                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(eggPosition) end
+
                 task.wait(0.5)
             end
             local Spawn = Workspace:FindFirstChild("Spawn")
-            if not Spawn then
-                return
-            end
+            if not Spawn then return end
             local spawnHalfSize = Spawn.Size.Y / 2
             local spawnPosition = Vector3.new(Spawn.Position.X, Spawn.Position.Y + spawnHalfSize, Spawn.Position.Z)
-            HumanoidRootPart.CFrame = CFrame.new(spawnPosition)
+
+            if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(spawnPosition) end
+
             task.wait(1)
             Remotes:WaitForChild("SetMounted", math.huge):FireServer(false)
-            if NetDesync then
-                NetDesync(false)
-            end
+            if NetDesync then NetDesync(false) end
             for _, child in pairs(Workspace.Coins:GetChildren()) do
-                if child.Parent and child:IsA("Part") then
-                    child.CanCollide = false
-                    child.Anchored = true
-                    child.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - GetPlayerSize(), HumanoidRootPart.Position.Z)
-                end
+                if child.Parent and child:IsA("Part") then child.CanCollide = false child.Anchored = true child.CFrame = CFrame.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y - GetPlayerSize(), HumanoidRootPart.Position.Z) end
             end
             IsFindingEggs = false
         end)
-        if not success then
-            HandleError("FIND ALL EGGS", (tostring(result)))
-        end
+        if not success then HandleError("FIND ALL EGGS", (tostring(result))) end
     end
 	}):AddButton({
 		Text = "ESP",
 		Tooltip = "Highlights every scavenger-hunt object when a hunt is active in your current world.",
 		Func = function()
         local success, result = pcall(function()
-            if ChangingESP then
-                return
-            end
+            if ChangingESP then return end
 
             local ScavengerHunts = Workspace:FindFirstChild("ScavengerHunts")
 
-            if not ScavengerHunts then
-                return
-            end
+            if not ScavengerHunts then return end
 
             local EggHunt = ScavengerHunts:FindFirstChild("EggHunt")
 
-            if not EggHunt then
-                return
-            end
+            if not EggHunt then return end
 
             local _ScavengerHuntContainer = EggHunt:FindFirstChild("_ScavengerHuntContainer")
 
-            if not _ScavengerHuntContainer then
-                return
-            end
+            if not _ScavengerHuntContainer then return end
 
             ChangingESP = true
 
@@ -20629,9 +14283,7 @@ If available to your executor the script will reset your character and then invi
 
             ChangingESP = false
         end)
-        if not success then
-            HandleError("FIND ALL EGGS", (tostring(result)))
-        end
+        if not success then HandleError("FIND ALL EGGS", (tostring(result))) end
     end
 	})
     task.wait()
@@ -20642,33 +14294,20 @@ If available to your executor the script will reset your character and then invi
 		Description = "Player shop and trading tools"
 	})
     LeftGroupBox = TradeTab:AddLeftGroupbox("Player shop")
-    LeftGroupBox:AddToggle("PlacePlayerShopToggle", {
-		Text = "Auto place player shop",
-		Default = false,
-		Tooltip = "The shop is automatically removed when this is turned off."
-	})
-    LeftGroupBox:AddDropdown("PlayerShopDropdown", {
-		Values = {},
-		Default = "",
-		Multi = false,
-		Text = "Open selected players shop"
-	})
+    LeftGroupBox:AddToggle("PlacePlayerShopToggle", { Text = "Auto place player shop", Default = false, Tooltip = "The shop is automatically removed when this is turned off." })
+    LeftGroupBox:AddDropdown("PlayerShopDropdown", { Values = {}, Default = "", Multi = false, Text = "Open selected players shop" })
     LeftGroupBox:AddButton({
 		Text = "Scan for active player shops",
 		Func = function()
         local shopOwners = {}
         local ShopLocations = game.Workspace:FindFirstChild("ShopLocations")
 
-        if not ShopLocations then
-            return
-        end
+        if not ShopLocations then return end
 
         local GetDescendants = ShopLocations.GetDescendants
 
         for _, v in pairs(GetDescendants(ShopLocations)) do
-            if v:IsA("ObjectValue") and v.Name == "PlayerOwner" and v.Value ~= PlayerName then
-                table.insert(shopOwners, v.Value)
-            end
+            if v:IsA("ObjectValue") and v.Name == "PlayerOwner" and v.Value ~= PlayerName then table.insert(shopOwners, v.Value) end
         end
 
         if #shopOwners == 0 then
@@ -20684,9 +14323,7 @@ If available to your executor the script will reset your character and then invi
     RightGroupBox:AddButton({
 		Text = "Check trade for dupes",
 		Func = function()
-        if Settings.CheckingTrade or InMainMenu then
-            return
-        end
+        if Settings.CheckingTrade or InMainMenu then return end
 
         Settings.CheckingTrade = true
 
@@ -20719,17 +14356,11 @@ If available to your executor the script will reset your character and then invi
             repeat
                 iterValue, tradeInstance = iterFn(iterState, iterValue)
 
-                if not iterValue then
-                    searchExhausted = true
-                end
+                if not iterValue then searchExhausted = true end
 
-                if searchExhausted then
-                    break
-                end
+                if searchExhausted then break end
             until tradeInstance:FindFirstChild(PlayerName)
-            if not searchExhausted then
-                currentTrade = tradeInstance
-            end
+            if not searchExhausted then currentTrade = tradeInstance end
             searchExhausted = false
             if not currentTrade then
                 Library:Notify("You are not trading anyone", 3)
@@ -20739,14 +14370,7 @@ If available to your executor the script will reset your character and then invi
             end
             for _, tradeParticipant in pairs(currentTrade:GetChildren()) do
 
-                if tradeParticipant.Name ~= LocalPlayer.Name then
-                    for _, descendant in pairs(tradeParticipant:GetDescendants()) do
-                        if descendant.Name == "ID" then
-                            itemsChecked += 1
-                            table.insert(tradeItems, descendant.Parent)
-                        end
-                    end
-                end
+                if tradeParticipant.Name ~= LocalPlayer.Name then for _, descendant in pairs(tradeParticipant:GetDescendants()) do if descendant.Name == "ID" then itemsChecked += 1; table.insert(tradeItems, descendant.Parent) end end end
             end
             if itemsChecked == 0 then
                 Library:Notify("No items to check", 3)
@@ -20757,15 +14381,11 @@ If available to your executor the script will reset your character and then invi
             local GetDescendants = Items.GetDescendants
             for _, itemDescendant in pairs(GetDescendants(Items)) do
 
-                if itemDescendant.Name == "ID" then
-                    detectDupe(itemDescendant.Parent)
-                end
+                if itemDescendant.Name == "ID" then detectDupe(itemDescendant.Parent) end
             end
             for _, equipsDescendant in pairs(playerEquipsFolder:GetDescendants()) do
 
-                if equipsDescendant.Name == "ID" then
-                    detectDupe(equipsDescendant.Parent)
-                end
+                if equipsDescendant.Name == "ID" then detectDupe(equipsDescendant.Parent) end
             end
             if dupesFound == 0 then
                 Library:Notify("No duped items found", 3)
@@ -20775,9 +14395,7 @@ If available to your executor the script will reset your character and then invi
             end
         end)
 
-        if not ok then
-            HandleError("SCAN TRADE FOR DUPE", (tostring(result)))
-        end
+        if not ok then HandleError("SCAN TRADE FOR DUPE", (tostring(result))) end
 
         Settings.CheckingTrade = nil
     end
@@ -20797,15 +14415,7 @@ If available to your executor the script will reset your character and then invi
     end
 	})
     TradeTable = {}
-    RightGroupBox:AddDropdown("TradeDropdown", {
-		Values = {},
-		Text = "Items",
-		Multi = true,
-		AllowNull = true,
-		Default = "",
-		MaxVisibleDropdownItems = 5,
-		Searchable = true
-	})
+    RightGroupBox:AddDropdown("TradeDropdown", { Values = {}, Text = "Items", Multi = true, AllowNull = true, Default = "", MaxVisibleDropdownItems = 5, Searchable = true })
     RightGroupBox:AddButton({
 		Text = "Clear selection",
 		DoubleClick = true,
@@ -20824,10 +14434,7 @@ If available to your executor the script will reset your character and then invi
         local invisibleCode = "\226\128\139"
 
         local function makeUniqueLabel(label)
-            if displayToReal[label] then
-                label ..= tostring(invisibleCode)
-                invisibleCode ..= "\226\128\139"
-            end
+            if displayToReal[label] then label ..= tostring(invisibleCode); invisibleCode ..= "\226\128\139" end
 
             return label
         end
@@ -20838,20 +14445,12 @@ If available to your executor the script will reset your character and then invi
 
                 local Name = itemChild.Name
 
-                if not seenNames[Name] and (not itemChild:FindFirstChild("Locked") and not itemChild:FindFirstChild("Favorited")) then
-                    seenNames[Name] = true
-                    table.insert(displayValues, Name)
-                    displayToReal[Name] = Name
-                end
+                if not seenNames[Name] and (not itemChild:FindFirstChild("Locked") and not itemChild:FindFirstChild("Favorited")) then seenNames[Name] = true table.insert(displayValues, Name) displayToReal[Name] = Name end
             end
             for _, v in pairs(cosmeticChildren) do
                 local vName = v.Name
 
-                if not seenNames[vName] and (not v:FindFirstChild("Locked") and not v:FindFirstChild("Favorited")) then
-                    seenNames[vName] = true
-                    table.insert(displayValues, vName)
-                    displayToReal[vName] = vName
-                end
+                if not seenNames[vName] and (not v:FindFirstChild("Locked") and not v:FindFirstChild("Favorited")) then seenNames[vName] = true table.insert(displayValues, vName) displayToReal[vName] = vName end
             end
         else
             local lib = require(Items)
@@ -20862,11 +14461,7 @@ If available to your executor the script will reset your character and then invi
                 if not seenNames[itemChild.Name] then
                     local uniqueLabel = makeUniqueLabel(DisplayKey)
 
-                    if not itemChild:FindFirstChild("Locked") and (not itemChild:FindFirstChild("Favorited") and not lib[itemChild.Name].Untradeable) then
-                        seenNames[itemChild.Name] = true
-                        table.insert(displayValues, uniqueLabel)
-                        displayToReal[uniqueLabel] = itemChild.Name
-                    end
+                    if not itemChild:FindFirstChild("Locked") and (not itemChild:FindFirstChild("Favorited") and not lib[itemChild.Name].Untradeable) then seenNames[itemChild.Name] = true table.insert(displayValues, uniqueLabel) displayToReal[uniqueLabel] = itemChild.Name end
                 end
             end
             for _, v in pairs(cosmeticChildren) do
@@ -20875,11 +14470,7 @@ If available to your executor the script will reset your character and then invi
                 if not seenNames[v.Name] then
                     local uniqueLabel = makeUniqueLabel(DisplayKey)
 
-                    if not v:FindFirstChild("Locked") and (not v:FindFirstChild("Favorited") and not lib[v.Name].Untradeable) then
-                        seenNames[v.Name] = true
-                        table.insert(displayValues, uniqueLabel)
-                        displayToReal[uniqueLabel] = v.Name
-                    end
+                    if not v:FindFirstChild("Locked") and (not v:FindFirstChild("Favorited") and not lib[v.Name].Untradeable) then seenNames[v.Name] = true table.insert(displayValues, uniqueLabel) displayToReal[uniqueLabel] = v.Name end
                 end
             end
         end
@@ -20897,9 +14488,7 @@ If available to your executor the script will reset your character and then invi
         for k, _ in pairs(Options.TradeDropdown.Value) do
             local selectedKey = k
 
-            if selectedKey then
-                selectedNames[TradeTable[selectedKey]] = true
-            end
+            if selectedKey then selectedNames[TradeTable[selectedKey]] = true end
         end
 
         local addedCount = 0
@@ -20913,29 +14502,17 @@ If available to your executor the script will reset your character and then invi
 
             iterValue, itemInstance = iterFn(iterState, iterValue)
 
-            if not iterValue then
-                break
-            end
+            if not iterValue then break end
 
-            if selectedNames[itemInstance.Name] then
-                Trade_AddItem:FireServer(itemInstance, math.huge)
-                addedCount += 1
-            end
+            if selectedNames[itemInstance.Name] then Trade_AddItem:FireServer(itemInstance, math.huge); addedCount += 1 end
         until addedCount == 20
 
-        if addedCount == 20 then
-            return
-        end
+        if addedCount == 20 then return end
 
         for _, v in pairs(cosmeticChildren) do
-            if selectedNames[v.Name] then
-                Trade_AddItem:FireServer(v, 1e999)
-                addedCount += 1
-            end
+            if selectedNames[v.Name] then Trade_AddItem:FireServer(v, 1e999); addedCount += 1 end
 
-            if addedCount == 20 then
-                return
-            end
+            if addedCount == 20 then return end
         end
     end
 	})
@@ -20948,97 +14525,35 @@ If available to your executor the script will reset your character and then invi
 	})
     ClassTabLeft = ClassTab:AddLeftTabbox("Offsets")
     FirstTab = ClassTabLeft:AddTab("Main")
-    FirstTab:AddToggle("GeneralClassBuffToggle", {
-		Text = "General class buffs",
-		Default = false,
-		Tooltip = "Gives you Dual Wielder and Guardian buffs."
-	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddToggle("GeneralClassBuffToggle", { Text = "General class buffs", Default = false, Tooltip = "Gives you Dual Wielder and Guardian buffs." })
+    FirstTab:AddDivider({ Margin = -5 })
     Settings.RangedClassLabel = FirstTab:AddLabel("Ranged class distance", false)
-    FirstTab:AddSlider("ChangedRangedXSlider", {
-		Text = "X",
-		Default = 20,
-		Min = -50,
-		Max = 50,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Forward and backwards.\nDefault: 20",
-		Callback = function(xDistance)
-        if Class and Class.Distance == "Ranged" then
-            MeleeMinDist = xDistance
-        end
+    FirstTab:AddSlider("ChangedRangedXSlider", { Text = "X", Default = 20, Min = -50, Max = 50, Rounding = 0, Compact = true, Tooltip = "Forward and backwards.\nDefault: 20", Callback = function(xDistance)
+        if Class and Class.Distance == "Ranged" then MeleeMinDist = xDistance end
     end
 	})
-    FirstTab:AddSlider("ChangedRangedYSlider", {
-		Text = "Y",
-		Default = 50,
-		Min = -50,
-		Max = 50,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Up and down.\nDefault: 50",
-		Callback = function(yDistance)
+    FirstTab:AddSlider("ChangedRangedYSlider", { Text = "Y", Default = 50, Min = -50, Max = 50, Rounding = 0, Compact = true, Tooltip = "Up and down.\nDefault: 50", Callback = function(yDistance)
         local _Class = Class
 
-        if _Class then
-            _Class = Class.Distance == "Ranged"
-        end
+        if _Class then _Class = Class.Distance == "Ranged" end
 
-        if _Class then
-            MeleeMaxDist = yDistance
-        end
+        if _Class then MeleeMaxDist = yDistance end
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddDivider({ Margin = -5 })
     Settings.MeleeClassLabel = FirstTab:AddLabel("Melee class distance", false)
-    FirstTab:AddSlider("ChangedMeleeXSlider", {
-		Text = "X",
-		Default = 13,
-		Min = -50,
-		Max = 50,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Forward and backwards.\nDefault: 15",
-		Callback = function(xDistance)
-        if Class and Class.Distance == "Melee" then
-            MeleeMinDist = xDistance
-        end
+    FirstTab:AddSlider("ChangedMeleeXSlider", { Text = "X", Default = 13, Min = -50, Max = 50, Rounding = 0, Compact = true, Tooltip = "Forward and backwards.\nDefault: 15", Callback = function(xDistance)
+        if Class and Class.Distance == "Melee" then MeleeMinDist = xDistance end
     end
 	})
-    FirstTab:AddSlider("ChangedMeleeYSlider", {
-		Text = "Y",
-		Default = 8,
-		Min = -50,
-		Max = 50,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Up and down.\nDefault: 8",
-		Callback = function(yDistance)
-        if Class and Class.Distance == "Melee" then
-            MeleeMaxDist = yDistance
-        end
+    FirstTab:AddSlider("ChangedMeleeYSlider", { Text = "Y", Default = 8, Min = -50, Max = 50, Rounding = 0, Compact = true, Tooltip = "Up and down.\nDefault: 8", Callback = function(yDistance)
+        if Class and Class.Distance == "Melee" then MeleeMaxDist = yDistance end
     end
 	})
     RightGroupBox = ClassTab:AddRightGroupbox("Extra")
-    RightGroupBox:AddToggle("MoLBarrierToggle", {
-		Text = "MoL barrier",
-		Default = false,
-		Tooltip = "Gives a barrier to everyone else in the game instead of only yourself.\nOnly Mage of Light can use this."
-	})
-    RightGroupBox:AddToggle("DemonBloodBindingToggle", {
-		Text = "Demon blood binding",
-		Default = false,
-		Tooltip = "Only Demon can use this."
-	})
-    RightGroupBox:AddToggle("StormcallerSuperchargeToggle", {
-		Text = "Stormcaller supercharge",
-		Default = false,
-		Tooltip = "Only Stormcaller can use this."
-	})
+    RightGroupBox:AddToggle("MoLBarrierToggle", { Text = "MoL barrier", Default = false, Tooltip = "Gives a barrier to everyone else in the game instead of only yourself.\nOnly Mage of Light can use this." })
+    RightGroupBox:AddToggle("DemonBloodBindingToggle", { Text = "Demon blood binding", Default = false, Tooltip = "Only Demon can use this." })
+    RightGroupBox:AddToggle("StormcallerSuperchargeToggle", { Text = "Stormcaller supercharge", Default = false, Tooltip = "Only Stormcaller can use this." })
     task.wait()
     _G.ScriptStep = "creating equipment tab"
     InventoryTab = Window:AddTab({
@@ -21047,301 +14562,58 @@ If available to your executor the script will reset your character and then invi
 		Description = "Auto-sell, perks, equips and cosmetics"
 	})
     local settingsRef = Settings
-    local goldHoarderPerk = {
-		PerkValue = 0.2,
-		PetPerkValue = 0.2,
-		PerkInternalName = "GoldDrop",
-		PerkVisualName = "Gold Hoarder"
-	}
-    local luckyLooterPerk = {
-		PerkValue = 0.1,
-		PetPerkValue = 0.1,
-		PerkInternalName = "PetFoodDrop",
-		PerkVisualName = "Lucky Looter"
-	}
-    local energizedPerk = {
-		PerkValue = 0.15,
-		PetPerkValue = 0.15,
-		PerkInternalName = "UltCharge",
-		PerkVisualName = "Energized"
-	}
-    local hpUpPerk = {
-		PerkValue = 0.12,
-		PetPerkValue = 0.07,
-		PerkInternalName = "BonusHP",
-		PerkVisualName = "HP UP"
-	}
-    local attackUpPerk = {
-		PerkValue = 0.08,
-		PetPerkValue = 0.05,
-		PerkInternalName = "BonusAttack",
-		PerkVisualName = "Attack Up"
-	}
-    local agilityPerk = {
-		PerkValue = 0.1,
-		PetPerkValue = 0.1,
-		PerkInternalName = "BonusWalkspeed",
-		PerkVisualName = "Agility"
-	}
-    local burnResistancePerk = {
-		PerkValue = 0.9,
-		PetPerkValue = 0.9,
-		PerkInternalName = "ResistBurn",
-		PerkVisualName = "Burn Resistance"
-	}
-    local poisonResistancePerk = {
-		PerkValue = 0.9,
-		PetPerkValue = 0.9,
-		PerkInternalName = "ResistPoison",
-		PerkVisualName = "Poison Resistance"
-	}
-    local frostResistancePerk = {
-		PerkValue = 0.9,
-		PetPerkValue = 0.9,
-		PerkInternalName = "ResistFrost",
-		PerkVisualName = "Frost Resistance"
-	}
-    local knockdownResistancePerk = {
-		PerkValue = 0.9,
-		PetPerkValue = 0.9,
-		PerkInternalName = "ResistKockdown",
-		PerkVisualName = "Knockdown Resistance"
-	}
-    local untouchablePerk = {
-		PerkValue = 0.2,
-		PerkInternalName = "DodgeChance",
-		PerkVisualName = "Untouchable"
-	}
-    local roughSkinPerk = {
-		PerkValue = 0.1,
-		PerkInternalName = "RoughSkin",
-		PerkVisualName = "Rough Skin"
-	}
-    local damageReductionPerk = {
-		PerkValue = 0.08,
-		PerkInternalName = "DamageReduction",
-		PerkVisualName = "Damage Reduction"
-	}
-    local lifeDrainPerk = {
-		PerkValue = 0.06,
-		PerkInternalName = "LifeDrain",
-		PerkVisualName = "Life Drain"
-	}
-    local burnChancePerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "BurnChance",
-		PerkVisualName = "Burn Chance"
-	}
-    local frostChancePerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "FrostChance",
-		PerkVisualName = "Frost Chance"
-	}
-    local poisonChancePerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "PoisonChance",
-		PerkVisualName = "Poison Chance"
-	}
-    local critStackPerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "CritStack",
-		PerkVisualName = "Crit Stack"
-	}
-    local poisonThornsPerk = {
-		PerkValue = 0.6,
-		PerkInternalName = "PoisonThorns",
-		PerkVisualName = "Poisonous Thorns"
-	}
-    local elementalResistancePerk = {
-		PerkValue = 0.4,
-		PetPerkValue = 0.15,
-		PerkInternalName = "Elemental",
-		PerkVisualName = "Elemental Resistance"
-	}
-    local ferociousPerk = {
-		PerkValue = 0.4,
-		PetPerkValue = 0.15,
-		PerkInternalName = "Ferocious",
-		PerkVisualName = "Ferocious"
-	}
-    local vampiricPerk = {
-		PerkValue = 0.15,
-		PetPerkValue = 0.05,
-		PerkInternalName = "Vampiric",
-		PerkVisualName = "Vampiric"
-	}
-    local bossBanePerk = {
-		PerkValue = 0.3,
-		PetPerkValue = 0.1,
-		PerkInternalName = "TestTier5",
-		PerkVisualName = "Boss Bane"
-	}
-    local mobSlayerPerk = {
-		PerkValue = 0.3,
-		PetPerkValue = 0.1,
-		PerkInternalName = "MobBoss",
-		PerkVisualName = "Mob Slayer"
-	}
-    local eliteAssassinPerk = {
-		PerkValue = 0.3,
-		PetPerkValue = 0.1,
-		PerkInternalName = "EliteBoss",
-		PerkVisualName = "Elite Assassin"
-	}
-    local openingStrikePerk = {
-		PerkValue = 0.25,
-		PerkInternalName = "OpeningStrike",
-		PerkVisualName = "Opening Strike"
-	}
-    local selfDestructPerk = {
-		PerkValue = 0.5,
-		PerkInternalName = "Destruction",
-		PerkVisualName = "Self Destruct"
-	}
-    local fortressPerk = {
-		PerkValue = 0.4,
-		PerkInternalName = "Fortress",
-		PerkVisualName = "Fortress"
-	}
-    local glassPerk = {
-		PerkValue = 1,
-		PerkInternalName = "Glass",
-		PerkVisualName = "Glass"
-	}
-    local masterThiefPerk = {
-		PerkValue = 0.35,
-		PerkInternalName = "MasterThief",
-		PerkVisualName = "Master Thief"
-	}
-    local oblivionPerk = {
-		PerkValue = 0.05,
-		PetPerkValue = 0.05,
-		PerkInternalName = "Oblivion",
-		PerkVisualName = "Oblivion"
-	}
-    local recklessPerk = {
-		PerkValue = 0.25,
-		PetPerkValue = 0.25,
-		PerkInternalName = "Reckless",
-		PerkVisualName = "Reckless"
-	}
-    local comebackPerk = {
-		PerkValue = 0.3,
-		PerkInternalName = "Comeback",
-		PerkVisualName = "Comeback"
-	}
-    local relentlessPerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "Relentless",
-		PerkVisualName = "Relentless"
-	}
-    local duelistPerk = {
-		PerkValue = 0.3,
-		PerkInternalName = "Duelist",
-		PerkVisualName = "Duelist"
-	}
-    local unstoppablePerk = {
-		PerkValue = 0.15,
-		PerkInternalName = "Unstoppable",
-		PerkVisualName = "Unstoppable"
-	}
-    local survivorPerk = {
-		PerkValue = 0.2,
-		PerkInternalName = "Survivor",
-		PerkVisualName = "Survivor"
-	}
-    local executionerPerk = {
-		PerkValue = 0.5,
-		PetPerkValue = 0.5,
-		PerkInternalName = "Executioner",
-		PerkVisualName = "Executioner"
-	}
-    local adrenalinePerk = {
-		PerkValue = 0.3,
-		PerkInternalName = "Adrenaline",
-		PerkVisualName = "Adrenaline"
-	}
-    settingsRef.SavePerkTable = {
-		["Gold Hoarder"] = goldHoarderPerk,
-		["Lucky Looter"] = luckyLooterPerk,
-		Energized = energizedPerk,
-		["HP UP"] = hpUpPerk,
-		["Attack Up"] = attackUpPerk,
-		Agility = agilityPerk,
-		["Burn Resistance"] = burnResistancePerk,
-		["Poison Resistance"] = poisonResistancePerk,
-		["Frost Resistance"] = frostResistancePerk,
-		["Knockdown Resistance"] = knockdownResistancePerk,
-		Untouchable = untouchablePerk,
-		["Rough Skin"] = roughSkinPerk,
-		["Damage Reduction"] = damageReductionPerk,
-		["Life Drain"] = lifeDrainPerk,
-		["Burn Chance"] = burnChancePerk,
-		["Frost Chance"] = frostChancePerk,
-		["Poison Chance"] = poisonChancePerk,
-		["Crit Stack"] = critStackPerk,
-		["Poisonous Thorns"] = poisonThornsPerk,
-		["Elemental Resistance"] = elementalResistancePerk,
-		Ferocious = ferociousPerk,
-		Vampiric = vampiricPerk,
-		["Boss Bane"] = bossBanePerk,
-		["Mob Slayer"] = mobSlayerPerk,
-		["Elite Assassin"] = eliteAssassinPerk,
-		["Opening Strike"] = openingStrikePerk,
-		["Self Destruct"] = selfDestructPerk,
-		Fortress = fortressPerk,
-		Glass = glassPerk,
-		["Master Thief"] = masterThiefPerk,
-		Oblivion = oblivionPerk,
-		Reckless = recklessPerk,
-		Comeback = comebackPerk,
-		Relentless = relentlessPerk,
-		Duelist = duelistPerk,
-		Unstoppable = unstoppablePerk,
-		Survivor = survivorPerk,
-		Executioner = executionerPerk,
-		Adrenaline = adrenalinePerk
-	}
+    local goldHoarderPerk = { PerkValue = 0.2, PetPerkValue = 0.2, PerkInternalName = "GoldDrop", PerkVisualName = "Gold Hoarder" }
+    local luckyLooterPerk = { PerkValue = 0.1, PetPerkValue = 0.1, PerkInternalName = "PetFoodDrop", PerkVisualName = "Lucky Looter" }
+    local energizedPerk = { PerkValue = 0.15, PetPerkValue = 0.15, PerkInternalName = "UltCharge", PerkVisualName = "Energized" }
+    local hpUpPerk = { PerkValue = 0.12, PetPerkValue = 0.07, PerkInternalName = "BonusHP", PerkVisualName = "HP UP" }
+    local attackUpPerk = { PerkValue = 0.08, PetPerkValue = 0.05, PerkInternalName = "BonusAttack", PerkVisualName = "Attack Up" }
+    local agilityPerk = { PerkValue = 0.1, PetPerkValue = 0.1, PerkInternalName = "BonusWalkspeed", PerkVisualName = "Agility" }
+    local burnResistancePerk = { PerkValue = 0.9, PetPerkValue = 0.9, PerkInternalName = "ResistBurn", PerkVisualName = "Burn Resistance" }
+    local poisonResistancePerk = { PerkValue = 0.9, PetPerkValue = 0.9, PerkInternalName = "ResistPoison", PerkVisualName = "Poison Resistance" }
+    local frostResistancePerk = { PerkValue = 0.9, PetPerkValue = 0.9, PerkInternalName = "ResistFrost", PerkVisualName = "Frost Resistance" }
+    local knockdownResistancePerk = { PerkValue = 0.9, PetPerkValue = 0.9, PerkInternalName = "ResistKockdown", PerkVisualName = "Knockdown Resistance" }
+    local untouchablePerk = { PerkValue = 0.2, PerkInternalName = "DodgeChance", PerkVisualName = "Untouchable" }
+    local roughSkinPerk = { PerkValue = 0.1, PerkInternalName = "RoughSkin", PerkVisualName = "Rough Skin" }
+    local damageReductionPerk = { PerkValue = 0.08, PerkInternalName = "DamageReduction", PerkVisualName = "Damage Reduction" }
+    local lifeDrainPerk = { PerkValue = 0.06, PerkInternalName = "LifeDrain", PerkVisualName = "Life Drain" }
+    local burnChancePerk = { PerkValue = 0.15, PerkInternalName = "BurnChance", PerkVisualName = "Burn Chance" }
+    local frostChancePerk = { PerkValue = 0.15, PerkInternalName = "FrostChance", PerkVisualName = "Frost Chance" }
+    local poisonChancePerk = { PerkValue = 0.15, PerkInternalName = "PoisonChance", PerkVisualName = "Poison Chance" }
+    local critStackPerk = { PerkValue = 0.15, PerkInternalName = "CritStack", PerkVisualName = "Crit Stack" }
+    local poisonThornsPerk = { PerkValue = 0.6, PerkInternalName = "PoisonThorns", PerkVisualName = "Poisonous Thorns" }
+    local elementalResistancePerk = { PerkValue = 0.4, PetPerkValue = 0.15, PerkInternalName = "Elemental", PerkVisualName = "Elemental Resistance" }
+    local ferociousPerk = { PerkValue = 0.4, PetPerkValue = 0.15, PerkInternalName = "Ferocious", PerkVisualName = "Ferocious" }
+    local vampiricPerk = { PerkValue = 0.15, PetPerkValue = 0.05, PerkInternalName = "Vampiric", PerkVisualName = "Vampiric" }
+    local bossBanePerk = { PerkValue = 0.3, PetPerkValue = 0.1, PerkInternalName = "TestTier5", PerkVisualName = "Boss Bane" }
+    local mobSlayerPerk = { PerkValue = 0.3, PetPerkValue = 0.1, PerkInternalName = "MobBoss", PerkVisualName = "Mob Slayer" }
+    local eliteAssassinPerk = { PerkValue = 0.3, PetPerkValue = 0.1, PerkInternalName = "EliteBoss", PerkVisualName = "Elite Assassin" }
+    local openingStrikePerk = { PerkValue = 0.25, PerkInternalName = "OpeningStrike", PerkVisualName = "Opening Strike" }
+    local selfDestructPerk = { PerkValue = 0.5, PerkInternalName = "Destruction", PerkVisualName = "Self Destruct" }
+    local fortressPerk = { PerkValue = 0.4, PerkInternalName = "Fortress", PerkVisualName = "Fortress" }
+    local glassPerk = { PerkValue = 1, PerkInternalName = "Glass", PerkVisualName = "Glass" }
+    local masterThiefPerk = { PerkValue = 0.35, PerkInternalName = "MasterThief", PerkVisualName = "Master Thief" }
+    local oblivionPerk = { PerkValue = 0.05, PetPerkValue = 0.05, PerkInternalName = "Oblivion", PerkVisualName = "Oblivion" }
+    local recklessPerk = { PerkValue = 0.25, PetPerkValue = 0.25, PerkInternalName = "Reckless", PerkVisualName = "Reckless" }
+    local comebackPerk = { PerkValue = 0.3, PerkInternalName = "Comeback", PerkVisualName = "Comeback" }
+    local relentlessPerk = { PerkValue = 0.15, PerkInternalName = "Relentless", PerkVisualName = "Relentless" }
+    local duelistPerk = { PerkValue = 0.3, PerkInternalName = "Duelist", PerkVisualName = "Duelist" }
+    local unstoppablePerk = { PerkValue = 0.15, PerkInternalName = "Unstoppable", PerkVisualName = "Unstoppable" }
+    local survivorPerk = { PerkValue = 0.2, PerkInternalName = "Survivor", PerkVisualName = "Survivor" }
+    local executionerPerk = { PerkValue = 0.5, PetPerkValue = 0.5, PerkInternalName = "Executioner", PerkVisualName = "Executioner" }
+    local adrenalinePerk = { PerkValue = 0.3, PerkInternalName = "Adrenaline", PerkVisualName = "Adrenaline" }
+    settingsRef.SavePerkTable = { ["Gold Hoarder"] = goldHoarderPerk, ["Lucky Looter"] = luckyLooterPerk, Energized = energizedPerk, ["HP UP"] = hpUpPerk, ["Attack Up"] = attackUpPerk, Agility = agilityPerk, ["Burn Resistance"] = burnResistancePerk, ["Poison Resistance"] = poisonResistancePerk, ["Frost Resistance"] = frostResistancePerk, ["Knockdown Resistance"] = knockdownResistancePerk, Untouchable = untouchablePerk, ["Rough Skin"] = roughSkinPerk, ["Damage Reduction"] = damageReductionPerk, ["Life Drain"] = lifeDrainPerk, ["Burn Chance"] = burnChancePerk, ["Frost Chance"] = frostChancePerk, ["Poison Chance"] = poisonChancePerk, ["Crit Stack"] = critStackPerk, ["Poisonous Thorns"] = poisonThornsPerk, ["Elemental Resistance"] = elementalResistancePerk, Ferocious = ferociousPerk, Vampiric = vampiricPerk, ["Boss Bane"] = bossBanePerk, ["Mob Slayer"] = mobSlayerPerk, ["Elite Assassin"] = eliteAssassinPerk, ["Opening Strike"] = openingStrikePerk, ["Self Destruct"] = selfDestructPerk, Fortress = fortressPerk, Glass = glassPerk, ["Master Thief"] = masterThiefPerk, Oblivion = oblivionPerk, Reckless = recklessPerk, Comeback = comebackPerk, Relentless = relentlessPerk, Duelist = duelistPerk, Unstoppable = unstoppablePerk, Survivor = survivorPerk, Executioner = executionerPerk, Adrenaline = adrenalinePerk }
     InventoryTabLeft = InventoryTab:AddLeftTabbox("Main")
     FirstTab = InventoryTabLeft:AddTab("Inventory")
-    FirstTab:AddToggle("AutoSellToggle", {
-		Text = "Auto sell items",
-		Default = false,
-		Tooltip = "Only applies to new items - eggs are not sold."
-	})
+    FirstTab:AddToggle("AutoSellToggle", { Text = "Auto sell items", Default = false, Tooltip = "Only applies to new items - eggs are not sold." })
     FirstTab:AddDivider()
-    Settings.AutoSellOptions = {
-		none = false,
-		["3-5"] = 3,
-		["4-5"] = 4,
-		["5"] = 5
-	}
-    FirstTab:AddDropdown("AutoSellDropdown", {
-		Values = {
-			"none",
-			"3-5",
-			"4-5",
-			"5"
-		},
-		Multi = false,
-		Text = "Keep tiers",
-		AllowNull = false,
-		Default = "5",
-		Callback = function(tierKey)
-        if tierKey and InDungeon or InLobby then
-            SellRarityThreshold = Settings.AutoSellOptions[tierKey]
-        end
+    Settings.AutoSellOptions = { none = false, ["3-5"] = 3, ["4-5"] = 4, ["5"] = 5 }
+    FirstTab:AddDropdown("AutoSellDropdown", { 		Values = { "none", "3-5", "4-5", "5" }, Multi = false, Text = "Keep tiers", AllowNull = false, Default = "5", Callback = function(tierKey)
+        if tierKey and InDungeon or InLobby then SellRarityThreshold = Settings.AutoSellOptions[tierKey] end
     end
 	})
     FirstTab:AddDivider()
-    FirstTab:AddToggle("KeepSelectedPerkToggle", {
-		Text = "Keep selected perks",
-		Default = false,
-		Tooltip = "By default, only S+ perks are kept.",
-		Callback = function(enabled)
-        if enabled then
-            enabled = InDungeon or InLobby
-        end
+    FirstTab:AddToggle("KeepSelectedPerkToggle", { Text = "Keep selected perks", Default = false, Tooltip = "By default, only S+ perks are kept.", Callback = function(enabled)
+        if enabled then enabled = InDungeon or InLobby end
 
         if enabled then
             Settings.KeepPerks = true
@@ -21352,55 +14624,7 @@ If available to your executor the script will reset your character and then invi
         Settings.KeepPerks = nil
     end
 	})
-    FirstTab:AddDropdown("PerkListDropdown", {
-		Values = {
-			"Gold Hoarder",
-			"Lucky Looter",
-			"Energized",
-			"HP UP",
-			"Attack Up",
-			"Agility",
-			"Burn Resistance",
-			"Poison Resistance",
-			"Frost Resistance",
-			"Knockdown Resistance",
-			"Untouchable",
-			"Rough Skin",
-			"Damage Reduction",
-			"Life Drain",
-			"Burn Chance",
-			"Frost Chance",
-			"Poison Chance",
-			"Crit Stack",
-			"Poisonous Thorns",
-			"Elemental Resistance",
-			"Ferocious",
-			"Vampiric",
-			"Boss Bane",
-			"Mob Slayer",
-			"Elite Assassin",
-			"Opening Strike",
-			"Self Destruct",
-			"Fortress",
-			"Glass",
-			"Master Thief",
-			"Oblivion",
-			"Reckless",
-			"Comeback",
-			"Relentless",
-			"Duelist",
-			"Unstoppable",
-			"Survivor",
-			"Executioner",
-			"Adrenaline"
-		},
-		Text = "Perks to keep",
-		Multi = true,
-		AllowNull = true,
-		Default = "",
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(selectedPerks)
+    FirstTab:AddDropdown("PerkListDropdown", { 		Values = { "Gold Hoarder", "Lucky Looter", "Energized", "HP UP", "Attack Up", "Agility", "Burn Resistance", "Poison Resistance", "Frost Resistance", "Knockdown Resistance", "Untouchable", "Rough Skin", "Damage Reduction", "Life Drain", "Burn Chance", "Frost Chance", "Poison Chance", "Crit Stack", "Poisonous Thorns", "Elemental Resistance", "Ferocious", "Vampiric", "Boss Bane", "Mob Slayer", "Elite Assassin", "Opening Strike", "Self Destruct", "Fortress", "Glass", "Master Thief", "Oblivion", "Reckless", "Comeback", "Relentless", "Duelist", "Unstoppable", "Survivor", "Executioner", "Adrenaline" }, Text = "Perks to keep", Multi = true, AllowNull = true, Default = "", MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(selectedPerks)
         Settings.SelectedPerks = {}
         local perkCount = 0
         for perkName, _ in pairs(selectedPerks) do
@@ -21408,9 +14632,7 @@ If available to your executor the script will reset your character and then invi
             Settings.SelectedPerks[tostring(perkName)] = Settings.SavePerkTable[perkName]
             perkCount += 1
         end
-        if perkCount == 0 then
-            Settings.SelectedPerks = nil
-        end
+        if perkCount == 0 then Settings.SelectedPerks = nil end
     end
 	})
     FirstTab:AddButton({
@@ -21419,9 +14641,7 @@ If available to your executor the script will reset your character and then invi
 		Tooltip = "All options (including perk filtering) are taken into account when selling your inventory.",
 		Func = function()
         local Charms
-        if Settings.CanRequire and Charms then
-            Charms = require(Charms:WaitForChild("Charms"))
-        end
+        if Settings.CanRequire and Charms then Charms = require(Charms:WaitForChild("Charms")) end
         local Items = (ResolveBackpack() or PlayerBackpack):WaitForChild("Items")
         local GetChildren = Items.GetChildren
         for _, v in pairs(GetChildren(Items)) do
@@ -21431,9 +14651,7 @@ If available to your executor the script will reset your character and then invi
                 local str = tostring(v.Name)
                 local petsFlag = v:FindFirstChild("XP") or string.find(str, "Pet")
                 local isPet = petsFlag
-                if isPet then
-                    petsFlag = not Settings.IncludePets
-                end
+                if isPet then petsFlag = not Settings.IncludePets end
                 if petsFlag then
                     ActiveSellCount -= 1
 
@@ -21465,9 +14683,7 @@ If available to your executor the script will reset your character and then invi
                             ActiveSellCount -= 1
                         end)
 
-                        if not ok then
-                            HandleError("SELL", (tostring(result)))
-                        end
+                        if not ok then HandleError("SELL", (tostring(result))) end
 
                         continue
                     end
@@ -21479,9 +14695,7 @@ If available to your executor the script will reset your character and then invi
                             ActiveSellCount -= 1
                         end)
 
-                        if not ok then
-                            HandleError("SELL", (tostring(result)))
-                        end
+                        if not ok then HandleError("SELL", (tostring(result))) end
 
                         continue
                     end
@@ -21495,9 +14709,7 @@ If available to your executor the script will reset your character and then invi
                         ActiveSellCount -= 1
                     end)
 
-                    if not ok then
-                        HandleError("SELL", (tostring(result)))
-                    end
+                    if not ok then HandleError("SELL", (tostring(result))) end
 
                     return
                 end
@@ -21505,9 +14717,7 @@ If available to your executor the script will reset your character and then invi
                 local perkMatched = false
                 if not isEgg and (Settings.KeepPerks and Settings.SelectedPerks) then
                     for i = 1, 3 do
-                        if perkMatched then
-                            break
-                        end
+                        if perkMatched then break end
 
                         local perkFolder = v:FindFirstChild("Perk" .. tostring(i))
 
@@ -21518,9 +14728,7 @@ If available to your executor the script will reset your character and then invi
                                 local perkConfig = Settings.SavePerkTable[perkName]
                                 local perkMatches = perkFolder.Value == perkConfig.PerkInternalName
 
-                                if perkMatches then
-                                    perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100
-                                end
+                                if perkMatches then perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100 end
 
                                 if perkMatches then
                                     perkMatched = true
@@ -21541,9 +14749,7 @@ If available to your executor the script will reset your character and then invi
                         ActiveSellCount -= 1
                     end)
 
-                    if not ok then
-                        HandleError("SELL", (tostring(result)))
-                    end
+                    if not ok then HandleError("SELL", (tostring(result))) end
                 else
                     ActiveSellCount -= 1
                 end
@@ -21556,14 +14762,8 @@ If available to your executor the script will reset your character and then invi
     end
 	})
     SecondTab = InventoryTabLeft:AddTab("Settings")
-    SecondTab:AddToggle("SellPetToggle", {
-		Text = "Sell pets",
-		Default = false,
-		Tooltip = "Allows the auto-sell features to apply to pets as well.",
-		Callback = function(enabled)
-        if enabled then
-            enabled = InDungeon or InLobby
-        end
+    SecondTab:AddToggle("SellPetToggle", { Text = "Sell pets", Default = false, Tooltip = "Allows the auto-sell features to apply to pets as well.", Callback = function(enabled)
+        if enabled then enabled = InDungeon or InLobby end
 
         if enabled then
             Settings.IncludePets = true
@@ -21574,14 +14774,8 @@ If available to your executor the script will reset your character and then invi
         Settings.IncludePets = nil
     end
 	})
-    SecondTab:AddToggle("SellTowerEggToggle", {
-		Text = "Sell tower eggs",
-		Default = false,
-		Tooltip = "Automatically sells eggs from towers when you're able to collect them.",
-		Callback = function(enabled)
-        if enabled then
-            enabled = InDungeon
-        end
+    SecondTab:AddToggle("SellTowerEggToggle", { Text = "Sell tower eggs", Default = false, Tooltip = "Automatically sells eggs from towers when you're able to collect them.", Callback = function(enabled)
+        if enabled then enabled = InDungeon end
 
         if enabled then
             Settings.SellTowerEggs = true
@@ -21592,11 +14786,7 @@ If available to your executor the script will reset your character and then invi
         Settings.SellTowerEggs = nil
     end
 	})
-    SecondTab:AddToggle("SellPetToggle", {
-		Text = "Sell charms",
-		Default = false,
-		Tooltip = "Allows the auto-sell features to apply to charms as well.",
-		Callback = function(enabled)
+    SecondTab:AddToggle("SellPetToggle", { Text = "Sell charms", Default = false, Tooltip = "Allows the auto-sell features to apply to charms as well.", Callback = function(enabled)
         if enabled and not Settings.CanRequire then
             Library:Notify("Your executor doesn't allow charms to be identified")
 
@@ -21613,28 +14803,12 @@ If available to your executor the script will reset your character and then invi
     end
 	})
     SecondTab:AddLabel("Auto-sell delay", true)
-    SecondTab:AddSlider("AutoSellDelaySlider", {
-		Text = "Seconds",
-		Default = 1,
-		Min = 1,
-		Max = 4,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Changes how long the script waits before scanning an item to decide whether to sell it. By default it waits 1 second so the item's properties can load.",
-		Callback = function(sellDelaySeconds)
+    SecondTab:AddSlider("AutoSellDelaySlider", { Text = "Seconds", Default = 1, Min = 1, Max = 4, Rounding = 0, Compact = true, Tooltip = "Changes how long the script waits before scanning an item to decide whether to sell it. By default it waits 1 second so the item's properties can load.", Callback = function(sellDelaySeconds)
         Settings.AddedAutoSellDelay = sellDelaySeconds
     end
 	})
     SecondTab:AddLabel("Perfect perk offset", true)
-    SecondTab:AddSlider("PerkPercentSlider", {
-		Text = "Offset",
-		Default = 0,
-		Min = 0,
-		Max = 5,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Increases the range at which perks are kept - for example, add 1 to the offset to keep Attack Up 7% as well as 8%.",
-		Callback = function(perkOffset)
+    SecondTab:AddSlider("PerkPercentSlider", { Text = "Offset", Default = 0, Min = 0, Max = 5, Rounding = 0, Compact = true, Tooltip = "Increases the range at which perks are kept - for example, add 1 to the offset to keep Attack Up 7% as well as 8%.", Callback = function(perkOffset)
         PerkTolerance = perkOffset
     end
 	})
@@ -21659,15 +14833,7 @@ If available to your executor the script will reset your character and then invi
 	})
     InventoryTabRight = InventoryTab:AddRightTabbox("Equips & cosmetics")
     FirstTab = InventoryTabRight:AddTab("Cosmetics")
-    FirstTab:AddDropdown("CosmeticDropdown", {
-		Values = {},
-		Text = "Cosmetics",
-		Multi = true,
-		AllowNull = true,
-		Default = "",
-		MaxVisibleDropdownItems = 5,
-		Searchable = true
-	})
+    FirstTab:AddDropdown("CosmeticDropdown", { Values = {}, Text = "Cosmetics", Multi = true, AllowNull = true, Default = "", MaxVisibleDropdownItems = 5, Searchable = true })
     FirstTab:AddButton({
 		Text = "Clear selection",
 		DoubleClick = true,
@@ -21679,30 +14845,20 @@ If available to your executor the script will reset your character and then invi
 		Text = "Scan cosmetics",
 		Func = function()
         local lib
-        if Settings.CanRequire then
-            lib = require(Items)
-        end
+        if Settings.CanRequire then lib = require(Items) end
         local Cosmetics = PlayerBackpack:FindFirstChild("Cosmetics")
         local seenCosmetics = {}
         local displayKeys = {}
         local displayToReal = {}
         if not Settings.CanRequire then
             for _, child in pairs(Cosmetics:GetChildren()) do
-                if not seenCosmetics[child.Name] then
-                    seenCosmetics[child.Name] = true
-                    table.insert(displayKeys, child.Name)
-                    displayToReal[child.Name] = child.Name
-                end
+                if not seenCosmetics[child.Name] then seenCosmetics[child.Name] = true table.insert(displayKeys, child.Name) displayToReal[child.Name] = child.Name end
             end
         else
             local GetChildren = Cosmetics.GetChildren
 
             for _, v in pairs(GetChildren(Cosmetics)) do
-                if not seenCosmetics[v.Name] then
-                    seenCosmetics[v.Name] = true
-                    table.insert(displayKeys, lib[v.Name].DisplayKey)
-                    displayToReal[lib[v.Name].DisplayKey] = v.Name
-                end
+                if not seenCosmetics[v.Name] then seenCosmetics[v.Name] = true table.insert(displayKeys, lib[v.Name].DisplayKey) displayToReal[lib[v.Name].DisplayKey] = v.Name end
             end
         end
         Options.CosmeticDropdown:SetValues(displayKeys)
@@ -21713,9 +14869,7 @@ If available to your executor the script will reset your character and then invi
         local selectedCosmetics = {}
         for displayKey, _ in pairs(Options.CosmeticDropdown.Value) do
 
-            if displayKey then
-                selectedCosmetics[Settings.RealCosmeticTable[displayKey]] = true
-            end
+            if displayKey then selectedCosmetics[Settings.RealCosmeticTable[displayKey]] = true end
         end
         local protectedHexes = {}
         local SaveUserHexesInputValue = Options.SaveUserHexesInput.Value
@@ -21726,15 +14880,11 @@ If available to your executor the script will reset your character and then invi
                 local parts = string.split(hexNoHash, ",")
 
                 for _, v in pairs(parts) do
-                    if v ~= "" and v ~= " " then
-                        table.insert(protectedHexes, string.lower(v))
-                    end
+                    if v ~= "" and v ~= " " then table.insert(protectedHexes, string.lower(v)) end
                 end
             end
 
-            for _, v in pairs(HexColorList) do
-                table.insert(protectedHexes, v)
-            end
+            for _, v in pairs(HexColorList) do table.insert(protectedHexes, v) end
         end
         local targetItems = {}
         for _, cosmetic in pairs(PlayerBackpack:FindFirstChild("Cosmetics"):GetChildren()) do
@@ -21756,9 +14906,7 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    if not hexProtected then
-                        table.insert(targetItems, cosmetic)
-                    end
+                    if not hexProtected then table.insert(targetItems, cosmetic) end
                 end
             end
         end
@@ -21768,10 +14916,7 @@ If available to your executor the script will reset your character and then invi
 
             return
         end
-        if action == "Gold" then
-            Library:Notify("Attempting to sell " .. tostring(#targetItems) .. " items", 5)
-            ;(GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer(targetItems)
-        end
+        if action == "Gold" then Library:Notify("Attempting to sell " .. tostring(#targetItems) .. " items", 5); (GetSellRemote() or error("Drops_SellItems is missing")):InvokeServer(targetItems) end
     end
     FirstTab:AddDivider()
     FirstTab:AddLabel("Pressing either of these buttons will either attempt to Recycle or Sell all the cosmetics you have selected above", true)
@@ -21805,9 +14950,7 @@ If available to your executor the script will reset your character and then invi
 		Callback = function(hexInput)
         local inGame = InLobby
 
-        if not inGame then
-            inGame = InDungeon
-        end
+        if not inGame then inGame = InDungeon end
 
         if inGame then
             local hexInputString = tostring(hexInput)
@@ -21845,26 +14988,10 @@ If available to your executor the script will reset your character and then invi
 	})
     DungeonTabLeft = DungeonTab:AddLeftTabbox("Main")
     FirstTab = DungeonTabLeft:AddTab("Main")
-    FirstTab:AddToggle("ReplayMissionToggle", {
-		Text = "Auto restart mission",
-		Default = false,
-		Tooltip = "Only works if enabled before the dungeon ends!"
-	})
-    FirstTab:AddToggle("CollectChestToggle", {
-		Text = "Collect chests",
-		Default = false,
-		Tooltip = "Only works if enabled before the dungeon ends!"
-	})
-    FirstTab:AddToggle("HighestDungeonToggle", {
-		Text = "Do highest level dungeon",
-		Default = false,
-		Tooltip = "Useful while leveling: moves to the highest-level dungeon you can play and auto-equips new gear when it's a higher level."
-	})
-    FirstTab:AddToggle("RandomNightmareDungeonToggle", {
-		Text = "Random nightmare dungeon",
-		Default = false,
-		Tooltip = "When the dungeon ends, picks a random dungeon from the Nightmare Portal to play.",
-		Callback = function(enabled)
+    FirstTab:AddToggle("ReplayMissionToggle", { Text = "Auto restart mission", Default = false, Tooltip = "Only works if enabled before the dungeon ends!" })
+    FirstTab:AddToggle("CollectChestToggle", { Text = "Collect chests", Default = false, Tooltip = "Only works if enabled before the dungeon ends!" })
+    FirstTab:AddToggle("HighestDungeonToggle", { Text = "Do highest level dungeon", Default = false, Tooltip = "Useful while leveling: moves to the highest-level dungeon you can play and auto-equips new gear when it's a higher level." })
+    FirstTab:AddToggle("RandomNightmareDungeonToggle", { Text = "Random nightmare dungeon", Default = false, Tooltip = "When the dungeon ends, picks a random dungeon from the Nightmare Portal to play.", Callback = function(enabled)
         if InDungeon and enabled then
             Settings.RandomNightmareDungeon = math.random(1005, 1007)
 
@@ -21874,65 +15001,26 @@ If available to your executor the script will reset your character and then invi
         Settings.RandomNightmareDungeon = nil
     end
 	})
-    FirstTab:AddToggle("ReplayInfiniteTowerToggle", {
-		Text = "Limit infinite tower",
-		Default = false,
-		Tooltip = "Restarts Infinite Tower once a predetermined floor has been reached."
-	})
-    FirstTab:AddToggle("NightmarePingToggle", {
-		Text = "Nightmare ping",
-		Default = false,
-		Tooltip = "Pings whenever the Nightmare dungeon event is active."
-	})
+    FirstTab:AddToggle("ReplayInfiniteTowerToggle", { Text = "Limit infinite tower", Default = false, Tooltip = "Restarts Infinite Tower once a predetermined floor has been reached." })
+    FirstTab:AddToggle("NightmarePingToggle", { Text = "Nightmare ping", Default = false, Tooltip = "Pings whenever the Nightmare dungeon event is active." })
     SecondTab = DungeonTabLeft:AddTab("Settings")
     SecondTab:AddLabel("Restart dungeon delay", true)
-    SecondTab:AddSlider("ReplayMissionSlider", {
-		Text = "Restart delay",
-		Default = 3,
-		Min = 1,
-		Max = 60,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Changes the delay before restarting the dungeon when 'Auto Restart Mission' is selected.",
-		Callback = function(restartDelay)
+    SecondTab:AddSlider("ReplayMissionSlider", { Text = "Restart delay", Default = 3, Min = 1, Max = 60, Rounding = 0, Compact = true, Tooltip = "Changes the delay before restarting the dungeon when 'Auto Restart Mission' is selected.", Callback = function(restartDelay)
         Settings.RestartDungeonDelay = restartDelay
     end
 	})
     SecondTab:AddLabel("Collect chest delay", true)
-    SecondTab:AddSlider("ChestDelaySlider", {
-		Text = "Collect chest delay",
-		Default = 0.1,
-		Min = 0.01,
-		Max = 5,
-		Rounding = 2,
-		Compact = true,
-		Tooltip = "Changes the delay between collecting chests.",
-		Callback = function(chestDelay)
+    SecondTab:AddSlider("ChestDelaySlider", { Text = "Collect chest delay", Default = 0.1, Min = 0.01, Max = 5, Rounding = 2, Compact = true, Tooltip = "Changes the delay between collecting chests.", Callback = function(chestDelay)
         Settings.CollectChestsDelay = chestDelay
     end
 	})
     SecondTab:AddLabel("Infinite tower reset floor", true)
-    SecondTab:AddSlider("InfResetSlider", {
-		Text = "Floor",
-		Default = 200,
-		Min = 155,
-		Max = 400,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Changes which floor Infinite Tower restarts at when 'Periodically Reset Inf Tower' is selected.",
-		Callback = function(resetFloor)
+    SecondTab:AddSlider("InfResetSlider", { Text = "Floor", Default = 200, Min = 155, Max = 400, Rounding = 0, Compact = true, Tooltip = "Changes which floor Infinite Tower restarts at when 'Periodically Reset Inf Tower' is selected.", Callback = function(resetFloor)
         RangedDistance = resetFloor
     end
 	})
     SecondTab:AddLabel("Prioritize nightmare dungeons", true)
-    SecondTab:AddDropdown("PrioNmDropdown", {
-		Values = {},
-		Multi = true,
-		AllowNull = true,
-		Default = nil,
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function()
+    SecondTab:AddDropdown("PrioNmDropdown", { Values = {}, Multi = true, AllowNull = true, Default = nil, MaxVisibleDropdownItems = 5, Searchable = true, Callback = function()
         local selectedCount = 0
         for _, _ in pairs(Options.PrioNmDropdown.Value) do
 
@@ -21949,10 +15037,7 @@ If available to your executor the script will reset your character and then invi
     Settings.PrioritizedNightmareDungeons = {}
     Settings.NMDisplayValues = {}
     for _, v in pairs(DungeonConfigList) do
-        if v.Level > 0 and v.Level < 130 then
-            Settings.PrioritizedNightmareDungeons[v.DungeonName] = v.DungeonID
-            table.insert(Settings.NMDisplayValues, v.DungeonName)
-        end
+        if v.Level > 0 and v.Level < 130 then Settings.PrioritizedNightmareDungeons[v.DungeonName] = v.DungeonID; table.insert(Settings.NMDisplayValues, v.DungeonName) end
     end
     Options.PrioNmDropdown:SetValues(Settings.NMDisplayValues)
     Settings.NMDisplayValues = nil
@@ -21963,23 +15048,17 @@ If available to your executor the script will reset your character and then invi
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(totalClears)
-        if InDungeon then
-            Settings.StopAfterTotalNightmare = totalClears
-        end
+        if InDungeon then Settings.StopAfterTotalNightmare = totalClears end
     end
 	})
-    RightGroupBox:AddDivider({
-		Margin = -5
-	})
+    RightGroupBox:AddDivider({ Margin = -5 })
     Settings.DailyNightmareLabel = RightGroupBox:AddLabel("Daily nightmare clears: ?", false)
     RightGroupBox:AddInput("DailyNightmareInput", {
 		Text = "Stop after X daily clears",
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(dailyClears)
-        if InDungeon then
-            Settings.StopAfterDailyNightmare = dailyClears
-        end
+        if InDungeon then Settings.StopAfterDailyNightmare = dailyClears end
     end
 	})
     task.wait()
@@ -21991,70 +15070,21 @@ If available to your executor the script will reset your character and then invi
 	})
     GuildTabLeft = GuildTab:AddLeftTabbox("Main")
     FirstTab = GuildTabLeft:AddTab("Main")
-    FirstTab:AddToggle("WaitTimeToggle", {
-		Text = "Wait for legit time",
-		Default = false,
-		Tooltip = "Starts the dungeon and waits a set amount of time before continuing to clear it."
-	})
-    FirstTab:AddToggle("DoAllDungeonsToggle", {
-		Text = "Do all dungeons",
-		Default = false,
-		Tooltip = "Starts from your current dungeon and moves on once it's completed - never returns to previous dungeons!\n\nOrder of dungeons:\ninf -> towers 1-6 -> celestial -> all dungeons"
-	})
-    FirstTab:AddToggle("DelayInfFloorToggle", {
-		Text = "Delay inf tower floors",
-		Default = false,
-		Tooltip = "In Infinite Tower, the script no longer teleports you - the default countdown takes you to the next floor."
-	})
-    FirstTab:AddToggle("GuildQuestToggle", {
-		Text = "Auto claim guild quests",
-		Default = false
-	})
-    FirstTab:AddToggle("GuildPingToggle", {
-		Text = "Guild ping",
-		Default = false,
-		Tooltip = "Pings whenever the guild event is active."
-	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
-    FirstTab:AddDropdown("DoAllDropdown", {
-		Values = {
-			"Stop",
-			"Loop",
-			"Loop w/o inf",
-			"Loop w/o towers",
-			"Play nightmare dungeons"
-		},
-		Multi = false,
-		Text = "Action when finished",
-		AllowNull = false,
-		Default = "Stop"
-	})
+    FirstTab:AddToggle("WaitTimeToggle", { Text = "Wait for legit time", Default = false, Tooltip = "Starts the dungeon and waits a set amount of time before continuing to clear it." })
+    FirstTab:AddToggle("DoAllDungeonsToggle", { Text = "Do all dungeons", Default = false, Tooltip = "Starts from your current dungeon and moves on once it's completed - never returns to previous dungeons!\n\nOrder of dungeons:\ninf -> towers 1-6 -> celestial -> all dungeons" })
+    FirstTab:AddToggle("DelayInfFloorToggle", { Text = "Delay inf tower floors", Default = false, Tooltip = "In Infinite Tower, the script no longer teleports you - the default countdown takes you to the next floor." })
+    FirstTab:AddToggle("GuildQuestToggle", { Text = "Auto claim guild quests", Default = false })
+    FirstTab:AddToggle("GuildPingToggle", { Text = "Guild ping", Default = false, Tooltip = "Pings whenever the guild event is active." })
+    FirstTab:AddDivider({ Margin = -5 })
+    FirstTab:AddDropdown("DoAllDropdown", { 		Values = { "Stop", "Loop", "Loop w/o inf", "Loop w/o towers", "Play nightmare dungeons" }, Multi = false, Text = "Action when finished", AllowNull = false, Default = "Stop" })
     SecondTab = GuildTabLeft:AddTab("Settings")
     SecondTab:AddLabel("Add extra wait time", true)
-    SecondTab:AddSlider("AddExtraTimeSlider", {
-		Text = "Seconds",
-		Default = 0,
-		Min = 0,
-		Max = 180,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "Adds extra time to the 'Wait for a Legit Time' option if you don't think the script waits long enough, or you want a bigger safety margin.",
-		Callback = function(extraTime)
+    SecondTab:AddSlider("AddExtraTimeSlider", { Text = "Seconds", Default = 0, Min = 0, Max = 180, Rounding = 0, Compact = true, Tooltip = "Adds extra time to the 'Wait for a Legit Time' option if you don't think the script waits long enough, or you want a bigger safety margin.", Callback = function(extraTime)
         Settings.AddedGuildTime = extraTime
     end
 	})
     SecondTab:AddLabel("Increment inf tower delay ", true)
-    SecondTab:AddSlider("IncrementInfiniteSlider", {
-		Text = "Seconds",
-		Default = 0,
-		Min = 0,
-		Max = 10,
-		Rounding = 0,
-		Compact = true,
-		Tooltip = "When 'Delay Inf Tower Floors' is enabled, this toggle adds increasingly more waiting time after each completed boss floor.",
-		Callback = function(incrementDelay)
+    SecondTab:AddSlider("IncrementInfiniteSlider", { Text = "Seconds", Default = 0, Min = 0, Max = 10, Rounding = 0, Compact = true, Tooltip = "When 'Delay Inf Tower Floors' is enabled, this toggle adds increasingly more waiting time after each completed boss floor.", Callback = function(incrementDelay)
         Settings.IncrementInfiniteDelay = incrementDelay
     end
 	})
@@ -22066,23 +15096,17 @@ If available to your executor the script will reset your character and then invi
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(totalPoints)
-        if InDungeon then
-            Settings.StopAfterTotalPoints = totalPoints
-        end
+        if InDungeon then Settings.StopAfterTotalPoints = totalPoints end
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddDivider({ Margin = -5 })
     Settings.DailyGuildPointLabel = FirstTab:AddLabel("Daily Guild Points: ?", false)
     FirstTab:AddInput("DailyKillInput", {
 		Text = "Stop after X daily points",
 		Default = "",
 		Placeholder = "number here",
 		Callback = function(dailyPoints)
-        if InDungeon then
-            Settings.StopAfterDailyPoints = dailyPoints
-        end
+        if InDungeon then Settings.StopAfterDailyPoints = dailyPoints end
     end
 	})
     SecondTab = GuildTabRight:AddTab("Guild spy")
@@ -22091,15 +15115,7 @@ If available to your executor the script will reset your character and then invi
     CopyGuildTable = {}
     CopyGuildChat = {}
     CopyGuildPoints = 0
-    SecondTab:AddDropdown("GuildNamesDropdown", {
-		Values = {},
-		Text = "Guilds",
-		Multi = false,
-		AllowNull = true,
-		Default = "",
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function()
+    SecondTab:AddDropdown("GuildNamesDropdown", { Values = {}, Text = "Guilds", Multi = false, AllowNull = true, Default = "", MaxVisibleDropdownItems = 5, Searchable = true, Callback = function()
         table.clear(CopyGuildTable)
         table.clear(CopyGuildChat)
         CopyGuildPoints = 0
@@ -22114,10 +15130,7 @@ If available to your executor the script will reset your character and then invi
         for _, child in pairs(Players:GetChildren()) do
             local playerGuild = GetGuildTag(child)
 
-            if playerGuild ~= "РІСњРЉ" and not seenTags[playerGuild] then
-                table.insert(guildTags, playerGuild)
-                seenTags[playerGuild] = true
-            end
+            if playerGuild ~= "РІСњРЉ" and not seenTags[playerGuild] then table.insert(guildTags, playerGuild); seenTags[playerGuild] = true end
         end
 
         Options.GuildNamesDropdown:SetValues(guildTags)
@@ -22126,26 +15139,16 @@ If available to your executor the script will reset your character and then invi
     SecondTab:AddButton({
 		Text = "Players points",
 		Func = function()
-        if not Options.GuildNamesDropdown.Value then
-            Settings.SpyOnGuild:SetText("No guild selected")
-        end
+        if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No guild selected") end
 
         local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not guildCache or not guildCache.Members then
-            Settings.SpyOnGuild:SetText("This guilds data is no longer available")
-        end
+        if not guildCache or not guildCache.Members then Settings.SpyOnGuild:SetText("This guilds data is no longer available") end
 
         table.clear(CopyGuildTable)
         CopyGuildPoints = 0
 
-        local roleColors = {
-				Member = "#ffffff",
-				Builder = "#58B400",
-				Captain = "#009DFF",
-				Elite = "#E44AFF",
-				Leader = "#FFDB0E"
-			}
+        local roleColors = { Member = "#ffffff", Builder = "#58B400", Captain = "#009DFF", Elite = "#E44AFF", Leader = "#FFDB0E" }
         local memberList = {}
         local totalPoints = 0
 
@@ -22180,15 +15183,11 @@ If available to your executor the script will reset your character and then invi
 		Text = "Clipboard",
 		Func = function()
         if #CopyGuildTable == 0 then
-            if not Options.GuildNamesDropdown.Value then
-                Settings.SpyOnGuild:SetText("No Guild selected")
-            end
+            if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No Guild selected") end
 
             local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not guildCache or not guildCache.Members then
-                Settings.SpyOnGuild:SetText("Guild data is no longer available")
-            end
+            if not guildCache or not guildCache.Members then Settings.SpyOnGuild:SetText("Guild data is no longer available") end
 
             local memberList = {}
             local totalPoints = 0
@@ -22222,24 +15221,17 @@ If available to your executor the script will reset your character and then invi
     SecondTab:AddButton({
 		Text = "Chat logs",
 		Func = function()
-        if not Options.GuildNamesDropdown.Value then
-            Settings.SpyOnGuild:SetText("No guild selected")
-        end
+        if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No guild selected") end
 
         local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not guildCache or not guildCache.ChatLog then
-            Settings.SpyOnGuild:SetText("This guilds data is no longer available")
-        end
+        if not guildCache or not guildCache.ChatLog then Settings.SpyOnGuild:SetText("This guilds data is no longer available") end
 
         table.clear(CopyGuildChat)
 
         local chatLines = {}
 
-        for _, v in pairs(guildCache.ChatLog) do
-            table.insert(chatLines, v[1])
-            table.insert(CopyGuildChat, v[1])
-        end
+        for _, v in pairs(guildCache.ChatLog) do table.insert(chatLines, v[1]); table.insert(CopyGuildChat, v[1]) end
 
         local SpyOnGuild = Settings.SpyOnGuild
         local chatText = { table.concat(chatLines, "\n") }
@@ -22250,24 +15242,17 @@ If available to your executor the script will reset your character and then invi
 		Text = "Clipboard",
 		Func = function()
         if #CopyGuildChat == 0 then
-            if not Options.GuildNamesDropdown.Value then
-                Settings.SpyOnGuild:SetText("No guild selected")
-            end
+            if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No guild selected") end
 
             local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not guildCache or not guildCache.ChatLog then
-                Settings.SpyOnGuild:SetText("This guilds data is no longer available")
-            end
+            if not guildCache or not guildCache.ChatLog then Settings.SpyOnGuild:SetText("This guilds data is no longer available") end
 
             table.clear(CopyGuildChat)
 
             local chatLines = {}
 
-            for _, v in pairs(guildCache.ChatLog) do
-                table.insert(chatLines, v[1])
-                table.insert(CopyGuildChat, v[1])
-            end
+            for _, v in pairs(guildCache.ChatLog) do table.insert(chatLines, v[1]); table.insert(CopyGuildChat, v[1]) end
 
             setclipboard(table.concat(chatLines, "\n"))
 
@@ -22281,15 +15266,11 @@ If available to your executor the script will reset your character and then invi
     SecondTab:AddButton({
 		Text = "Description",
 		Func = function()
-        if not Options.GuildNamesDropdown.Value then
-            Settings.SpyOnGuild:SetText("No guild selected")
-        end
+        if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No guild selected") end
 
         local guildCache = Remotes:WaitForChild("Guilds_GetCache", 1e999):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-        if not guildCache or not guildCache.Description then
-            Settings.SpyOnGuild:SetText("This guilds data is no longer available")
-        end
+        if not guildCache or not guildCache.Description then Settings.SpyOnGuild:SetText("This guilds data is no longer available") end
 
         CopyGuildDescription = nil
         Settings.SpyOnGuild:SetText(guildCache.Description)
@@ -22299,15 +15280,11 @@ If available to your executor the script will reset your character and then invi
 		Text = "Clipboard",
 		Func = function()
         if not CopyGuildDescription then
-            if not Options.GuildNamesDropdown.Value then
-                Settings.SpyOnGuild:SetText("No guild selected")
-            end
+            if not Options.GuildNamesDropdown.Value then Settings.SpyOnGuild:SetText("No guild selected") end
 
             local guildCache = Remotes:WaitForChild("Guilds_GetCache", math.huge):InvokeServer(string.upper(Options.GuildNamesDropdown.Value))
 
-            if not guildCache or not guildCache.Description then
-                Settings.SpyOnGuild:SetText("This guilds data is no longer available")
-            end
+            if not guildCache or not guildCache.Description then Settings.SpyOnGuild:SetText("This guilds data is no longer available") end
 
             CopyGuildDescription = nil
             CopyGuildDescription = guildCache.Description
@@ -22328,47 +15305,9 @@ If available to your executor the script will reset your character and then invi
 	})
     ShopTabLeft = ShopTab:AddLeftTabbox("Shop")
     FirstTab = ShopTabLeft:AddTab("Egg")
-    Settings.BuyEggList = {
-		{
-			InternalName = "StarEgg",
-			VisualName = "Star egg",
-			CoinPrice = 2000,
-			CurrencyType = "Gold"
-		},
-		{
-			InternalName = "JungleEgg",
-			VisualName = "Jungle egg",
-			CoinPrice = 5000,
-			CurrencyType = "Gold"
-		},
-		{
-			InternalName = "CrystalEgg",
-			VisualName = "Crystal egg",
-			CoinPrice = 7500,
-			CurrencyType = "Gold"
-		},
-		{
-			InternalName = "DesertEgg",
-			VisualName = "Pharaoh's egg",
-			CoinPrice = 10000,
-			CurrencyType = "Gold"
-		},
-		{
-			InternalName = "ChristmasEgg",
-			VisualName = "Holiday egg",
-			CoinPrice = 400,
-			CurrencyType = "Crystals"
-		}
-	}
+    Settings.BuyEggList = { 		{ InternalName = "StarEgg", VisualName = "Star egg", CoinPrice = 2000, CurrencyType = "Gold" }, 		{ InternalName = "JungleEgg", VisualName = "Jungle egg", CoinPrice = 5000, CurrencyType = "Gold" }, 		{ InternalName = "CrystalEgg", VisualName = "Crystal egg", CoinPrice = 7500, CurrencyType = "Gold" }, 		{ InternalName = "DesertEgg", VisualName = "Pharaoh's egg", CoinPrice = 10000, CurrencyType = "Gold" }, 		{ InternalName = "ChristmasEgg", VisualName = "Holiday egg", CoinPrice = 400, CurrencyType = "Crystals" } }
     task.wait()
-    FirstTab:AddDropdown("EggShopDropdown", {
-		Values = {},
-		Multi = false,
-		Text = "egg name (price)",
-		AllowNull = true,
-		Default = nil,
-		Searchable = true,
-		Callback = function(eggKey)
+    FirstTab:AddDropdown("EggShopDropdown", { Values = {}, Multi = false, Text = "egg name (price)", AllowNull = true, Default = nil, Searchable = true, Callback = function(eggKey)
         if eggKey and InLobby or InDungeon then
             Settings.SelectedEggItem = Settings.BuyEggList[eggKey]
 
@@ -22390,135 +15329,22 @@ If available to your executor the script will reset your character and then invi
             return
         end
 
-        if not BuyFromEggShop(SelectedEggItem.CurrencyType, SelectedEggItem.InternalName, SelectedEggItem.CoinPrice, SelectedEggItem.VisualName) then
-            Library:Notify("You do not have enough gold", 3)
-        end
+        if not BuyFromEggShop(SelectedEggItem.CurrencyType, SelectedEggItem.InternalName, SelectedEggItem.CoinPrice, SelectedEggItem.VisualName) then Library:Notify("You do not have enough gold", 3) end
     end
 	})
-    FirstTab:AddToggle("AutoHatchEggToggle", {
-		Text = "Auto hatch selected egg",
-		Tooltip = "Best used in dungeons where no one else can see you (also reduces lag).",
-		Default = false
-	})
-    FirstTab:AddToggle("AutoHatchInventoryEggToggle", {
-		Text = "Hatch eggs in inventory",
-		Default = false
-	})
-    FirstTab:AddSlider("EggHatchDelaySlider", {
-		Text = "Egg hatch delay",
-		Default = 0,
-		Min = 0,
-		Max = 10,
-		Rounding = 0,
-		Callback = function(hatchDelay)
-        if InLobby or InDungeon then
-            Settings.HatchDelay = hatchDelay
-        end
+    FirstTab:AddToggle("AutoHatchEggToggle", { Text = "Auto hatch selected egg", Tooltip = "Best used in dungeons where no one else can see you (also reduces lag).", Default = false })
+    FirstTab:AddToggle("AutoHatchInventoryEggToggle", { Text = "Hatch eggs in inventory", Default = false })
+    FirstTab:AddSlider("EggHatchDelaySlider", { Text = "Egg hatch delay", Default = 0, Min = 0, Max = 10, Rounding = 0, Callback = function(hatchDelay)
+        if InLobby or InDungeon then Settings.HatchDelay = hatchDelay end
     end
 	})
     SecondTab = ShopTabLeft:AddTab("Nightmare")
-    Settings.BuyNightmareItemList = {
-		{
-			InternalName = "NightmareDyeBox",
-			VisualName = "NM Dye Box",
-			CoinPrice = 5
-		},
-		{
-			InternalName = "LegendaryEquipmentChest",
-			VisualName = "Legendary Chest",
-			CoinPrice = 10
-		},
-		{
-			InternalName = "NightmareHeadphones",
-			VisualName = "NM Headphones",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "NightmareCatcher",
-			VisualName = "NM Catcher",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "NightmarePatch",
-			VisualName = "NM Patch",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "ShadowSerpent",
-			VisualName = "Shadow Serpent",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "NightmareMask",
-			VisualName = "NM Mask",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "NightmareCircle",
-			VisualName = "NM Circle",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "NightmareLantern",
-			VisualName = "NM Lantern",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "SkullHalo",
-			VisualName = "Skull Halo",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "GrimSkulls",
-			VisualName = "Grim Skulls",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "BrokenHorns",
-			VisualName = "Broken Horns",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "ChainedHorns",
-			VisualName = "Chained Horns",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "NightmareHelmet",
-			VisualName = "NM Helmet",
-			CoinPrice = 20
-		},
-		{
-			InternalName = "NightmareArmor",
-			VisualName = "NM Armor",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "NightmareBox",
-			VisualName = "NM wep skin",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "NightmareChampionTitle",
-			VisualName = "NM Champion (title)",
-			CoinPrice = 250
-		}
-	}
+    Settings.BuyNightmareItemList = { 		{ InternalName = "NightmareDyeBox", VisualName = "NM Dye Box", CoinPrice = 5 }, 		{ InternalName = "LegendaryEquipmentChest", VisualName = "Legendary Chest", CoinPrice = 10 }, 		{ InternalName = "NightmareHeadphones", VisualName = "NM Headphones", CoinPrice = 15 }, 		{ InternalName = "NightmareCatcher", VisualName = "NM Catcher", CoinPrice = 15 }, 		{ InternalName = "NightmarePatch", VisualName = "NM Patch", CoinPrice = 15 }, 		{ InternalName = "ShadowSerpent", VisualName = "Shadow Serpent", CoinPrice = 15 }, 		{ InternalName = "NightmareMask", VisualName = "NM Mask", CoinPrice = 15 }, 		{ InternalName = "NightmareCircle", VisualName = "NM Circle", CoinPrice = 20 }, 		{ InternalName = "NightmareLantern", VisualName = "NM Lantern", CoinPrice = 20 }, 		{ InternalName = "SkullHalo", VisualName = "Skull Halo", CoinPrice = 20 }, 		{ InternalName = "GrimSkulls", VisualName = "Grim Skulls", CoinPrice = 20 }, 		{ InternalName = "BrokenHorns", VisualName = "Broken Horns", CoinPrice = 20 }, 		{ InternalName = "ChainedHorns", VisualName = "Chained Horns", CoinPrice = 20 }, 		{ InternalName = "NightmareHelmet", VisualName = "NM Helmet", CoinPrice = 20 }, 		{ InternalName = "NightmareArmor", VisualName = "NM Armor", CoinPrice = 50 }, 		{ InternalName = "NightmareBox", VisualName = "NM wep skin", CoinPrice = 50 }, 		{ InternalName = "NightmareChampionTitle", VisualName = "NM Champion (title)", CoinPrice = 250 } }
     task.wait()
-    SecondTab:AddDropdown("NightmareShopDropdown", {
-		Values = {},
-		Multi = false,
-		Text = "item name (Nightmare Coins)",
-		AllowNull = true,
-		Default = nil,
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(nightmareItemKey)
+    SecondTab:AddDropdown("NightmareShopDropdown", { Values = {}, Multi = false, Text = "item name (Nightmare Coins)", AllowNull = true, Default = nil, MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(nightmareItemKey)
         local _Value = Value
 
-        if _Value then
-            _Value = InLobby
-        end
+        if _Value then _Value = InLobby end
 
         if _Value then
             Settings.SelectedNightmareItem = Settings.BuyNightmareItemList[nightmareItemKey]
@@ -22547,93 +15373,14 @@ If available to your executor the script will reset your character and then invi
             return
         end
 
-        if not BuyFromLocalShop("NightmareCoin", "NightmarePortals", SelectedNightmareItem.InternalName, SelectedNightmareItem.CoinPrice, SelectedNightmareItem.VisualName) then
-            Library:Notify("You do not have enough coins", 3)
-        end
+        if not BuyFromLocalShop("NightmareCoin", "NightmarePortals", SelectedNightmareItem.InternalName, SelectedNightmareItem.CoinPrice, SelectedNightmareItem.VisualName) then Library:Notify("You do not have enough coins", 3) end
     end
 	})
-    SecondTab:AddToggle("BuyMaxNightmareToggle", {
-		Text = "Buy max selected item",
-		Default = false
-	})
+    SecondTab:AddToggle("BuyMaxNightmareToggle", { Text = "Buy max selected item", Default = false })
     SecondTab = ShopTabLeft:AddTab("PVP")
-    Settings.BuyPVPItemList = {
-		{
-			InternalName = "PVPDyeBox",
-			VisualName = "PVP Dye Box",
-			CoinPrice = 5
-		},
-		{
-			InternalName = "LegendaryEquipmentChest",
-			VisualName = "Legendary Chest",
-			CoinPrice = 15
-		},
-		{
-			InternalName = "PVPBow",
-			VisualName = "Lionheart Bow",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPLongsword",
-			VisualName = "Lionheart Longsword",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPGreatsword",
-			VisualName = "Lionheart Greatsword",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPAxe",
-			VisualName = "Lionheart Axe",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPStaff",
-			VisualName = "Lionheart Staff",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPShield",
-			VisualName = "Lionheart Shield",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPSpear",
-			VisualName = "Lionheart Spear",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPScythe",
-			VisualName = "Lionheart Scythe",
-			CoinPrice = 50
-		},
-		{
-			InternalName = "PVPArmorM",
-			VisualName = "Lionheart Armor (M)",
-			CoinPrice = 100
-		},
-		{
-			InternalName = "PVPArmorF",
-			VisualName = "Lionnheart Armor (F)",
-			CoinPrice = 100
-		},
-		{
-			InternalName = "TheUnbrokenTitle",
-			VisualName = "Unbroke (title)",
-			CoinPrice = 1000
-		}
-	}
+    Settings.BuyPVPItemList = { 		{ InternalName = "PVPDyeBox", VisualName = "PVP Dye Box", CoinPrice = 5 }, 		{ InternalName = "LegendaryEquipmentChest", VisualName = "Legendary Chest", CoinPrice = 15 }, 		{ InternalName = "PVPBow", VisualName = "Lionheart Bow", CoinPrice = 50 }, 		{ InternalName = "PVPLongsword", VisualName = "Lionheart Longsword", CoinPrice = 50 }, 		{ InternalName = "PVPGreatsword", VisualName = "Lionheart Greatsword", CoinPrice = 50 }, 		{ InternalName = "PVPAxe", VisualName = "Lionheart Axe", CoinPrice = 50 }, 		{ InternalName = "PVPStaff", VisualName = "Lionheart Staff", CoinPrice = 50 }, 		{ InternalName = "PVPShield", VisualName = "Lionheart Shield", CoinPrice = 50 }, 		{ InternalName = "PVPSpear", VisualName = "Lionheart Spear", CoinPrice = 50 }, 		{ InternalName = "PVPScythe", VisualName = "Lionheart Scythe", CoinPrice = 50 }, 		{ InternalName = "PVPArmorM", VisualName = "Lionheart Armor (M)", CoinPrice = 100 }, 		{ InternalName = "PVPArmorF", VisualName = "Lionnheart Armor (F)", CoinPrice = 100 }, 		{ InternalName = "TheUnbrokenTitle", VisualName = "Unbroke (title)", CoinPrice = 1000 } }
     task.wait()
-    SecondTab:AddDropdown("PVPShopDropdown", {
-		Values = {},
-		Multi = false,
-		Text = "item name (PVP Coins)",
-		AllowNull = true,
-		Default = nil,
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(pvpItemKey)
+    SecondTab:AddDropdown("PVPShopDropdown", { Values = {}, Multi = false, Text = "item name (PVP Coins)", AllowNull = true, Default = nil, MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(pvpItemKey)
         if Value and InLobby then
             Settings.SelectedPvpItem = Settings.BuyPVPItemList[pvpItemKey]
 
@@ -22661,107 +15408,16 @@ If available to your executor the script will reset your character and then invi
             return
         end
 
-        if not BuyFromLocalShop("PVPCoin", "PVPShop", SelectedPvpItem.InternalName, SelectedPvpItem.CoinPrice, SelectedPvpItem.VisualName) then
-            Library:Notify("You do not have enough coins", 3)
-        end
+        if not BuyFromLocalShop("PVPCoin", "PVPShop", SelectedPvpItem.InternalName, SelectedPvpItem.CoinPrice, SelectedPvpItem.VisualName) then Library:Notify("You do not have enough coins", 3) end
     end
 	})
-    SecondTab:AddToggle("BuyMaxPVPToggle", {
-		Text = "Buy max selected item",
-		Default = false
-	})
+    SecondTab:AddToggle("BuyMaxPVPToggle", { Text = "Buy max selected item", Default = false })
     ShopTabRight = ShopTab:AddRightTabbox("Extras")
     FirstTab = ShopTabRight:AddTab("Guild")
-    Settings.BuyGuildItemList = {
-		{
-			InternalName = "GuildDyeBox",
-			VisualName = "Guild Dye Box",
-			CoinPrice = 10
-		},
-		{
-			InternalName = "LegendaryEquipmentChest",
-			VisualName = "Legendary Chest",
-			CoinPrice = 25
-		},
-		{
-			InternalName = "GuildAura",
-			VisualName = "Guild Aura",
-			CoinPrice = 25
-		},
-		{
-			InternalName = "GuildBooth",
-			VisualName = "Guild Booth",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "GuildCircle",
-			VisualName = "Guild Circle",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "GuildCircle2",
-			VisualName = "Guild Circle #2",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "KingCrown",
-			VisualName = "King's Crown",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "QueenCrown",
-			VisualName = "Queen's Crown",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "GuildBrawler",
-			VisualName = "Guild Brawler",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "GuildArmor1",
-			VisualName = "Dominion Armor",
-			CoinPrice = 250
-		},
-		{
-			InternalName = "GuildArmor2",
-			VisualName = "Regalia Armor",
-			CoinPrice = 250
-		},
-		{
-			InternalName = "GuildArmor3",
-			VisualName = "Vanguard Armor",
-			CoinPrice = 250
-		},
-		{
-			InternalName = "GuildMount2",
-			VisualName = "Armored Horse",
-			CoinPrice = 400
-		},
-		{
-			InternalName = "DarkRatMount",
-			VisualName = "Dark Rat Mount",
-			CoinPrice = 400
-		},
-		{
-			InternalName = "GuildGrinderTitle",
-			VisualName = "Guild Grinder",
-			CoinPrice = 2000
-		}
-	}
+    Settings.BuyGuildItemList = { 		{ InternalName = "GuildDyeBox", VisualName = "Guild Dye Box", CoinPrice = 10 }, 		{ InternalName = "LegendaryEquipmentChest", VisualName = "Legendary Chest", CoinPrice = 25 }, 		{ InternalName = "GuildAura", VisualName = "Guild Aura", CoinPrice = 25 }, 		{ InternalName = "GuildBooth", VisualName = "Guild Booth", CoinPrice = 150 }, 		{ InternalName = "GuildCircle", VisualName = "Guild Circle", CoinPrice = 150 }, 		{ InternalName = "GuildCircle2", VisualName = "Guild Circle #2", CoinPrice = 150 }, 		{ InternalName = "KingCrown", VisualName = "King's Crown", CoinPrice = 150 }, 		{ InternalName = "QueenCrown", VisualName = "Queen's Crown", CoinPrice = 150 }, 		{ InternalName = "GuildBrawler", VisualName = "Guild Brawler", CoinPrice = 150 }, 		{ InternalName = "GuildArmor1", VisualName = "Dominion Armor", CoinPrice = 250 }, 		{ InternalName = "GuildArmor2", VisualName = "Regalia Armor", CoinPrice = 250 }, 		{ InternalName = "GuildArmor3", VisualName = "Vanguard Armor", CoinPrice = 250 }, 		{ InternalName = "GuildMount2", VisualName = "Armored Horse", CoinPrice = 400 }, 		{ InternalName = "DarkRatMount", VisualName = "Dark Rat Mount", CoinPrice = 400 }, 		{ InternalName = "GuildGrinderTitle", VisualName = "Guild Grinder", CoinPrice = 2000 } }
     task.wait()
-    FirstTab:AddDropdown("GuildShopDropdown", {
-		Values = {},
-		Multi = false,
-		Text = "item name (Guild Coins)",
-		AllowNull = true,
-		Default = nil,
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(guildItemKey)
-        if guildItemKey then
-            guildItemKey = InLobby
-        end
+    FirstTab:AddDropdown("GuildShopDropdown", { Values = {}, Multi = false, Text = "item name (Guild Coins)", AllowNull = true, Default = nil, MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(guildItemKey)
+        if guildItemKey then guildItemKey = InLobby end
 
         if guildItemKey then
             Settings.SelectedGuildItem = Settings.BuyGuildItemList[ValChangedValueue]
@@ -22790,118 +15446,14 @@ If available to your executor the script will reset your character and then invi
             return
         end
 
-        if not BuyFromLocalShop("GuildCoin", "GuildShop", SelectedGuildItem.InternalName, SelectedGuildItem.CoinPrice, SelectedGuildItem.VisualName) then
-            Library:Notify("You do not have enough coins", 3)
-        end
+        if not BuyFromLocalShop("GuildCoin", "GuildShop", SelectedGuildItem.InternalName, SelectedGuildItem.CoinPrice, SelectedGuildItem.VisualName) then Library:Notify("You do not have enough coins", 3) end
     end
 	})
-    FirstTab:AddToggle("BuyMaxGuildToggle", {
-		Text = "Buy max selected item",
-		Default = false
-	})
+    FirstTab:AddToggle("BuyMaxGuildToggle", { Text = "Buy max selected item", Default = false })
     FirstTab = ShopTabRight:AddTab("Vane")
-    Settings.BuyEventList = {
-		{
-			InternalName = "AnimeDyeBox",
-			VisualName = "Grand Dye Box",
-			CoinPrice = 10
-		},
-		{
-			InternalName = "LegendaryEquipmentChest",
-			VisualName = "Legendary Chest",
-			CoinPrice = 25
-		},
-		{
-			InternalName = "Sugegasa",
-			VisualName = "Sugegasa",
-			CoinPrice = 100
-		},
-		{
-			InternalName = "DragonBackpack",
-			VisualName = "Dragon Backpack",
-			CoinPrice = 100
-		},
-		{
-			InternalName = "SoulKingTitle",
-			VisualName = "Soul King (title)",
-			CoinPrice = 150
-		},
-		{
-			InternalName = "ExorcistHorns",
-			VisualName = "Exorcist Horns",
-			CoinPrice = 250
-		},
-		{
-			InternalName = "ExorcistTail",
-			VisualName = "Exorcist Tail",
-			CoinPrice = 250
-		},
-		{
-			InternalName = "DragonHelmet",
-			VisualName = "Dragon Helmet",
-			CoinPrice = 400
-		},
-		{
-			InternalName = "DragonTiara",
-			VisualName = "Dragon Tiara",
-			CoinPrice = 400
-		},
-		{
-			InternalName = "SlimeEgg",
-			VisualName = "Slime Egg",
-			CoinPrice = 400
-		},
-		{
-			InternalName = "DarlingDress",
-			VisualName = "Darling Dress",
-			CoinPrice = 500
-		},
-		{
-			InternalName = "AetherBreathEmote",
-			VisualName = "Aether Breath (emote)",
-			CoinPrice = 600
-		},
-		{
-			InternalName = "DragonKnightM",
-			VisualName = "Dragon Knight (m)",
-			CoinPrice = 750
-		},
-		{
-			InternalName = "DragonKnightF",
-			VisualName = "Dragon Knight (f)",
-			CoinPrice = 750
-		},
-		{
-			InternalName = "DragonKnightTitle",
-			VisualName = "Dragon Knight (title)",
-			CoinPrice = 900
-		},
-		{
-			InternalName = "SerpentBoxBlueBlack",
-			VisualName = "Winterfall skins",
-			CoinPrice = 1000
-		},
-		{
-			InternalName = "SlimeMount",
-			VisualName = "Giant Slime",
-			CoinPrice = 1000
-		},
-		{
-			InternalName = "WinterfallAura",
-			VisualName = "Winterfall Aura",
-			CoinPrice = 2000
-		}
-	}
+    Settings.BuyEventList = { 		{ InternalName = "AnimeDyeBox", VisualName = "Grand Dye Box", CoinPrice = 10 }, 		{ InternalName = "LegendaryEquipmentChest", VisualName = "Legendary Chest", CoinPrice = 25 }, 		{ InternalName = "Sugegasa", VisualName = "Sugegasa", CoinPrice = 100 }, 		{ InternalName = "DragonBackpack", VisualName = "Dragon Backpack", CoinPrice = 100 }, 		{ InternalName = "SoulKingTitle", VisualName = "Soul King (title)", CoinPrice = 150 }, 		{ InternalName = "ExorcistHorns", VisualName = "Exorcist Horns", CoinPrice = 250 }, 		{ InternalName = "ExorcistTail", VisualName = "Exorcist Tail", CoinPrice = 250 }, 		{ InternalName = "DragonHelmet", VisualName = "Dragon Helmet", CoinPrice = 400 }, 		{ InternalName = "DragonTiara", VisualName = "Dragon Tiara", CoinPrice = 400 }, 		{ InternalName = "SlimeEgg", VisualName = "Slime Egg", CoinPrice = 400 }, 		{ InternalName = "DarlingDress", VisualName = "Darling Dress", CoinPrice = 500 }, 		{ InternalName = "AetherBreathEmote", VisualName = "Aether Breath (emote)", CoinPrice = 600 }, 		{ InternalName = "DragonKnightM", VisualName = "Dragon Knight (m)", CoinPrice = 750 }, 		{ InternalName = "DragonKnightF", VisualName = "Dragon Knight (f)", CoinPrice = 750 }, 		{ InternalName = "DragonKnightTitle", VisualName = "Dragon Knight (title)", CoinPrice = 900 }, 		{ InternalName = "SerpentBoxBlueBlack", VisualName = "Winterfall skins", CoinPrice = 1000 }, 		{ InternalName = "SlimeMount", VisualName = "Giant Slime", CoinPrice = 1000 }, 		{ InternalName = "WinterfallAura", VisualName = "Winterfall Aura", CoinPrice = 2000 } }
     task.wait()
-    FirstTab:AddDropdown("EventShopDropdown", {
-		Values = {},
-		Multi = false,
-		Text = "item name (Dragon Coins)",
-		AllowNull = true,
-		Default = nil,
-		MaxVisibleDropdownItems = 5,
-		Searchable = true,
-		Callback = function(eventItemKey)
+    FirstTab:AddDropdown("EventShopDropdown", { Values = {}, Multi = false, Text = "item name (Dragon Coins)", AllowNull = true, Default = nil, MaxVisibleDropdownItems = 5, Searchable = true, Callback = function(eventItemKey)
         if eventItemKey then
             Settings.SelectedEventItem = Settings.BuyEventList[eventItemKey]
 
@@ -22929,15 +15481,10 @@ If available to your executor the script will reset your character and then invi
             return
         end
 
-        if not BuyFromLocalShop("DragonCoin", "Anime2026", SelectedEventItem.InternalName, SelectedEventItem.CoinPrice, SelectedEventItem.VisualName) then
-            Library:Notify("You do not have enough coins", 3)
-        end
+        if not BuyFromLocalShop("DragonCoin", "Anime2026", SelectedEventItem.InternalName, SelectedEventItem.CoinPrice, SelectedEventItem.VisualName) then Library:Notify("You do not have enough coins", 3) end
     end
 	})
-    FirstTab:AddToggle("BuyMaxEventToggle", {
-		Text = "Buy max selected item",
-		Default = false
-	})
+    FirstTab:AddToggle("BuyMaxEventToggle", { Text = "Buy max selected item", Default = false })
     task.wait()
     _G.ScriptStep = "creating quick menu tab"
     OpenMenuTab = Window:AddTab({
@@ -23024,108 +15571,32 @@ If available to your executor the script will reset your character and then invi
 	})
     MiscTabLeft = MiscTab:AddLeftTabbox("Main")
     FirstTab = MiscTabLeft:AddTab("Main")
-    FirstTab:AddToggle("MobCameraToggle", {
-		Text = "Camera on mob",
-		Default = false,
-		Tooltip = "Keeps your camera focused on the mob instead of your character."
-	})
-    FirstTab:AddToggle("DamageNumbersToggle", {
-		Text = "Remove damage numbers",
-		Default = false,
-		Tooltip = "Hides damage numbers for dealing and taking damage. You'll need to rejoin to see them again if turned off."
-	})
-    FirstTab:AddToggle("DamageFlashToggle", {
-		Text = "Hide damage flash",
-		Default = false,
-		Tooltip = "Stops mobs from flashing red when hit - useful if you're sensitive to light changes."
-	})
-    FirstTab:AddToggle("DeathEffectToggle", {
-		Text = "Remove death effects",
-		Default = false,
-		Tooltip = "Removes the visual death effects for players, mobs, and bosses."
-	})
-    FirstTab:AddToggle("KnockdownToggle", {
-		Text = "Disable knockdown",
-		Default = false,
-		Tooltip = "Prevents 'Knockdown' from knocking your character down and stopping attack + movement. Useful with Safe Killaura so mobs can't lock you down."
-	})
-    FirstTab:AddToggle("ShowEndTimeToggle", {
-		Text = "Display end time",
-		Default = false,
-		Tooltip = "Time between enabling this toggle and the dungeon ending."
-	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
-    FirstTab:AddSlider("WalkspeedSlider", {
-		Text = "Change walkspeed",
-		Default = 28,
-		Min = 28,
-		Max = 200,
-		Rounding = 0,
-		Tooltip = "Does exactly what you think it does."
-	})
+    FirstTab:AddToggle("MobCameraToggle", { Text = "Camera on mob", Default = false, Tooltip = "Keeps your camera focused on the mob instead of your character." })
+    FirstTab:AddToggle("DamageNumbersToggle", { Text = "Remove damage numbers", Default = false, Tooltip = "Hides damage numbers for dealing and taking damage. You'll need to rejoin to see them again if turned off." })
+    FirstTab:AddToggle("DamageFlashToggle", { Text = "Hide damage flash", Default = false, Tooltip = "Stops mobs from flashing red when hit - useful if you're sensitive to light changes." })
+    FirstTab:AddToggle("DeathEffectToggle", { Text = "Remove death effects", Default = false, Tooltip = "Removes the visual death effects for players, mobs, and bosses." })
+    FirstTab:AddToggle("KnockdownToggle", { Text = "Disable knockdown", Default = false, Tooltip = "Prevents 'Knockdown' from knocking your character down and stopping attack + movement. Useful with Safe Killaura so mobs can't lock you down." })
+    FirstTab:AddToggle("ShowEndTimeToggle", { Text = "Display end time", Default = false, Tooltip = "Time between enabling this toggle and the dungeon ending." })
+    FirstTab:AddDivider({ Margin = -5 })
+    FirstTab:AddSlider("WalkspeedSlider", { Text = "Change walkspeed", Default = 28, Min = 28, Max = 200, Rounding = 0, Tooltip = "Does exactly what you think it does." })
     FirstTab = MiscTabLeft:AddTab("Extra")
     SecondTab = MiscTabLeft:AddTab("Hide ui's")
-    SecondTab:AddToggle("WaystoneToggle", {
-		Text = "Hide closest waystone",
-		Default = false,
-		Tooltip = "Hides the waystone icon when in worlds."
-	})
-    SecondTab:AddToggle("MissionObjectiveToggle", {
-		Text = "Hide mission objective",
-		Default = false,
-		Tooltip = "Hides the on-screen objective text."
-	})
-    SecondTab:AddToggle("BossBarToggle", {
-		Text = "Hide boss bar",
-		Default = false,
-		Tooltip = "Hides all boss health bars from your screen."
-	})
-    SecondTab:AddToggle("PlayerHotbarToggle", {
-		Text = "Hide hotbar",
-		Default = false,
-		Tooltip = "Hides your health and skill UI."
-	})
-    SecondTab:AddToggle("MobilePlayerSkills", {
-		Text = "Hide mobile skills",
-		Default = false,
-		Tooltip = "Hides other players' skills on mobile devices."
-	})
-    SecondTab:AddToggle("MainGuiToggle", {
-		Text = "Hide main gui",
-		Default = false,
-		Tooltip = "Hides the event coin icon from your screen."
-	})
-    SecondTab:AddToggle("HideMenuToggle", {
-		Text = "Hide game menu",
-		Default = false,
-		Tooltip = "Hides the settings/tab menu (three-dot menu)."
-	})
-    SecondTab:AddToggle("HideCameraToggle", {
-		Text = "Hide camera button",
-		Default = false,
-		Tooltip = "Hides the camera button in the top-left of your screen."
-	})
-    SecondTab:AddToggle("RobloxUIToggle", {
-		Text = "Hide roblox ui",
-		Default = false,
-		Tooltip = "Hides the Roblox icons in the top-left of your screen."
-	})
+    SecondTab:AddToggle("WaystoneToggle", { Text = "Hide closest waystone", Default = false, Tooltip = "Hides the waystone icon when in worlds." })
+    SecondTab:AddToggle("MissionObjectiveToggle", { Text = "Hide mission objective", Default = false, Tooltip = "Hides the on-screen objective text." })
+    SecondTab:AddToggle("BossBarToggle", { Text = "Hide boss bar", Default = false, Tooltip = "Hides all boss health bars from your screen." })
+    SecondTab:AddToggle("PlayerHotbarToggle", { Text = "Hide hotbar", Default = false, Tooltip = "Hides your health and skill UI." })
+    SecondTab:AddToggle("MobilePlayerSkills", { Text = "Hide mobile skills", Default = false, Tooltip = "Hides other players' skills on mobile devices." })
+    SecondTab:AddToggle("MainGuiToggle", { Text = "Hide main gui", Default = false, Tooltip = "Hides the event coin icon from your screen." })
+    SecondTab:AddToggle("HideMenuToggle", { Text = "Hide game menu", Default = false, Tooltip = "Hides the settings/tab menu (three-dot menu)." })
+    SecondTab:AddToggle("HideCameraToggle", { Text = "Hide camera button", Default = false, Tooltip = "Hides the camera button in the top-left of your screen." })
+    SecondTab:AddToggle("RobloxUIToggle", { Text = "Hide roblox ui", Default = false, Tooltip = "Hides the Roblox icons in the top-left of your screen." })
     PerformanceTabbox = MiscTab:AddLeftTabbox("Extras")
-    FirstTab:AddInput("JoinPlayerInput", {
-		Text = "Enter name",
-		Default = "",
-		Placeholder = "username",
-		Tooltip = "Enter a player's exact username (not display name) to teleport to them if they're online and not in a dungeon."
-	})
+    FirstTab:AddInput("JoinPlayerInput", { Text = "Enter name", Default = "", Placeholder = "username", Tooltip = "Enter a player's exact username (not display name) to teleport to them if they're online and not in a dungeon." })
     FirstTab:AddButton({
 		Text = "Join player",
 		Tooltip = "Attempts to join the player entered in the field above.",
 		Func = function()
-        if not Options.JoinPlayerInput.Value or InMainMenu then
-            return
-        end
+        if not Options.JoinPlayerInput.Value or InMainMenu then return end
 
         if Settings.CanRequire then
             require(TeleportModule):TeleportToPlayer(LocalPlayer, Players:GetUserIdFromNameAsync(Options.JoinPlayerInput.Value), nil, true)
@@ -23137,23 +15608,16 @@ If available to your executor the script will reset your character and then invi
         Library:Notify("Your executor doesn't support this", 5)
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddDivider({ Margin = -5 })
     FirstTab:AddButton({
 		Text = "Redeem all codes",
 		Tooltip = "Claims all active promo codes (the list is manually updated).",
 		Func = function()
         if InLobby or InDungeon then
-            local codeList = {
-					"900KLIKES",
-					"EASTER26"
-				}
+            local codeList = { "900KLIKES", "EASTER26" }
             local redeemSeconds = #codeList * 11 - 11
 
-            if #codeList > 1 then
-                Library:Notify("It will take " .. redeemSeconds .. " seconds for all codes to be redeemed", redeemSeconds)
-            end
+            if #codeList > 1 then Library:Notify("It will take " .. redeemSeconds .. " seconds for all codes to be redeemed", redeemSeconds) end
 
             local PromoCodes_RedeemCode = Remotes:WaitForChild("PromoCodes_RedeemCode", math.huge)
 
@@ -23169,52 +15633,16 @@ If available to your executor the script will reset your character and then invi
         end
     end
 	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
-    FirstTab:AddToggle("DevKickToggle", {
-		Text = "Kick on dev join",
-		Default = false,
-		Tooltip = "Automatically exits the game if someone with a dev rank joins."
-	})
-    FirstTab:AddToggle("ProfilerToggle", {
-		Text = "Show account information",
-		Default = false,
-		Tooltip = "Shows account info such as your name, gold, crystals, and more.\nSTATS UPDATE EVERY 5 SECONDS."
-	})
-    FirstTab:AddToggle("AFKToggle", {
-		Text = "Anti AFK",
-		Default = false,
-		Tooltip = "Prevents Roblox from AFK-kicking you."
-	})
-    FirstTab:AddToggle("MainMenuPlay", {
-		Text = "Auto click play",
-		Default = false,
-		Tooltip = "On the main menu, automatically clicks the 'Play' button."
-	})
-    FirstTab:AddToggle("MobESPToggle", {
-		Text = "Mob ESP",
-		Default = false,
-		Tooltip = "Places an outline around all mobs."
-	})
-    FirstTab:AddToggle("NoclipCameraToggle", {
-		Text = "Noclip camera",
-		Default = false,
-		Tooltip = "Allows your camera to clip through walls."
-	})
-    FirstTab:AddToggle("DisableAutoJumpToggle", {
-		Text = "Disable auto jump",
-		Default = false,
-		Tooltip = "Disables the auto-jump applied to mobile users."
-	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
-    FirstTab:AddToggle("HatVisualizerToggle", {
-		Text = "Hat visualizer",
-		Default = true,
-		Tooltip = "Wears a kasa hat",
-		Callback = function(enabled)
+    FirstTab:AddDivider({ Margin = -5 })
+    FirstTab:AddToggle("DevKickToggle", { Text = "Kick on dev join", Default = false, Tooltip = "Automatically exits the game if someone with a dev rank joins." })
+    FirstTab:AddToggle("ProfilerToggle", { Text = "Show account information", Default = false, Tooltip = "Shows account info such as your name, gold, crystals, and more.\nSTATS UPDATE EVERY 5 SECONDS." })
+    FirstTab:AddToggle("AFKToggle", { Text = "Anti AFK", Default = false, Tooltip = "Prevents Roblox from AFK-kicking you." })
+    FirstTab:AddToggle("MainMenuPlay", { Text = "Auto click play", Default = false, Tooltip = "On the main menu, automatically clicks the 'Play' button." })
+    FirstTab:AddToggle("MobESPToggle", { Text = "Mob ESP", Default = false, Tooltip = "Places an outline around all mobs." })
+    FirstTab:AddToggle("NoclipCameraToggle", { Text = "Noclip camera", Default = false, Tooltip = "Allows your camera to clip through walls." })
+    FirstTab:AddToggle("DisableAutoJumpToggle", { Text = "Disable auto jump", Default = false, Tooltip = "Disables the auto-jump applied to mobile users." })
+    FirstTab:AddDivider({ Margin = -5 })
+    FirstTab:AddToggle("HatVisualizerToggle", { Text = "Hat visualizer", Default = true, Tooltip = "Wears a kasa hat", Callback = function(enabled)
         if enabled then
             ApplyHatVisualizer()
         else
@@ -23232,11 +15660,7 @@ If available to your executor the script will reset your character and then invi
         ApplyHatVisualizer()
     end
 	})
-    FirstTab:AddToggle("HatRGBToggle", {
-		Text = "Rainbow mode",
-		Default = false,
-		Tooltip = "Smoothly cycles the hat color from red to blue and back to red.",
-		Callback = function(enabled)
+    FirstTab:AddToggle("HatRGBToggle", { Text = "Rainbow mode", Default = false, Tooltip = "Smoothly cycles the hat color from red to blue and back to red.", Callback = function(enabled)
         if enabled then
             Settings.HatColorSaved = Settings.HatColor or Color3.fromRGB(255, 255, 255)
         else
@@ -23246,14 +15670,7 @@ If available to your executor the script will reset your character and then invi
         ApplyHatVisualizer()
     end
 	})
-    FirstTab:AddSlider("HatRgbSpeedSlider", {
-		Text = "RGB speed",
-		Default = 2,
-		Min = 0.5,
-		Max = 5,
-		Rounding = 1,
-		Tooltip = "How fast the hat cycles through colors.",
-		Callback = function(value)
+    FirstTab:AddSlider("HatRgbSpeedSlider", { Text = "RGB speed", Default = 2, Min = 0.5, Max = 5, Rounding = 1, Tooltip = "How fast the hat cycles through colors.", Callback = function(value)
         Settings.HatRgbSpeed = value
     end
 	})
@@ -23264,19 +15681,10 @@ If available to your executor the script will reset your character and then invi
 		Tooltip = "Changes the color of your class attacks (client-side only).",
 		Callback = function(colorValue)
         Settings.ClassColor = colorValue
-        if InDungeon or InLobby then
-            LocalPlayer:SetAttribute("ClassColor", string.format("%02X%02X%02X", math.clamp(math.floor(colorValue.r * 255), 0, 255), math.clamp(math.floor(colorValue.g * 255), 0, 255), math.clamp(math.floor(colorValue.b * 255), 0, 255)))
-        end
+        if InDungeon or InLobby then LocalPlayer:SetAttribute("ClassColor", string.format("%02X%02X%02X", math.clamp(math.floor(colorValue.r * 255), 0, 255), math.clamp(math.floor(colorValue.g * 255), 0, 255), math.clamp(math.floor(colorValue.b * 255), 0, 255))) end
     end
 	})
-    FirstTab:AddSlider("HatTransparencySlider", {
-		Text = "Hat opacity",
-		Default = 0.5,
-		Min = 0,
-		Max = 1,
-		Rounding = 2,
-		Tooltip = "Lower = more opaque, higher = more transparent. The hat stays semi-transparent so your character remains visible underneath.",
-		Callback = function(value)
+    FirstTab:AddSlider("HatTransparencySlider", { Text = "Hat opacity", Default = 0.5, Min = 0, Max = 1, Rounding = 2, Tooltip = "Lower = more opaque, higher = more transparent. The hat stays semi-transparent so your character remains visible underneath.", Callback = function(value)
         Settings.HatTransparency = math.clamp(value, 0, 0.9)
         ApplyHatVisualizer()
     end
@@ -23292,10 +15700,7 @@ If available to your executor the script will reset your character and then invi
                 if hatRgbT >= 1 then
                     hatRgbT = 1
                     hatRgbDir = -1
-                elseif hatRgbT <= 0 then
-                    hatRgbT = 0
-                    hatRgbDir = 1
-                end
+                elseif hatRgbT <= 0 then hatRgbT = 0; hatRgbDir = 1 end
                 Settings.HatColor = Color3.fromRGB(255 * (1 - hatRgbT), 0, 255 * hatRgbT)
                 pcall(ApplyHatVisualizer)
             end
@@ -23303,42 +15708,14 @@ If available to your executor the script will reset your character and then invi
         end
     end)
     SecondTab = PerformanceTabbox:AddTab("Performance")
-    SecondTab:AddToggle("RemoveOtherPlayersToggle", {
-		Text = "Remove other players",
-		Default = false,
-		Tooltip = "Reduces lag around other players by removing their characters and pets."
-	})
-    SecondTab:AddToggle("DisableRenderingToggle", {
-		Text = "Disable rendering",
-		Default = false,
-		Tooltip = "Significantly reduces GPU load by disabling 3D rendering."
-	})
-    SecondTab:AddToggle("PreventEffectsToggle", {
-		Text = "Don't render new effects",
-		Default = false,
-		Tooltip = "Stops the game from rendering new effects like projectiles!\nDO NOT USE IF PLAYING NORMALLY."
-	})
-    SecondTab:AddToggle("PreventMobToggle", {
-		Text = "Don't render new models",
-		Default = false,
-		Tooltip = "Stops the game from rendering new models such as mobs and equipment, which can massively boost performance."
-	})
-    SecondTab:AddDivider({
-		Margin = -5
-	})
-    SecondTab:AddSlider("FPSSlider", {
-		Text = "Change FPS",
-		Default = 60,
-		Min = 20,
-		Max = 240,
-		Rounding = 0
-	})
+    SecondTab:AddToggle("RemoveOtherPlayersToggle", { Text = "Remove other players", Default = false, Tooltip = "Reduces lag around other players by removing their characters and pets." })
+    SecondTab:AddToggle("DisableRenderingToggle", { Text = "Disable rendering", Default = false, Tooltip = "Significantly reduces GPU load by disabling 3D rendering." })
+    SecondTab:AddToggle("PreventEffectsToggle", { Text = "Don't render new effects", Default = false, Tooltip = "Stops the game from rendering new effects like projectiles!\nDO NOT USE IF PLAYING NORMALLY." })
+    SecondTab:AddToggle("PreventMobToggle", { Text = "Don't render new models", Default = false, Tooltip = "Stops the game from rendering new models such as mobs and equipment, which can massively boost performance." })
+    SecondTab:AddDivider({ Margin = -5 })
+    SecondTab:AddSlider("FPSSlider", { Text = "Change FPS", Default = 60, Min = 20, Max = 240, Rounding = 0 })
     task.wait()
-    FirstTab:AddToggle("ShowPlayersToggle", {
-		Text = "Party member details",
-		Default = false,
-		Tooltip = "Shows every party member instead of only the party size."
-	})
+    FirstTab:AddToggle("ShowPlayersToggle", { Text = "Party member details", Default = false, Tooltip = "Shows every party member instead of only the party size." })
     task.wait()
 
     task.wait()
@@ -23354,18 +15731,14 @@ If available to your executor the script will reset your character and then invi
 			color = colorInt,
 			timestamp = DateTime.now():ToIsoDate(),
 			fields = fields or {},
-			footer = {
-				text = "JewHub v1.1"
-			}
+			footer = { text = "JewHub v1.1" }
 		}
     end
 
     local function resolveDiscordMention()
         local value = Options.DiscordPingDropdown and Options.DiscordPingDropdown.Value or "No ping"
 
-        if value == "@everyone" or value == "@here" then
-            return value
-        end
+        if value == "@everyone" or value == "@here" then return value end
 
         return nil
     end
@@ -23373,19 +15746,12 @@ If available to your executor the script will reset your character and then invi
     local function sendDiscordEmbed(embed)
         local webhookUrl = Settings.DiscordWebhookLink
 
-        if not webhookUrl or webhookUrl == "" then
-            return false, "no webhook url set"
-        end
+        if not webhookUrl or webhookUrl == "" then return false, "no webhook url set" end
 
-        local payload = {
-			username = Options.DiscordWebhookNameInput and Options.DiscordWebhookNameInput.Value or "JewHub",
-			embeds = { embed }
-		}
+        local payload = { username = Options.DiscordWebhookNameInput and Options.DiscordWebhookNameInput.Value or "JewHub", embeds = { embed } }
         local mention = resolveDiscordMention()
 
-        if mention then
-            payload.content = mention
-        end
+        if mention then payload.content = mention end
 
         local okResult, errResult = postDiscordWebhook(webhookUrl, HttpService:JSONEncode(payload))
 
@@ -23402,24 +15768,8 @@ If available to your executor the script will reset your character and then invi
 			Settings.DiscordWebhookLink = (urlValue == "" and "" or urlValue)
 		end
 	})
-    WebhookBox:AddInput("DiscordWebhookNameInput", {
-		Text = "Webhook name",
-		Default = "JewHub",
-		Placeholder = "JewHub",
-		Tooltip = "How the bot appears when it sends messages."
-	})
-    WebhookBox:AddDropdown("DiscordPingDropdown", {
-		Text = "Mention",
-		Values = {
-			"No ping",
-			"@everyone",
-			"@here"
-		},
-		Multi = false,
-		AllowNull = false,
-		Default = "No ping",
-		Tooltip = "Mentions @everyone or online members whenever a notification is sent."
-	})
+    WebhookBox:AddInput("DiscordWebhookNameInput", { Text = "Webhook name", Default = "JewHub", Placeholder = "JewHub", Tooltip = "How the bot appears when it sends messages." })
+    WebhookBox:AddDropdown("DiscordPingDropdown", { Text = "Mention", 		Values = { "No ping", "@everyone", "@here" }, Multi = false, AllowNull = false, Default = "No ping", Tooltip = "Mentions @everyone or online members whenever a notification is sent." })
     local discordColorLabel = WebhookBox:AddLabel("Embed color")
     local discordColorPicker = discordColorLabel:AddColorPicker("DiscordEmbedColorPicker", {
 		Title = "Embed color",
@@ -23428,9 +15778,7 @@ If available to your executor the script will reset your character and then invi
 			Settings.DiscordEmbedColor = colorValue
 		end
 	})
-    WebhookBox:AddDivider({
-		Margin = -5
-	})
+    WebhookBox:AddDivider({ Margin = -5 })
     WebhookBox:AddButton({
 		Text = "Send test embed",
 		Tooltip = "Posts a sample embed to your webhook so you can preview the formatting before enabling notifications.",
@@ -23439,11 +15787,7 @@ If available to your executor the script will reset your character and then invi
         local testEmbed = buildDiscordEmbed(
             "test embed",
             "If you can read this, your webhook is working.",
-            {
-				{ name = "Script version", value = "v1.1", inline = true },
-				{ name = "Executor", value = ExecName, inline = true },
-				{ name = "Account", value = LocalPlayer.Name, inline = true }
-			}
+            { { name = "Script version", value = "v1.1", inline = true }, { name = "Executor", value = ExecName, inline = true }, { name = "Account", value = LocalPlayer.Name, inline = true } }
         )
         local okResult, errResult = sendDiscordEmbed(testEmbed)
 
@@ -23455,23 +15799,11 @@ If available to your executor the script will reset your character and then invi
     end
 	})
     WebhookBox:AddLabel("Embeds are sent asynchronously and never block the script.", true)
-    WebhookBox:AddDivider({
-		Margin = -5
-	})
+    WebhookBox:AddDivider({ Margin = -5 })
     WebhookBox:AddLabel("Events", true)
-    WebhookBox:AddToggle("DiscordScriptLoadedToggle", {
-		Text = "Script loaded",
-		Default = false,
-		Tooltip = "Sends an embed to your webhook each time the script finishes loading."
-	})
-    WebhookBox:AddToggle("DiscordErrorToggle", {
-		Text = "Script errors",
-		Default = false,
-		Tooltip = "Sends an embed whenever the script catches a runtime error, with the location and error message."
-	})
-    WebhookBox:AddDivider({
-		Margin = -5
-	})
+    WebhookBox:AddToggle("DiscordScriptLoadedToggle", { Text = "Script loaded", Default = true, Tooltip = "Sends an embed to your webhook each time the script finishes loading." })
+    WebhookBox:AddToggle("DiscordErrorToggle", { Text = "Script errors", Default = true, Tooltip = "Sends an embed whenever the script catches a runtime error, with the location and error message." })
+    WebhookBox:AddDivider({ Margin = -5 })
     WebhookBox:AddLabel("Guide", true)
     WebhookBox:AddLabel("1. Open your Discord server\n2. Go to Server Settings > Integrations > Webhooks\n3. Create a webhook and copy its URL\n4. Paste the URL into 'Webhook URL'\n5. Press 'Send test embed' to confirm it works", true)
     WebhookBox:AddLabel("", true)
@@ -23484,72 +15816,33 @@ If available to your executor the script will reset your character and then invi
 	})
     ConfigTabLeft = ConfigTab:AddLeftTabbox("Main")
     FirstTab = ConfigTabLeft:AddTab("Main")
-    FirstTab:AddToggle("HideGuiToggle", {
-		Text = "Hide menu when executed",
-		Default = false
-	})
-    FirstTab:AddToggle("AutoScriptToggle", {
-		Text = "Auto execute script",
-		Default = false
-	})
-    FirstTab:AddToggle("ClassPingToggle", {
-		Text = "Class ping",
-		Default = false,
-		Tooltip = "Enables class-based ping notifications for the selected ping type."
-	})
-    FirstTab:AddDropdown("PingDropdown", {
-		Text = "Ping type",
-		Values = {
-			"Guild",
-			"Nightmare",
-			"Event boss"
-		},
-		Multi = false,
-		AllowNull = false,
-		Default = "Guild",
-		Searchable = true
-	})
-    FirstTab:AddDivider({
-		Margin = -5
-	})
+    FirstTab:AddToggle("HideGuiToggle", { Text = "Hide menu when executed", Default = false })
+    FirstTab:AddToggle("AutoScriptToggle", { Text = "Auto execute script", Default = false })
+    FirstTab:AddToggle("ClassPingToggle", { Text = "Class ping", Default = false, Tooltip = "Enables class-based ping notifications for the selected ping type." })
+    FirstTab:AddDropdown("PingDropdown", { Text = "Ping type", 		Values = { "Guild", "Nightmare", "Event boss" }, Multi = false, AllowNull = false, Default = "Guild", Searchable = true })
+    FirstTab:AddDivider({ Margin = -5 })
     FirstTab:AddButton({
 		Text = "Stop script from executing",
 		Func = function()
-        if isfile("PORN/AutoExecute") then
-            delfile("PORN/AutoExecute")
-        end
+        if isfile("JEW/AutoExecute") then delfile("JEW/AutoExecute") end
 
-        if ClearTeleportQueue then
-            Library:Notify("Script will not be ran when you teleport. Hopefully you enjoyed using it without encountering any issues!\n -JewHub", 10)
-            ClearTeleportQueue()
-        end
+        if ClearTeleportQueue then Library:Notify("Script will not be ran when you teleport. Hopefully you enjoyed using it without encountering any issues!\n -JewHub", 10); ClearTeleportQueue() end
     end
 	})
-    FirstTab:AddDivider({
-        Margin = -5
-    })
+    FirstTab:AddDivider({ Margin = -5 })
     FirstTab:AddButton({
         Text = "Unload script from game",
         Func = function()
             pcall(function()
                 for _, connection in pairs(Connections) do
-                    if type(connection) == "table" and connection.Disconnect then
-                        connection:Disconnect()
-                    end
+                    if type(connection) == "table" and connection.Disconnect then connection:Disconnect() end
                 end
             end)
             pcall(function()
-                for _, part in ipairs(HatInstances) do
-                    part:Destroy()
-                end
+                for _, part in ipairs(HatInstances) do part:Destroy() end
                 table.clear(HatInstances)
                 local lpChar = LocalPlayer.Character
-                if lpChar then
-                    local hatModel = lpChar:FindFirstChild("HatKasa", true)
-                    if hatModel then
-                        hatModel:Destroy()
-                    end
-                end
+                if lpChar then local hatModel = lpChar:FindFirstChild("HatKasa", true); if hatModel then hatModel:Destroy() end end
             end)
             pcall(function()
                 LocalPlayer:SetAttribute("ClassColor", nil)
@@ -23585,58 +15878,29 @@ If available to your executor the script will reset your character and then invi
 		Text = "Reset accent",
 		Func = function()
 			apply_default_accent()
-			if accentColorPicker and accentColorPicker.SetValueRGB then
-				accentColorPicker:SetValueRGB(Color3.fromRGB(255, 255, 255))
-			end
+			if accentColorPicker and accentColorPicker.SetValueRGB then accentColorPicker:SetValueRGB(Color3.fromRGB(255, 255, 255)) end
 		end
 	})
-    ThirdTab:AddDivider({
-		Margin = -5
-	})
-    ThirdTab:AddSlider("JewCornerRadiusSlider", {
-		Text = "Corner radius",
-		Default = 6,
-		Min = 4,
-		Max = 20,
-		Suffix = "px",
-		Rounding = 1,
-		Callback = function(value)
+    ThirdTab:AddDivider({ Margin = -5 })
+    ThirdTab:AddSlider("JewCornerRadiusSlider", { Text = "Corner radius", Default = 6, Min = 4, Max = 20, Suffix = "px", Rounding = 1, Callback = function(value)
 			Window:SetCornerRadius(value)
 		end
 	})
-    ThirdTab:AddToggle("JewCompactToggle", {
-		Text = "Compact mode",
-		Default = false,
-		Callback = function(value)
+    ThirdTab:AddToggle("JewCompactToggle", { Text = "Compact mode", Default = false, Callback = function(value)
 			Window:SetCompact(value)
 		end
 	})
-    ThirdTab:AddSlider("JewSidebarWidthSlider", {
-		Text = "Sidebar width",
-		Default = 160,
-		Min = 130,
-		Max = 280,
-		Suffix = "px",
-		Rounding = 1,
-		Callback = function(value)
+    ThirdTab:AddSlider("JewSidebarWidthSlider", { Text = "Sidebar width", Default = 160, Min = 130, Max = 280, Suffix = "px", Rounding = 1, Callback = function(value)
 			Window:SetSidebarWidth(value)
 		end
 	})
     ThirdTab = ConfigTabLeft:AddTab("Debug")
     ThirdTab:AddLabel("These tools help you diagnose what the script is doing. Everything here prints readable information to the developer console (press F9 to open). If you report a bug, include the output from these options.", true)
-    ThirdTab:AddDivider({
-		Margin = -5
-	})
+    ThirdTab:AddDivider({ Margin = -5 })
     ThirdTab:AddLabel("Mob output flags:", true)
     ThirdTab:AddLabel("   (invincible) - the mob cannot be damaged right now\n   (blocker) - the mob is standing in the way and is attacked first\n   (priority) - the script treats this mob as high priority\n   (no data) - the script has no attack data for this mob", true)
-    ThirdTab:AddDivider({
-		Margin = -5
-	})
-    ThirdTab:AddToggle("MobDebugToggle", {
-		Text = "Log mob events",
-		Tooltip = "Prints to the console every time the script scans a new mob, describing how it was handled and which flags apply to it. Useful for confirming the script sees the mobs you expect.",
-		Default = false,
-		Callback = function(debugEnabled)
+    ThirdTab:AddDivider({ Margin = -5 })
+    ThirdTab:AddToggle("MobDebugToggle", { Text = "Log mob events", Tooltip = "Prints to the console every time the script scans a new mob, describing how it was handled and which flags apply to it. Useful for confirming the script sees the mobs you expect.", Default = false, Callback = function(debugEnabled)
         if debugEnabled then
             Tracking.MobDebug = true
 
@@ -23662,21 +15926,13 @@ If available to your executor the script will reset your character and then invi
         local debugText = "JEW: current target is " .. targetMob.Name
 
         if mobData then
-            if mobData.Invincible then
-                debugText ..= " (invincible)"
-            end
+            if mobData.Invincible then debugText ..= " (invincible)" end
 
-            if mobData.IsBlocker then
-                debugText ..= " (blocker)"
-            end
+            if mobData.IsBlocker then debugText ..= " (blocker)" end
 
-            if mobData.Priority then
-                debugText ..= " (priority)"
-            end
+            if mobData.Priority then debugText ..= " (priority)" end
 
-            if mobData.NoData then
-                debugText ..= " (no data)"
-            end
+            if mobData.NoData then debugText ..= " (no data)" end
 
             debugText ..= " Path: " .. tostring(targetMob:GetFullName())
         end
@@ -23694,21 +15950,13 @@ If available to your executor the script will reset your character and then invi
             local targetMob = k
             local lineText = outputText .. tostring(targetMob)
 
-            if v.Invincible then
-                lineText ..= " (invincible)"
-            end
+            if v.Invincible then lineText ..= " (invincible)" end
 
-            if v.IsBlocker then
-                lineText ..= " (blocker)"
-            end
+            if v.IsBlocker then lineText ..= " (blocker)" end
 
-            if v.Priority then
-                lineText ..= " (priority)"
-            end
+            if v.Priority then lineText ..= " (priority)" end
 
-            if v.NoData then
-                lineText ..= " (no data)"
-            end
+            if v.NoData then lineText ..= " (no data)" end
 
             outputText = lineText .. " Path: " .. tostring(targetMob:GetFullName()) .. "\n"
         end
@@ -23740,36 +15988,26 @@ If available to your executor the script will reset your character and then invi
                     local HealthProperties = blockerPart:FindFirstChild("HealthProperties")
                     local healthValue = HealthProperties and HealthProperties:FindFirstChild("Health")
 
-                    if not healthValue or healthValue and healthValue.Value == 0 then
-                        return
-                    end
+                    if not healthValue or healthValue and healthValue.Value == 0 then return end
 
                     local colliderPart = blockerPart:FindFirstChild("Part") or (blockerPart:FindFirstChild("Base") or (blockerPart:FindFirstChild("hitbox") or blockerPart:FindFirstChild("EasterGiantEgg")))
 
-                    if not colliderPart then
-                        return
-                    end
+                    if not colliderPart then return end
 
                     colliderPart.Name = "Collider"
-                    Tracking.MobTable[blockerPart] = {
-						IsBlocker = true
-					}
+                    Tracking.MobTable[blockerPart] = { IsBlocker = true }
                 end
 
                 local towerLegs = MissionObjects and MissionObjects:FindFirstChild("TowerLegs")
 
                 if towerLegs then
-                    for _, child in pairs(towerLegs:GetChildren()) do
-                        findBlocker(child)
-                    end
+                    for _, child in pairs(towerLegs:GetChildren()) do findBlocker(child) end
                 end
 
                 local spikeCheckpoints = MissionObjects and MissionObjects:FindFirstChild("SpikeCheckpoints")
 
                 if spikeCheckpoints then
-                    for _, child in pairs(spikeCheckpoints:GetChildren()) do
-                        findBlocker(child)
-                    end
+                    for _, child in pairs(spikeCheckpoints:GetChildren()) do findBlocker(child) end
                 end
 
                 local BOSSKandrixAssets = Workspace:FindFirstChild("BOSSKandrixAssets")
@@ -23780,9 +16018,7 @@ If available to your executor the script will reset your character and then invi
                     for _, v in pairs(GetChildren(BOSSKandrixAssets)) do
                         local Crystal = v:FindFirstChild("Crystal")
 
-                        if Crystal then
-                            Crystal.Name = "Collider"
-                        end
+                        if Crystal then Crystal.Name = "Collider" end
                     end
                 end
 
@@ -23801,44 +16037,27 @@ If available to your executor the script will reset your character and then invi
                     if not blockerCandidate then
                         blockerCandidate = MissionObjects
 
-                        if blockerCandidate then
-                            blockerCandidate = MissionObjects:FindFirstChild(v) or (MissionObjects:FindFirstChild("TowerLegs") or MissionObjects:FindFirstChild("SpikeCheckpoints"))
-                        end
+                        if blockerCandidate then blockerCandidate = MissionObjects:FindFirstChild(v) or (MissionObjects:FindFirstChild("TowerLegs") or MissionObjects:FindFirstChild("SpikeCheckpoints")) end
                     end
 
-                    if blockerCandidate then
-                        findBlocker(blockerCandidate)
-                    end
+                    if blockerCandidate then findBlocker(blockerCandidate) end
 
                     task.wait()
                 end
 
                 task.wait(0.2)
             end)
-            if not success then
-                HandleError("PROGRESS BLOCKER", (tostring(result)))
-            end
+            if not success then HandleError("PROGRESS BLOCKER", (tostring(result))) end
         end)
         task.spawn(function()
             local success, result = pcall(function()
-                local allowedBossRemotes = {
-					Mob_EVENTBOSSCupidZeus_ButtonSmash = true,
-					Mob_EVENTBOSSEasterBunny_ChallengeFloorPattern = true,
-					Mob_EVENTBOSSEasterBunny_RequestGiantEggChallengeFloorIntro = true,
-					Mob_EVENTBOSSEasterBunny_DoGiantEgg = true,
-					Mob_EVENTBOSSUndeadVane_ResurrectShake = true
-				}
+                local allowedBossRemotes = { Mob_EVENTBOSSCupidZeus_ButtonSmash = true, Mob_EVENTBOSSEasterBunny_ChallengeFloorPattern = true, Mob_EVENTBOSSEasterBunny_RequestGiantEggChallengeFloorIntro = true, Mob_EVENTBOSSEasterBunny_DoGiantEgg = true, Mob_EVENTBOSSUndeadVane_ResurrectShake = true }
 
                 for _, child in pairs(game.ReplicatedStorage.Remotes:GetChildren()) do
-                    if child:IsA("RemoteEvent") and string.find(child.Name, "Mob_") and not allowedBossRemotes[child.Name] then
-                        child:Clone().Parent = child.Parent
-                        child:Destroy()
-                    end
+                    if child:IsA("RemoteEvent") and string.find(child.Name, "Mob_") and not allowedBossRemotes[child.Name] then child:Clone().Parent = child.Parent; child:Destroy() end
                 end
             end)
-            if not success then
-                HandleError("CLIENT SIDE DAMAGE", (tostring(result)))
-            end
+            if not success then HandleError("CLIENT SIDE DAMAGE", (tostring(result))) end
         end)
         task.spawn(function()
             if Tracking.MissionId == 49 then
@@ -23848,9 +16067,7 @@ If available to your executor the script will reset your character and then invi
                         local Chests_OpenChest = Remotes:WaitForChild("Chests_OpenChest", math.huge)
 
                         while true do
-                            for k, _ in pairs(chestsTable) do
-                                Chests_OpenChest:FireServer(k)
-                            end
+                            for k, _ in pairs(chestsTable) do Chests_OpenChest:FireServer(k) end
 
                             task.wait(0.1)
                         end
@@ -23864,9 +16081,7 @@ If available to your executor the script will reset your character and then invi
 						}) do
                             local raidChest = Workspace:FindFirstChild(v)
 
-                            if raidChest and raidChest.Parent then
-                                raidChest:PivotTo(CFrame.new(HumanoidRootPart.Position))
-                            end
+                            if raidChest and raidChest.Parent then raidChest:PivotTo(CFrame.new(HumanoidRootPart.Position)) end
 
                             task.wait()
                         end
@@ -23874,9 +16089,7 @@ If available to your executor the script will reset your character and then invi
                         task.wait(0.1)
                     end
                 end)
-                if not success then
-                    HandleError("STARTER DUNGEON CHESTS", (tostring(result)))
-                end
+                if not success then HandleError("STARTER DUNGEON CHESTS", (tostring(result))) end
             end
         end)
         task.spawn(function()
@@ -23884,20 +16097,14 @@ If available to your executor the script will reset your character and then invi
                 if AlienBomb then
                     local Part = AlienBomb:WaitForChild("Part", 5)
 
-                    if Part then
-                        Part.Name = "Collider"
-                        AlienBomb.Parent = MobsFolder
-                    end
+                    if Part then Part.Name = "Collider"; AlienBomb.Parent = MobsFolder end
                 end
 
                 Connections.ConnectAlienBomb = Workspace.ChildAdded:Connect(function(child)
                     if child:IsA("Model") and child.Name == "AlienBomb" then
                         local Part = child:WaitForChild("Part", 5)
 
-                        if Part then
-                            Part.Name = "Collider"
-                            child.Parent = MobsFolder
-                        end
+                        if Part then Part.Name = "Collider"; child.Parent = MobsFolder end
                     end
                 end)
                 task.spawn(function()
@@ -23906,10 +16113,7 @@ If available to your executor the script will reset your character and then invi
                     local standOffset = GetPlayerSize() + Spawn.Size.Y / 2
                     local SpawnPosition = Spawn.Position
                     repeat
-                        if not CurrentTargetMob and Settings.Autofarm then
-                            Collider.CFrame = CFrame.new(SpawnPosition.X, SpawnPosition.Y + standOffset, SpawnPosition.Z)
-                            TeleportStandPart()
-                        end
+                        if not CurrentTargetMob and Settings.Autofarm then Collider.CFrame = CFrame.new(SpawnPosition.X, SpawnPosition.Y + standOffset, SpawnPosition.Z); TeleportStandPart() end
 
                         task.wait(0.1)
                     until MissionDone
@@ -23942,14 +16146,10 @@ If available to your executor the script will reset your character and then invi
 
             if Tracking.MissionId == 52 then
                 task.spawn(function()
-                    if Workspace:WaitForChild("EasterBossChallengeWalkTo", 1e999) then
-                        DodgeCurrentAttack(0, 6, "giant egg")
-                    end
+                    if Workspace:WaitForChild("EasterBossChallengeWalkTo", 1e999) then DodgeCurrentAttack(0, 6, "giant egg") end
                 end)
                 Connections.ConnectObjectiveMessage = ReplicatedStorage:WaitForChild("ObjectiveMessage", math.huge).Changed:Connect(function(property)
-                    if string.find(tostring(property), "RUN") then
-                        DodgeCurrentAttack(0, 11, "giant egg")
-                    end
+                    if string.find(tostring(property), "RUN") then DodgeCurrentAttack(0, 11, "giant egg") end
                 end)
             end
 
@@ -23974,9 +16174,7 @@ If available to your executor the script will reset your character and then invi
         local function PickKillauraTarget()
             local hrpLocal = HumanoidRootPart
 
-            if not hrpLocal then
-                return nil
-            end
+            if not hrpLocal then return nil end
 
             local hrpPos = hrpLocal.Position
             local best
@@ -23984,9 +16182,7 @@ If available to your executor the script will reset your character and then invi
             local targetSets = { MobsFolder }
             local dummiesFolder = Workspace:FindFirstChild("TargetDummies")
 
-            if dummiesFolder then
-                targetSets[2] = dummiesFolder
-            end
+            if dummiesFolder then targetSets[2] = dummiesFolder end
 
             for _, folder in ipairs(targetSets) do
                 local children = folder:GetChildren()
@@ -23996,27 +16192,18 @@ If available to your executor the script will reset your character and then invi
                     local healthProperties = mob:FindFirstChild("HealthProperties")
                     local health
 
-                    if healthProperties then
-                        health = healthProperties:FindFirstChild("Health")
-                    end
+                    if healthProperties then health = healthProperties:FindFirstChild("Health") end
 
-                    if health and health.Value <= 0 then
-                        continue
-                    end
+                    if health and health.Value <= 0 then continue end
 
                     local collider = mob:FindFirstChild("Collider")
 
-                    if not collider then
-                        collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart")
-                    end
+                    if not collider then collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart") end
 
                     if collider then
                         local magnitude = (collider.Position - hrpPos).Magnitude
 
-                        if magnitude < bestDistance then
-                            best = mob
-                            bestDistance = magnitude
-                        end
+                        if magnitude < bestDistance then best = mob; bestDistance = magnitude end
                     end
                 end
             end
@@ -24030,9 +16217,7 @@ If available to your executor the script will reset your character and then invi
             local targetSets = { MobsFolder }
             local dummiesFolder = Workspace:FindFirstChild("TargetDummies")
 
-            if dummiesFolder then
-                targetSets[2] = dummiesFolder
-            end
+            if dummiesFolder then targetSets[2] = dummiesFolder end
 
             for _, folder in ipairs(targetSets) do
                 local children = folder:GetChildren()
@@ -24041,37 +16226,24 @@ If available to your executor the script will reset your character and then invi
                     local mob = children[i]
                     local entry = AoETargetCache[mob]
 
-                    if not entry then
-                        entry = {}
-                        AoETargetCache[mob] = entry
-                    end
+                    if not entry then entry = {}; AoETargetCache[mob] = entry end
 
                     local healthProperties = entry.HealthProperties
 
-                    if not healthProperties then
-                        healthProperties = mob:FindFirstChild("HealthProperties")
-                        entry.HealthProperties = healthProperties
-                    end
+                    if not healthProperties then healthProperties = mob:FindFirstChild("HealthProperties"); entry.HealthProperties = healthProperties end
 
                     local health = entry.Health
 
-                    if not health then
-                        health = healthProperties and healthProperties:FindFirstChild("Health")
-                        entry.Health = health
-                    end
+                    if not health then health = healthProperties and healthProperties:FindFirstChild("Health"); entry.Health = health end
 
-                    if health and health.Value <= 0 then
-                        continue
-                    end
+                    if health and health.Value <= 0 then continue end
 
                     local collider = entry.Collider
 
                     if not collider then
                         collider = mob:FindFirstChild("Collider")
 
-                        if not collider then
-                            collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart")
-                        end
+                        if not collider then collider = mob.PrimaryPart or mob:FindFirstChild("Part") or mob:FindFirstChild("MeshPart") end
 
                         entry.Collider = collider
                     end
@@ -24097,23 +16269,36 @@ If available to your executor the script will reset your character and then invi
 
             return targets
         end
-        local function run_aoe_killaura_loop()
-            if not Class then
-                Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
-                return
+            if _G.__WZero_AbCapHooked == nil then
+                _G.__WZero_AbCapHooked = true
+                _G.__WZero_AbCapEchoes = 0
+
+                pcall(function()
+                    local hitEcho = Remotes:FindFirstChild("Combat_OnHitFlash") or Remotes:WaitForChild("Combat_OnHitFlash", 1e999)
+                    hitEcho.OnClientEvent:Connect(function()
+                        _G.__WZero_AbCapEchoes = (_G.__WZero_AbCapEchoes or 0) + 1
+                    end)
+                end)
             end
 
+            local KILLAURA_TYPES = { Ranged = 1, Melee = 2, ShadowChain = 3, TableRemote = 4, Remote = 5, GuardianRemote = 6, HunterRemote = 7, PlayerPositionRemote = 8, MobPositionRemote = 9, CFrameRemote = 10, PlayerRemote = 11, StarbreakerWaves = 12, }
+            local STARBREAK_HITS = {}
+            for i = 1, 5 do for j = 1, 10 do STARBREAK_HITS[#STARBREAK_HITS + 1] = "StarbreakerWaveSwing" .. i .. "Hit" .. j end end
+            local NUM_STARBREAK_HITS = #STARBREAK_HITS
+            local function DisableLegitSkills()
+                local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
+                Actions:SetSkillDisabled("Primary", true)
+                Actions:SetSkillDisabled("Skill1", true)
+                Actions:SetSkillDisabled("Skill2", true)
+                Actions:SetSkillDisabled("Skill3", true)
+                Actions:SetSkillDisabled("Ultimate", true)
+            end
+
+            local function run_aoe_killaura_loop()
+            if not Class then Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000); return end
+
             local ok, result = pcall(function()
-                if Settings.CanRequire then
-                    pcall(function()
-                        local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
-                        Actions:SetSkillDisabled("Primary", true)
-                        Actions:SetSkillDisabled("Skill1", true)
-                        Actions:SetSkillDisabled("Skill2", true)
-                        Actions:SetSkillDisabled("Skill3", true)
-                        Actions:SetSkillDisabled("Ultimate", true)
-                    end)
-                end
+                DisableLegitSkills()
 
                 local CombatRemote = Remotes:WaitForChild("Combat_Attack", 1e999)
                 local combatFire = CombatRemote.FireServer
@@ -24121,9 +16306,7 @@ If available to your executor the script will reset your character and then invi
                 local numSkills = #Skills
                 local hrp = HumanoidRootPart
                 local _findFirstChild = function(obj, name)
-                    if obj then
-                        return obj:FindFirstChild(name)
-                    end
+                    if obj then return obj:FindFirstChild(name) end
                 end
                 local _time = time
                 local OffsetVec = Vector3.new(0, 3, 0)
@@ -24132,45 +16315,16 @@ If available to your executor the script will reset your character and then invi
 
                 Settings.AoEKillauraActive = true
 
-                local TYPE_RANGED = 1
-                local TYPE_MELEE = 2
-                local TYPE_SHADOWCHAIN = 3
-                local TYPE_TABLEREMOTE = 4
-                local TYPE_REMOTE = 5
-                local TYPE_GUARDIANREMOTE = 6
-                local TYPE_HUNTERREMOTE = 7
-                local TYPE_PLAYERPOSREMOTE = 8
-                local TYPE_MOBPOSREMOTE = 9
-                local TYPE_CFRAMEREMOTE = 10
-                local TYPE_PLAYERREMOTE = 11
-                local TYPE_STARBREAKER = 12
 
-                local typeMap = {
-                    Ranged = TYPE_RANGED,
-                    Melee = TYPE_MELEE,
-                    ShadowChain = TYPE_SHADOWCHAIN,
-                    TableRemote = TYPE_TABLEREMOTE,
-                    Remote = TYPE_REMOTE,
-                    GuardianRemote = TYPE_GUARDIANREMOTE,
-                    HunterRemote = TYPE_HUNTERREMOTE,
-                    PlayerPositionRemote = TYPE_PLAYERPOSREMOTE,
-                    MobPositionRemote = TYPE_MOBPOSREMOTE,
-                    CFrameRemote = TYPE_CFRAMEREMOTE,
-                    PlayerRemote = TYPE_PLAYERREMOTE,
-                    StarbreakerWaves = TYPE_STARBREAKER,
-                }
 
-                for i = 1, numSkills do
-                    local s = Skills[i]
-                    s._typeID = typeMap[s.Type] or 0
-                    s._cachedCD = s.Cooldown or 0
-                end
+local TYPE_RANGED, TYPE_MELEE, TYPE_SHADOWCHAIN, TYPE_TABLEREMOTE, TYPE_REMOTE, TYPE_GUARDIANREMOTE, TYPE_HUNTERREMOTE, TYPE_PLAYERPOSREMOTE, TYPE_MOBPOSREMOTE, TYPE_CFRAMEREMOTE, TYPE_PLAYERREMOTE, TYPE_STARBREAKER = KILLAURA_TYPES.Ranged, KILLAURA_TYPES.Melee, KILLAURA_TYPES.ShadowChain, KILLAURA_TYPES.TableRemote, KILLAURA_TYPES.Remote, KILLAURA_TYPES.GuardianRemote, KILLAURA_TYPES.HunterRemote, KILLAURA_TYPES.PlayerPositionRemote, KILLAURA_TYPES.MobPositionRemote, KILLAURA_TYPES.CFrameRemote, KILLAURA_TYPES.PlayerRemote, KILLAURA_TYPES.StarbreakerWaves
+local typeMap = KILLAURA_TYPES
+
+                for i = 1, numSkills do local s = Skills[i] s._typeID = typeMap[s.Type] or 0 s._cachedCD = s.Cooldown or 0 end
 
                 local handlers = {
                     [TYPE_RANGED] = function(skill, aimPos, _, _, isRanged)
-                        if isRanged then
-                            aimPos = aimPos - OffsetVec
-                        end
+                        if isRanged then aimPos = aimPos - OffsetVec end
 
                         combatFire(CombatRemote, skill, aimPos, nil, 67)
                     end,
@@ -24182,9 +16336,7 @@ If available to your executor the script will reset your character and then invi
                         skill:FireServer(first, mobs[2] or first, mobs[3] or first, mobs[4] or first, mobs[5] or first)
                     end,
                     [TYPE_TABLEREMOTE] = function(skill, _, _, _, _, mobs)
-                        for i = 1, #mobs do
-                            skill:FireServer(mobs[i])
-                        end
+                        for i = 1, #mobs do skill:FireServer(mobs[i]) end
                     end,
                     [TYPE_REMOTE] = function(skill)
                         skill:FireServer()
@@ -24211,13 +16363,8 @@ If available to your executor the script will reset your character and then invi
                     end,
                 }
 
-                local starbreak_hits = {}
-                for i = 1, 5 do
-                    for j = 1, 10 do
-                        starbreak_hits[#starbreak_hits + 1] = "StarbreakerWaveSwing" .. i .. "Hit" .. j
-                    end
-                end
-                local NUM_STARBREAK_HITS = #starbreak_hits
+local starbreak_hits = STARBREAK_HITS
+local NUM_STARBREAK_HITS = #STARBREAK_HITS
                 local isRanged = Settings.IsRanged
 
                 local candidates = {}
@@ -24227,23 +16374,28 @@ If available to your executor the script will reset your character and then invi
                 local mobCache = setmetatable({}, { __mode = "k" })
                 local lastCount = 0
 
+                local burstQueue = {}
+                local burstQueued = {}
+                local burstStart = nil
+                local maxdps_seed = (_time() * 1000) % 2147483648
+                local maxdps_jitter = 0
+                local firedInPass = false
+                local abcBuffer = 0
+                local abEchoLast = _G.__WZero_AbCapEchoes or 0
+                local abCasts = 0
+                local abLastCheck = 0
+
                 while Settings.AoEKillauraActive do
                     table.clear(candidates)
                     table.clear(mobs)
                     table.clear(mobPositions)
 
-                    if lastCount == 0 then
-                        task.wait(0.1)
-                    end
+                    if lastCount == 0 then task.wait(0.1) end
 
-                    for _, mob in ipairs(MobsFolder:GetChildren()) do
-                        table.insert(candidates, mob)
-                    end
+                    for _, mob in ipairs(MobsFolder:GetChildren()) do table.insert(candidates, mob) end
 
                     if targetDummies then
-                        for _, mob in ipairs(targetDummies:GetChildren()) do
-                            table.insert(candidates, mob)
-                        end
+                        for _, mob in ipairs(targetDummies:GetChildren()) do table.insert(candidates, mob) end
                     end
 
                     local hrpPos = hrp.Position
@@ -24253,37 +16405,24 @@ If available to your executor the script will reset your character and then invi
                         local mob = candidates[i]
                         local entry = mobCache[mob]
 
-                        if not entry then
-                            entry = {}
-                            mobCache[mob] = entry
-                        end
+                        if not entry then entry = {}; mobCache[mob] = entry end
 
                         local healthProperties = entry.HealthProperties
 
-                        if not healthProperties then
-                            healthProperties = _findFirstChild(mob, "HealthProperties")
-                            entry.HealthProperties = healthProperties
-                        end
+                        if not healthProperties then healthProperties = _findFirstChild(mob, "HealthProperties"); entry.HealthProperties = healthProperties end
 
                         local health = entry.Health
 
-                        if not health then
-                            health = healthProperties and _findFirstChild(healthProperties, "Health")
-                            entry.Health = health
-                        end
+                        if not health then health = healthProperties and _findFirstChild(healthProperties, "Health"); entry.Health = health end
 
-                        if health and health.Value <= 0 then
-                            continue
-                        end
+                        if health and health.Value <= 0 then continue end
 
                         local collider = entry.Collider
 
                         if not collider then
                             collider = _findFirstChild(mob, "Collider")
 
-                            if not collider then
-                                collider = mob.PrimaryPart or _findFirstChild(mob, "Part") or _findFirstChild(mob, "MeshPart")
-                            end
+                            if not collider then collider = mob.PrimaryPart or _findFirstChild(mob, "Part") or _findFirstChild(mob, "MeshPart") end
 
                             entry.Collider = collider
                         end
@@ -24291,54 +16430,61 @@ If available to your executor the script will reset your character and then invi
                         if collider then
                             local magnitude = (collider.Position - hrpPos).Magnitude
 
-                            if magnitude < 50 then
-                                count = count + 1
-                                mobs[count] = mob
-                                mobPositions[count] = collider.Position
-                            end
+                            if magnitude < 50 then count = count + 1 mobs[count] = mob mobPositions[count] = collider.Position end
                         end
                     end
 
                     lastCount = count
 
-                    if count == 0 then
-                        Heartbeat:Wait()
-                        continue
-                    end
+                    if count == 0 then Heartbeat:Wait(); continue end
 
                     passCounter = passCounter + 1
 
                     local now = _time()
                     local hrpCFrame = hrp.CFrame
 
+                    local burstEnabled = Settings.BurstRelease == true
+                    local burstWindow = burstEnabled and (Settings.BurstWindow or 0.15) or 0
+                    firedInPass = false
+
                     for i = 1, numSkills do
                         local s = Skills[i]
 
-                        if now - (s.LastUsed or 0) >= (s._cachedCD or 0) then
+                        maxdps_seed = (maxdps_seed * 1103515245 + 12345) % 2147483648
+                        maxdps_jitter = (maxdps_seed / 2147483648 - 0.5) * 0.016
+
+                        if now - (s.LastUsed or 0) >= (s._cachedCD or 0) + maxdps_jitter - abcBuffer and not burstQueued[s] then
                             local aimPos = mobPositions[((i - 1 + passCounter) % count) + 1]
 
-                            if not aimPos then
-                                aimPos = hrpPos
-                            end
+                            if not aimPos then aimPos = hrpPos end
 
                             local handler = handlers[s._typeID]
 
                             if handler then
-                                if s._typeID == TYPE_STARBREAKER then
-                                    local Status = Character and Character:FindFirstChild("Status")
+                                local fireAction = function(releaseNow)
+                                    if s._typeID == TYPE_STARBREAKER then
+                                        local Status = Character and Character:FindFirstChild("Status")
 
-                                    if Status and Status:FindFirstChild("Starforge") then
-                                        local distUnit = (aimPos - hrpPos).Unit
+                                        if Status and Status:FindFirstChild("Starforge") then
+                                            local distUnit = (aimPos - hrpPos).Unit
 
-                                        for k = 1, NUM_STARBREAK_HITS do
-                                            combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                            for k = 1, NUM_STARBREAK_HITS do combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67) end
                                         end
+                                    else
+                                        handler(s.Skill, aimPos, hrpPos, hrpCFrame, isRanged, mobs)
                                     end
-                                else
-                                    handler(s.Skill, aimPos, hrpPos, hrpCFrame, isRanged, mobs)
+
+                                    s.LastUsed = releaseNow
                                 end
 
-                                s.LastUsed = now
+                                firedInPass = true
+
+                                if burstEnabled then
+                                    burstQueue[#burstQueue + 1] = fireAction
+                                    burstQueued[s] = true
+                                else
+                                    fireAction(now)
+                                end
                             else
                                 HandleError("AOE KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
                                 break
@@ -24346,33 +16492,68 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    Heartbeat:Wait()
+                    if burstEnabled then
+                        if #burstQueue > 0 then
+                            if burstStart == nil then burstStart = now end
+
+                            if now - burstStart >= burstWindow then
+                                local releaseNow = _time()
+
+                                for b = 1, #burstQueue do pcall(burstQueue[b], releaseNow) end
+
+                                table.clear(burstQueue)
+                                table.clear(burstQueued)
+                                burstStart = nil
+                            end
+                        else
+                            burstStart = nil
+                        end
+                    end
+
+                    if Settings.AboveCap ~= false and Settings.AboveCapBuffer then
+                        abCasts = abCasts + (firedInPass and 1 or 0)
+
+                        if now - abLastCheck >= 2 then
+                            local echoDelta = (_G.__WZero_AbCapEchoes or 0) - abEchoLast
+                            local accepted = echoDelta / math.max(abCasts, 1)
+
+                            if accepted < 0.5 then
+                                abcBuffer = math.max(0, abcBuffer - 0.005)
+                            elseif accepted > 0.95 and abcBuffer < Settings.AboveCapBuffer then abcBuffer = math.min(Settings.AboveCapBuffer, abcBuffer + 0.002) end
+
+                            abEchoLast = _G.__WZero_AbCapEchoes or 0
+                            abCasts = 0
+                            abLastCheck = now
+                        end
+                    else
+                        abcBuffer = 0
+                    end
+
+                    if burstEnabled or not firedInPass then
+                        Heartbeat:Wait()
+                    else
+                        local earliest = 1e9
+
+                        for sIdx = 1, numSkills do
+                            local sk = Skills[sIdx]
+                            local remaining = (sk._cachedCD or 0) - (now - (sk.LastUsed or 0))
+
+                            if remaining < earliest then earliest = remaining end
+                        end
+
+                        task.wait(math.max(earliest - 0.006, 0.01))
+                    end
                 end
             end)
 
-            if not ok then
-                HandleError("AOE KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass)
-            end
+            if not ok then HandleError("AOE KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass) end
         end
         local function run_fast_killaura_loop()
-            if not Class then
-                Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000)
-                return
-            end
+            if not Class then Library:Notify("CLASS NOT YET SUPPORTED", 10000000000000000); return end
 
             local ok, result = pcall(function()
-                if Settings.CanRequire then
-                    pcall(function()
-                        local Actions = require(ReplicatedStorage:WaitForChild("Client", 1e999):WaitForChild("Actions", 1e999))
-                        Actions:SetSkillDisabled("Primary", true)
-                        Actions:SetSkillDisabled("Skill1", true)
-                        Actions:SetSkillDisabled("Skill2", true)
-                        Actions:SetSkillDisabled("Skill3", true)
-                        Actions:SetSkillDisabled("Ultimate", true)
-                    end)
-                end
+                DisableLegitSkills()
 
-                -- ===== AGGRESSIVE PRE-CACHING =====
                 local CombatRemote = Remotes:WaitForChild("Combat_Attack", 1e999)
                 local combatFire = CombatRemote.FireServer
                 local Skills = Class.Skills
@@ -24380,15 +16561,11 @@ If available to your executor the script will reset your character and then invi
                 local hrp = HumanoidRootPart
                 local hrpPosition = hrp.Position
                 local _findFirstChild = function(obj, name)
-                    if obj then
-                        return obj:FindFirstChild(name)
-                    end
+                    if obj then return obj:FindFirstChild(name) end
                 end
                 local _getClosest = function(colliderPart, position)
                     local ok, res = pcall(colliderPart.GetClosestPointOnSurface, colliderPart, position)
-                    if ok then
-                        return res
-                    end
+                    if ok then return res end
 
                     return position
                 end
@@ -24398,44 +16575,11 @@ If available to your executor the script will reset your character and then invi
 
                 Settings.FastKillauraActive = true
 
-                -- ===== Numeric type IDs for integer-keyed dispatch =====
-                local TYPE_RANGED          = 1
-                local TYPE_MELEE           = 2
-                local TYPE_SHADOWCHAIN     = 3
-                local TYPE_TABLEREMOTE     = 4
-                local TYPE_REMOTE          = 5
-                local TYPE_GUARDIANREMOTE   = 6
-                local TYPE_HUNTERREMOTE    = 7
-                local TYPE_PLAYERPOSREMOTE = 8
-                local TYPE_MOBPOSREMOTE    = 9
-                local TYPE_CFRAMEREMOTE    = 10
-                local TYPE_PLAYERREMOTE    = 11
-                local TYPE_STARBREAKER     = 12
+local TYPE_RANGED, TYPE_MELEE, TYPE_SHADOWCHAIN, TYPE_TABLEREMOTE, TYPE_REMOTE, TYPE_GUARDIANREMOTE, TYPE_HUNTERREMOTE, TYPE_PLAYERPOSREMOTE, TYPE_MOBPOSREMOTE, TYPE_CFRAMEREMOTE, TYPE_PLAYERREMOTE, TYPE_STARBREAKER = KILLAURA_TYPES.Ranged, KILLAURA_TYPES.Melee, KILLAURA_TYPES.ShadowChain, KILLAURA_TYPES.TableRemote, KILLAURA_TYPES.Remote, KILLAURA_TYPES.GuardianRemote, KILLAURA_TYPES.HunterRemote, KILLAURA_TYPES.PlayerPositionRemote, KILLAURA_TYPES.MobPositionRemote, KILLAURA_TYPES.CFrameRemote, KILLAURA_TYPES.PlayerRemote, KILLAURA_TYPES.StarbreakerWaves
+local typeMap = KILLAURA_TYPES
 
-                -- ===== Pre-compute type map =====
-                local typeMap = {
-                    Ranged = TYPE_RANGED,
-                    Melee = TYPE_MELEE,
-                    ShadowChain = TYPE_SHADOWCHAIN,
-                    TableRemote = TYPE_TABLEREMOTE,
-                    Remote = TYPE_REMOTE,
-                    GuardianRemote = TYPE_GUARDIANREMOTE,
-                    HunterRemote = TYPE_HUNTERREMOTE,
-                    PlayerPositionRemote = TYPE_PLAYERPOSREMOTE,
-                    MobPositionRemote = TYPE_MOBPOSREMOTE,
-                    CFrameRemote = TYPE_CFRAMEREMOTE,
-                    PlayerRemote = TYPE_PLAYERREMOTE,
-                    StarbreakerWaves = TYPE_STARBREAKER,
-                }
+                for i = 1, numSkills do local s = Skills[i] s._typeID = typeMap[s.Type] or 0 s._cachedCD = s.Cooldown or 0 end
 
-                -- ===== Pre-assign type IDs + cooldowns to skills once =====
-                for i = 1, numSkills do
-                    local s = Skills[i]
-                    s._typeID = typeMap[s.Type] or 0
-                    s._cachedCD = s.Cooldown or 0
-                end
-
-                -- ===== Pre-allocate handler array =====
                 local handlers = {
                     [TYPE_RANGED] = function(skill, _, closest, isRanged)
                         combatFire(CombatRemote, skill, isRanged and (closest - OffsetVec) or closest, nil, 67)
@@ -24471,26 +16615,16 @@ If available to your executor the script will reset your character and then invi
                         skill:FireServer(LocalPlayer)
                     end,
                     [TYPE_STARBREAKER] = function(_, _, _, _, _, _, CharacterRef)
-                        -- Starbreaker handled inline in loop for performance
                     end,
                 }
 
-                -- Pre-compute Starbreaker strings once
-                local starbreak_hits = {}
-                for i = 1, 5 do
-                    for j = 1, 10 do
-                        starbreak_hits[#starbreak_hits + 1] = "StarbreakerWaveSwing" .. i .. "Hit" .. j
-                    end
-                end
-                local NUM_STARBREAK_HITS = #starbreak_hits
+local starbreak_hits = STARBREAK_HITS
+local NUM_STARBREAK_HITS = #STARBREAK_HITS
 
-                -- Cache IsRanged outside the hot loop (only check on toggle)
                 local isRanged = Settings.IsRanged
 
-                -- Zero threshold = no cooldown reduction (max speed)
-                local zeroThreshold = 0
+                local maxdps_engine = true
 
-                -- ===== MAIN HOT LOOP =====
                 local target
                 local collider
                 local hrpPos
@@ -24501,36 +16635,37 @@ If available to your executor the script will reset your character and then invi
                 local cd
                 local aoeTargets = nil
 
+                local burstQueue = {}
+                local burstQueued = {}
+                local burstStart = nil
+                local maxdps_seed = (_time() * 1000) % 2147483648
+                local maxdps_jitter = 0
+                local firedInPass = false
+                local abcBuffer = 0
+                local abEchoLast = _G.__WZero_AbCapEchoes or 0
+                local abCasts = 0
+                local abLastCheck = 0
+
                 while Settings.FastKillauraActive do
-                    if not (hrp and hrp.Parent) then
-                        RunService_Heartbeat:Wait()
-                        continue
-                    end
+                    if not (hrp and hrp.Parent) then RunService_Heartbeat:Wait(); continue end
 
                     hrpPos = hrp.Position
                     now = _time()
                     hrpCFrame = hrp.CFrame
                     aoeTargets = nil
 
-                    if Settings.AoEKillaura then
-                        aoeTargets = CollectAoETargets(hrp, 50)
-                    end
+                    if Settings.AoEKillaura then aoeTargets = CollectAoETargets(hrp, 50) end
 
                     if not aoeTargets or #aoeTargets == 0 then
                         aoeTargets = nil
                         target = CurrentTargetMob
 
-                        if not (target and target.Parent) then
-                            target = PickKillauraTarget()
-                            CurrentTargetMob = target
-                        end
+                        if not (target and target.Parent) then target = PickKillauraTarget(); CurrentTargetMob = target end
 
                         if target then
                             collider = _findFirstChild(target, "Collider")
 
-                            if not collider then
-                                collider = target.PrimaryPart or _findFirstChild(target, "Part") or _findFirstChild(target, "MeshPart")
-                            end
+                            if not collider then collider = target.PrimaryPart or _findFirstChild(target, "Part") or _findFirstChild(target, "MeshPart") end
 
                             if collider then
                                 closest = _getClosest(collider, hrpPos)
@@ -24541,52 +16676,72 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
+                    local burstEnabled = Settings.BurstRelease == true
+                    local burstWindow = burstEnabled and (Settings.BurstWindow or 0.15) or 0
+                    firedInPass = false
+
                     for i = 1, numSkills do
                         local s = Skills[i]
                         cd = s._cachedCD
 
-                        if now - (s.LastUsed or 0) >= cd + zeroThreshold then
+                        maxdps_seed = (maxdps_seed * 1103515245 + 12345) % 2147483648
+                        maxdps_jitter = (maxdps_seed / 2147483648 - 0.5) * 0.016
+
+                        if now - (s.LastUsed or 0) >= cd + maxdps_jitter - abcBuffer and not burstQueued[s] then
                             local handler = handlers[s._typeID]
 
                             if handler then
+                                local fireAction
+
                                 if aoeTargets then
-                                    for t = 1, #aoeTargets do
-                                        local tgt = aoeTargets[t]
+                                    fireAction = function(releaseNow)
+                                        for t = 1, #aoeTargets do
+                                            local tgt = aoeTargets[t]
 
-                                        if s.Distance >= tgt.Sep then
-                                            if s._typeID == TYPE_STARBREAKER then
-                                                local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+                                            if s.Distance >= tgt.Sep then
+                                                if s._typeID == TYPE_STARBREAKER then
+                                                    local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
 
-                                                if Status and Status:FindFirstChild("Starforge") then
-                                                    local distUnit = (tgt.Closest - hrpPos).Unit
+                                                    if Status and Status:FindFirstChild("Starforge") then
+                                                        local distUnit = (tgt.Closest - hrpPos).Unit
 
-                                                    for k = 1, NUM_STARBREAK_HITS do
-                                                        combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                        for k = 1, NUM_STARBREAK_HITS do combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67) end
                                                     end
+                                                else
+                                                    handler(s.Skill, tgt.Mob, tgt.Closest, hrpPos, hrpCFrame, isRanged)
                                                 end
-                                            else
-                                                handler(s.Skill, tgt.Mob, tgt.Closest, hrpPos, hrpCFrame, isRanged)
                                             end
                                         end
-                                    end
 
-                                    s.LastUsed = now
+                                        s.LastUsed = releaseNow
+                                    end
                                 elseif target and closest and s.Distance >= sep then
-                                    if s._typeID == TYPE_STARBREAKER then
-                                        local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
+                                    fireAction = function(releaseNow)
+                                        if s._typeID == TYPE_STARBREAKER then
+                                            local Status = CharacterRef and CharacterRef:FindFirstChild("Status")
 
-                                        if Status and Status:FindFirstChild("Starforge") then
-                                            local distUnit = (closest - hrpPos).Unit
+                                            if Status and Status:FindFirstChild("Starforge") then
+                                                local distUnit = (closest - hrpPos).Unit
 
-                                            for k = 1, NUM_STARBREAK_HITS do
-                                                combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67)
+                                                for k = 1, NUM_STARBREAK_HITS do combatFire(CombatRemote, starbreak_hits[k], hrpPos, distUnit, 67) end
                                             end
+                                        else
+                                            handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
                                         end
-                                    else
-                                        handler(s.Skill, target, closest, hrpPos, hrpCFrame, isRanged)
-                                    end
 
-                                    s.LastUsed = now
+                                        s.LastUsed = releaseNow
+                                    end
+                                end
+
+                                if fireAction then
+                                    firedInPass = true
+
+                                    if burstEnabled then
+                                        burstQueue[#burstQueue + 1] = fireAction
+                                        burstQueued[s] = true
+                                    else
+                                        fireAction(now)
+                                    end
                                 end
                             else
                                 HandleError("KILLAURA ATTACK TYPE", s.Type .. " isn't a valid type of attack")
@@ -24595,13 +16750,61 @@ If available to your executor the script will reset your character and then invi
                         end
                     end
 
-                    RunService_Heartbeat:Wait()
+                    if burstEnabled then
+                        if #burstQueue > 0 then
+                            if burstStart == nil then burstStart = now end
+
+                            if now - burstStart >= burstWindow then
+                                local releaseNow = _time()
+
+                                for b = 1, #burstQueue do pcall(burstQueue[b], releaseNow) end
+
+                                table.clear(burstQueue)
+                                table.clear(burstQueued)
+                                burstStart = nil
+                            end
+                        else
+                            burstStart = nil
+                        end
+                    end
+
+                    if Settings.AboveCap ~= false and Settings.AboveCapBuffer then
+                        abCasts = abCasts + (firedInPass and 1 or 0)
+
+                        if now - abLastCheck >= 2 then
+                            local echoDelta = (_G.__WZero_AbCapEchoes or 0) - abEchoLast
+                            local accepted = echoDelta / math.max(abCasts, 1)
+
+                            if accepted < 0.5 then
+                                abcBuffer = math.max(0, abcBuffer - 0.005)
+                            elseif accepted > 0.95 and abcBuffer < Settings.AboveCapBuffer then abcBuffer = math.min(Settings.AboveCapBuffer, abcBuffer + 0.002) end
+
+                            abEchoLast = _G.__WZero_AbCapEchoes or 0
+                            abCasts = 0
+                            abLastCheck = now
+                        end
+                    else
+                        abcBuffer = 0
+                    end
+
+                    if burstEnabled or not firedInPass then
+                        RunService_Heartbeat:Wait()
+                    else
+                        local earliest = 1e9
+
+                        for sIdx = 1, numSkills do
+                            local sk = Skills[sIdx]
+                            local remaining = (sk._cachedCD or 0) - (now - (sk.LastUsed or 0))
+
+                            if remaining < earliest then earliest = remaining end
+                        end
+
+                        task.wait(math.max(earliest - 0.006, 0.01))
+                    end
                 end
             end)
 
-            if not ok then
-                HandleError("FAST KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass)
-            end
+            if not ok then HandleError("FAST KILLAURA", tostring(result), "Class: " .. Settings.PlayerClass) end
         end
 
         Toggles.KillauraToggle:OnChanged(function(killauraEnabled)
@@ -24647,24 +16850,18 @@ If available to your executor the script will reset your character and then invi
 
                         repeat
                             for _, v in pairs(Class.Skills) do
-                                if not CurrentTargetMob then
-                                    continue
-                                end
+                                if not CurrentTargetMob then continue end
 
                                 local Cooldown = v.Cooldown
 
                                 local FastKillauraBuffer = Settings.FastKillaura and 0.02 or 0
 
-                                if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted - FastKillauraBuffer) then
-                                    continue
-                                end
+                                if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted - FastKillauraBuffer) then continue end
 
                                 local vType = v.Type
                                 local Collider6 = CurrentTargetMob:FindFirstChild("Collider")
 
-                                if not Collider6 then
-                                    continue
-                                end
+                                if not Collider6 then continue end
 
                                 local Distance = v.Distance
                                 local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider6.Position)
@@ -24672,9 +16869,7 @@ If available to your executor the script will reset your character and then invi
 
                                 if Distance >= (ClosestPointOnSurface - ClosestPointOnSurface2).Magnitude then
                                     if vType == "Ranged" then
-                                        if Settings.IsRanged then
-                                            ClosestPointOnSurface2 -= vector3
-                                        end
+                                        if Settings.IsRanged then ClosestPointOnSurface2 -= vector3 end
 
                                         Combat_Attack:FireServer(v.Skill, ClosestPointOnSurface2, nil, 67)
                                     elseif vType == "Melee" then
@@ -24715,13 +16910,7 @@ If available to your executor the script will reset your character and then invi
                                             if CanAttack then
                                                 local Status = Character:FindFirstChild("Status")
 
-                                                if Status and Status:FindFirstChild("Starforge") then
-                                                    for i = 1, 5 do
-                                                        for j = 1, 10 do
-                                                            Combat_Attack:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (ClosestPointOnSurface2 - HumanoidRootPart.Position).Unit, 67)
-                                                        end
-                                                    end
-                                                end
+                                                if Status and Status:FindFirstChild("Starforge") then for i = 1, 5 do for j = 1, 10 do Combat_Attack:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (ClosestPointOnSurface2 - HumanoidRootPart.Position).Unit, 67) end end end
                                             end
                                         end)
                                     end
@@ -24745,11 +16934,11 @@ If available to your executor the script will reset your character and then invi
                     end
 
                     local Combat_Attack2 = Remotes:WaitForChild("Combat_Attack", math.huge)
+
+
 local skillAttackHandlers = {
 					Ranged = function(skill, attackPos)
-                        if Settings.IsRanged then
-                            attackPos -= vector3
-                        end
+                        if Settings.IsRanged then attackPos -= vector3 end
 
                         Combat_Attack2:FireServer(skill, attackPos, nil, 67)
                     end,
@@ -24757,13 +16946,7 @@ local skillAttackHandlers = {
                         Combat_Attack2:FireServer(skill, HumanoidRootPart.Position, (targetClosest - HumanoidRootPart.Position).Unit, 67)
                     end,
 					ShadowChain = function(skillRemote, _, targetMob)
-                        skillRemote:FireServer({
-								targetMob,
-								targetMob,
-								targetMob,
-								targetMob,
-								targetMob
-							})
+                        skillRemote:FireServer({ targetMob, targetMob, targetMob, targetMob, targetMob })
                     end,
 					TableRemote = function(skillRemote, _, targetMob)
                         skillRemote:FireServer(targetMob)
@@ -24794,13 +16977,7 @@ local skillAttackHandlers = {
                             if CanAttack then
                                 local Status = Character:FindFirstChild("Status")
 
-                                if Status and Status:FindFirstChild("Starforge") then
-                                    for i = 1, 5 do
-                                        for j = 1, 10 do
-                                            Combat_Attack2:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (starbreakerPos - HumanoidRootPart.Position).Unit, 67)
-                                        end
-                                    end
-                                end
+                                if Status and Status:FindFirstChild("Starforge") then for i = 1, 5 do for j = 1, 10 do Combat_Attack2:FireServer("StarbreakerWaveSwing" .. tostring(i) .. "Hit" .. tostring(j), HumanoidRootPart.Position, (starbreakerPos - HumanoidRootPart.Position).Unit, 67) end end end
                             end
                         end)
                     end
@@ -24810,13 +16987,9 @@ local skillAttackHandlers = {
                     repeat
                         local TargetList = nil
 
-                        if Settings.AoEKillaura then
-                            TargetList = CollectAoETargets(HumanoidRootPart, 50)
-                        end
+                        if Settings.AoEKillaura then TargetList = CollectAoETargets(HumanoidRootPart, 50) end
 
-                        if not TargetList or #TargetList == 0 then
-                            TargetList = nil
-                        end
+                        if not TargetList or #TargetList == 0 then TargetList = nil end
 
                         if not TargetList and not CurrentTargetMob then
                             task.wait()
@@ -24829,9 +17002,7 @@ local skillAttackHandlers = {
 
                             local FastKillauraBuffer = Settings.FastKillaura and 0.02 or 0
 
-                            if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted - FastKillauraBuffer) then
-                                continue
-                            end
+                            if not (time() - (v.LastUsed or 0) >= Cooldown + AttackDelay + PingAdjusted - FastKillauraBuffer) then continue end
 
                             local vType = v.Type
                             local skillTargets = TargetList or { { Mob = CurrentTargetMob, Closest = nil } }
@@ -24848,23 +17019,17 @@ local skillAttackHandlers = {
                                 local TargetMob = skillTarget.Mob
                                 local Collider7 = TargetMob:FindFirstChild("Collider")
 
-                                if not Collider7 then
-                                    continue
-                                end
+                                if not Collider7 then continue end
 
                                 local Distance = v.Distance
                                 local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider7.Position)
                                 local ClosestPointOnSurface3 = skillTarget.Closest or Collider7:GetClosestPointOnSurface(HumanoidRootPart.Position)
 
-                                if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface3).Magnitude) then
-                                    continue
-                                end
+                                if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface3).Magnitude) then continue end
 
                                 local T = TargetMob:GetAttribute("T")
 
-                                if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then
-                                    break
-                                end
+                                if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then break end
 
                                 attackHandler(v.Skill, ClosestPointOnSurface3, TargetMob)
                             end
@@ -24915,9 +17080,7 @@ local skillAttackHandlers = {
                 Settings.AoEKillauraActive = nil
                 Settings.AoEKillauraThread = nil
 
-                if not Settings.FastKillauraThread then
-                    Settings.FastKillauraThread = task.spawn(run_fast_killaura_loop)
-                end
+                if not Settings.FastKillauraThread then Settings.FastKillauraThread = task.spawn(run_fast_killaura_loop) end
 
                 return
             end
@@ -24933,9 +17096,7 @@ local skillAttackHandlers = {
                 if not Settings.FastKillauraActive and not Settings.Killaura then
                     Settings.AoEKillauraActive = true
 
-                    if not Settings.AoEKillauraThread then
-                        Settings.AoEKillauraThread = task.spawn(run_aoe_killaura_loop)
-                    end
+                    if not Settings.AoEKillauraThread then Settings.AoEKillauraThread = task.spawn(run_aoe_killaura_loop) end
                 end
 
                 return
@@ -24948,9 +17109,7 @@ local skillAttackHandlers = {
         Toggles.SafeKillauraToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local ok, result = pcall(function()
@@ -24978,9 +17137,7 @@ local skillAttackHandlers = {
                                     end
 
                                     repeat
-                                        if CurrentTargetMob then
-                                            Actions:UseSkill(capturedSkillName)
-                                        end
+                                        if CurrentTargetMob then Actions:UseSkill(capturedSkillName) end
 
                                         task.wait()
                                     until not Settings.SafeKillaura and not MissionDone
@@ -24991,9 +17148,7 @@ local skillAttackHandlers = {
                                     end
 
                                     repeat
-                                        if CurrentTargetMob then
-                                            Actions:UseSkill(capturedSkillName)
-                                        end
+                                        if CurrentTargetMob then Actions:UseSkill(capturedSkillName) end
 
                                         task.wait(0.2)
                                     until not Settings.SafeKillaura and not MissionDone
@@ -25003,18 +17158,14 @@ local skillAttackHandlers = {
                             skillIndex += 1
                         end
                         while Settings.SafeKillaura do
-                            if Actions:IsSheathed() then
-                                Actions:UseSkill("Sheath")
-                            end
+                            if Actions:IsSheathed() then Actions:UseSkill("Sheath") end
 
                             task.wait(1)
                         end
                     else
                         Settings.SafeKillaura = nil
 
-                        if IsHooked(Actions.IsBusy) then
-                            RestoreFunction(Actions.IsBusy)
-                        end
+                        if IsHooked(Actions.IsBusy) then RestoreFunction(Actions.IsBusy) end
                     end
                 end)
 
@@ -25084,9 +17235,7 @@ local skillAttackHandlers = {
                                             targetMob:SetAttribute("T", Unpack(timeTable))
                                         end
 
-                                        if nil then
-                                            CurrentCamera.CameraSubject = IsMobAlive
-                                        end
+                                        if nil then CurrentCamera.CameraSubject = IsMobAlive end
                                     end
                                 end
 
@@ -25095,18 +17244,14 @@ local skillAttackHandlers = {
                         end
                     end)
 
-                    if not ok then
-                        HandleError("MOB TELEPORT", (tostring(result)))
-                    end
+                    if not ok then HandleError("MOB TELEPORT", (tostring(result))) end
                 end)
                 task.spawn(function()
                     local ok, result = pcall(function()
 
                         for partKey, partInfo in pairs(PartsList) do
 
-                            if partKey and partKey.Parent then
-                                partKey.Size = Vector3.new(1, 1, 1)
-                            end
+                            if partKey and partKey.Parent then partKey.Size = Vector3.new(1, 1, 1) end
                         end
                         while Settings.Autofarm do
                             for k, v in pairs(PartsList) do
@@ -25119,18 +17264,14 @@ local skillAttackHandlers = {
                                         task.wait(0.1)
                                         k.Position = partInfo.OriginalLocation
                                     end)
-                                elseif not partInfo.Regenerates then
-                                    PartsList[k] = nil
-                                end
+                                elseif not partInfo.Regenerates then PartsList[k] = nil end
                             end
 
                             task.wait()
                         end
                     end)
 
-                    if not ok then
-                        HandleError("AUTO PROGRESS", (tostring(result)))
-                    end
+                    if not ok then HandleError("AUTO PROGRESS", (tostring(result))) end
                 end)
                 task.spawn(function()
                     local success, result = pcall(function()
@@ -25155,9 +17296,7 @@ local skillAttackHandlers = {
                                         if shieldModel.Name == "ShieldEgg" or shieldModel.Name == "EggShield" then
                                             local ringPart = shieldModel:WaitForChild("ShieldEgg", 1) or shieldModel:WaitForChild("Blade", 1)
 
-                                            if ringPart then
-                                                ringPart.Name = "Ring"
-                                            end
+                                            if ringPart then ringPart.Name = "Ring" end
                                         end
 
                                         local Ring = shieldModel:WaitForChild("Ring", 5)
@@ -25167,7 +17306,8 @@ local skillAttackHandlers = {
                                             local shieldStandPosition = Vector3.new(Ring.Position.X, Ring.Position.Y + standOffset, Ring.Position.Z)
 
                                             while shieldModel.Parent do
-                                                HumanoidRootPart.CFrame = CFrame.new(shieldStandPosition)
+                                                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(shieldStandPosition) end
+
                                                 task.wait()
                                             end
 
@@ -25183,9 +17323,7 @@ local skillAttackHandlers = {
                             end
                         end
                     end)
-                    if not success then
-                        HandleError("SHIELD TELEPORt", (tostring(result)))
-                    end
+                    if not success then HandleError("SHIELD TELEPORt", (tostring(result))) end
                 end)
 
                 return
@@ -25209,9 +17347,7 @@ local skillAttackHandlers = {
     end
     if InLobby or InDungeon then
         Toggles.CollectDropToggle:OnChanged(function(enabled)
-            if PlaceIdStr == "6510868181" then
-                return
-            end
+            if PlaceIdStr == "6510868181" then return end
 
             if enabled then
                 if Settings.CanRequire and (HookFunction and NewCClosure) then
@@ -25235,21 +17371,13 @@ local skillAttackHandlers = {
                 return
             end
 
-            if IsHooked(require(Drops).SpawnCoinsLocal) then
-                RestoreFunction(require(Drops).SpawnCoinsLocal)
-            end
+            if IsHooked(require(Drops).SpawnCoinsLocal) then RestoreFunction(require(Drops).SpawnCoinsLocal) end
 
-            if IsHooked(require(Drops).DropBattlepassExp) then
-                RestoreFunction(require(Drops).DropBattlepassExp)
-            end
+            if IsHooked(require(Drops).DropBattlepassExp) then RestoreFunction(require(Drops).DropBattlepassExp) end
 
-            if IsHooked(require(Drops).DropStarterpassExp) then
-                RestoreFunction(require(Drops).DropStarterpassExp)
-            end
+            if IsHooked(require(Drops).DropStarterpassExp) then RestoreFunction(require(Drops).DropStarterpassExp) end
 
-            if IsHooked(require(Drops).DropHealthOrb) then
-                RestoreFunction(require(Drops).DropHealthOrb)
-            end
+            if IsHooked(require(Drops).DropHealthOrb) then RestoreFunction(require(Drops).DropHealthOrb) end
 
             DisconnectVariable("CollectDrops")
         end)
@@ -25265,9 +17393,7 @@ local skillAttackHandlers = {
                         local petData = GetPlayerPet()
 
                         Connections.ConnectCharacter = Character.ChildAdded:Connect(function(child)
-                            if child.Name == "PetData" then
-                                petData = GetPlayerPet()
-                            end
+                            if child.Name == "PetData" then petData = GetPlayerPet() end
                         end)
 
                         local Combat_Attack = Remotes:WaitForChild("Combat_Attack", 1e999)
@@ -25285,36 +17411,26 @@ local skillAttackHandlers = {
 
                         while Settings.PetKillaura and not MissionDone do
                             for _, v in pairs(petData.Skills) do
-                                if not CurrentTargetMob then
-                                    continue
-                                end
+                                if not CurrentTargetMob then continue end
 
                                 local Cooldown = v.Cooldown
 
-                                if not (tick() - (v.LastUsed or 0) >= Cooldown + AttackDelay) then
-                                    continue
-                                end
+                                if not (tick() - (v.LastUsed or 0) >= Cooldown + AttackDelay) then continue end
 
                                 local vType = v.Type
                                 local Collider8 = CurrentTargetMob:FindFirstChild("Collider")
 
-                                if not Collider8 then
-                                    continue
-                                end
+                                if not Collider8 then continue end
 
                                 local Distance = v.Distance
                                 local ClosestPointOnSurface = HumanoidRootPart:GetClosestPointOnSurface(Collider8.Position)
                                 local ClosestPointOnSurface4 = Collider8:GetClosestPointOnSurface(HumanoidRootPart.Position)
 
-                                if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface4).Magnitude) then
-                                    continue
-                                end
+                                if not (Distance >= (ClosestPointOnSurface - ClosestPointOnSurface4).Magnitude) then continue end
 
                                 local T = CurrentTargetMob:GetAttribute("T")
 
-                                if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then
-                                    break
-                                end
+                                if Settings.Autofarm and (CanAttack and (not T and T + 0.2 < time())) then break end
 
                                 local petAttackHandler = petAttackHandlers[vType]
 
@@ -25327,9 +17443,7 @@ local skillAttackHandlers = {
                                 petAttackHandler(v.Skill, ClosestPointOnSurface4)
                                 v.LastUsed = tick()
 
-                                if CombatActive then
-                                    task.wait(CombatActive)
-                                end
+                                if CombatActive then task.wait(CombatActive) end
                             end
 
                             task.wait(0.1)
@@ -25362,9 +17476,7 @@ local skillAttackHandlers = {
                             if CurrentTargetMob then
                                 local Collider9 = CurrentTargetMob:FindFirstChild("Collider", true)
 
-                                if Collider9 then
-                                    PetSkills_UseSkill:FireServer(CurrentTargetMob, Collider9.Position)
-                                end
+                                if Collider9 then PetSkills_UseSkill:FireServer(CurrentTargetMob, Collider9.Position) end
                             end
 
                             task.wait(1)
@@ -25397,15 +17509,9 @@ local skillAttackHandlers = {
                         local HealthProperties = Character:FindFirstChild("HealthProperties", true)
                         local outOfCombatValue = HealthProperties and HealthProperties:FindFirstChild("OutOfCombat", true)
 
-                        if HealthProperties and outOfCombatValue then
-                            outOfCombatTimer = outOfCombatValue.Value ~= 0 and 0 or outOfCombatTimer + 1
-                        end
+                        if HealthProperties and outOfCombatValue then outOfCombatTimer = outOfCombatValue.Value ~= 0 and 0 or outOfCombatTimer + 1 end
 
-                        if outOfCombatTimer >= MaxPingTolerance then
-                            MissionDone = true
-                            task.wait(2)
-                            RejoinLastDungeon(true)
-                        end
+                        if outOfCombatTimer >= MaxPingTolerance then MissionDone = true task.wait(2) RejoinLastDungeon(true) end
 
                         task.wait(0.1)
                     until not Settings.CheckForRejoin
@@ -25421,76 +17527,23 @@ local skillAttackHandlers = {
             end
         end)
         Toggles.DodgeLethalToggle:OnChanged(function(dodgeEnabled)
-            if dodgeEnabled then
-                dodgeEnabled = Class.Distance == "Melee"
-            end
+            if dodgeEnabled then dodgeEnabled = Class.Distance == "Melee" end
 
             if dodgeEnabled then
                 Settings.DodgeAttacks = true
 
                 local ok, result = pcall(function()
-                    local downwardIceConfig = {
-						AttackLength = 5.9,
-						Delay = 1.5,
-						AttackName = "downward ice"
-					}
-                    local jumpConfig = {
-						AttackLength = 2.5,
-						Delay = 2,
-						AttackName = "jump"
-					}
-                    local howlConfig = {
-						AttackLength = 4.2,
-						Delay = 3.5,
-						AttackName = "howl"
-					}
-                    local darkOrbConfig = {
-						AttackLength = 8.2,
-						Delay = 7.5,
-						AttackName = "dark orb"
-					}
-                    local wingFlapConfig = {
-						AttackLength = 6,
-						Delay = 1,
-						AttackName = "wing flap"
-					}
-                    local flybyConfig = {
-						AttackLength = 15,
-						Delay = 0,
-						AttackName = "flyby"
-					}
-                    local longFlybyConfig = {
-						AttackLength = 23,
-						Delay = 0,
-						AttackName = "long flyby"
-					}
-                    local eggBombConfig = {
-						AttackLength = 10,
-						Delay = 3,
-						AttackName = "egg bombs"
-					}
-                    local slamJumpConfig = {
-						AttackLength = 5,
-						Delay = 1,
-						AttackName = "slam jump"
-					}
-                    local prismSlamConfig = {
-						AttackLength = 3,
-						Delay = 2,
-						AttackName = "prism slam"
-					}
-                    local attackConfigs = {
-						DownwardIceFire = downwardIceConfig,
-						JumpAttack = jumpConfig,
-						Howl = howlConfig,
-						DarkOrbAttack = darkOrbConfig,
-						WingFlap = wingFlapConfig,
-						Flyby = flybyConfig,
-						FlybyX3 = longFlybyConfig,
-						EggBomb = eggBombConfig,
-						SlamJump = slamJumpConfig,
-						PrismSlam = prismSlamConfig
-					}
+                    local downwardIceConfig = { AttackLength = 5.9, Delay = 1.5, AttackName = "downward ice" }
+                    local jumpConfig = { AttackLength = 2.5, Delay = 2, AttackName = "jump" }
+                    local howlConfig = { AttackLength = 4.2, Delay = 3.5, AttackName = "howl" }
+                    local darkOrbConfig = { AttackLength = 8.2, Delay = 7.5, AttackName = "dark orb" }
+                    local wingFlapConfig = { AttackLength = 6, Delay = 1, AttackName = "wing flap" }
+                    local flybyConfig = { AttackLength = 15, Delay = 0, AttackName = "flyby" }
+                    local longFlybyConfig = { AttackLength = 23, Delay = 0, AttackName = "long flyby" }
+                    local eggBombConfig = { AttackLength = 10, Delay = 3, AttackName = "egg bombs" }
+                    local slamJumpConfig = { AttackLength = 5, Delay = 1, AttackName = "slam jump" }
+                    local prismSlamConfig = { AttackLength = 3, Delay = 2, AttackName = "prism slam" }
+                    local attackConfigs = { DownwardIceFire = downwardIceConfig, JumpAttack = jumpConfig, Howl = howlConfig, DarkOrbAttack = darkOrbConfig, WingFlap = wingFlapConfig, Flyby = flybyConfig, FlybyX3 = longFlybyConfig, EggBomb = eggBombConfig, SlamJump = slamJumpConfig, PrismSlam = prismSlamConfig }
 
                     while Settings.DodgeAttacks and not MissionDone do
                         if CurrentTargetMob then
@@ -25502,9 +17555,7 @@ local skillAttackHandlers = {
                                 if currentAttackValue and currentAttackValue.Value ~= "" then
                                     local attackConfig = attackConfigs[currentAttackValue.Value] or false
 
-                                    if attackConfig then
-                                        DodgeCurrentAttack(attackConfig.Delay, attackConfig.AttackLength - attackConfig.Delay, attackConfig.AttackName)
-                                    end
+                                    if attackConfig then DodgeCurrentAttack(attackConfig.Delay, attackConfig.AttackLength - attackConfig.Delay, attackConfig.AttackName) end
                                 end
                             end
                         end
@@ -25518,37 +17569,28 @@ local skillAttackHandlers = {
 						}) do
                             local hazardModel = Workspace:FindFirstChild(v)
 
-                            if not hazardModel then
-                                continue
-                            end
+                            if not hazardModel then continue end
 
-                            if Workspace:FindFirstChild("AnubisRing") or Workspace:FindFirstChild("AnubisRingPurple") then
-                                break
-                            end
+                            if Workspace:FindFirstChild("AnubisRing") or Workspace:FindFirstChild("AnubisRingPurple") then break end
 
                             local vaneBoss = MobsFolder:FindFirstChild("VaneAetherDragon") or MobsFolder:FindFirstChild("EVENTBOSSVane")
                             local safePosition = Vector3.new(HumanoidRootPart.Position.X + 1000, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
 
-                            if vaneBoss then
-                                safePosition = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z)
-                            end
+                            if vaneBoss then safePosition = Vector3.new(HumanoidRootPart.Position.X, HumanoidRootPart.Position.Y + 1000, HumanoidRootPart.Position.Z) end
 
                             if Settings.DodgeAttacks then
                             end
 
                             while true do
-                                HumanoidRootPart.CFrame = CFrame.new(safePosition)
+                                if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(safePosition) end
+
                                 TeleportStandPart()
 
-                                if not hazardModel.Parent then
-                                    break
-                                end
+                                if not hazardModel.Parent then break end
 
                                 task.wait()
 
-                                if not Settings.DodgeAttacks or MissionDone then
-                                    break
-                                end
+                                if not Settings.DodgeAttacks or MissionDone then break end
                             end
 
                             RotationEnabled = false
@@ -25578,7 +17620,7 @@ local skillAttackHandlers = {
 
                     local prestigeFileName = LocalPlayer.Name .. "_Prestige.txt"
                     local checkFile = isfile
-                    local prestigeFilePath = "PORN/" .. prestigeFileName
+                    local prestigeFilePath = "JEW/" .. prestigeFileName
 
                     if checkFile(prestigeFilePath) and (PlaceIdStr == "4310463616" and not InDungeon) then
                         delfile(prestigeFilePath)
@@ -25589,9 +17631,7 @@ local skillAttackHandlers = {
                         return
                     end
 
-                    if not isfile(prestigeFilePath) then
-                        writefile(prestigeFilePath, "haha txt file")
-                    end
+                    if not isfile(prestigeFilePath) then writefile(prestigeFilePath, "haha txt file") end
 
                     Remotes:WaitForChild("Teleport_TeleportToHub", math.huge):FireServer(13)
                 end)
@@ -25602,9 +17642,7 @@ local skillAttackHandlers = {
     _G.ScriptStep = "event stuff"
     if InDungeon then
         Toggles.InstakillToggle:OnChanged(function(instakillEnabled)
-            if not IsEventDungeon then
-                return
-            end
+            if not IsEventDungeon then return end
 
             Settings.InstakillOn = instakillEnabled
 
@@ -25613,21 +17651,15 @@ local skillAttackHandlers = {
 
                 local instakillTimeout = 15
 
-                if Options.InstakillDropdown.Value ~= "Normal method" then
-                    instakillTimeout = 25
-                end
+                if Options.InstakillDropdown.Value ~= "Normal method" then instakillTimeout = 25 end
 
                 if Tracking.LoggedDifficulty == 6 then
                     instakillTimeout = 35
                     Remotes:WaitForChild("Mobs_EVENTBOSSUndeadVane_ResurrectShake", math.huge).OnClientEvent:Wait()
 
-                    if Options.InstakillDropdown.Value ~= "Normal method" then
-                        task.wait(31)
-                    end
+                    if Options.InstakillDropdown.Value ~= "Normal method" then task.wait(31) end
 
-                    if Settings.InstakillOn then
-                        SkillActive = false
-                    end
+                    if Settings.InstakillOn then SkillActive = false end
                 end
 
                 Settings.InstakillBoss = true
@@ -25635,9 +17667,7 @@ local skillAttackHandlers = {
                 task.spawn(function()
                     task.wait(instakillTimeout)
 
-                    if MissionDone or not Settings.InstakillBoss then
-                        return
-                    end
+                    if MissionDone or not Settings.InstakillBoss then return end
 
                     RestartDungeon(true)
                 end)
@@ -25652,24 +17682,22 @@ local skillAttackHandlers = {
                         while Settings.InstakillBoss and not MissionDone do
                             local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + standOffset, bossCollider.Position.Z)
 
-                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            if Settings.AllowPlayerTeleports then HumanoidRootPart:PivotTo(CFrame.new(standPosition)) end
+
                             RunService.Heartbeat:Wait()
 
-                            if not bossCollider.Parent then
-                                break
-                            end
+                            if not bossCollider.Parent then break end
                         end
                         HumanoidRootPart.Velocity = Vector3.new()
-                        if Tracking.LoggedDifficulty == 5 then
-                            dragonCollider = MobsFolder:WaitForChild("BOSSDarkriseDarkDragon", 1e999):WaitForChild("Collider", math.huge)
-                        end
+                        if Tracking.LoggedDifficulty == 5 then dragonCollider = MobsFolder:WaitForChild("BOSSDarkriseDarkDragon", 1e999):WaitForChild("Collider", math.huge) end
                         if dragonCollider then
                             local dragonStandOffset = GetPlayerSize() + dragonCollider.Size.Y / 2 + 8
 
                             while Settings.InstakillBoss and not MissionDone do
                                 local standPosition = Vector3.new(bossCollider.Position.X, bossCollider.Position.Y + dragonStandOffset, bossCollider.Position.Z)
 
-                                HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                                if Settings.AllowPlayerTeleports then HumanoidRootPart:PivotTo(CFrame.new(standPosition)) end
+
                                 RunService.Heartbeat:Wait()
                             end
 
@@ -25684,7 +17712,8 @@ local skillAttackHandlers = {
                         HumanoidRootPart.CanCollide = false
 
                         while Settings.InstakillBoss and not MissionDone do
-                            HumanoidRootPart:PivotTo(CFrame.new(standPosition))
+                            if Settings.AllowPlayerTeleports then HumanoidRootPart:PivotTo(CFrame.new(standPosition)) end
+
                             RunService.Heartbeat:Wait()
                         end
 
@@ -25692,9 +17721,7 @@ local skillAttackHandlers = {
                     end
                 end)
 
-                if Options.InstakillDropdown.Value ~= "Normal method" then
-                    return
-                end
+                if Options.InstakillDropdown.Value ~= "Normal method" then return end
 
                 if Settings.InstakillBoss then
                 end
@@ -25707,12 +17734,11 @@ local skillAttackHandlers = {
                     local rootPart = HumanoidRootPart
                     local velocity = rootPart.Velocity
 
-                    rootPart.Velocity = velocity * 10000 + Vector3.new(0, 100000, 0)
+                    if Settings.AllowPlayerTeleports then rootPart.Velocity = velocity * 10000 + Vector3.new(0, 100000, 0) end
+
                     RunService.RenderStepped:Wait()
 
-                    if HumanoidRootPart then
-                        rootPart.Velocity = velocity
-                    end
+                    if HumanoidRootPart then rootPart.Velocity = velocity end
 
                     RunService.Stepped:Wait()
 
@@ -25744,9 +17770,7 @@ local skillAttackHandlers = {
                             if v then
                                 local orbModel = Workspace:FindFirstChild(v)
 
-                                if orbModel then
-                                    TeleportToOrb(orbModel)
-                                end
+                                if orbModel then TeleportToOrb(orbModel) end
 
                                 task.wait()
                             end
@@ -25812,9 +17836,7 @@ local skillAttackHandlers = {
                     local lastPremiumTier
                     local freeClaimed = false
                     local lastFreeTier = -1
-                    if not Remotes:WaitForChild("Battlepass_HasPremium", 1e999):InvokeServer() then
-                        noPremium = true
-                    end
+                    if not Remotes:WaitForChild("Battlepass_HasPremium", 1e999):InvokeServer() then noPremium = true end
                     local function redeemTier(itemTier, isPremium)
                         local deadline = time() + 3
 
@@ -25822,9 +17844,7 @@ local skillAttackHandlers = {
                             Battlepass_RedeemedItem:InvokeServer(itemTier)
 
                             repeat
-                                if deadline < time() then
-                                    return
-                                end
+                                if deadline < time() then return end
 
                                 Battlepass_RedeemItem:FireServer(itemTier)
                                 task.wait()
@@ -25836,9 +17856,7 @@ local skillAttackHandlers = {
                         Battlepass_RedeemedItem:InvokeServer(itemTier, true)
 
                         repeat
-                            if deadline < time() then
-                                return
-                            end
+                            if deadline < time() then return end
 
                             Battlepass_RedeemItem:FireServer(itemTier, true)
                             task.wait()
@@ -25911,9 +17929,7 @@ local skillAttackHandlers = {
                         if tradePartner.name ~= PlayerName then
                             Settings.PlayerBeingTraded = tradePartner.name
 
-                            if not Settings.IsScriptDeveloper and not Settings.IsNewPlayer then
-                                OpenTradeNotification()
-                            end
+                            if not Settings.IsScriptDeveloper and not Settings.IsNewPlayer then OpenTradeNotification() end
                         end
                     end
                 end
@@ -25950,10 +17966,7 @@ local skillAttackHandlers = {
 
             task.wait(1)
 
-            if Settings.ShopPlaced then
-                Remotes:WaitForChild("Shop_StopShop", math.huge):FireServer()
-                Library:Notify("Player shop removed.", 2)
-            end
+            if Settings.ShopPlaced then Remotes:WaitForChild("Shop_StopShop", math.huge):FireServer(); Library:Notify("Player shop removed.", 2) end
         end)
         Options.PlayerShopDropdown:OnChanged(function(playerName)
             if Settings.CanRequire then
@@ -25973,10 +17986,7 @@ local skillAttackHandlers = {
 
                 local ok, result = pcall(function()
                     while Settings.ClassBuffs and not MissionDone do
-                        if IsInCombat then
-                            Remotes:WaitForChild("Skillset_DualWielder_AttackBuff", math.huge):FireServer()
-                            Remotes:WaitForChild("Skillset_Guardian_AggroDraw", math.huge):FireServer()
-                        end
+                        if IsInCombat then Remotes:WaitForChild("Skillset_DualWielder_AttackBuff", math.huge):FireServer(); Remotes:WaitForChild("Skillset_Guardian_AggroDraw", math.huge):FireServer() end
 
                         task.wait(1)
                     end
@@ -26003,9 +18013,7 @@ local skillAttackHandlers = {
                             local children = Players:GetChildren()
 
                             for _, v in pairs(children) do
-                                if v.Name ~= PlayerName then
-                                    Skillset_MageOfLight_Barrier:FireServer(v)
-                                end
+                                if v.Name ~= PlayerName then Skillset_MageOfLight_Barrier:FireServer(v) end
 
                                 task.wait()
                             end
@@ -26032,10 +18040,7 @@ local skillAttackHandlers = {
                         local Skillset_Demon_BloodBinding = Remotes:WaitForChild("Skillset_Demon_BloodBinding")
 
                         while Settings.DemonBuff and not MissionDone do
-                            if IsInCombat and CurrentTargetMob then
-                                Skillset_Demon_BloodBinding:FireServer()
-                                task.wait(8)
-                            end
+                            if IsInCombat and CurrentTargetMob then Skillset_Demon_BloodBinding:FireServer(); task.wait(8) end
 
                             task.wait(0.5)
                         end
@@ -26060,10 +18065,7 @@ local skillAttackHandlers = {
                         local Skillset_Stormcaller_Supercharge = Remotes:WaitForChild("Skillset_Stormcaller_Supercharge", 1e999)
 
                         while Settings.StormcallerBuff and not MissionDone do
-                            if IsInCombat then
-                                Skillset_Stormcaller_Supercharge:FireServer()
-                                task.wait(8)
-                            end
+                            if IsInCombat then Skillset_Stormcaller_Supercharge:FireServer(); task.wait(8) end
 
                             task.wait(0.5)
                         end
@@ -26086,24 +18088,15 @@ local skillAttackHandlers = {
         Toggles.AutoSellToggle:OnChanged(function(enabled)
             if enabled then
                 local sellSuccess, sellResult = pcall(function()
-                    local loggedEggItems = {
-						"AetherEgg",
-						"CupidEgg",
-						"SkeletonEgg",
-						"SantaEgg"
-					}
+                    local loggedEggItems = { "AetherEgg", "CupidEgg", "SkeletonEgg", "SantaEgg" }
+
+
 local backpackRef = ResolveBackpack()
-                    if not backpackRef then
-                        return
-                    end
+                    if not backpackRef then return end
                     local Items = backpackRef:WaitForChild("Items", 10)
-                    if not Items then
-                        return
-                    end
+                    if not Items then return end
                     local Charms
-                    if Settings.CanRequire and Charms then
-                        Charms = require(Charms:WaitForChild("Charms"))
-                    end
+                    if Settings.CanRequire and Charms then Charms = require(Charms:WaitForChild("Charms")) end
                     Connections.ConnectInventory = Items.ChildAdded:Connect(function(child)
                         local sellSuccess, sellResult = pcall(function()
                             ActiveSellCount += 1
@@ -26158,9 +18151,7 @@ local backpackRef = ResolveBackpack()
                             local keptItem = false
                             local itemRarity = GetRarity(child)
                             if not isCharm and tostring(itemRarity) ~= "NotEquipment" then
-                                if itemRarity == 7 then
-                                    return
-                                end
+                                if itemRarity == 7 then return end
 
                                 if not SellRarityThreshold then
                                     local itemToSell = child
@@ -26170,9 +18161,7 @@ local backpackRef = ResolveBackpack()
                                         ActiveSellCount -= 1
                                     end)
 
-                                    if not ok then
-                                        HandleError("SELL", (tostring(result)))
-                                    end
+                                    if not ok then HandleError("SELL", (tostring(result))) end
 
                                     return
                                 end
@@ -26185,9 +18174,7 @@ local backpackRef = ResolveBackpack()
                                         ActiveSellCount -= 1
                                     end)
 
-                                    if not ok then
-                                        HandleError("SELL", (tostring(result)))
-                                    end
+                                    if not ok then HandleError("SELL", (tostring(result))) end
 
                                     return
                                 end
@@ -26208,9 +18195,7 @@ local backpackRef = ResolveBackpack()
                                     ActiveSellCount -= 1
                                 end)
 
-                                if not ok then
-                                    HandleError("SELL", (tostring(result)))
-                                end
+                                if not ok then HandleError("SELL", (tostring(result))) end
 
                                 return
                             end
@@ -26220,9 +18205,7 @@ local backpackRef = ResolveBackpack()
                             local perkName = false
                             if not isEggName and (Settings.KeepPerks and Settings.SelectedPerks) then
                                 for i = 1, 3 do
-                                    if perkFound then
-                                        break
-                                    end
+                                    if perkFound then break end
 
                                     local perkFolderName = "Perk" .. tostring(i)
                                     local perkFolder = child:FindFirstChild(perkFolderName)
@@ -26237,9 +18220,7 @@ local backpackRef = ResolveBackpack()
                                             if perkConfig then
                                                 perkMatches = perkFolder.Value == perkConfig.PerkInternalName
 
-                                                if perkMatches then
-                                                    perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100
-                                                end
+                                                if perkMatches then perkMatches = PerkValue.Value >= (perkConfig.PerkValue * 100 - PerkTolerance) / 100 or (isPet or isCharm) and PerkValue.Value >= (perkConfig.PetPerkValue * 100 - PerkTolerance) / 100 end
                                             end
 
                                             if perkMatches then
@@ -26264,33 +18245,21 @@ local backpackRef = ResolveBackpack()
                                     ActiveSellCount -= 1
                                 end)
 
-                                if not ok then
-                                    HandleError("SELL", (tostring(result)))
-                                end
+                                if not ok then HandleError("SELL", (tostring(result))) end
 
                                 return
                             end
-                            if isEggName or keptItem then
-                                Library:Notify("<font color='#80FF80'>Kept item:</font> " .. itemNameString, 1)
-                                ActiveSellCount -= 1
-                            end
+                            if isEggName or keptItem then Library:Notify("<font color='#80FF80'>Kept item:</font> " .. itemNameString, 1); ActiveSellCount -= 1 end
                             local loggedItem = table.find(loggedEggItems, itemNameString) or false
                             local shouldWebhook = loggedItem
-                            if not loggedItem then
-                                shouldWebhook = perkFound and (Settings.DiscordWebhookLink and Settings.SendDiscordMessage)
-                            end
+                            if not loggedItem then shouldWebhook = perkFound and (Settings.DiscordWebhookLink ~= nil and Settings.DiscordWebhookLink ~= "") end
                             if shouldWebhook then
                                 local webhookContent
                                 if loggedItem then
                                     webhookContent = "Kept item **" .. itemNameString .. "**! " .. WebhookMention
-                                elseif perkFound then
-                                    webhookContent = "Kept **" .. itemNameString .. "** because **" .. tostring(perkName) .. " " .. tostring(perkValue) .. "%** was found!" .. WebhookMention
-                                end
+                                elseif perkFound then webhookContent = "Kept **" .. itemNameString .. "** because **" .. tostring(perkName) .. " " .. tostring(perkValue) .. "%** was found!" .. WebhookMention end
                                 local _, _ = pcall(function()
-                                    local webhookPayload = {
-										username = "Drop Logger",
-										content = webhookContent
-									}
+                                    local webhookPayload = { username = "Drop Logger", content = webhookContent }
                                     local DiscordWebhookLink = Settings.DiscordWebhookLink
 
                                     if not DiscordWebhookLink and true then
@@ -26301,62 +18270,6 @@ local backpackRef = ResolveBackpack()
 
                                     local hookCheckEnabled = false
                                     local _, _ = pcall(function()
-                                        if hookCheckEnabled and HookFunction or hookmetamethod then
-                                            local scriptCount = 0
-                                            local ok, _ = pcall(function()
-                                                for _, v in pairs(getreg()) do
-                                                    if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                        scriptCount += 1
-                                                    end
-                                                end
-                                            end)
-                                            if scriptCount > 2 or scriptCount == 0 then
-                                                return
-                                            end
-                                            if not ok then
-                                                return
-                                            end
-                                            local hooksDetected = false
-                                            local success = pcall(function()
-                                                local requestHooked = ishooked and ishooked(request)
-
-                                                if not requestHooked then
-                                                    requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                                end
-
-                                                if requestHooked then
-                                                    hooksDetected = true
-
-                                                    return
-                                                end
-                                            end)
-                                            if not success then
-                                                return
-                                            end
-                                            local httpOk, _ = pcall(function()
-                                                local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                                if not httpGetHooked then
-                                                    httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                                    if not httpGetHooked then
-                                                        httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                                    end
-                                                end
-
-                                                if httpGetHooked then
-                                                    hooksDetected = true
-
-                                                    return
-                                                end
-                                            end)
-                                            if hooksDetected then
-                                                return
-                                            end
-                                            if not httpOk then
-                                                return
-                                            end
-                                        end
 
                                         if not HttpRequest then
                                             return
@@ -26364,9 +18277,7 @@ local backpackRef = ResolveBackpack()
 
                                         local httpRequestRef = HttpRequest
                                         local webhookUrl = DiscordWebhookLink
-                                        local webhookHeaders = {
-											["Content-Type"] = "application/json"
-										}
+                                        local webhookHeaders = { ["Content-Type"] = "application/json" }
                                         local json = HttpService:JSONEncode(webhookPayload)
 
                                         httpRequestRef({
@@ -26382,9 +18293,7 @@ local backpackRef = ResolveBackpack()
                                 return
                             end
                         end)
-                        if not sellSuccess then
-                            HandleError("FAILURE TO SELL ITEM", (tostring(sellResult)))
-                        end
+                        if not sellSuccess then HandleError("FAILURE TO SELL ITEM", (tostring(sellResult))) end
                     end)
                 end)
                 if not sellSuccess then
@@ -26447,9 +18356,7 @@ local backpackRef = ResolveBackpack()
                                 local ID = v.ID
 
                                 if not Remotes:WaitForChild("Quests_GuildDailyIsClaimed", 1e999):InvokeServer(ID) and Active:FindFirstChild(ID) then
-                                    for _ = 1, 2 do
-                                        Remotes:WaitForChild("Quests_ClaimDailyGuildQuest", math.huge):FireServer(ID)
-                                    end
+                                    for _ = 1, 2 do Remotes:WaitForChild("Quests_ClaimDailyGuildQuest", math.huge):FireServer(ID) end
 
                                     task.wait(1.5)
                                 end
@@ -26461,9 +18368,7 @@ local backpackRef = ResolveBackpack()
                         if Quests_ClaimQuest then
                             local GetChildren = Active.GetChildren
 
-                            for _, v in ipairs(GetChildren(Active)) do
-                                Quests_ClaimQuest:FireServer(tonumber(v.Name))
-                            end
+                            for _, v in ipairs(GetChildren(Active)) do Quests_ClaimQuest:FireServer(tonumber(v.Name)) end
                         end
                     end)
 
@@ -26506,10 +18411,7 @@ local backpackRef = ResolveBackpack()
 
                 if ReplicateTowerFloor then
                     Connections.ConnectInfTower = ReplicateTowerFloor.Changed:Connect(function(property)
-                        if property >= RangedDistance + 1 then
-                            Library:Notify("Sending restart")
-                            RestartDungeon(true)
-                        end
+                        if property >= RangedDistance + 1 then Library:Notify("Sending restart"); RestartDungeon(true) end
                     end)
                 end
 
@@ -26555,17 +18457,16 @@ local backpackRef = ResolveBackpack()
                     local MissionStart = Workspace:FindFirstChild("MissionStart", true)
                     local startOffset = 0
 
-                    if MissionStart then
-                        MissionStart:PivotTo(CFrame.new(HumanoidRootPart.Position))
-                        startOffset = 5
-                    end
+                    if MissionStart then MissionStart:PivotTo(CFrame.new(HumanoidRootPart.Position)); startOffset = 5 end
 
                     task.wait(0.2)
 
                     local hidePosition = Vector3.new(HumanoidRootPart.Position.X + 25000, HumanoidRootPart.Position.Y + 25000, HumanoidRootPart.Position.Z)
 
                     Settings.GuildPreviousPlayerPosition = HumanoidRootPart.Position
-                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+
+                    if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(hidePosition) end
+
                     TeleportStandPart()
 
                     local totalDelay = maxWait + (Settings.AddedGuildTime or 0) + startOffset
@@ -26576,14 +18477,16 @@ local backpackRef = ResolveBackpack()
 
                     while Settings.GuildWait and not MissionDone do
                         if endTime <= time() then
-                            HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                            if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition) end
+
                             TeleportStandPart()
                             Settings.GuildPreviousPlayerPosition = nil
 
                             return
                         end
 
-                        HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                        if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(hidePosition) end
+
                         TeleportStandPart()
                         task.wait(0.1)
                     end
@@ -26597,12 +18500,10 @@ local backpackRef = ResolveBackpack()
             else
                 Settings.GuildWait = nil
 
-                if Settings.DelayNotification then
-                    Settings.DelayNotification:Destroy()
-                end
+                if Settings.DelayNotification then Settings.DelayNotification:Destroy() end
 
                 if Settings.GuildPreviousPlayerPosition then
-                    HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition)
+                    if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(Settings.GuildPreviousPlayerPosition) end
                 end
 
                 TeleportStandPart()
@@ -26643,10 +18544,7 @@ local backpackRef = ResolveBackpack()
                                 if totalCount < 10 then
                                     EventState = true
 
-                                    if currentCount == totalCount then
-                                        Settings.InfiniteTowerFloorDelay = Settings.InfiniteTowerFloorDelay + Settings.IncrementInfiniteDelay
-                                        EventState = false
-                                    end
+                                    if currentCount == totalCount then Settings.InfiniteTowerFloorDelay = Settings.InfiniteTowerFloorDelay + Settings.IncrementInfiniteDelay; EventState = false end
 
                                     return
                                 end
@@ -26663,17 +18561,17 @@ local backpackRef = ResolveBackpack()
 
                                 while Settings.DelayInfiniteTower and not MissionDone do
                                     if EventState or endTime <= time() then
-                                        if Settings.DelayNotification then
-                                            Settings.DelayNotification:Destroy()
-                                        end
+                                        if Settings.DelayNotification then Settings.DelayNotification:Destroy() end
 
-                                        HumanoidRootPart.CFrame = CFrame.new(Settings.InfinitePreviousPlayerPosition)
+                                        if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(Settings.InfinitePreviousPlayerPosition) end
+
                                         TeleportStandPart()
 
                                         return
                                     end
 
-                                    HumanoidRootPart.CFrame = CFrame.new(hidePosition)
+                                    if Settings.AllowPlayerTeleports then HumanoidRootPart.CFrame = CFrame.new(hidePosition) end
+
                                     TeleportStandPart()
                                     task.wait(0.1)
                                 end
@@ -26687,9 +18585,7 @@ local backpackRef = ResolveBackpack()
                     return
                 end
             else
-                if Settings.DelayNotification then
-                    Settings.DelayNotification:Destroy()
-                end
+                if Settings.DelayNotification then Settings.DelayNotification:Destroy() end
 
                 Settings.DelayInfiniteTower = nil
                 DisconnectVariable("UpdateMobTracker")
@@ -26732,9 +18628,7 @@ local backpackRef = ResolveBackpack()
                             Library:Notify("No egg is selected", 3)
                             task.wait(3)
 
-                            if Settings.AutoHatch then
-                                continue
-                            end
+                            if Settings.AutoHatch then continue end
 
                             return
                         end
@@ -26753,9 +18647,7 @@ local backpackRef = ResolveBackpack()
                             Library:Notify("You do not have enough gold", 3)
                             task.wait(3)
 
-                            if Settings.AutoHatch then
-                                continue
-                            end
+                            if Settings.AutoHatch then continue end
 
                             return
                         end
@@ -26792,9 +18684,7 @@ local backpackRef = ResolveBackpack()
                 local ok, result = pcall(function()
                     local eggNameLookup = {}
 
-                    for _, v in pairs(EggNameList) do
-                        eggNameLookup[v] = true
-                    end
+                    for _, v in pairs(EggNameList) do eggNameLookup[v] = true end
 
                     local Pet = ReplicatedStorage.PlayerEquips[PlayerName].Pet
                     local Inventory_EquipItem = Remotes:WaitForChild("Inventory_EquipItem", 1e999)
@@ -26812,9 +18702,7 @@ local backpackRef = ResolveBackpack()
                             local eggHatched = false
 
                             for _, v in pairs(GetChildren(Items)) do
-                                if not (v and (v.Parent and eggNameLookup[v.Name])) then
-                                    continue
-                                end
+                                if not (v and (v.Parent and eggNameLookup[v.Name])) then continue end
 
                                 task.wait(Settings.HatchDelay)
                                 Inventory_EquipItem:FireServer(v, Pet)
@@ -26829,9 +18717,7 @@ local backpackRef = ResolveBackpack()
                                 end
                             end
 
-                            if not eggHatched then
-                                task.wait(5)
-                            end
+                            if not eggHatched then task.wait(5) end
 
                             task.wait()
                         end
@@ -26849,9 +18735,7 @@ local backpackRef = ResolveBackpack()
         end)
         Toggles.BuyMaxNightmareToggle:OnChanged(function(enabled)
             if enabled then
-                if PlaceIdStr ~= "14914684761" then
-                    return
-                end
+                if PlaceIdStr ~= "14914684761" then return end
 
                 Settings.AutoBuyNightmare = true
 
@@ -26882,9 +18766,7 @@ local backpackRef = ResolveBackpack()
         end)
         Toggles.BuyMaxPVPToggle:OnChanged(function(enabled)
             if enabled then
-                if PlaceIdStr ~= "6510868181" then
-                    return
-                end
+                if PlaceIdStr ~= "6510868181" then return end
                 Settings.AutoBuyPvp = true
                 local success, result = pcall(function()
                     local _ = Settings.AutoBuyPvp
@@ -26912,9 +18794,7 @@ local backpackRef = ResolveBackpack()
         end)
         Toggles.BuyMaxGuildToggle:OnChanged(function(enabled)
             if enabled then
-                if PlaceIdStr ~= "139316833473171" then
-                    return
-                end
+                if PlaceIdStr ~= "139316833473171" then return end
 
                 Settings.AutoBuyGuild = true
 
@@ -26945,9 +18825,7 @@ local backpackRef = ResolveBackpack()
         end)
         Toggles.BuyMaxEventToggle:OnChanged(function(enabled)
             if enabled then
-                if PlaceIdStr ~= "18567064955" then
-                    return
-                end
+                if PlaceIdStr ~= "18567064955" then return end
                 Settings.AutoBuyEvent = true
                 local success, result = pcall(function()
                     local _ = Settings.AutoBuyEvent
@@ -26994,9 +18872,7 @@ local backpackRef = ResolveBackpack()
         Toggles.DamageNumbersToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local success, result = pcall(function()
@@ -27009,9 +18885,7 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if IsHooked(RenderDamageNumber) then
-                        RestoreFunction(RenderDamageNumber)
-                    end
+                    if IsHooked(RenderDamageNumber) then RestoreFunction(RenderDamageNumber) end
                 end)
                 if not success then
                     HandleError("REMOVE DAMAGE NUMBERS", (tostring(result)))
@@ -27029,14 +18903,10 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if Settings.RemovedDamageNumbers then
-                        Library:Notify("Rejoin to see damage numbers", 5)
-                    end
+                    if Settings.RemovedDamageNumbers then Library:Notify("Rejoin to see damage numbers", 5) end
                 end)
 
-                if not ok then
-                    HandleError("REMOVE DAMAGE NUMBERS FALLBACK", (tostring(result)))
-                end
+                if not ok then HandleError("REMOVE DAMAGE NUMBERS FALLBACK", (tostring(result))) end
             end
         end)
         Toggles.DamageFlashToggle:OnChanged(function(enabled)
@@ -27051,9 +18921,7 @@ local backpackRef = ResolveBackpack()
         Toggles.DeathEffectToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local success, result = pcall(function()
@@ -27062,9 +18930,7 @@ local backpackRef = ResolveBackpack()
                     if enabled then
                         local hookedDoEffect
                         hookedDoEffect = HookFunction(DoEffect, NewCClosure(function(effectName, effectTag, ...)
-                            if effectTag == "DeathEffect" then
-                                return
-                            end
+                            if effectTag == "DeathEffect" then return end
 
                             return hookedDoEffect(effectName, effectTag, ...)
                         end))
@@ -27072,9 +18938,7 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if IsHooked(DoEffect) then
-                        RestoreFunction(DoEffect)
-                    end
+                    if IsHooked(DoEffect) then RestoreFunction(DoEffect) end
                 end)
                 if not success then
                     HandleError("REMOVE DEATH EFFECTS", (tostring(result)))
@@ -27093,22 +18957,16 @@ local backpackRef = ResolveBackpack()
 
                             return
                         end
-                    elseif Settings.RemovedDeathEffects then
-                        Library:Notify("Rejoin to see death effects", 5)
-                    end
+                    elseif Settings.RemovedDeathEffects then Library:Notify("Rejoin to see death effects", 5) end
                 end)
 
-                if not ok then
-                    HandleError("REMOVE DEATH EFFECTS FALLBACK", (tostring(result)))
-                end
+                if not ok then HandleError("REMOVE DEATH EFFECTS FALLBACK", (tostring(result))) end
             end
         end)
         Toggles.KnockdownToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local ok, result = pcall(function()
@@ -27121,14 +18979,10 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if IsHooked(Knockdown) then
-                        RestoreFunction(Knockdown)
-                    end
+                    if IsHooked(Knockdown) then RestoreFunction(Knockdown) end
                 end)
 
-                if not ok then
-                    HandleError("DISABLE KNOCKDOWN", (tostring(result)))
-                end
+                if not ok then HandleError("DISABLE KNOCKDOWN", (tostring(result))) end
             end
         end)
     end
@@ -27138,15 +18992,11 @@ local backpackRef = ResolveBackpack()
             local success, result = pcall(function()
                 if waystoneEnabled then
                     Connections.ConnectWaystones = PlayerGui.ChildAdded:Connect(function(child)
-                        if child.Name == "WaystoneDiscoveryIcon" then
-                            child.PlayerToHideFrom = LocalPlayer
-                        end
+                        if child.Name == "WaystoneDiscoveryIcon" then child.PlayerToHideFrom = LocalPlayer end
                     end)
 
                     for _, child in pairs(PlayerGui:GetChildren()) do
-                        if child.Name == "WaystoneDiscoveryIcon" then
-                            child.PlayerToHideFrom = LocalPlayer
-                        end
+                        if child.Name == "WaystoneDiscoveryIcon" then child.PlayerToHideFrom = LocalPlayer end
                     end
 
                     return
@@ -27155,14 +19005,10 @@ local backpackRef = ResolveBackpack()
                 DisconnectVariable("ConnectWaystones")
 
                 for _, child in pairs(PlayerGui:GetChildren()) do
-                    if child.Name == "WaystoneDiscoveryIcon" then
-                        child.PlayerToHideFrom = nil
-                    end
+                    if child.Name == "WaystoneDiscoveryIcon" then child.PlayerToHideFrom = nil end
                 end
             end)
-            if not success then
-                HandleError("HIDE WAYSTONES", (tostring(result)))
-            end
+            if not success then HandleError("HIDE WAYSTONES", (tostring(result))) end
         end)
     end
     if InDungeon then
@@ -27201,19 +19047,14 @@ local backpackRef = ResolveBackpack()
         Options.WalkspeedSlider:OnChanged(function(walkspeed)
             if Settings.CanRequire then
                 local success, result = pcall(function()
-                    if not Settings.WalkspeedManager then
-                        Settings.WalkspeedManager = require(ReplicatedStorage.Shared.WalkspeedManager)
-                        task.wait(1)
-                    end
+                    if not Settings.WalkspeedManager then Settings.WalkspeedManager = require(ReplicatedStorage.Shared.WalkspeedManager); task.wait(1) end
 
                     local WalkspeedManager = Settings.WalkspeedManager
                     local speedTable = { (tonumber(walkspeed)) }
 
                     WalkspeedManager:SetBaseSpeed(Unpack(speedTable))
                 end)
-                if not success then
-                    HandleError("CHANGE WALKSPEED", (tostring(result)))
-                end
+                if not success then HandleError("CHANGE WALKSPEED", (tostring(result))) end
             end
         end)
         Toggles.ShowEndTimeToggle:OnChanged(function(enabled)
@@ -27245,14 +19086,9 @@ local backpackRef = ResolveBackpack()
                                 rankText = "Dev"
                             elseif rank == 6 then
                                 rankText = "Lead"
-                            elseif rank == 7 then
-                                rankText = "RMS"
-                            end
+                            elseif rank == 7 then rankText = "RMS" end
 
-                            local kickWebhookPayload = {
-								username = "PLAYER JOINED",
-								content = "# @everyone someone with the rank " .. rankText .. " joined your game"
-							}
+                            local kickWebhookPayload = { username = "PLAYER JOINED", content = "# @everyone someone with the rank " .. rankText .. " joined your game" }
 
                             LocalPlayer:Kick("Someone with the rank " .. rankText .. " joined your game")
 
@@ -27267,62 +19103,6 @@ local backpackRef = ResolveBackpack()
 
                             local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if hookCheckEnabled and HookFunction or hookmetamethod then
-                                    local scriptCount = 0
-                                    local ok, _ = pcall(function()
-                                        for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
-                                        end
-                                    end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
-                                    local hooksDetected = false
-                                    local success = pcall(function()
-                                        local requestHooked = ishooked and ishooked(request)
-
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
-
-                                        if requestHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if not success then
-                                        return
-                                    end
-                                    local httpOk, _ = pcall(function()
-                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                        if not httpGetHooked then
-                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
-                                        end
-
-                                        if httpGetHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
-                                end
 
                                 if not HttpRequest then
                                     return
@@ -27330,9 +19110,7 @@ local backpackRef = ResolveBackpack()
 
                                 local httpRequestRef = HttpRequest
                                 local webhookUrl = DiscordWebhookLink
-                                local webhookHeaders = {
-									["Content-Type"] = "application/json"
-								}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(webhookPayloadRef)
 
                                 httpRequestRef({
@@ -27362,14 +19140,9 @@ local backpackRef = ResolveBackpack()
                                 rankText = "Dev"
                             elseif rank == 6 then
                                 rankText = "Lead"
-                            elseif rank == 7 then
-                                rankText = "RMS"
-                            end
+                            elseif rank == 7 then rankText = "RMS" end
 
-                            local kickWebhookPayload = {
-								username = "PLAYER JOINED",
-								content = "# @everyone someone with the rank " .. rankText .. " joined your game"
-							}
+                            local kickWebhookPayload = { username = "PLAYER JOINED", content = "# @everyone someone with the rank " .. rankText .. " joined your game" }
 
                             LocalPlayer:Kick("Someone with the rank " .. rankText .. " joined your game")
 
@@ -27384,62 +19157,6 @@ local backpackRef = ResolveBackpack()
 
                             local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if hookCheckEnabled and HookFunction or hookmetamethod then
-                                    local scriptCount = 0
-                                    local ok, _ = pcall(function()
-                                        for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
-                                        end
-                                    end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
-                                    local hooksDetected = false
-                                    local success = pcall(function()
-                                        local requestHooked = ishooked and ishooked(request)
-
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
-
-                                        if requestHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if not success then
-                                        return
-                                    end
-                                    local httpOk, _ = pcall(function()
-                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                        if not httpGetHooked then
-                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
-                                        end
-
-                                        if httpGetHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
-                                end
 
                                 if not HttpRequest then
                                     return
@@ -27447,9 +19164,7 @@ local backpackRef = ResolveBackpack()
 
                                 local httpRequestRef = HttpRequest
                                 local webhookUrl = DiscordWebhookLink
-                                local webhookHeaders = {
-									["Content-Type"] = "application/json"
-								}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(webhookPayloadRef)
 
                                 httpRequestRef({
@@ -27491,9 +19206,7 @@ local backpackRef = ResolveBackpack()
                 if not success then
                     local noPremium = "No"
 
-                    if PlayerGuild then
-                        noPremium = "Yes"
-                    end
+                    if PlayerGuild then noPremium = "Yes" end
 
                     local errorHandler = HandleError
                     local responseString = tostring(result)
@@ -27516,11 +19229,7 @@ local backpackRef = ResolveBackpack()
         if enabled then
             Settings.PreventAfk = true
 
-            while Settings.PreventAfk and not MissionDone do
-                VirtualUser:CaptureController()
-                VirtualUser:ClickButton2(Vector2.new(0, 0))
-                task.wait(10)
-            end
+            while Settings.PreventAfk and not MissionDone do VirtualUser:CaptureController() VirtualUser:ClickButton2(Vector2.new(0, 0)) task.wait(10) end
         else
             Settings.PreventAfk = nil
         end
@@ -27531,14 +19240,9 @@ local backpackRef = ResolveBackpack()
                 if firesignal then
                     local Play = PlayerGui:WaitForChild("Menu", 1e999):WaitForChild("Main", math.huge):WaitForChild("Play", math.huge):WaitForChild("Play", 1e999)
 
-                    if not enabled then
-                        return
-                    end
+                    if not enabled then return end
 
-                    while true do
-                        firesignal(Play.MouseButton1Click)
-                        task.wait(0.5)
-                    end
+                    while true do firesignal(Play.MouseButton1Click); task.wait(0.5) end
                 end
 
                 Library:Notify("Your executor doesn't support this option")
@@ -27552,17 +19256,13 @@ local backpackRef = ResolveBackpack()
                 local GetChildren = Characters.GetChildren
 
                 for _, v in pairs(GetChildren(Characters)) do
-                    if v.Name ~= PlayerName then
-                        v:Destroy()
-                    end
+                    if v.Name ~= PlayerName then v:Destroy() end
                 end
 
                 Connections.ConnectCharacterFolder = Characters.ChildAdded:Connect(function(child)
                     task.wait(0.1)
 
-                    if child.Name == PlayerName then
-                        return
-                    end
+                    if child.Name == PlayerName then return end
 
                     child:Destroy()
                 end)
@@ -27600,9 +19300,7 @@ local backpackRef = ResolveBackpack()
             for _, child in pairs(MobsFolder:GetChildren()) do
                 local Highlight = child:FindFirstChild("Highlight", true)
 
-                if child and Highlight then
-                    Highlight:Destroy()
-                end
+                if child and Highlight then Highlight:Destroy() end
             end
         end)
         Toggles.NoclipCameraToggle:OnChanged(function(enabled)
@@ -27620,9 +19318,7 @@ local backpackRef = ResolveBackpack()
             end
         end)
         Toggles.DisableAutoJumpToggle:OnChanged(function(enabled)
-            if enabled then
-                Character.Humanoid.AutoJumpEnabled = false
-            end
+            if enabled then Character.Humanoid.AutoJumpEnabled = false end
         end)
         Options.FPSSlider:OnChanged(function(fpsValue)
             if fpsValue then
@@ -27632,9 +19328,7 @@ local backpackRef = ResolveBackpack()
                     setfpscap(fpsCap)
                 end)
 
-                if not ok then
-                    Library:Notify("Your executor doesn't support this option", 5)
-                end
+                if not ok then Library:Notify("Your executor doesn't support this option", 5) end
             end
         end)
         Tracking.RenderingScreen = CI("ScreenGui", {
@@ -27690,9 +19384,7 @@ local backpackRef = ResolveBackpack()
                     RunService:Set3dRenderingEnabled(true)
                     Tracking.RenderingScreen.Parent = nil
                 end)
-                if not success then
-                    HandleError("DISABLE RENDERING", (tostring(result)))
-                end
+                if not success then HandleError("DISABLE RENDERING", (tostring(result))) end
             end
         end)
     end
@@ -27700,9 +19392,7 @@ local backpackRef = ResolveBackpack()
         Toggles.PreventMobToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local success, result = pcall(function()
@@ -27716,9 +19406,7 @@ local backpackRef = ResolveBackpack()
                         Part.Parent = Shockball
                         local hookedGetModel
                         hookedGetModel = HookFunction(GetModel, NewCClosure(function(originalFunction, modelName)
-                            if not string.find(modelName, "Pet") then
-                                return Shockball:Clone()
-                            end
+                            if not string.find(modelName, "Pet") then return Shockball:Clone() end
 
                             return hookedGetModel(originalFunction, modelName)
                         end))
@@ -27726,9 +19414,7 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if IsHooked(GetModel) then
-                        RestoreFunction(GetModel)
-                    end
+                    if IsHooked(GetModel) then RestoreFunction(GetModel) end
                 end)
                 if not success then
                     HandleError("PREVENT MODELS FROM LOADING", (tostring(result)))
@@ -27746,21 +19432,15 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if Settings.RemovedModels then
-                        Library:Notify("Rejoin to see assets", 5)
-                    end
+                    if Settings.RemovedModels then Library:Notify("Rejoin to see assets", 5) end
                 end)
-                if not success then
-                    HandleError("PREVENT MODELS FROM LOADING FALLBACK", (tostring(result)))
-                end
+                if not success then HandleError("PREVENT MODELS FROM LOADING FALLBACK", (tostring(result))) end
             end
         end)
         Toggles.PreventEffectsToggle:OnChanged(function(enabled)
             local CanRequire = Settings.CanRequire
 
-            if CanRequire then
-                CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked))
-            end
+            if CanRequire then CanRequire = HookFunction and (RestoreFunction and (NewCClosure and IsHooked)) end
 
             if CanRequire then
                 local ok, result = pcall(function()
@@ -27779,15 +19459,9 @@ local backpackRef = ResolveBackpack()
                         return
                     end
 
-                    if IsHooked(lib.MakeProjectile) and (IsHooked(lib.PlayAt) and IsHooked(lib.EmitAt)) then
-                        RestoreFunction(lib.MakeProjectile)
-                        RestoreFunction(lib.PlayAt)
-                        RestoreFunction(lib.EmitAt)
-                    end
+                    if IsHooked(lib.MakeProjectile) and (IsHooked(lib.PlayAt) and IsHooked(lib.EmitAt)) then RestoreFunction(lib.MakeProjectile) RestoreFunction(lib.PlayAt) RestoreFunction(lib.EmitAt) end
 
-                    if IsHooked(lib.DoEffect) then
-                        RestoreFunction(lib.DoEffect)
-                    end
+                    if IsHooked(lib.DoEffect) then RestoreFunction(lib.DoEffect) end
                 end)
 
                 if not ok then
@@ -27802,32 +19476,7 @@ local backpackRef = ResolveBackpack()
     end
     task.wait()
     _G.ScriptStep = "discord ping type"
-    local masteryConfigs = {
-		IcefireMage = {
-			MasteryRequirement = 400,
-			MasteryDisplayName = "Stormcaller"
-		},
-		MageOfLight = {
-			MasteryRequirement = 350,
-			MasteryDisplayName = "Mage of Shadows"
-		},
-		Archer = {
-			MasteryRequirement = 200,
-			MasteryDisplayName = "Hunter"
-		},
-		Dragoon = {
-			MasteryRequirement = 10000,
-			MasteryDisplayName = "Leviathan"
-		},
-		Guardian = {
-			MasteryRequirement = 7500,
-			MasteryDisplayName = "Starbreaker"
-		},
-		Demon = {
-			MasteryRequirement = 150,
-			MasteryDisplayName = "Necromancer"
-		}
-	}
+    local masteryConfigs = { 		IcefireMage = { MasteryRequirement = 400, MasteryDisplayName = "Stormcaller" }, 		MageOfLight = { MasteryRequirement = 350, MasteryDisplayName = "Mage of Shadows" }, 		Archer = { MasteryRequirement = 200, MasteryDisplayName = "Hunter" }, 		Dragoon = { MasteryRequirement = 10000, MasteryDisplayName = "Leviathan" }, 		Guardian = { MasteryRequirement = 7500, MasteryDisplayName = "Starbreaker" }, 		Demon = { MasteryRequirement = 150, MasteryDisplayName = "Necromancer" } }
     if InDungeon then
         if Toggles.ClassPingToggle then
             Toggles.ClassPingToggle:OnChanged(function(enabled)
@@ -27838,17 +19487,14 @@ local backpackRef = ResolveBackpack()
                         local masteryFolder = Masteries:FindFirstChild(Settings.PlayerClass)
                         local masteryConfig = masteryConfigs[Settings.PlayerClass]
 
-                        if masteryFolder and (masteryConfig and masteryFolder.Value >= masteryConfig.MasteryRequirement) then
-                            PingMasteryTracker(masteryConfig.MasteryDisplayName)
-                            Settings.Killaura = nil
-                        end
+                        if masteryFolder and (masteryConfig and masteryFolder.Value >= masteryConfig.MasteryRequirement) then PingMasteryTracker(masteryConfig.MasteryDisplayName); Settings.Killaura = nil end
                     end
                 end
             end)
         end
         if Options.PingDropdown then
             Options.PingDropdown:OnChanged(function(pingTarget)
-                WebhookMention = pingTarget
+                WebhookMention = (pingTarget == "No ping") and "" or pingTarget
             end)
         end
     end
@@ -27856,13 +19502,9 @@ local backpackRef = ResolveBackpack()
     _G.ScriptStep = "config tab functions"
     Toggles.AutoScriptToggle:OnChanged(function(enabled)
         if enabled then
-            if not isfile("PORN/AutoExecute") then
-                writefile("PORN/AutoExecute", "")
-            end
+            if not isfile("JEW/AutoExecute") then writefile("JEW/AutoExecute", "") end
 
-            if not Settings.AlreadyQueued and QueueOnTeleport then
-                QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/main/jewhub322.lua\"))()")
-            end
+            if not Settings.AlreadyQueued and QueueOnTeleport then QueueOnTeleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/fnkq/jewhub32skidy/refs/heads/main/jewsrc2332.lua\"))()") end
         end
     end)
     if InLobby or InDungeon then
@@ -27897,15 +19539,11 @@ local backpackRef = ResolveBackpack()
                             local GuildTag = partyMember:GetAttribute("GuildTag")
                             local memberName = partyMember.Name
 
-                            if GuildTag then
-                                GuildTag = " [" .. GuildTag .. "]"
-                            end
+                            if GuildTag then GuildTag = " [" .. GuildTag .. "]" end
 
                             local memberString = memberName .. GuildTag or ""
 
-                            if partyMember.Name == LeaderValue then
-                                memberString = "СЂСџвЂвЂ " .. memberString
-                            end
+                            if partyMember.Name == LeaderValue then memberString = "СЂСџвЂвЂ " .. memberString end
 
                             return memberString
                         end
@@ -27920,9 +19558,7 @@ local backpackRef = ResolveBackpack()
                             local memberList = {}
 
                             for _, child in pairs(Players:GetChildren()) do
-                                if child.Name ~= LocalPlayer.Name then
-                                    table.insert(memberList, (buildPartyMemberString(child)))
-                                end
+                                if child.Name ~= LocalPlayer.Name then table.insert(memberList, (buildPartyMemberString(child))) end
                             end
 
                             Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(memberList, "`, `") .. "`"
@@ -27934,9 +19570,7 @@ local backpackRef = ResolveBackpack()
                             local memberList = {}
 
                             for _, child in pairs(Players:GetChildren()) do
-                                if child.Name ~= LocalPlayer.Name then
-                                    table.insert(memberList, (buildPartyMemberString(child)))
-                                end
+                                if child.Name ~= LocalPlayer.Name then table.insert(memberList, (buildPartyMemberString(child))) end
                             end
 
                             Tracking.BuildDescription = Tracking.BuildDescription .. table.concat(memberList, "`, `") .. "`"
@@ -27967,14 +19601,12 @@ local backpackRef = ResolveBackpack()
                                 local CurrentMissionData = require(Missions):GetCurrentMissionData()
                                 local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
-                                if Tracking.MissionId == 43 then
-                                    assetId = 15046578670
-                                end
+                                if Tracking.MissionId == 43 then assetId = 15046578670 end
 
-                                local dungeonImagesPath = "PORN/DungeonImages"
+                                local dungeonImagesPath = "JEW/DungeonImages"
                                 local imageUrl
 
-                                if not isfile("PORN/DungeonImages") then
+                                if not isfile("JEW/DungeonImages") then
                                     local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                     local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
@@ -27996,9 +19628,7 @@ local backpackRef = ResolveBackpack()
                                     if not cachedImage or (cachedImage[2] <= os.time() or string.find(tostring(cachedImage[1]), "token")) then
                                         local imageCache = {}
 
-                                        for k, v in pairs(Images) do
-                                            imageCache[k] = { table.unpack(v) }
-                                        end
+                                        for k, v in pairs(Images) do imageCache[k] = { table.unpack(v) } end
 
                                         local refreshedResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                         local refreshedImageData = HttpService:JSONDecode(refreshedResponse).data[1]
@@ -28016,23 +19646,17 @@ local backpackRef = ResolveBackpack()
                                     end
                                 end
 
-                                if string.find(tostring(imageUrl), "token") then
-                                    imageUrl = ""
-                                end
+                                if string.find(tostring(imageUrl), "token") then imageUrl = "" end
 
                                 Tracking.DungeonImage = imageUrl
                             end)
 
-                            if not ok then
-                                Tracking.DungeonImage = ""
-                            end
+                            if not ok then Tracking.DungeonImage = "" end
                         end
 
                         Remotes:WaitForChild("Teleport_SplashEvent", 1e999).OnClientEvent:Once(function()
                             local telemetryText = Tracking.PersonRunningScript .. Tracking.BuildDescription .. "\n-# `" .. (GetHWID and GetHWID() or "unkown`")
-                            local thumbnailPayload = {
-									url = Tracking.DungeonImage
-								}
+                            local thumbnailPayload = { url = Tracking.DungeonImage }
                             local telemetryPayload = {
 									username = "Player telemetry",
 									embeds = {{
@@ -28056,24 +19680,16 @@ local backpackRef = ResolveBackpack()
                                     local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
+                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then scriptCount += 1 end
                                         end
                                     end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
+                                    if scriptCount > 2 or scriptCount == 0 then return end
+                                    if not ok then return end
                                     local hooksDetected = false
                                     local success = pcall(function()
                                         local requestHooked = ishooked and ishooked(request)
 
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
+                                        if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                                         if requestHooked then
                                             hooksDetected = true
@@ -28081,18 +19697,14 @@ local backpackRef = ResolveBackpack()
                                             return
                                         end
                                     end)
-                                    if not success then
-                                        return
-                                    end
+                                    if not success then return end
                                     local httpOk, _ = pcall(function()
                                         local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                                         if not httpGetHooked then
                                             httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
+                                            if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                                         end
 
                                         if httpGetHooked then
@@ -28101,23 +19713,15 @@ local backpackRef = ResolveBackpack()
                                             return
                                         end
                                     end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
+                                    if hooksDetected then return end
+                                    if not httpOk then return end
                                 end
 
-                                if not HttpRequest then
-                                    return
-                                end
+                                if not HttpRequest then return end
 
                                 local httpRequestRef = HttpRequest
                                 local webhookTarget = webhookUrl
-                                local webhookHeaders = {
-										["Content-Type"] = "application/json"
-									}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(telemetryPayload)
 
                                 httpRequestRef({
@@ -28163,24 +19767,7 @@ local backpackRef = ResolveBackpack()
                             local EggsHatched = StatTotals.EggsHatched
                             local GoldEarned = StatTotals.GoldEarned
                             local TimePlayed = StatTotals.TimePlayed
-                            local statsPayload = {
-									name = playerName,
-									date = dateString,
-									gold = goldAmount,
-									crystals = crystals,
-									level = PlayerLevel,
-									prestige = PlayerPrestige,
-									guild = guildTag,
-									class = PlayerClass,
-									profile = profileUrl,
-									lifecrystals = CrystalsEarned,
-									lifemonsters = DefeatedMonsters,
-									lifedistance = DistanceTraveled,
-									lifedungeons = DungeonsCompleted,
-									lifeeggs = EggsHatched,
-									lifegold = GoldEarned,
-									lifetime = TimePlayed
-								}
+                            local statsPayload = { name = playerName, date = dateString, gold = goldAmount, crystals = crystals, level = PlayerLevel, prestige = PlayerPrestige, guild = guildTag, class = PlayerClass, profile = profileUrl, lifecrystals = CrystalsEarned, lifemonsters = DefeatedMonsters, lifedistance = DistanceTraveled, lifedungeons = DungeonsCompleted, lifeeggs = EggsHatched, lifegold = GoldEarned, lifetime = TimePlayed }
                             local hookCheckEnabled = true
                             local statsWebhookUrl = "https://script.google.com/macros/s/AKfycbwbJSM5b8cixuDpt1uz-4RNKjJKpzz3raUqdHCfi7Yoe55b7umQFbyjIeUW8o5atbgY/exec"
                             local _, _ = pcall(function()
@@ -28188,24 +19775,16 @@ local backpackRef = ResolveBackpack()
                                     local scriptCount = 0
                                     local ok, _ = pcall(function()
                                         for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
+                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then scriptCount += 1 end
                                         end
                                     end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
+                                    if scriptCount > 2 or scriptCount == 0 then return end
+                                    if not ok then return end
                                     local hooksDetected = false
                                     local success = pcall(function()
                                         local requestHooked = ishooked and ishooked(request)
 
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
+                                        if not requestHooked then requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request)) end
 
                                         if requestHooked then
                                             hooksDetected = true
@@ -28213,18 +19792,14 @@ local backpackRef = ResolveBackpack()
                                             return
                                         end
                                     end)
-                                    if not success then
-                                        return
-                                    end
+                                    if not success then return end
                                     local httpOk, _ = pcall(function()
                                         local httpGetHooked = ishooked and ishooked(game.HttpGet)
 
                                         if not httpGetHooked then
                                             httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
 
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
+                                            if not httpGetHooked then httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet) end
                                         end
 
                                         if httpGetHooked then
@@ -28233,23 +19808,15 @@ local backpackRef = ResolveBackpack()
                                             return
                                         end
                                     end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
+                                    if hooksDetected then return end
+                                    if not httpOk then return end
                                 end
 
-                                if not HttpRequest then
-                                    return
-                                end
+                                if not HttpRequest then return end
 
                                 local httpRequestRef = HttpRequest
                                 local webhookUrl = statsWebhookUrl
-                                local webhookHeaders = {
-										["Content-Type"] = "application/json"
-									}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(statsPayload)
 
                                 httpRequestRef({
@@ -28267,9 +19834,7 @@ local backpackRef = ResolveBackpack()
 			function()
             local PlayerStats = ReplicatedStorage:WaitForChild("PlayerStats", math.huge)
 
-            if PlayerStats then
-                PlayerStats = PlayerStats:WaitForChild(PlayerName, math.huge)
-            end
+            if PlayerStats then PlayerStats = PlayerStats:WaitForChild(PlayerName, math.huge) end
 
             if PlayerStats then
                 for _, child in pairs(PlayerStats:GetChildren()) do
@@ -28290,16 +19855,12 @@ local backpackRef = ResolveBackpack()
                 end
             end
 
-            if StatTotals.DefeatedMonsters < 1000 then
-                Settings.IsNewPlayer = true
-            end
+            if StatTotals.DefeatedMonsters < 1000 then Settings.IsNewPlayer = true end
 
             Settings.GotPlayerStats = true
         end,
 			function()
-            if Tracking.MissionId == 1005 or (Tracking.MissionId == 1006 or Tracking.MissionId == 1007) then
-                Settings.IsNightmareDungeon = true
-            end
+            if Tracking.MissionId == 1005 or (Tracking.MissionId == 1006 or Tracking.MissionId == 1007) then Settings.IsNightmareDungeon = true end
         end,
 			GetPlayerPing,
 			ConnectMissionCleared,
@@ -28308,18 +19869,14 @@ local backpackRef = ResolveBackpack()
             ((if Tracking.MissionId ~= 39 then Remotes:WaitForChild("Towers_TowerFinished", 1e999) else ReplicatedStorage:WaitForChild("MissionScripts", 1e999):WaitForChild("39", math.huge):WaitForChild("TowerFinished", 1e999))).OnClientEvent:Connect(function(_, timeValue)
                 Settings.DungeonCompletionTime = FormatSecondsToString(timeValue)
 
-                if Settings.ShowTime then
-                    Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 })
-                end
+                if Settings.ShowTime then Library:Notify({ Title = "Dungeon completed", Description = "Completed in " .. Settings.DungeonCompletionTime, Icon = "trophy", Time = 5 }) end
 
                 if Settings.LogDungeon then
                     local embedColor = 65280
                     local dungeonName = "unknown"
                     local children = Players:GetChildren()
 
-                    if Lost then
-                        embedColor = 16711680
-                    end
+                    if Lost then embedColor = 16711680 end
 
                     if Settings.CanRequire then
                         dungeonName = require(Missions):GetCurrentMissionData().NameTag
@@ -28332,9 +19889,7 @@ local backpackRef = ResolveBackpack()
                     if Toggles.ShowPlayersToggle.Value then
                         local playerList = {}
 
-                        for _, v in pairs(children) do
-                            table.insert(playerList, v.Name)
-                        end
+                        for _, v in pairs(children) do table.insert(playerList, v.Name) end
 
                         partyInfo = table.concat(playerList, "`, `")
                     else
@@ -28352,14 +19907,12 @@ local backpackRef = ResolveBackpack()
                             local CurrentMissionData = require(Missions):GetCurrentMissionData()
                             local assetId = tostring(CurrentMissionData.DungeonID or (CurrentMissionData.ImageID or 3815150377)):match("%d+")
 
-                            if Tracking.MissionId == 43 then
-                                assetId = 15046578670
-                            end
+                            if Tracking.MissionId == 43 then assetId = 15046578670 end
 
-                            local dungeonImagesPath = "PORN/DungeonImages"
+                            local dungeonImagesPath = "JEW/DungeonImages"
                             local imageUrl
 
-                            if not isfile("PORN/DungeonImages") then
+                            if not isfile("JEW/DungeonImages") then
                                 local imageResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                 local imageData = HttpService:JSONDecode(imageResponse).data[1]
 
@@ -28381,9 +19934,7 @@ local backpackRef = ResolveBackpack()
                                 if not cachedImage or (cachedImage[2] <= os.time() or string.find(tostring(cachedImage[1]), "token")) then
                                     local imageCache = {}
 
-                                    for k, v in pairs(Images) do
-                                        imageCache[k] = { table.unpack(v) }
-                                    end
+                                    for k, v in pairs(Images) do imageCache[k] = { table.unpack(v) } end
 
                                     local refreshedResponse = game:HttpGet("https://thumbnails.roblox.com/v1/assets?assetIds=" .. assetId .. "&size=420x420&format=Png")
                                     local refreshedImageData = HttpService:JSONDecode(refreshedResponse).data[1]
@@ -28401,22 +19952,16 @@ local backpackRef = ResolveBackpack()
                                 end
                             end
 
-                            if string.find(tostring(imageUrl), "token") then
-                                imageUrl = ""
-                            end
+                            if string.find(tostring(imageUrl), "token") then imageUrl = "" end
 
                             Tracking.DungeonImage = imageUrl
                         end)
 
-                        if not ok then
-                            Tracking.DungeonImage = ""
-                        end
+                        if not ok then Tracking.DungeonImage = "" end
                     end
 
                     local dungeonDescription = "**Dungeon:** `" .. dungeonName .. "`\n" .. "**Time:** `" .. Settings.DungeonCompletionTime .. "`\n" .. "**Party size:** `" .. partyInfo
-                    local thumbnailPayload = {
-							url = Tracking.DungeonImage
-						}
+                    local thumbnailPayload = { url = Tracking.DungeonImage }
                     local loggerPayload = {
 							username = "Dungeon logger",
 							embeds = {{
@@ -28434,62 +19979,6 @@ local backpackRef = ResolveBackpack()
                     else
                         local hookCheckEnabled = false
                         local _, _ = pcall(function()
-                            if hookCheckEnabled and HookFunction or hookmetamethod then
-                                local scriptCount = 0
-                                local ok, _ = pcall(function()
-                                    for _, v in pairs(getreg()) do
-                                        if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                            scriptCount += 1
-                                        end
-                                    end
-                                end)
-                                if scriptCount > 2 or scriptCount == 0 then
-                                    return
-                                end
-                                if not ok then
-                                    return
-                                end
-                                local hooksDetected = false
-                                local success = pcall(function()
-                                    local requestHooked = ishooked and ishooked(request)
-
-                                    if not requestHooked then
-                                        requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                    end
-
-                                    if requestHooked then
-                                        hooksDetected = true
-
-                                        return
-                                    end
-                                end)
-                                if not success then
-                                    return
-                                end
-                                local httpOk, _ = pcall(function()
-                                    local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                    if not httpGetHooked then
-                                        httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                        if not httpGetHooked then
-                                            httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                        end
-                                    end
-
-                                    if httpGetHooked then
-                                        hooksDetected = true
-
-                                        return
-                                    end
-                                end)
-                                if hooksDetected then
-                                    return
-                                end
-                                if not httpOk then
-                                    return
-                                end
-                            end
 
                             if not HttpRequest then
                                 return
@@ -28497,9 +19986,7 @@ local backpackRef = ResolveBackpack()
 
                             local httpRequestRef = HttpRequest
                             local webhookUrl = DiscordWebhookLink
-                            local webhookHeaders = {
-									["Content-Type"] = "application/json"
-								}
+                            local webhookHeaders = { ["Content-Type"] = "application/json" }
                             local json = HttpService:JSONEncode(loggerPayloadRef)
 
                             httpRequestRef({
@@ -28533,17 +20020,12 @@ local backpackRef = ResolveBackpack()
     SaveManager:SetLibrary(Library)
     SaveManager:IgnoreThemeSettings()
     SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
-    SaveManager:SetFolder("PORN/saved_configs")
+    SaveManager:SetFolder("JEW/saved_configs")
     SaveManager:BuildConfigSection(ConfigTab)
     SaveManager:LoadAutoloadConfig()
     if Toggles.DiscordScriptLoadedToggle and Toggles.DiscordScriptLoadedToggle.Value then
         task.spawn(function()
-            local loadedEmbed = buildDiscordEmbed("Script loaded", "JewHub finished loading successfully and is ready to use.", {
-				{ name = "Script version", value = "v1.1", inline = true },
-				{ name = "Executor", value = ExecName, inline = true },
-				{ name = "Account", value = LocalPlayer.Name, inline = true },
-				{ name = "Place ID", value = tostring(game.PlaceId), inline = true }
-			})
+            local loadedEmbed = buildDiscordEmbed("Script loaded", "JewHub finished loading successfully and is ready to use.", { { name = "Script version", value = "v1.1", inline = true }, { name = "Executor", value = ExecName, inline = true }, { name = "Account", value = LocalPlayer.Name, inline = true }, { name = "Place ID", value = tostring(game.PlaceId), inline = true } })
             sendDiscordEmbed(loadedEmbed)
         end)
     end
@@ -28555,16 +20037,12 @@ local backpackRef = ResolveBackpack()
     else
         Tracking.IsMobile = true
     end
-    if not Toggles.HideGuiToggle.Value then
-        Library:Toggle()
-    end
+    if not Toggles.HideGuiToggle.Value then Library:Toggle() end
     if IsEventDungeon then
         task.spawn(function()
             task.wait(1.5)
 
-            if Options.DailyKillInput.Value or Options.TotalKillInput.Value then
-                CheckKillCount()
-            end
+            if Options.DailyKillInput.Value or Options.TotalKillInput.Value then CheckKillCount() end
         end)
     end
     _G.ScriptStep = "leaderboard info set up"
@@ -28596,10 +20074,7 @@ local backpackRef = ResolveBackpack()
                         local _, _ = pcall(function()
                             local messageText = limitMessage
                             local playerNameString = tostring(PlayerName)
-                            local limitPayload = {
-								username = "Limit tracker",
-								content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention
-							}
+                            local limitPayload = { username = "Limit tracker", content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention }
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
                             if not DiscordWebhookLink and true then
@@ -28610,62 +20085,6 @@ local backpackRef = ResolveBackpack()
 
                             local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if hookCheckEnabled and HookFunction or hookmetamethod then
-                                    local scriptCount = 0
-                                    local ok, _ = pcall(function()
-                                        for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
-                                        end
-                                    end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
-                                    local hooksDetected = false
-                                    local success = pcall(function()
-                                        local requestHooked = ishooked and ishooked(request)
-
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
-
-                                        if requestHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if not success then
-                                        return
-                                    end
-                                    local httpOk, _ = pcall(function()
-                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                        if not httpGetHooked then
-                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
-                                        end
-
-                                        if httpGetHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
-                                end
 
                                 if not HttpRequest then
                                     return
@@ -28673,9 +20092,7 @@ local backpackRef = ResolveBackpack()
 
                                 local httpRequestRef = HttpRequest
                                 local webhookUrl = DiscordWebhookLink
-                                local webhookHeaders = {
-									["Content-Type"] = "application/json"
-								}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(limitPayload)
 
                                 httpRequestRef({
@@ -28713,10 +20130,7 @@ local backpackRef = ResolveBackpack()
                         local _, _ = pcall(function()
                             local messageText = limitMessage
                             local playerNameString = tostring(PlayerName)
-                            local limitPayload = {
-								username = "Limit tracker",
-								content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention
-							}
+                            local limitPayload = { username = "Limit tracker", content = messageText .. " limit reached on account: " .. playerNameString .. "\n-# " .. WebhookMention }
                             local DiscordWebhookLink = Settings.DiscordWebhookLink
 
                             if not DiscordWebhookLink and true then
@@ -28727,62 +20141,6 @@ local backpackRef = ResolveBackpack()
 
                             local hookCheckEnabled = false
                             local _, _ = pcall(function()
-                                if hookCheckEnabled and HookFunction or hookmetamethod then
-                                    local scriptCount = 0
-                                    local ok, _ = pcall(function()
-                                        for _, v in pairs(getreg()) do
-                                            if typeof(v) == "Instance" and v.ClassName == "LocalScript" then
-                                                scriptCount += 1
-                                            end
-                                        end
-                                    end)
-                                    if scriptCount > 2 or scriptCount == 0 then
-                                        return
-                                    end
-                                    if not ok then
-                                        return
-                                    end
-                                    local hooksDetected = false
-                                    local success = pcall(function()
-                                        local requestHooked = ishooked and ishooked(request)
-
-                                        if not requestHooked then
-                                            requestHooked = isfunctionhooked and isfunctionhooked(request) or (is_hooked and is_hooked(request) or is_function_hooked and is_function_hooked(request))
-                                        end
-
-                                        if requestHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if not success then
-                                        return
-                                    end
-                                    local httpOk, _ = pcall(function()
-                                        local httpGetHooked = ishooked and ishooked(game.HttpGet)
-
-                                        if not httpGetHooked then
-                                            httpGetHooked = isfunctionhooked and isfunctionhooked(game.HttpGet)
-
-                                            if not httpGetHooked then
-                                                httpGetHooked = is_hooked and is_hooked(game.HttpGet) or is_function_hooked and is_function_hooked(game.HttpGet)
-                                            end
-                                        end
-
-                                        if httpGetHooked then
-                                            hooksDetected = true
-
-                                            return
-                                        end
-                                    end)
-                                    if hooksDetected then
-                                        return
-                                    end
-                                    if not httpOk then
-                                        return
-                                    end
-                                end
 
                                 if not HttpRequest then
                                     return
@@ -28790,9 +20148,7 @@ local backpackRef = ResolveBackpack()
 
                                 local httpRequestRef = HttpRequest
                                 local webhookUrl = DiscordWebhookLink
-                                local webhookHeaders = {
-									["Content-Type"] = "application/json"
-								}
+                                local webhookHeaders = { ["Content-Type"] = "application/json" }
                                 local json = HttpService:JSONEncode(limitPayload)
 
                                 httpRequestRef({
@@ -28806,9 +20162,7 @@ local backpackRef = ResolveBackpack()
                     end
                 end
             end)
-            if not leaderboardSuccess then
-                print(result)
-            end
+            if not leaderboardSuccess then print(result) end
         end)
     end
     _G.ScriptStep = "equipment pop up screen"
@@ -28819,16 +20173,12 @@ local backpackRef = ResolveBackpack()
             HookFunction(_DisplayItem, NewCClosure(function(...)
             end))
         end)
-        if not success then
-            print("JEW: executor can't disable loot screen")
-        end
+        if not success then print("JEW: executor can't disable loot screen") end
     end
     ScriptloadingEnd = os.clock()
     print("Script took", math.round(ScriptloadingEnd - elapsed), "seconds to fully load from execution time")
     pcall(function()
-        if isfile("PORN/a") then
-            delfile("PORN/a")
-        end
+        if isfile("JEW/a") then delfile("JEW/a") end
     end)
     if not Tracking.IsMobile and (HideGui and not Settings.BadExecutor) then
         local Main = HideGui():WaitForChild("Obsidian", math.huge):WaitForChild("Main", math.huge)
@@ -28849,13 +20199,17 @@ local backpackRef = ResolveBackpack()
         Remotes:WaitForChild("Teleport_SplashEvent", 1e999).OnClientEvent:Once(function()
             Library:Unload()
 
-            for _, v in pairs(Connections) do
-                DisconnectVariable(v)
-            end
+            for _, v in pairs(Connections) do DisconnectVariable(v) end
         end)
     end)
 end
+
+
 local pcallSuccess, pcallError = pcall(MainScript)
-if not pcallSuccess then
-    HandleError("FATAL SCRIPT ERROR", tostring(_G.ScriptStep), pcallError)
-end
+if not pcallSuccess then HandleError("FATAL SCRIPT ERROR", tostring(_G.ScriptStep), pcallError) end
+
+
+
+
+
+
