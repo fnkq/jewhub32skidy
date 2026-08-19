@@ -11878,7 +11878,7 @@ return PetSkills
         local ok, result = pcall(function()
             if dungeonId == 49 then dungeonId = 1 end
 
-            while true do Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(dungeonId, difficulty); task.wait(10) end
+            while _G.Is_Script_Running do Remotes:WaitForChild("Teleport_StartRaid", math.huge):FireServer(dungeonId, difficulty); task.wait(10) end
         end)
 
         if not ok then HandleError("REPLAY DUNGEON", (tostring(result))) end
@@ -13107,7 +13107,7 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         local ItemName
         local ItemName2
         local PetSkillFromPetRef
-        while true do
+        while _G.Is_Script_Running do
             while true do
                 while true do
                     while true do
@@ -13703,6 +13703,231 @@ Connections.ConnectTower = Remotes:WaitForChild("Towers_UpdateChests", 1e999).On
         for _, part in ipairs(HatInstances) do pcall(function() part:Destroy() end) end
         table.clear(HatInstances)
         HatCharacter = nil
+    end
+
+    local AnonymousLoopActive = false
+    local AnonymousCatalogReady = false
+    local AnonymousPickOnce = false
+    local AnonymousCatalog = { Hat = {}, Back = {}, Tail = {}, Costume = {} }
+    local AnonymousOriginal = {
+        Equipment = {},
+        Hair = {},
+        Skin = {},
+        Labels = {},
+        AvatarHair = nil,
+        AvatarHairColor = nil,
+        DisplayName = nil
+    }
+    local AnonymousPicks = {
+        Hat1 = nil,
+        Hat2 = nil,
+        Hat3 = nil,
+        Back = nil,
+        Back2 = nil,
+        Tail = nil,
+        Tail2 = nil,
+        Costume = nil
+    }
+    local AnonymousSkinNames = { Head = true, UpperTorso = true, LowerTorso = true, LeftUpperArm = true, RightUpperArm = true, LeftLowerArm = true, RightLowerArm = true, LeftUpperLeg = true, RightUpperLeg = true, LeftLowerLeg = true, RightLowerLeg = true, LeftHand = true, RightHand = true, LeftHandClosed = true, RightHandClosed = true }
+
+    local function PrepareAnonymousCatalog()
+        if AnonymousCatalogReady then return end
+        AnonymousCatalogReady = true
+        local seen = { Hat = {}, Back = {}, Tail = {}, Costume = {} }
+        local static = {
+            Hat = { "FlatBillHat", "DemonCloudHat", "MedicHat", "EyeballHead", "WatermelonHelmet", "GuildSeason3Helmet", "WitchHat3", "SpookyBow", "CelestialGuardianMask", "SunflowerGlasses", "HeartAntennaesNeon", "TikiMask", "GuildHalo", "DelightfulDancerMask", "HeartSunglassesBlack", "SlimeHead", "AstralHalo", "EldritchHalo", "ValkyrieHelmet", "MouthRoseBlack", "HappyClownMask", "ShamrockHairBow", "PirateBandana", "MouthSword", "ElfEars", "MouthToast", "GemstoneHeadband", "SodaHat", "MysticHelmetGold", "FlowerHalo", "KrakenCrown", "HeadBandages", "SharkRainHat", "LargeHornsWhite", "BunnyCap", "HalloweenCatEars", "HeadlessHead", "BunnyEars", "FlamingoHat", "IceCreamConeHatGold" },
+            Back = { "VoidShards", "FrostyScarf", "BlossomWings", "SnowflakeBackground", "SpiderLegs", "BackBobaDrink", "CandycaneLantern", "Surfboard", "XmasStocking", "CupidWings", "BackIceCreamCone", "BackFlowerUmbrella", "MischiefCape", "GuildCape", "BodyChains", "PresentBag", "MetalOctopusArms", "BackSnowboard", "VoodooDoll", "PotOGold", "HeadlessHorsemanCape", "SeraphielWings", "HeartKey", "AngelicWings", "CupidWingsGold", "BackKinara", "BackBouquet", "ComicPanels", "HeartWings2", "UnstableReactor" },
+            Tail = { "SpiritTail", "WebCircle", "GlowingOrnamentGold", "AlienCircle", "SunshineCircle", "TurkeyTail", "ExorcistTail", "SnowflakeCircle", "SakuraCircle", "SorceryCircle", "HolidayLantern", "SinisterCircle", "ScarletBelt", "SeashellCircle", "PumpkinVineTail", "ButterflyMarkCircle", "TiedJacket", "OuroborosCircle", "BlazingCircle", "PinkFluffyBunnyTail", "PumpkinLantern", "FoxTailDyable", "DevilTailNeon", "DreamboundCircle", "BullTail", "FoxTail", "NightmareCircle", "FoxTails", "HeartDevilTail", "Grimoire" },
+            Costume = { "WinterGuardF", "MagicalGirlCostume", "LeprechaunSuitGolden", "PeachCasualSweatshirt", "Astronaut", "MasterThief", "SantaDressOutfit2", "TechFox", "MaleSchoolOutfit", "LichKingArmor", "YetiCostumeDark", "BumblebeeCostume", "CasualShirt2", "CrownVanguardF", "AnglerFishCostumeF", "KingOfHearts", "ModernReaper", "VIPOnesie", "StripedSuit", "LoveHeartDressWhite", "WinterCoatF", "SunGoddess", "FloralDress", "CasualShirt", "Maid2", "FullPlatemail", "CheerGirl", "PeasantDress", "HoneycombDress", "CupidDress" }
+        }
+        for poolName, keys in pairs(static) do
+            for _, key in ipairs(keys) do
+                if not seen[poolName][key] then
+                    seen[poolName][key] = true
+                    table.insert(AnonymousCatalog[poolName], key)
+                end
+            end
+        end
+        task.spawn(function()
+            local ReplicatedStorage = game:GetService("ReplicatedStorage")
+            local Shared = ReplicatedStorage:FindFirstChild("Shared")
+            if not Shared then return end
+            local ok, Items = pcall(require, Shared:FindFirstChild("Items") or Shared:WaitForChild("Items", 5))
+            if not ok or type(Items) ~= "table" then return end
+            for key, def in pairs(Items) do
+                if type(def) == "table" then
+                    if def.Type == "Accessory" then
+                        local poolName = def.SubType == "Hat" and "Hat" or (def.SubType == "Back" and "Back" or (def.SubType == "Tail" and "Tail" or nil))
+                        if poolName and not seen[poolName][key] then
+                            seen[poolName][key] = true
+                            table.insert(AnonymousCatalog[poolName], key)
+                        end
+                    elseif def.Type == "Costume" and not seen.Costume[key] then
+                        seen.Costume[key] = true
+                        table.insert(AnonymousCatalog.Costume, key)
+                    end
+                end
+            end
+        end)
+    end
+
+    local function BuildAnonymousPicks()
+        local function pick(pool)
+            return pool[math.random(1, #pool)]
+        end
+        AnonymousPicks.Hat1 = pick(AnonymousCatalog.Hat)
+        AnonymousPicks.Hat2 = pick(AnonymousCatalog.Hat)
+        AnonymousPicks.Hat3 = pick(AnonymousCatalog.Hat)
+        AnonymousPicks.Back = pick(AnonymousCatalog.Back)
+        AnonymousPicks.Back2 = pick(AnonymousCatalog.Back)
+        AnonymousPicks.Tail = pick(AnonymousCatalog.Tail)
+        AnonymousPicks.Tail2 = pick(AnonymousCatalog.Tail)
+        AnonymousPicks.Costume = pick(AnonymousCatalog.Costume)
+    end
+
+    local function CaptureAnonymousOriginals(character)
+        local equipment = character:FindFirstChild("Equipment")
+        if equipment then
+            for _, slot in ipairs({ "Hat1", "Hat2", "Hat3", "Back", "Back2", "Tail", "Tail2", "Costume" }) do
+                AnonymousOriginal.Equipment[slot] = equipment:GetAttribute(slot)
+            end
+        end
+        local hairFolder = character:FindFirstChild("Hair")
+        if hairFolder then
+            for _, obj in pairs(hairFolder:GetDescendants()) do
+                if obj:IsA("BasePart") then table.insert(AnonymousOriginal.Hair, { obj, obj.Transparency }) end
+            end
+        end
+        for _, obj in pairs(character:GetDescendants()) do
+            if obj:IsA("BasePart") and AnonymousSkinNames[obj.Name] then
+                table.insert(AnonymousOriginal.Skin, { obj, obj.Color })
+            end
+        end
+        local avatar = character:FindFirstChild("Avatar")
+        if avatar then
+            AnonymousOriginal.AvatarHair = avatar:GetAttribute("Hair")
+            AnonymousOriginal.AvatarHairColor = avatar:GetAttribute("HairColor")
+        end
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then AnonymousOriginal.DisplayName = LocalPlayer.DisplayName end
+        local playerName, displayName = LocalPlayer.Name, LocalPlayer.DisplayName
+        for _, obj in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+            if obj:IsA("TextLabel") and (tostring(obj.Text) == playerName or tostring(obj.Text) == displayName) then
+                table.insert(AnonymousOriginal.Labels, { obj, obj.Text })
+            end
+        end
+    end
+
+    local function RestoreAnonymousOriginals()
+        local character = LocalPlayer.Character
+        if not character then return end
+        local equipment = character:FindFirstChild("Equipment")
+        if equipment then
+            for slot, value in pairs(AnonymousOriginal.Equipment) do
+                pcall(function() equipment:SetAttribute(slot, value) end)
+            end
+        end
+        for _, entry in ipairs(AnonymousOriginal.Hair) do
+            pcall(function() entry[1].Transparency = entry[2] end)
+        end
+        for _, entry in ipairs(AnonymousOriginal.Skin) do
+            pcall(function() entry[1].Color = entry[2] end)
+        end
+        local avatar = character:FindFirstChild("Avatar")
+        if avatar then
+            if AnonymousOriginal.AvatarHair == nil then
+                pcall(function() avatar:SetAttribute("Hair", "") end)
+            else
+                pcall(function() avatar:SetAttribute("Hair", AnonymousOriginal.AvatarHair) end)
+            end
+            if AnonymousOriginal.AvatarHairColor == nil then
+                pcall(function() avatar:SetAttribute("HairColor", "") end)
+            else
+                pcall(function() avatar:SetAttribute("HairColor", AnonymousOriginal.AvatarHairColor) end)
+            end
+        end
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid and AnonymousOriginal.DisplayName then
+            pcall(function() humanoid.DisplayName = AnonymousOriginal.DisplayName end)
+        end
+        for _, entry in ipairs(AnonymousOriginal.Labels) do
+            pcall(function() entry[1].Text = entry[2] end)
+        end
+    end
+
+    local function GetRandomAnonymousName()
+        local names = { "Player", "Guest", "Stranger", "Nobody", "Shadow", "Phantom" }
+        return names[math.random(1, #names)] .. "_" .. math.random(1000, 9999)
+    end
+
+    local function RandomizeAnonymousAppearance()
+        local character = LocalPlayer.Character
+        if not character then return end
+        PrepareAnonymousCatalog()
+        local equipment = character:FindFirstChild("Equipment")
+        if equipment and #AnonymousCatalog.Hat > 0 then
+            if not AnonymousPickOnce then
+                AnonymousPickOnce = true
+                CaptureAnonymousOriginals(character)
+                BuildAnonymousPicks()
+            end
+            for slot, key in pairs(AnonymousPicks) do
+                pcall(function() equipment:SetAttribute(slot, key) end)
+            end
+        end
+        local skin = Color3.fromHSV(math.random(0, 360) / 360, math.random(35, 70) / 100, math.random(55, 100) / 100)
+        local skinNames = AnonymousSkinNames
+        for _, obj in pairs(character:GetDescendants()) do
+            if obj:IsA("BasePart") and skinNames[obj.Name] then
+                obj.Color = skin
+                obj.BrickColor = BrickColor.new(skin)
+            end
+        end
+        local hairFolder = character:FindFirstChild("Hair")
+        if hairFolder then
+            for _, obj in pairs(hairFolder:GetDescendants()) do
+                if obj:IsA("BasePart") then obj.Transparency = 1 end
+            end
+        end
+        local avatar = character:FindFirstChild("Avatar")
+        if avatar then
+            pcall(function() avatar:SetAttribute("Hair", "") end)
+            pcall(function() avatar:SetAttribute("HairColor", "") end)
+        end
+        local fake = GetRandomAnonymousName()
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then pcall(function() humanoid.DisplayName = fake end) end
+        local playerName, displayName = LocalPlayer.Name, LocalPlayer.DisplayName
+        for _, obj in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+            if obj:IsA("TextLabel") and (tostring(obj.Text) == playerName or tostring(obj.Text) == displayName) then
+                pcall(function() obj.Text = fake end)
+            end
+        end
+    end
+
+    local function StartAnonymousMode()
+        if AnonymousLoopActive then return end
+        AnonymousLoopActive = true
+        task.spawn(function()
+            while AnonymousLoopActive do
+                pcall(RandomizeAnonymousAppearance)
+                task.wait(2)
+            end
+        end)
+    end
+
+    local function StopAnonymousMode()
+        AnonymousLoopActive = false
+        AnonymousPickOnce = false
+        RestoreAnonymousOriginals()
+    end
+
+    if not AnonymousConnected then
+        AnonymousConnected = true
+        LocalPlayer.CharacterAdded:Connect(function()
+            task.wait(1)
+            if Toggles.AnonymousModeToggle and Toggles.AnonymousModeToggle.Value == true then StartAnonymousMode() end
+        end)
     end
 
     if not HatConnected then
@@ -15579,6 +15804,15 @@ If available to your executor the script will reset your character and then invi
     FirstTab:AddToggle("ShowEndTimeToggle", { Text = "Display end time", Default = false, Tooltip = "Time between enabling this toggle and the dungeon ending." })
     FirstTab:AddDivider({ Margin = -5 })
     FirstTab:AddSlider("WalkspeedSlider", { Text = "Change walkspeed", Default = 28, Min = 28, Max = 200, Rounding = 0, Tooltip = "Does exactly what you think it does." })
+    FirstTab:AddDivider({ Margin = -5 })
+    FirstTab:AddToggle("AnonymousModeToggle", { Text = "Anonymous mode", Default = false, Tooltip = "Continuously randomizes your accessories, hair, skin color, cosmetic colors and displayed name so other players can't identify you.", Callback = function(enabled)
+        if enabled then
+            StartAnonymousMode()
+        else
+            StopAnonymousMode()
+        end
+    end
+	})
     FirstTab = MiscTabLeft:AddTab("Extra")
     SecondTab = MiscTabLeft:AddTab("Hide ui's")
     SecondTab:AddToggle("WaystoneToggle", { Text = "Hide closest waystone", Default = false, Tooltip = "Hides the waystone icon when in worlds." })
@@ -15693,7 +15927,7 @@ If available to your executor the script will reset your character and then invi
     task.spawn(function()
         local hatRgbT = 0
         local hatRgbDir = 1
-        while true do
+        while _G.Is_Script_Running do
             if (Toggles.HatRGBToggle and Toggles.HatRGBToggle.Value == true) or Settings.HatRGBToggle == true then
                 local rgbStep = 0.004 * (Settings.HatRgbSpeed or 2) * hatRgbDir
                 hatRgbT = hatRgbT + rgbStep
@@ -15856,6 +16090,16 @@ If available to your executor the script will reset your character and then invi
             end)
             pcall(function()
                 Library:Unload()
+            end)
+            pcall(function()
+                StopAnonymousMode()
+            end)
+            pcall(function()
+                _G.Is_Script_Running = false
+                if ClearTeleportQueue then ClearTeleportQueue() end
+                for flagName, flagValue in pairs(Settings) do
+                    if typeof(flagValue) == "boolean" then Settings[flagName] = false end
+                end
             end)
             pcall(function()
                 _G.Is_Script_Running = nil
@@ -16066,7 +16310,7 @@ If available to your executor the script will reset your character and then invi
                         local chestsTable = debug.getupvalue(require(Chests).Start, 12)
                         local Chests_OpenChest = Remotes:WaitForChild("Chests_OpenChest", math.huge)
 
-                        while true do
+                        while _G.Is_Script_Running do
                             for k, _ in pairs(chestsTable) do Chests_OpenChest:FireServer(k) end
 
                             task.wait(0.1)
@@ -19242,7 +19486,7 @@ local backpackRef = ResolveBackpack()
 
                     if not enabled then return end
 
-                    while true do firesignal(Play.MouseButton1Click); task.wait(0.5) end
+                    while _G.Is_Script_Running do firesignal(Play.MouseButton1Click); task.wait(0.5) end
                 end
 
                 Library:Notify("Your executor doesn't support this option")
